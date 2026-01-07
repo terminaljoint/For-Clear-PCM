@@ -8,15 +8,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body{
+/* ===== RESET ===== */
+*{
+  box-sizing:border-box;
   margin:0;
-  font-family:"Comic Neue", system-ui;
-  background:#0e1117;
-  color:#e6edf3;
+  padding:0;
 }
 
+/* ===== BASE ===== */
+body{
+  font-family:"Comic Neue", system-ui, sans-serif;
+  background:#0d1117;
+  color:#e6edf3;
+  line-height:1.5;
+}
+
+/* ===== HEADER ===== */
 header{
-  padding:18px 24px;
+  padding:16px 24px;
   border-bottom:1px solid #30363d;
 }
 
@@ -25,21 +34,20 @@ header{
   font-weight:700;
 }
 
-.sub{
+.subtitle{
   font-size:0.9rem;
   color:#8b949e;
   margin-top:4px;
 }
 
+/* ===== MAIN ===== */
 main{
   max-width:900px;
   margin:0 auto;
   padding:24px;
 }
 
-.hidden{display:none}
-
-/* NAV BAR */
+/* ===== NAV BAR ===== */
 .navbar{
   display:flex;
   align-items:center;
@@ -48,9 +56,10 @@ main{
 }
 
 .back{
-  cursor:pointer;
+  font-size:0.85rem;
   color:#2f81f7;
-  font-size:0.9rem;
+  cursor:pointer;
+  user-select:none;
 }
 
 .breadcrumb{
@@ -59,14 +68,18 @@ main{
 }
 
 .breadcrumb span{
-  cursor:pointer;
   color:#2f81f7;
+  cursor:pointer;
 }
 
-/* LIST */
-.list h2{
+.hidden{
+  display:none;
+}
+
+/* ===== LIST VIEW ===== */
+h2{
   font-size:1.3rem;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
 .item{
@@ -75,27 +88,28 @@ main{
   border-radius:6px;
   margin-bottom:8px;
   cursor:pointer;
+  background:#0d1117;
 }
 
 .item:hover{
   background:#161b22;
 }
 
-/* MODES */
+/* ===== CONCEPT VIEW ===== */
 .modes{
   display:flex;
-  gap:12px;
+  gap:14px;
   border-bottom:1px solid #30363d;
-  margin-bottom:16px;
+  margin:16px 0;
 }
 
 .modes button{
   background:none;
   border:none;
-  padding:8px 6px;
-  cursor:pointer;
-  color:#8b949e;
+  padding:8px 4px;
   font-weight:700;
+  color:#8b949e;
+  cursor:pointer;
 }
 
 .modes button.active{
@@ -103,9 +117,8 @@ main{
   border-bottom:2px solid #2f81f7;
 }
 
-/* CONTENT */
 .section{
-  margin-top:16px;
+  margin-top:18px;
 }
 
 .section h3{
@@ -128,13 +141,13 @@ main{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="sub">simple navigation · focused study</div>
+  <div class="subtitle">official hierarchy · focused study</div>
 </header>
 
 <main>
 
-  <!-- NAV -->
-  <div class="navbar hidden" id="nav">
+  <!-- NAVIGATION -->
+  <div class="navbar hidden" id="navbar">
     <div class="back" onclick="goBack()">← Back</div>
     <div class="breadcrumb" id="breadcrumb"></div>
   </div>
@@ -145,8 +158,8 @@ main{
 </main>
 
 <script>
-/* ===== DATA (ALL CHAPTERS INCLUDED) ===== */
-const data = {
+/* ===== SYLLABUS DATA ===== */
+const syllabus = {
   Maths:{
     "Sets & Functions":{
       "Sets":["Types of Sets","Set Operations","Venn Diagrams"],
@@ -242,117 +255,138 @@ const data = {
 };
 
 /* ===== STATE ===== */
-let stack = [];
+let path = [];
 let mode = "base";
 
 const view = document.getElementById("view");
-const nav = document.getElementById("nav");
+const navbar = document.getElementById("navbar");
 const breadcrumb = document.getElementById("breadcrumb");
 
-/* ===== NAVIGATION ===== */
-function goBack(){
-  stack.pop();
-  render();
-}
-
-function setPath(){
-  breadcrumb.innerHTML = stack.map((s,i)=>
-    `<span onclick="jump(${i})">${s}</span>`
+/* ===== NAV HELPERS ===== */
+function updateBreadcrumb(){
+  breadcrumb.innerHTML = path.map((p,i)=>
+    `<span onclick="jumpTo(${i})">${p}</span>`
   ).join(" › ");
 }
 
-function jump(i){
-  stack = stack.slice(0,i+1);
+function goBack(){
+  path.pop();
+  render();
+}
+
+function jumpTo(i){
+  path = path.slice(0,i+1);
   render();
 }
 
 /* ===== RENDER ===== */
 function render(){
   view.innerHTML = "";
-  nav.classList.toggle("hidden", stack.length===0);
-  setPath();
+  navbar.classList.toggle("hidden", path.length === 0);
+  updateBreadcrumb();
 
-  if(stack.length===0){
-    renderList("Select Subject", Object.keys(data), s=>{stack.push(s);render();});
+  if(path.length === 0){
+    renderList("Select Subject", Object.keys(syllabus), s=>{
+      path.push(s);
+      render();
+    });
     return;
   }
 
-  if(stack.length===1){
-    renderList("Chapters", Object.keys(data[stack[0]]),
-      s=>{stack.push(s);render();});
+  if(path.length === 1){
+    renderList("Chapters", Object.keys(syllabus[path[0]]), s=>{
+      path.push(s);
+      render();
+    });
     return;
   }
 
-  if(stack.length===2){
-    renderList("Topics", Object.keys(data[stack[0]][stack[1]]),
-      s=>{stack.push(s);render();});
+  if(path.length === 2){
+    renderList("Topics", Object.keys(syllabus[path[0]][path[1]]), s=>{
+      path.push(s);
+      render();
+    });
     return;
   }
 
-  if(stack.length===3){
-    renderList("Concepts", data[stack[0]][stack[1]][stack[2]],
-      s=>{stack.push(s);render();});
+  if(path.length === 3){
+    renderList("Concepts", syllabus[path[0]][path[1]][path[2]], s=>{
+      path.push(s);
+      render();
+    });
     return;
   }
 
   renderConcept();
 }
 
-/* ===== HELPERS ===== */
+/* ===== LIST VIEW ===== */
 function renderList(title, items, onClick){
-  view.innerHTML = `<div class="list"><h2>${title}</h2></div>`;
-  const list = view.querySelector(".list");
-  items.forEach(i=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=i;
-    d.onclick=()=>onClick(i);
-    list.appendChild(d);
+  const h = document.createElement("h2");
+  h.innerText = title;
+  view.appendChild(h);
+
+  items.forEach(item=>{
+    const d = document.createElement("div");
+    d.className = "item";
+    d.innerText = item;
+    d.onclick = ()=>onClick(item);
+    view.appendChild(d);
   });
 }
 
+/* ===== CONCEPT VIEW ===== */
 function renderConcept(){
-  view.innerHTML = `
-    <h2>${stack[3]}</h2>
+  const title = document.createElement("h2");
+  title.innerText = path[3];
+  view.appendChild(title);
 
-    <div class="modes">
-      <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
-      <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
-      <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
-    </div>
-
-    <div class="section">
-      ${modeContent()}
-    </div>
+  const modesDiv = document.createElement("div");
+  modesDiv.className = "modes";
+  modesDiv.innerHTML = `
+    <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
+    <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
+    <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
   `;
+  view.appendChild(modesDiv);
+
+  const section = document.createElement("div");
+  section.className = "section";
+  section.innerHTML = getModeContent();
+  view.appendChild(section);
 }
 
 function setMode(m){
-  mode=m;
+  mode = m;
   render();
 }
 
-function modeContent(){
-  if(mode==="base")
-    return `<h3>Base Level</h3>
-    <ol>
-      <li>Definition</li>
-      <li>Formula</li>
-      <li>Terms</li>
-      <li>WHEN to use</li>
-      <li>WHY this formula</li>
-    </ol>`;
+function getModeContent(){
+  if(mode === "base"){
+    return `
+      <h3>Base Level</h3>
+      <ol>
+        <li>Definition</li>
+        <li>Formula</li>
+        <li>Terms</li>
+        <li>WHEN to use</li>
+        <li>WHY this formula</li>
+      </ol>`;
+  }
 
-  if(mode==="jee")
-    return `<h3>JEE Main</h3>
-    <ol start="6">
-      <li>WHERE it appears</li>
-      <li>HOW to apply</li>
-      <li>WHAT to use / not use</li>
-      <li>Heavy example</li>
-    </ol>`;
+  if(mode === "jee"){
+    return `
+      <h3>JEE Main</h3>
+      <ol start="6">
+        <li>WHERE it appears</li>
+        <li>HOW to apply</li>
+        <li>WHAT to use / not use</li>
+        <li>Heavy example</li>
+      </ol>`;
+  }
 
-  return `<h3>Mistake Bank</h3>
+  return `
+    <h3>Mistake Bank</h3>
     <ol start="10">
       <li>Wrong assumptions</li>
       <li>Wrong steps</li>
