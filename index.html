@@ -5,7 +5,7 @@
 <title>For clear PCM – Structured JEE Learning</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="For clear PCM is a structured JEE learning system focusing on clear hierarchy, exam logic, and mistake prevention for average students.">
+<meta name="description" content="For clear PCM is a structured JEE learning system focusing on hierarchy, exam logic, and mistake prevention for average students.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://terminaljoint.github.io/For-Clear-PCM/">
 
@@ -168,7 +168,7 @@ footer{
 <header>
   <h1 class="brand">For clear PCM</h1>
   <p class="subtitle">
-    A clean hierarchy-based JEE learning system. Structure first. Content next.
+    A hierarchy-first JEE learning system. Structure locked. Content follows.
   </p>
 </header>
 
@@ -179,14 +179,12 @@ footer{
 </div>
 
 <main>
-
   <div class="nav" id="nav" style="display:none">
     <div class="back" onclick="goBack()">← Back</div>
     <div class="breadcrumb" id="breadcrumb"></div>
   </div>
 
   <div id="view"></div>
-
 </main>
 
 <footer>
@@ -194,360 +192,85 @@ footer{
 </footer>
 
 <script>
-/* ================= MASTER SYLLABUS STRUCTURE ================= */
+/* ================= MASTER SYLLABUS ================= */
 
 const syllabus = {
-
-Maths:{
-  "Sets & Functions":{
-    "Sets":[
-      "Definition & Representation",
-      "Types of Sets",
-      "Set Operations",
-      "Venn Diagrams",
-      "Cardinality",
-      "Properties of Sets"
-    ],
-    "Functions":[
-      "Ordered Pairs",
-      "Domain, Codomain & Range",
-      "Types of Functions",
-      "One-One & Many-One",
-      "Onto & Into",
-      "Inverse Function",
-      "Composition of Functions"
-    ]
+  Maths:{
+    "Sets & Functions":{
+      "Sets":["Definition & Representation","Types of Sets","Set Operations","Venn Diagrams","Cardinality","Properties of Sets"],
+      "Functions":["Ordered Pairs","Domain, Codomain & Range","Types of Functions","One-One & Many-One","Onto & Into","Inverse Function","Composition of Functions"]
+    }
   },
-
-  "Algebra":{
-    "Quadratic Equations":[
-      "Standard Form",
-      "Roots of Equation",
-      "Nature of Roots",
-      "Relation between Roots & Coefficients"
-    ],
-    "Sequences & Series":[
-      "Arithmetic Progression",
-      "Geometric Progression",
-      "Special Series"
-    ],
-    "Binomial Theorem":[
-      "Expansion",
-      "General Term",
-      "Middle Term",
-      "Properties of Coefficients"
-    ]
+  Physics:{
+    "Kinematics":{
+      "Motion in One Dimension":["Position & Displacement","Velocity & Acceleration","Equations of Motion","Graphs"]
+    }
   },
-
-  "Coordinate Geometry":{
-    "Straight Lines":[
-      "Slope",
-      "Angle of Inclination",
-      "Forms of Line",
-      "Angle Between Lines",
-      "Distance of Point from Line",
-      "Family of Lines"
-    ],
-    "Circles":[
-      "Equation of Circle",
-      "Standard & General Form",
-      "Position of a Point",
-      "Tangent & Normal",
-      "Length of Tangent"
-    ]
-  },
-
-  "Calculus":{
-    "Limits":[
-      "Concept of Limit",
-      "Standard Limits",
-      "Algebraic Limits",
-      "Trigonometric Limits"
-    ],
-    "Differentiation":[
-      "Definition",
-      "Standard Derivatives",
-      "Rules of Differentiation",
-      "Implicit Differentiation",
-      "Applications"
-    ],
-    "Integration":[
-      "Indefinite Integration",
-      "Standard Integrals",
-      "Definite Integration",
-      "Properties of Definite Integral"
-    ]
-  },
-
-  "Vectors & 3D Geometry":{
-    "Vectors":[
-      "Vector Representation",
-      "Magnitude & Direction",
-      "Unit Vector",
-      "Dot Product",
-      "Cross Product",
-      "Scalar Triple Product"
-    ],
-    "3D Geometry":[
-      "Direction Cosines",
-      "Direction Ratios",
-      "Equation of Line",
-      "Equation of Plane",
-      "Angle Between Line & Plane"
-    ]
-  },
-
-  "Probability":{
-    "Probability":[
-      "Sample Space",
-      "Classical Probability",
-      "Conditional Probability",
-      "Bayes Theorem",
-      "Independent Events"
-    ]
-  }
-},
-
-Physics:{
-  "Kinematics":{
-    "Motion in One Dimension":[
-      "Position & Displacement",
-      "Velocity & Acceleration",
-      "Equations of Motion",
-      "Graphs"
-    ],
-    "Motion in Two Dimensions":[
-      "Projectile Motion",
-      "Relative Velocity"
-    ]
-  },
-
-  "Laws of Motion":{
-    "Newton Laws":[
-      "Newton’s First Law",
-      "Newton’s Second Law",
-      "Newton’s Third Law",
-      "Free Body Diagram",
-      "Friction"
-    ]
-  },
-
-  "Work Energy Power":{
-    "Energy":[
-      "Work by Constant Force",
-      "Variable Force",
-      "Kinetic Energy",
-      "Potential Energy",
-      "Work Energy Theorem",
-      "Power"
-    ]
-  },
-
-  "Centre of Mass & Rotation":{
-    "Rotation":[
-      "Centre of Mass",
-      "Linear Momentum",
-      "Torque",
-      "Angular Momentum",
-      "Moment of Inertia",
-      "Rotational Kinetic Energy"
-    ]
-  },
-
-  "Gravitation":{
-    "Gravitation":[
-      "Newton’s Law",
-      "Gravitational Field",
-      "Gravitational Potential",
-      "Escape Velocity",
-      "Satellite Motion"
-    ]
-  },
-
-  "Electrostatics":{
-    "Electrostatics":[
-      "Charge & Coulomb’s Law",
-      "Electric Field",
-      "Electric Flux",
-      "Gauss Law",
-      "Electric Potential",
-      "Capacitors"
-    ]
-  },
-
-  "Current Electricity":{
-    "Circuits":[
-      "Current & Drift Velocity",
-      "Ohm’s Law",
-      "Resistance",
-      "Series & Parallel Circuits",
-      "Kirchhoff’s Laws",
-      "Wheatstone Bridge"
-    ]
-  },
-
-  "Magnetism & EMI":{
-    "Magnetism":[
-      "Lorentz Force",
-      "Biot–Savart Law",
-      "Ampere’s Law",
-      "Magnetic Field due to Current"
-    ],
-    "EMI":[
-      "Faraday’s Laws",
-      "Lenz’s Law",
-      "Induced EMF"
-    ]
-  },
-
-  "Optics & Modern Physics":{
-    "Optics":[
-      "Reflection",
-      "Refraction",
-      "Ray Optics",
-      "Wave Optics"
-    ],
-    "Modern Physics":[
-      "Photoelectric Effect",
-      "Bohr Model",
-      "Atomic Spectra",
-      "Nuclear Physics",
-      "Semiconductors"
-    ]
-  }
-},
-
-Chemistry:{
-  "Mole Concept":{
-    "Stoichiometry":[
-      "Mole Definition",
-      "Avogadro Number",
-      "Stoichiometry",
-      "Limiting Reagent",
-      "Percentage Composition"
-    ]
-  },
-
-  "Redox Reactions":{
-    "Redox":[
-      "Oxidation & Reduction",
-      "Oxidation Number",
-      "Balancing Redox Reactions"
-    ]
-  },
-
-  "Thermodynamics":{
-    "Thermodynamics":[
-      "System & Surroundings",
-      "First Law",
-      "Enthalpy Change",
-      "Entropy",
-      "Gibbs Free Energy"
-    ]
-  },
-
-  "Chemical Kinetics":{
-    "Kinetics":[
-      "Rate of Reaction",
-      "Rate Law",
-      "Order & Molecularity",
-      "Arrhenius Equation"
-    ]
-  },
-
-  "Chemical Bonding":{
-    "Bonding":[
-      "Lewis Structure",
-      "VSEPR Theory",
-      "Hybridisation",
-      "Molecular Orbital Theory",
-      "Bond Parameters"
-    ]
-  },
-
-  "GOC":{
-    "GOC":[
-      "Inductive Effect",
-      "Resonance",
-      "Hyperconjugation",
-      "Acidity & Basicity",
-      "Reaction Intermediates"
-    ]
-  },
-
-  "Hydrocarbons":{
-    "Hydrocarbons":[
-      "Alkanes",
-      "Alkenes",
-      "Alkynes",
-      "Reactions & Mechanisms"
-    ]
-  },
-
-  "Coordination Compounds":{
-    "Coordination":[
-      "Werner Theory",
-      "Nomenclature",
-      "Isomerism",
-      "Crystal Field Theory"
-    ]
-  },
-
-  "Biomolecules":{
-    "Biomolecules":[
-      "Carbohydrates",
-      "Proteins",
-      "Amino Acids",
-      "Enzymes"
-    ]
-  },
-
-  "Polymers":{
-    "Polymers":[
-      "Classification",
-      "Addition & Condensation",
-      "Important Polymers"
-    ]
+  Chemistry:{
+    "Mole Concept":{
+      "Stoichiometry":["Mole Definition","Avogadro Number","Stoichiometry","Limiting Reagent","Percentage Composition"]
+    }
   }
 };
 
-let stack=[];
-let mode="base";
+/* ===== STATE ===== */
+let stack = [];
+let mode = "base";
 
-function goSubject(s){stack=[s];render()}
-function goBack(){stack.pop();render()}
-function jumpTo(i){stack=stack.slice(0,i+1);render()}
+const view = document.getElementById("view");
+const nav = document.getElementById("nav");
+const breadcrumb = document.getElementById("breadcrumb");
+const subjectBtns = document.querySelectorAll(".subject-btn");
 
-const view=document.getElementById("view");
-const nav=document.getElementById("nav");
-const breadcrumb=document.getElementById("breadcrumb");
-const subjectBtns=document.querySelectorAll(".subject-btn");
+/* ===== NAV FUNCTIONS ===== */
+function goSubject(s){
+  stack = [s];
+  mode = "base";
+  render();
+}
 
+function goBack(){
+  if(stack.length > 1){
+    stack.pop();
+    render();
+  }
+}
+
+function jumpTo(i){
+  stack = stack.slice(0, i + 1);
+  mode = "base";
+  render();
+}
+
+/* ===== RENDER ===== */
 function render(){
-  nav.style.display=stack.length?"flex":"none";
-  breadcrumb.innerHTML="";
+  nav.style.display = stack.length ? "flex" : "none";
+
   subjectBtns.forEach(b=>{
-    b.classList.toggle("active",b.innerText===stack[0]);
-    b.classList.toggle("disabled",stack.length>0);
+    b.classList.toggle("active", b.innerText === stack[0]);
+    b.classList.toggle("disabled", stack.length > 0);
   });
 
+  breadcrumb.innerHTML = "";
   stack.forEach((s,i)=>{
-    const c=document.createElement("div");
-    c.className="crumb";
-    c.innerText=s;
-    c.onclick=()=>jumpTo(i);
+    const c = document.createElement("div");
+    c.className = "crumb";
+    c.innerText = s;
+    c.onclick = ()=>jumpTo(i);
     breadcrumb.appendChild(c);
   });
 
-  view.innerHTML="";
+  view.innerHTML = "";
 
-  if(stack.length===0){
-    view.innerHTML="<h2>Select a subject to begin</h2>";
+  if(stack.length === 0){
+    view.innerHTML = "<h2>Select a subject to begin</h2>";
     return;
   }
 
-  let data=syllabus;
-  for(let i=0;i<stack.length;i++) data=data[stack[i]];
+  let data = syllabus;
+  for(let i=0;i<stack.length;i++){
+    data = data[stack[i]];
+  }
 
   if(Array.isArray(data)){
     renderConcept(stack[stack.length-1]);
@@ -558,63 +281,57 @@ function render(){
 
 function renderList(items){
   items.forEach(i=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=i;
-    d.onclick=()=>{stack.push(i);render()};
+    const d = document.createElement("div");
+    d.className = "item";
+    d.innerText = i;
+    d.onclick = ()=>{
+      stack.push(i);
+      render();
+    };
     view.appendChild(d);
   });
 }
 
 function renderConcept(title){
-  view.innerHTML=`
+  view.innerHTML = `
   <div class="focus">
     <h2 class="section-title">${title}</h2>
+
     <div class="modes">
-      <button class="active">Base</button>
-      <button>JEE</button>
-      <button>Mistake</button>
+      <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
+      <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
+      <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
     </div>
 
+    ${renderMode()}
+  </div>`;
+}
+
+function setMode(m){
+  mode = m;
+  renderConcept(stack[stack.length-1]);
+}
+
+function renderMode(){
+  if(mode === "base") return `
     <div class="block">
       <h4>First Look</h4>
-      <ul>
-        <li>What is given</li>
-        <li>What is asked</li>
-        <li>Expected chapter logic</li>
-      </ul>
+      <ul><li>What is given</li><li>What is asked</li><li>Expected chapter logic</li></ul>
     </div>
-
     <div class="block">
       <h4>Base</h4>
-      <ul>
-        <li>Definition</li>
-        <li>Formula (pending)</li>
-        <li>Meaning of symbols</li>
-        <li>WHEN to use</li>
-        <li>WHY it works</li>
-      </ul>
-    </div>
-
+      <ul><li>Definition</li><li>Formula (pending)</li><li>WHEN to use</li><li>WHY it works</li></ul>
+    </div>`;
+  if(mode === "jee") return `
     <div class="block">
       <h4>JEE</h4>
-      <ul>
-        <li>WHERE questions appear</li>
-        <li>HOW examiner twists</li>
-        <li>WHAT to use / not use</li>
-        <li>Time expectation</li>
-      </ul>
-    </div>
-
+      <ul><li>WHERE questions appear</li><li>HOW examiner twists</li><li>Time expectation</li></ul>
+    </div>`;
+  return `
     <div class="block">
       <h4>Mistake Bank</h4>
-      <ul>
-        <li>Wrong assumptions</li>
-        <li>Common traps</li>
-        <li>Sign & unit errors</li>
-      </ul>
-    </div>
-  </div>`;
+      <ul><li>Wrong assumptions</li><li>Common traps</li><li>Sign & unit errors</li></ul>
+    </div>`;
 }
 
 render();
