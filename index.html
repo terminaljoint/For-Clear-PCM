@@ -5,11 +5,18 @@
 <title>For clear PCM – JEE Physics Chemistry Maths</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- SEO -->
+<!-- SEO CORE -->
 <meta name="description" content="For clear PCM is a structured JEE learning platform for Physics, Chemistry, and Maths. Clear formulas, exam logic, and mistake analysis for average students.">
 <meta name="keywords" content="JEE PCM, JEE Maths, JEE Physics, JEE Chemistry, PCM formulas, average students JEE">
 <meta name="author" content="Terminal Joint">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="https://terminaljoint.github.io/For-Clear-PCM/">
+
+<!-- OPEN GRAPH -->
+<meta property="og:title" content="For clear PCM – JEE Physics Chemistry Maths">
+<meta property="og:description" content="Clear formulas, exam logic, and mistake analysis for JEE aspirants.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://terminaljoint.github.io/For-Clear-PCM/">
 
 <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3b/Math_icon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
@@ -63,6 +70,11 @@ header{
   color:#2f81f7;
 }
 
+.subject-btn.disabled{
+  opacity:.45;
+  pointer-events:none;
+}
+
 .subject-btn:hover{
   background:#161b22;
 }
@@ -106,6 +118,12 @@ main{
 
 .crumb:hover{background:#161b22}
 
+.crumb:last-child{
+  background:#161b22;
+  border-color:#2f81f7;
+  color:#e6edf3;
+}
+
 .hidden{display:none}
 
 /* HOME */
@@ -138,8 +156,6 @@ main{
 }
 
 .home-card:hover{background:#161b22}
-
-.home-card h3{margin-bottom:6px}
 
 /* LISTS */
 .section-title{
@@ -190,7 +206,13 @@ main{
 
 .block h4{
   color:#2f81f7;
-  margin-bottom:12px;
+  margin-bottom:8px;
+}
+
+.block p{
+  color:#9aa4af;
+  font-size:.9rem;
+  margin-bottom:10px;
 }
 
 .block ul{list-style:none}
@@ -212,6 +234,13 @@ footer{
 </head>
 
 <body>
+
+<noscript>
+  <h2>JEE PCM Syllabus</h2>
+  <p>Maths: Algebra, Calculus, Coordinate Geometry, Probability</p>
+  <p>Physics: Mechanics, Electricity, Magnetism, Optics, Modern Physics</p>
+  <p>Chemistry: Physical, Organic, Inorganic Chemistry</p>
+</noscript>
 
 <header>
   <h1 class="brand">For clear PCM</h1>
@@ -239,11 +268,11 @@ footer{
 </main>
 
 <footer>
-  ©2026 Terminal Joint All Rights Reserved , Made for Average Students in "PCM"
+  ©2026 Terminal Joint All Rights Reserved · Built under Terminal Joint · Made for Average Students in "PCM"
 </footer>
 
 <script>
-/* ===== SYLLABUS (COMPLETE) ===== */
+/* ===== SYLLABUS ===== */
 const syllabus = {
   Maths:{
     "Sets & Functions":{
@@ -273,27 +302,13 @@ const syllabus = {
     }
   },
   Physics:{
-    "Kinematics":{
-      "Motion":["1D Motion","2D Motion"]
-    },
-    "Laws of Motion":{
-      "Newton Laws":["Free Body Diagram","Friction"]
-    },
-    "Work Energy Power":{
-      "Energy":["Work Energy Theorem","Conservation of Energy"]
-    },
-    "Centre of Mass & Rotation":{
-      "Rotation":["Torque","Angular Momentum"]
-    },
-    "Gravitation":{
-      "Gravitation":["Field","Potential","Satellites"]
-    },
-    "Electrostatics":{
-      "Electrostatics":["Electric Field","Electric Potential","Capacitors"]
-    },
-    "Current Electricity":{
-      "Circuits":["Ohm Law","Kirchhoff Laws"]
-    },
+    "Kinematics":{"Motion":["1D Motion","2D Motion"]},
+    "Laws of Motion":{"Newton Laws":["Free Body Diagram","Friction"]},
+    "Work Energy Power":{"Energy":["Work Energy Theorem","Conservation of Energy"]},
+    "Centre of Mass & Rotation":{"Rotation":["Torque","Angular Momentum"]},
+    "Gravitation":{"Gravitation":["Field","Potential","Satellites"]},
+    "Electrostatics":{"Electrostatics":["Electric Field","Electric Potential","Capacitors"]},
+    "Current Electricity":{"Circuits":["Ohm Law","Kirchhoff Laws"]},
     "Magnetism & EMI":{
       "Magnetism":["Lorentz Force","Biot Savart Law"],
       "EMI":["Faraday Law","Lenz Law"]
@@ -304,74 +319,40 @@ const syllabus = {
     }
   },
   Chemistry:{
-    "Mole Concept":{
-      "Stoichiometry":["Mole","Limiting Reagent"]
-    },
-    "Redox":{
-      "Redox":["Oxidation Number","Balancing Redox"]
-    },
-    "Chemical Bonding":{
-      "Bonding":["VSEPR Theory","Hybridisation","Molecular Orbital Theory"]
-    },
-    "Thermodynamics":{
-      "Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]
-    },
-    "Chemical Kinetics":{
-      "Kinetics":["Rate Law","Arrhenius Equation"]
-    },
-    "GOC":{
-      "GOC":["Inductive Effect","Resonance","Hyperconjugation"]
-    },
-    "Hydrocarbons":{
-      "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
-    },
-    "Coordination Compounds":{
-      "Coordination":["Werner Theory","Isomerism","Crystal Field Theory"]
-    },
-    "Biomolecules":{
-      "Biomolecules":["Carbohydrates","Proteins"]
-    },
-    "Polymers":{
-      "Polymers":["Types","Polymerisation Reactions"]
-    }
+    "Mole Concept":{"Stoichiometry":["Mole","Limiting Reagent"]},
+    "Redox":{"Redox":["Oxidation Number","Balancing Redox"]},
+    "Chemical Bonding":{"Bonding":["VSEPR Theory","Hybridisation","Molecular Orbital Theory"]},
+    "Thermodynamics":{"Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]},
+    "Chemical Kinetics":{"Kinetics":["Rate Law","Arrhenius Equation"]},
+    "GOC":{"GOC":["Inductive Effect","Resonance","Hyperconjugation"]},
+    "Hydrocarbons":{"Hydrocarbons":["Alkanes","Alkenes","Alkynes"]},
+    "Coordination Compounds":{"Coordination":["Werner Theory","Isomerism","Crystal Field Theory"]},
+    "Biomolecules":{"Biomolecules":["Carbohydrates","Proteins"]},
+    "Polymers":{"Polymers":["Types","Polymerisation Reactions"]}
   }
 };
 
-/* ===== STATE + NAVIGATION ===== */
 let stack=[];
 let mode="base";
 
-function navigate(newStack, push=true){
-  stack = newStack;
-  if(push){
-    history.pushState({stack:[...stack],mode},"","");
-  }
+function navigate(newStack,push=true){
+  stack=newStack;
+  if(push) history.pushState({stack:[...stack],mode},"","");
   render();
 }
 
-window.onpopstate = e=>{
+window.onpopstate=e=>{
   if(e.state){
-    stack = e.state.stack || [];
-    mode = e.state.mode || "base";
-    render(false);
+    stack=e.state.stack||[];
+    mode=e.state.mode||"base";
+    render();
   }
 };
 
-function goSubject(sub){
-  navigate([sub]);
-}
+function goSubject(s){navigate([s])}
+function goBack(){if(stack.length) navigate(stack.slice(0,-1))}
+function jumpTo(i){navigate(stack.slice(0,i+1))}
 
-function goBack(){
-  if(stack.length>0){
-    navigate(stack.slice(0,-1));
-  }
-}
-
-function jumpTo(i){
-  navigate(stack.slice(0,i+1));
-}
-
-/* ===== RENDER ===== */
 const view=document.getElementById("view");
 const nav=document.getElementById("nav");
 const breadcrumb=document.getElementById("breadcrumb");
@@ -379,9 +360,13 @@ const subjectBtns=document.querySelectorAll(".subject-btn");
 
 function render(){
   nav.classList.toggle("hidden",stack.length===0);
-  breadcrumb.innerHTML="";
-  subjectBtns.forEach(b=>b.classList.toggle("active",stack[0]===b.innerText));
 
+  subjectBtns.forEach(b=>{
+    b.classList.toggle("active",stack[0]===b.innerText);
+    b.classList.toggle("disabled",stack.length>0);
+  });
+
+  breadcrumb.innerHTML="";
   stack.forEach((s,i)=>{
     const c=document.createElement("div");
     c.className="crumb";
@@ -397,40 +382,21 @@ function render(){
       <div class="home">
         <h2>Learn PCM with clarity, not confusion</h2>
         <p>
-          This platform is built for average students who want a clean path
-          to understand PCM concepts, apply formulas correctly, and avoid
-          common exam mistakes.
+          Built for students who want a clean system to understand formulas,
+          apply them correctly, and avoid common JEE mistakes.
         </p>
         <div class="home-grid">
-          <div class="home-card" onclick="goSubject('Maths')">
-            <h3>Maths</h3>
-            <p>Algebra, Calculus, Coordinate Geometry, Vectors, Probability</p>
-          </div>
-          <div class="home-card" onclick="goSubject('Physics')">
-            <h3>Physics</h3>
-            <p>Mechanics, Electrodynamics, Optics, Modern Physics</p>
-          </div>
-          <div class="home-card" onclick="goSubject('Chemistry')">
-            <h3>Chemistry</h3>
-            <p>Physical, Organic, and Inorganic Chemistry essentials</p>
-          </div>
+          <div class="home-card" onclick="goSubject('Maths')"><h3>Maths</h3></div>
+          <div class="home-card" onclick="goSubject('Physics')"><h3>Physics</h3></div>
+          <div class="home-card" onclick="goSubject('Chemistry')"><h3>Chemistry</h3></div>
         </div>
       </div>`;
     return;
   }
 
-  if(stack.length===1){
-    renderList("Chapters",Object.keys(syllabus[stack[0]]));
-    return;
-  }
-  if(stack.length===2){
-    renderList("Topics",Object.keys(syllabus[stack[0]][stack[1]]));
-    return;
-  }
-  if(stack.length===3){
-    renderList("Concepts",syllabus[stack[0]][stack[1]][stack[2]]);
-    return;
-  }
+  if(stack.length===1) return renderList("Chapters",Object.keys(syllabus[stack[0]]));
+  if(stack.length===2) return renderList("Topics",Object.keys(syllabus[stack[0]][stack[1]]));
+  if(stack.length===3) return renderList("Concepts",syllabus[stack[0]][stack[1]][stack[2]]);
 
   renderConcept();
 }
@@ -451,9 +417,9 @@ function renderConcept(){
     <div class="focus">
       <h2 class="section-title">${stack[3]}</h2>
       <div class="modes">
-        <button class="${mode==='base'?'active':''}" onclick="mode='base';navigate(stack,false)">Base</button>
-        <button class="${mode==='jee'?'active':''}" onclick="mode='jee';navigate(stack,false)">JEE</button>
-        <button class="${mode==='mistake'?'active':''}" onclick="mode='mistake';navigate(stack,false)">Mistake</button>
+        <button class="${mode==='base'?'active':''}" onclick="mode='base';render()">Base</button>
+        <button class="${mode==='jee'?'active':''}" onclick="mode='jee';render()">JEE</button>
+        <button class="${mode==='mistake'?'active':''}" onclick="mode='mistake';render()">Mistake</button>
       </div>
       ${content()}
     </div>`;
@@ -461,29 +427,40 @@ function renderConcept(){
 
 function content(){
   if(mode==="base") return `
-    <div class="block"><h4>Base Level</h4><ul>
-      <li>Definition</li>
-      <li>Formula</li>
-      <li>Terms explained</li>
-      <li>WHEN to use</li>
-      <li>WHY it works</li>
-    </ul></div>`;
+    <div class="block">
+      <h4>Base Level</h4>
+      <p>Content will be added systematically. Structure comes first.</p>
+      <ul>
+        <li>Definition</li>
+        <li>Formula</li>
+        <li>Terms explained</li>
+        <li>WHEN to use</li>
+        <li>WHY it works</li>
+      </ul>
+    </div>`;
   if(mode==="jee") return `
-    <div class="block"><h4>JEE Main</h4><ul>
-      <li>WHERE questions appear</li>
-      <li>HOW to apply in exam</li>
-      <li>WHAT to use / not use</li>
-      <li>Heavy JEE-level example</li>
-    </ul></div>`;
+    <div class="block">
+      <h4>JEE Main</h4>
+      <p>Exam-focused usage and application logic.</p>
+      <ul>
+        <li>WHERE questions appear</li>
+        <li>HOW to apply in exam</li>
+        <li>WHAT to use / not use</li>
+        <li>Heavy JEE-level example</li>
+      </ul>
+    </div>`;
   return `
-    <div class="block"><h4>Mistake Bank</h4><ul>
-      <li>Wrong assumptions</li>
-      <li>Wrong steps</li>
-      <li>MCQ traps</li>
-    </ul></div>`;
+    <div class="block">
+      <h4>Mistake Bank</h4>
+      <p>Common traps and wrong assumptions.</p>
+      <ul>
+        <li>Wrong assumptions</li>
+        <li>Wrong steps</li>
+        <li>MCQ traps</li>
+      </ul>
+    </div>`;
 }
 
-/* INIT */
 history.replaceState({stack:[],mode},"","");
 render();
 </script>
