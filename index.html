@@ -179,14 +179,12 @@ footer{
 </div>
 
 <main>
-
   <div class="nav" id="nav" style="display:none">
     <div class="back" onclick="goBack()">← Back</div>
     <div class="breadcrumb" id="breadcrumb"></div>
   </div>
 
   <div id="view"></div>
-
 </main>
 
 <footer>
@@ -194,11 +192,8 @@ footer{
 </footer>
 
 <script>
-/* ================= MASTER SYLLABUS ================= */
-
-const syllabus = /* SAME SYLLABUS AS YOU APPROVED */
-
-Maths:{
+const syllabus = {
+  Maths:{
   "Sets & Functions":{
     "Sets":[
       "Definition & Representation",
@@ -511,12 +506,6 @@ Chemistry:{
   }
 };
 
-/* ⬆️ IMPORTANT:
-   Paste the SAME syllabus object from previous message here.
-   JSON.parse is only placeholder to keep this message readable.
-*/
-
-/* ================= ENGINE ================= */
 
 let stack = [];
 let mode = "base";
@@ -527,31 +516,29 @@ const breadcrumb = document.getElementById("breadcrumb");
 const subjectBtns = document.querySelectorAll(".subject-btn");
 
 function goSubject(sub){
-  stack = [sub];
-  mode = "base";
+  stack=[sub];
+  mode="base";
   render();
 }
 
 function goBack(){
-  if(stack.length>0){
-    stack.pop();
-    mode = "base";
-    render();
-  }
+  stack.pop();
+  mode="base";
+  render();
 }
 
 function jumpTo(i){
-  stack = stack.slice(0,i+1);
-  mode = "base";
+  stack=stack.slice(0,i+1);
+  mode="base";
   render();
 }
 
 function render(){
-  nav.style.display = stack.length ? "flex" : "none";
+  nav.style.display=stack.length?"flex":"none";
 
-  subjectBtns.forEach(btn=>{
-    btn.classList.toggle("active", btn.innerText === stack[0]);
-    btn.classList.toggle("disabled", stack.length > 0);
+  subjectBtns.forEach(b=>{
+    b.classList.toggle("active",b.innerText===stack[0]);
+    b.classList.toggle("disabled",stack.length>0);
   });
 
   breadcrumb.innerHTML="";
@@ -564,106 +551,57 @@ function render(){
   });
 
   view.innerHTML="";
-
-  if(stack.length===0){
+  if(!stack.length){
     view.innerHTML="<h2>Select a subject to begin</h2>";
     return;
   }
 
-  let data = syllabus;
-  for(let i=0;i<stack.length;i++){
-    data = data[stack[i]];
-  }
+  let data=syllabus;
+  stack.forEach(k=>data=data[k]);
 
-  if(Array.isArray(data)){
-    renderConcept(stack[stack.length-1]);
-  } else {
-    renderList(Object.keys(data));
-  }
-}
-
-function renderList(items){
-  items.forEach(item=>{
+  Array.isArray(data)?renderConcept(stack.at(-1)):Object.keys(data).forEach(k=>{
     const d=document.createElement("div");
     d.className="item";
-    d.innerText=item;
-    d.onclick=()=>{
-      stack.push(item);
-      render();
-    };
+    d.innerText=k;
+    d.onclick=()=>{stack.push(k);render()};
     view.appendChild(d);
   });
 }
 
 function setMode(m){
-  mode = m;
-  renderConcept(stack[stack.length-1]);
+  mode=m;
+  renderConcept(stack.at(-1));
 }
 
-function renderConcept(title){
+function renderConcept(t){
   view.innerHTML=`
   <div class="focus">
-    <h2 class="section-title">${title}</h2>
-
+    <h2 class="section-title">${t}</h2>
     <div class="modes">
       <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
       <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
       <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
     </div>
-
     ${mode==='base'?baseBlock():''}
     ${mode==='jee'?jeeBlock():''}
     ${mode==='mistake'?mistakeBlock():''}
   </div>`;
 }
 
-function baseBlock(){
-  return `
-  <div class="block">
-    <h4>First Look</h4>
-    <ul>
-      <li>What is given</li>
-      <li>What is asked</li>
-      <li>Expected chapter logic</li>
-    </ul>
-  </div>
+function baseBlock(){return`
+<div class="block"><h4>Base</h4><ul>
+<li>Definition</li><li>Formula</li><li>WHEN to use</li><li>WHY it works</li>
+</ul></div>`}
 
-  <div class="block">
-    <h4>Base</h4>
-    <ul>
-      <li>Definition</li>
-      <li>Formula (to be added)</li>
-      <li>Meaning of symbols</li>
-      <li>WHEN to use</li>
-      <li>WHY it works</li>
-    </ul>
-  </div>`;
-}
+function jeeBlock(){return`
+<div class="block"><h4>JEE</h4><ul>
+<li>WHERE questions appear</li><li>WHAT examiner twists</li>
+</ul></div>`}
 
-function jeeBlock(){
-  return `
-  <div class="block">
-    <h4>JEE</h4>
-    <ul>
-      <li>WHERE questions appear</li>
-      <li>HOW examiner twists</li>
-      <li>WHAT to use / not use</li>
-      <li>Time expectation</li>
-    </ul>
-  </div>`;
-}
-
-function mistakeBlock(){
-  return `
-  <div class="block">
-    <h4>Mistake Bank</h4>
-    <ul>
-      <li>Wrong assumptions</li>
-      <li>Common traps</li>
-      <li>Sign & unit errors</li>
-    </ul>
-  </div>`;
-}
+function mistakeBlock(){return`
+<div class="block"><h4>Mistakes</h4><ul>
+<li>Wrong assumptions</li><li>Common traps</li>
+</ul></div>`}
 
 render();
 </script>
