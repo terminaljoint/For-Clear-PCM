@@ -16,15 +16,9 @@
   --text:#eef1ff;
   --muted:#9aa6d6;
   --accent:#6ee7e0;
-  --accent-soft:#203a3a;
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:"Comic Neue", system-ui, sans-serif;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Comic Neue",system-ui}
 
 body{
   background:linear-gradient(180deg,#0b0f1a,#090c16);
@@ -34,91 +28,71 @@ body{
 
 /* HEADER */
 header{
-  padding:26px 34px;
+  padding:26px 36px;
   border-bottom:1px solid var(--border);
 }
-.brand{
-  font-size:2.3rem;
-  font-weight:700;
-}
-.tagline{
-  margin-top:6px;
-  color:var(--muted);
-  max-width:700px;
-}
+.brand{font-size:2.4rem;font-weight:700}
+.tagline{color:var(--muted);margin-top:6px}
 
-/* HOME SUBJECT SELECT */
-.subjects{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-  padding:36px;
+/* HOME */
+.home{
   max-width:1000px;
-  margin:auto;
+  margin:40px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
 }
-.subject-card{
+.subject{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:20px;
-  padding:26px;
+  border-radius:22px;
+  padding:28px;
   cursor:pointer;
-  transition:0.2s;
+  transition:.2s;
 }
-.subject-card:hover{
-  transform:translateY(-4px);
+.subject:hover{
   border-color:var(--accent);
+  transform:translateY(-4px);
 }
-.subject-card h2{
-  margin-bottom:8px;
-}
-.subject-card p{
-  color:var(--muted);
-  font-size:0.95rem;
-}
+.subject h2{margin-bottom:10px}
+.subject p{color:var(--muted)}
 
-/* MAIN PIPELINE */
+/* PIPELINE */
 .pipeline{
+  max-width:1400px;
+  margin:30px auto;
+  padding:0 30px;
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
   gap:22px;
-  padding:30px;
-  max-width:1300px;
-  margin:auto;
 }
-
 .column{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:18px;
+  border-radius:20px;
   padding:18px;
-  min-height:360px;
+  min-height:380px;
 }
-
-.column h3{
-  margin-bottom:12px;
-  font-size:1.2rem;
-}
-
+.column h3{margin-bottom:14px}
 .item{
   padding:10px 14px;
-  border-radius:12px;
+  border-radius:14px;
   cursor:pointer;
   margin-bottom:8px;
-  background:transparent;
 }
-.item:hover{
-  background:var(--panel-soft);
-}
+.item:hover{background:var(--panel-soft)}
 .item.active{
-  background:var(--accent-soft);
+  background:rgba(110,231,224,.12);
   border:1px solid var(--accent);
 }
+
+.hidden{display:none}
 
 /* DIALOG */
 .backdrop{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.65);
+  background:rgba(0,0,0,.7);
   display:none;
   align-items:center;
   justify-content:center;
@@ -126,31 +100,28 @@ header{
 .dialog{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:22px;
-  width:min(900px,92%);
+  border-radius:26px;
+  width:min(980px,92%);
   padding:26px;
+  max-height:90vh;
+  overflow:auto;
 }
 .dialog-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-.dialog-header h2{
-  font-size:1.6rem;
-}
-.close{
-  cursor:pointer;
-  color:var(--muted);
-}
+.dialog-header h2{font-size:1.6rem}
+.close{cursor:pointer;color:var(--muted)}
 
-/* MODE TABS */
+/* MODES */
 .modes{
   display:flex;
-  gap:10px;
-  margin:18px 0;
+  gap:12px;
+  margin:20px 0;
 }
 .modes button{
-  padding:8px 14px;
+  padding:8px 16px;
   border-radius:14px;
   border:1px solid var(--border);
   background:transparent;
@@ -166,13 +137,13 @@ header{
   display:none;
   background:var(--panel-soft);
   border:1px solid var(--border);
-  border-radius:14px;
-  padding:18px;
-  line-height:1.6;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:16px;
 }
-
-/* UTIL */
-.hidden{display:none}
+.mode-block h4{margin-bottom:10px;color:var(--accent)}
+.mode-block ol{margin-left:18px}
+.mode-block li{margin-bottom:8px}
 </style>
 </head>
 
@@ -180,51 +151,34 @@ header{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="tagline">
-    One page. Zero clutter.  
-    Select step by step and study only what you asked for.
-  </div>
+  <div class="tagline">perfect hierarchy · one page · zero noise</div>
 </header>
 
 <!-- HOME -->
-<div id="home">
-  <div class="subjects">
-    <div class="subject-card" onclick="selectSubject('maths')">
-      <h2>Maths</h2>
-      <p>Logic, structure, problem solving.</p>
-    </div>
-    <div class="subject-card" onclick="selectSubject('physics')">
-      <h2>Physics</h2>
-      <p>Motion, forces, fields, systems.</p>
-    </div>
-    <div class="subject-card" onclick="selectSubject('chemistry')">
-      <h2>Chemistry</h2>
-      <p>Reactions, structure, reasoning.</p>
-    </div>
+<div class="home" id="home">
+  <div class="subject" onclick="selectSubject('maths')">
+    <h2>Maths</h2><p>Structure, logic, abstraction</p>
+  </div>
+  <div class="subject" onclick="selectSubject('physics')">
+    <h2>Physics</h2><p>Motion, forces, fields</p>
+  </div>
+  <div class="subject" onclick="selectSubject('chemistry')">
+    <h2>Chemistry</h2><p>Structure, reactions, energy</p>
   </div>
 </div>
 
 <!-- PIPELINE -->
 <div class="pipeline hidden" id="pipeline">
-  <div class="column">
-    <h3>Chapters</h3>
-    <div id="chapters"></div>
-  </div>
-  <div class="column">
-    <h3>Topics</h3>
-    <div id="topics"></div>
-  </div>
-  <div class="column">
-    <h3>Concepts</h3>
-    <div id="concepts"></div>
-  </div>
+  <div class="column"><h3>Chapters</h3><div id="chapters"></div></div>
+  <div class="column"><h3>Topics</h3><div id="topics"></div></div>
+  <div class="column"><h3>Concepts</h3><div id="concepts"></div></div>
 </div>
 
 <!-- DIALOG -->
 <div class="backdrop" id="dialog">
   <div class="dialog">
     <div class="dialog-header">
-      <h2 id="dialogTitle"></h2>
+      <h2 id="conceptTitle"></h2>
       <span class="close" onclick="closeDialog()">✕</span>
     </div>
 
@@ -234,110 +188,203 @@ header{
       <button onclick="setMode('mistake')">Mistake Bank</button>
     </div>
 
+    <!-- BASE -->
     <div class="mode-block" data-mode="base">
-      <strong>Base Level</strong>
-      <p>Definitions, formulas, symbol meaning.</p>
+      <h4>Base Level</h4>
+      <ol>
+        <li>Definition</li>
+        <li>Formula</li>
+        <li>Terms</li>
+        <li>WHEN to use</li>
+        <li>WHY this formula</li>
+      </ol>
     </div>
+
+    <!-- JEE -->
     <div class="mode-block" data-mode="jee">
-      <strong>JEE Main</strong>
-      <p>Application logic, question patterns, traps.</p>
+      <h4>JEE Main</h4>
+      <ol start="6">
+        <li>WHERE it appears</li>
+        <li>HOW to apply</li>
+        <li>WHAT to use / not use</li>
+        <li>Heavy JEE-level example</li>
+      </ol>
     </div>
+
+    <!-- MISTAKE -->
     <div class="mode-block" data-mode="mistake">
-      <strong>Mistake Bank</strong>
-      <p>Common wrong assumptions and errors.</p>
+      <h4>Mistake Bank</h4>
+      <ol start="10">
+        <li>Wrong assumptions</li>
+        <li>Wrong steps</li>
+        <li>MCQ traps</li>
+      </ol>
     </div>
   </div>
 </div>
 
 <script>
-let mode="base";
-
-/* SAMPLE DATA (extend freely) */
-const data={
-  maths:{
-    "Sets":{
-      "Basics":["Types of Sets","Operations","Venn Diagrams"]
-    }
+/* FULL SYLLABUS (ALL CHAPTERS) */
+const syllabus={
+ maths:{
+  "Sets & Functions":{
+    "Sets":["Types of Sets","Operations","Venn Diagrams"],
+    "Functions":["Domain & Range","Types","Inverse"]
   },
-  physics:{
-    "Kinematics":{
-      "1D Motion":["Equations of Motion"]
-    }
+  "Algebra":{
+    "Quadratic Equations":["Roots","Nature"],
+    "Sequences & Series":["AP","GP"],
+    "Binomial Theorem":["General Term"]
   },
-  chemistry:{
-    "Chemical Bonding":{
-      "Bonding":["Hybridisation","VSEPR"]
-    }
+  "Coordinate Geometry":{
+    "Straight Lines":["Slope","Forms"],
+    "Circles":["Equation","Tangents"]
+  },
+  "Calculus":{
+    "Limits":["Standard Limits"],
+    "Differentiation":["Rules","Applications"],
+    "Integration":["Indefinite","Definite"]
+  },
+  "Vectors & 3D":{
+    "Vectors":["Dot","Cross"],
+    "3D Geometry":["Line","Plane"]
+  },
+  "Probability":{
+    "Probability":["Classical","Conditional","Bayes"]
   }
+ },
+ physics:{
+  "Kinematics":{
+    "Motion":["1D","2D"]
+  },
+  "Laws of Motion":{
+    "Newton Laws":["FBD","Friction"]
+  },
+  "Work Energy Power":{
+    "Energy":["WET","Conservation"]
+  },
+  "COM & Rotation":{
+    "Rotation":["Torque","Angular Momentum"]
+  },
+  "Gravitation":{
+    "Gravitation":["Field","Potential"]
+  },
+  "Electrostatics":{
+    "Electrostatics":["Field","Potential","Capacitors"]
+  },
+  "Current Electricity":{
+    "Circuits":["Ohm","Kirchhoff"]
+  },
+  "Magnetism & EMI":{
+    "Magnetism":["Lorentz","Biot Savart"],
+    "EMI":["Faraday","Lenz"]
+  },
+  "Optics & Modern":{
+    "Optics":["Ray","Wave"],
+    "Modern Physics":["Atoms","Nuclei","Semiconductors"]
+  }
+ },
+ chemistry:{
+  "Mole Concept":{
+    "Stoichiometry":["Mole","Limiting Reagent"]
+  },
+  "Redox":{
+    "Redox":["Oxidation Number"]
+  },
+  "Chemical Bonding":{
+    "Bonding":["VSEPR","Hybridisation","MO"]
+  },
+  "Thermodynamics":{
+    "Thermodynamics":["Enthalpy","Entropy","Gibbs"]
+  },
+  "Kinetics":{
+    "Kinetics":["Rate Law","Arrhenius"]
+  },
+  "GOC":{
+    "GOC":["Inductive","Resonance","Hyperconjugation"]
+  },
+  "Hydrocarbons":{
+    "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
+  },
+  "Coordination Compounds":{
+    "Coordination":["Werner","Isomerism","CFT"]
+  },
+  "Biomolecules":{
+    "Biomolecules":["Carbohydrates","Proteins"]
+  },
+  "Polymers":{
+    "Polymers":["Types","Reactions"]
+  }
+ }
 };
 
-function selectSubject(sub){
+let currentMode="base";
+
+/* LOGIC */
+function selectSubject(s){
   document.getElementById("home").classList.add("hidden");
   document.getElementById("pipeline").classList.remove("hidden");
-
-  const ch=document.getElementById("chapters");
-  ch.innerHTML="";
-  Object.keys(data[sub]).forEach(c=>{
+  loadChapters(s);
+}
+function loadChapters(s){
+  const c=document.getElementById("chapters");
+  const t=document.getElementById("topics");
+  const o=document.getElementById("concepts");
+  c.innerHTML="";t.innerHTML="";o.innerHTML="";
+  Object.keys(syllabus[s]).forEach(ch=>{
     const d=document.createElement("div");
     d.className="item";
-    d.innerText=c;
-    d.onclick=()=>loadTopics(sub,c,d);
-    ch.appendChild(d);
+    d.innerText=ch;
+    d.onclick=()=>loadTopics(s,ch,d);
+    c.appendChild(d);
   });
 }
-
-function loadTopics(sub,chName,el){
+function loadTopics(s,ch,el){
   activate(el);
   const t=document.getElementById("topics");
-  const c=document.getElementById("concepts");
-  t.innerHTML=""; c.innerHTML="";
-  Object.keys(data[sub][chName]).forEach(tp=>{
+  const o=document.getElementById("concepts");
+  t.innerHTML="";o.innerHTML="";
+  Object.keys(syllabus[s][ch]).forEach(tp=>{
     const d=document.createElement("div");
     d.className="item";
     d.innerText=tp;
-    d.onclick=()=>loadConcepts(sub,chName,tp,d);
+    d.onclick=()=>loadConcepts(s,ch,tp,d);
     t.appendChild(d);
   });
 }
-
-function loadConcepts(sub,ch,tp,el){
+function loadConcepts(s,ch,tp,el){
   activate(el);
-  const c=document.getElementById("concepts");
-  c.innerHTML="";
-  data[sub][ch][tp].forEach(con=>{
+  const o=document.getElementById("concepts");
+  o.innerHTML="";
+  syllabus[s][ch][tp].forEach(con=>{
     const d=document.createElement("div");
     d.className="item";
     d.innerText=con;
     d.onclick=()=>openDialog(con);
-    c.appendChild(d);
+    o.appendChild(d);
   });
 }
-
 function activate(el){
   el.parentNode.querySelectorAll(".item").forEach(i=>i.classList.remove("active"));
   el.classList.add("active");
 }
-
-function openDialog(title){
-  document.getElementById("dialogTitle").innerText=title;
+function openDialog(c){
+  document.getElementById("conceptTitle").innerText=c;
   document.getElementById("dialog").style.display="flex";
   updateMode();
 }
-
 function closeDialog(){
   document.getElementById("dialog").style.display="none";
 }
-
 function setMode(m){
-  mode=m;
+  currentMode=m;
   document.querySelectorAll(".modes button").forEach(b=>b.classList.remove("active"));
   event.target.classList.add("active");
   updateMode();
 }
-
 function updateMode(){
   document.querySelectorAll(".mode-block").forEach(b=>{
-    b.style.display=b.dataset.mode===mode?"block":"none";
+    b.style.display=b.dataset.mode===currentMode?"block":"none";
   });
 }
 </script>
