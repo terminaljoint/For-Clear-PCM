@@ -5,9 +5,7 @@
 <title>For clear PCM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Public PCM-friendly favicon -->
 <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3b/Math_icon.svg">
-
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -29,6 +27,33 @@ header{
 
 .brand{font-size:1.8rem;font-weight:700}
 .subtitle{font-size:.9rem;color:#8b949e;margin-top:4px}
+
+/* SUBJECT SWITCH */
+.subject-bar{
+  display:flex;
+  gap:10px;
+  padding:10px 24px;
+  border-bottom:1px solid #30363d;
+  background:#0d1117;
+}
+
+.subject-btn{
+  padding:6px 12px;
+  border:1px solid #30363d;
+  border-radius:6px;
+  font-size:.85rem;
+  cursor:pointer;
+  color:#e6edf3;
+}
+
+.subject-btn.active{
+  border-color:#2f81f7;
+  color:#2f81f7;
+}
+
+.subject-btn:hover{
+  background:#161b22;
+}
 
 main{
   max-width:900px;
@@ -67,9 +92,7 @@ main{
   color:#2f81f7;
 }
 
-.crumb:hover{
-  background:#161b22;
-}
+.crumb:hover{background:#161b22}
 
 .hidden{display:none}
 
@@ -86,7 +109,7 @@ h2{font-size:1.25rem;margin-bottom:14px}
 
 .item:hover{background:#161b22}
 
-/* FOCUS MODE */
+/* FOCUS */
 .focus{max-width:720px;margin:0 auto}
 
 .modes{
@@ -97,8 +120,7 @@ h2{font-size:1.25rem;margin-bottom:14px}
 }
 
 .modes button{
-  background:none;
-  border:none;
+  background:none;border:none;
   font-weight:700;
   color:#8b949e;
   cursor:pointer;
@@ -112,10 +134,7 @@ h2{font-size:1.25rem;margin-bottom:14px}
 
 .block{margin-top:18px}
 
-.block h3{
-  color:#2f81f7;
-  margin-bottom:10px;
-}
+.block h3{color:#2f81f7;margin-bottom:10px}
 
 .block ul{list-style:none}
 
@@ -139,12 +158,18 @@ footer{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="subtitle">official hierarchy · zero clutter · exam focus</div>
+  <div class="subtitle">official hierarchy · instant subject switching</div>
 </header>
+
+<!-- SUBJECT SWITCH BAR -->
+<div class="subject-bar">
+  <div class="subject-btn" onclick="switchSubject('Maths')">Maths</div>
+  <div class="subject-btn" onclick="switchSubject('Physics')">Physics</div>
+  <div class="subject-btn" onclick="switchSubject('Chemistry')">Chemistry</div>
+</div>
 
 <main>
 
-  <!-- NAV -->
   <div class="nav hidden" id="nav">
     <div class="back" onclick="goBack()">← Back</div>
     <div class="breadcrumb" id="breadcrumb"></div>
@@ -155,11 +180,11 @@ footer{
 </main>
 
 <footer>
-  Built under <strong>Terminal Joint</strong> · Structured learning for PCM aspirants
+  Built under <strong>Terminal Joint</strong> · Structured PCM learning
 </footer>
 
 <script>
-/* ===== FULL SYLLABUS ===== */
+/* ===== SYLLABUS ===== */
 const syllabus = {
   Maths:{
     "Sets & Functions":{
@@ -262,16 +287,31 @@ let mode="base";
 const view=document.getElementById("view");
 const nav=document.getElementById("nav");
 const breadcrumb=document.getElementById("breadcrumb");
+const subjectBtns=document.querySelectorAll(".subject-btn");
+
+/* ===== SUBJECT SWITCH ===== */
+function switchSubject(sub){
+  stack=[sub];
+  mode="base";
+  updateSubjectBar(sub);
+  render();
+}
+
+function updateSubjectBar(active){
+  subjectBtns.forEach(b=>{
+    b.classList.toggle("active",b.innerText===active);
+  });
+}
 
 /* ===== NAV ===== */
 function updateBreadcrumb(){
   breadcrumb.innerHTML="";
   stack.forEach((s,i)=>{
-    const b=document.createElement("div");
-    b.className="crumb";
-    b.innerText=s;
-    b.onclick=()=>jumpTo(i);
-    breadcrumb.appendChild(b);
+    const c=document.createElement("div");
+    c.className="crumb";
+    c.innerText=s;
+    c.onclick=()=>jumpTo(i);
+    breadcrumb.appendChild(c);
   });
 }
 
@@ -292,7 +332,7 @@ function render(){
   updateBreadcrumb();
 
   if(stack.length===0){
-    renderList("Select Subject",Object.keys(syllabus),s=>{stack.push(s);render();});
+    renderList("Select Subject",Object.keys(syllabus),s=>switchSubject(s));
     return;
   }
   if(stack.length===1){
