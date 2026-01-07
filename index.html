@@ -30,34 +30,35 @@ body{
   color:var(--text);
 }
 
+/* ===== HEADER ===== */
 header{
-  padding:22px 28px;
+  padding:24px 30px;
   border-bottom:1px solid var(--border);
 }
 
 .brand{
-  font-size:2rem;
+  font-size:2.2rem;
   font-weight:700;
 }
 
 .tagline{
-  font-size:0.9rem;
+  font-size:0.95rem;
   color:var(--muted);
   margin-top:6px;
 }
 
-/* ===== FILTER BAR ===== */
+/* ===== FILTER BARS ===== */
 .filters{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
-  padding:16px 28px;
+  padding:14px 30px;
   border-bottom:1px solid var(--border);
   background:#0c1024;
 }
 
 .filters button{
-  padding:8px 14px;
+  padding:8px 16px;
   border-radius:20px;
   border:1px solid var(--border);
   background:transparent;
@@ -74,43 +75,43 @@ header{
 
 /* ===== LAYOUT ===== */
 .container{
-  max-width:1200px;
+  max-width:1300px;
   margin:auto;
-  padding:28px;
+  padding:32px;
 }
 
-/* ===== SECTION TITLE ===== */
 .section-title{
-  font-size:1.4rem;
-  margin-bottom:16px;
+  font-size:1.6rem;
+  margin-bottom:20px;
 }
 
-/* ===== TOPIC GRID ===== */
+/* ===== GRID ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
 }
 
 .card{
-  background:var(--panel);
+  background:linear-gradient(180deg, var(--panel), #0f1430);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:18px;
+  border-radius:18px;
+  padding:20px;
 }
 
 .card h3{
-  font-size:1.1rem;
-  margin-bottom:6px;
+  font-size:1.2rem;
+  margin-bottom:8px;
 }
 
 .card p{
   font-size:0.9rem;
   color:var(--muted);
+  line-height:1.5;
 }
 
 .badges{
-  margin-top:10px;
+  margin-top:12px;
   display:flex;
   gap:6px;
   flex-wrap:wrap;
@@ -118,20 +119,18 @@ header{
 
 .badge{
   font-size:0.7rem;
-  padding:4px 8px;
-  border-radius:10px;
+  padding:4px 10px;
+  border-radius:12px;
   background:var(--panel-soft);
   border:1px solid var(--border);
   color:var(--muted);
 }
 
-.hidden{
-  display:none;
-}
+.hidden{ display:none; }
 
 footer{
   text-align:center;
-  padding:24px;
+  padding:28px;
   color:var(--muted);
   font-size:0.8rem;
 }
@@ -142,10 +141,10 @@ footer{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="tagline">clear() confusion. structured thinking. exam survival.</div>
+  <div class="tagline">clear() confusion · structured thinking · exam survival</div>
 </header>
 
-<!-- CORE FILTER -->
+<!-- CORE -->
 <div class="filters" id="coreFilters">
   <button class="active" data-core="all">Home</button>
   <button data-core="physics">Physics</button>
@@ -154,7 +153,7 @@ footer{
   <button data-core="formula">Formula Logics</button>
 </div>
 
-<!-- MODE FILTER -->
+<!-- MODES -->
 <div class="filters" id="modeFilters">
   <button class="active" data-mode="all">All Modes</button>
   <button data-mode="base">Base Level</button>
@@ -163,66 +162,150 @@ footer{
 </div>
 
 <div class="container">
-  <div class="section-title">Chapters & Topics</div>
+  <div class="section-title">Chapters</div>
 
   <div class="grid" id="topicGrid">
 
-    <!-- MATHS -->
-    <div class="card" data-core="maths" data-mode="base">
-      <h3>Sets – Fundamentals</h3>
-      <p>Basic language, notation, and thinking model.</p>
-      <div class="badges">
-        <span class="badge">Maths</span>
-        <span class="badge">Base</span>
-      </div>
+    <!-- ================= MATHS ================= -->
+    <div class="card" data-core="maths" data-mode="all">
+      <h3>Sets & Relations</h3>
+      <p>Set operations, Venn logic, relations, properties, real exam traps.</p>
+      <div class="badges"><span class="badge">Maths</span></div>
     </div>
 
-    <div class="card" data-core="maths" data-mode="jee">
-      <h3>Functions – Mapping Logic</h3>
-      <p>Domain, codomain, range with exam traps.</p>
-      <div class="badges">
-        <span class="badge">Maths</span>
-        <span class="badge">JEE</span>
-      </div>
+    <div class="card" data-core="maths" data-mode="all">
+      <h3>Functions</h3>
+      <p>Domain, codomain, range, injective/surjective, composition, inverse.</p>
+      <div class="badges"><span class="badge">Maths</span></div>
     </div>
 
-    <!-- PHYSICS -->
-    <div class="card" data-core="physics" data-mode="base">
-      <h3>Kinematics – Motion Language</h3>
-      <p>Displacement, velocity, acceleration clarity.</p>
-      <div class="badges">
-        <span class="badge">Physics</span>
-        <span class="badge">Base</span>
-      </div>
+    <div class="card" data-core="maths" data-mode="all">
+      <h3>Algebra</h3>
+      <p>Quadratic equations, sequences & series, binomial theorem.</p>
+      <div class="badges"><span class="badge">Maths</span></div>
     </div>
 
-    <div class="card" data-core="physics" data-mode="mistake">
-      <h3>Newton’s Laws – Common Errors</h3>
-      <p>Wrong FBDs, sign confusion, fake forces.</p>
-      <div class="badges">
-        <span class="badge">Physics</span>
-        <span class="badge">Mistake</span>
-      </div>
+    <div class="card" data-core="maths" data-mode="all">
+      <h3>Coordinate Geometry</h3>
+      <p>Straight lines, circles, parabola, ellipse, hyperbola.</p>
+      <div class="badges"><span class="badge">Maths</span></div>
     </div>
 
-    <!-- CHEMISTRY -->
-    <div class="card" data-core="chemistry" data-mode="jee">
-      <h3>Chemical Bonding – Logic</h3>
-      <p>Why shapes, why polarity, not memorisation.</p>
-      <div class="badges">
-        <span class="badge">Chemistry</span>
-        <span class="badge">JEE</span>
-      </div>
+    <div class="card" data-core="maths" data-mode="all">
+      <h3>Calculus</h3>
+      <p>Limits, continuity, differentiation, integration, applications.</p>
+      <div class="badges"><span class="badge">Maths</span></div>
     </div>
 
-    <!-- FORMULA LOGICS -->
-    <div class="card" data-core="formula" data-mode="base">
+    <div class="card" data-core="maths" data-mode="all">
+      <h3>Vectors & 3D Geometry</h3>
+      <p>Vector algebra, lines, planes, distances, angles.</p>
+      <div class="badges"><span class="badge">Maths</span></div>
+    </div>
+
+    <div class="card" data-core="maths" data-mode="all">
+      <h3>Probability</h3>
+      <p>Classical probability, conditional probability, Bayes’ theorem.</p>
+      <div class="badges"><span class="badge">Maths</span></div>
+    </div>
+
+    <!-- ================= PHYSICS ================= -->
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Kinematics</h3>
+      <p>Motion in 1D & 2D, graphs, relative motion.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Laws of Motion</h3>
+      <p>Newton’s laws, friction, FBD logic.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Work, Energy & Power</h3>
+      <p>Work-energy theorem, conservative forces.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Centre of Mass & Rotation</h3>
+      <p>COM motion, torque, angular momentum.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Gravitation</h3>
+      <p>Gravitational field, potential, satellites.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Electrostatics & Current Electricity</h3>
+      <p>Electric fields, capacitors, circuits.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Magnetism & EMI</h3>
+      <p>Magnetic fields, electromagnetic induction.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>AC & Optics</h3>
+      <p>Alternating current, ray & wave optics.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <div class="card" data-core="physics" data-mode="all">
+      <h3>Modern Physics</h3>
+      <p>Atoms, nuclei, semiconductors.</p>
+      <div class="badges"><span class="badge">Physics</span></div>
+    </div>
+
+    <!-- ================= CHEMISTRY ================= -->
+    <div class="card" data-core="chemistry" data-mode="all">
+      <h3>Mole Concept & Redox</h3>
+      <p>Stoichiometry, limiting reagent, oxidation-reduction.</p>
+      <div class="badges"><span class="badge">Chemistry</span></div>
+    </div>
+
+    <div class="card" data-core="chemistry" data-mode="all">
+      <h3>Chemical Bonding</h3>
+      <p>VSEPR, hybridisation, MO theory basics.</p>
+      <div class="badges"><span class="badge">Chemistry</span></div>
+    </div>
+
+    <div class="card" data-core="chemistry" data-mode="all">
+      <h3>Thermodynamics & Kinetics</h3>
+      <p>Enthalpy, entropy, rate laws.</p>
+      <div class="badges"><span class="badge">Chemistry</span></div>
+    </div>
+
+    <div class="card" data-core="chemistry" data-mode="all">
+      <h3>GOC & Hydrocarbons</h3>
+      <p>Reaction mechanisms, stability, conversions.</p>
+      <div class="badges"><span class="badge">Chemistry</span></div>
+    </div>
+
+    <div class="card" data-core="chemistry" data-mode="all">
+      <h3>Coordination Compounds</h3>
+      <p>Werner theory, isomerism, CFT.</p>
+      <div class="badges"><span class="badge">Chemistry</span></div>
+    </div>
+
+    <div class="card" data-core="chemistry" data-mode="all">
+      <h3>Biomolecules & Polymers</h3>
+      <p>Carbohydrates, proteins, polymers.</p>
+      <div class="badges"><span class="badge">Chemistry</span></div>
+    </div>
+
+    <!-- ================= FORMULA LOGICS ================= -->
+    <div class="card" data-core="formula" data-mode="all">
       <h3>Formula Usage Framework</h3>
-      <p>When, where, why, how to apply formulas.</p>
-      <div class="badges">
-        <span class="badge">Formula</span>
-        <span class="badge">Base</span>
-      </div>
+      <p>When to use, where to apply, why it works, common traps.</p>
+      <div class="badges"><span class="badge">Formula</span></div>
     </div>
 
   </div>
@@ -235,37 +318,34 @@ footer{
 <script>
 let activeCore = "all";
 let activeMode = "all";
-
 const cards = document.querySelectorAll(".card");
 
 function applyFilters(){
   cards.forEach(card=>{
     const core = card.dataset.core;
     const mode = card.dataset.mode;
-
     const coreMatch = activeCore === "all" || core === activeCore;
     const modeMatch = activeMode === "all" || mode === activeMode;
-
     card.classList.toggle("hidden", !(coreMatch && modeMatch));
   });
 }
 
 document.querySelectorAll("#coreFilters button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
+  btn.onclick = ()=>{
     document.querySelectorAll("#coreFilters button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     activeCore = btn.dataset.core;
     applyFilters();
-  });
+  };
 });
 
 document.querySelectorAll("#modeFilters button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
+  btn.onclick = ()=>{
     document.querySelectorAll("#modeFilters button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     activeMode = btn.dataset.mode;
     applyFilters();
-  });
+  };
 });
 </script>
 
