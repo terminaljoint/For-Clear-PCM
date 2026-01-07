@@ -120,7 +120,7 @@ const syllabus = {
           "Basic Idea":["Approaching a value","Neighbourhood concept"],
           "Left Hand Limit":["Approach from left","Notation & meaning"],
           "Right Hand Limit":["Approach from right","Notation & meaning"],
-          "Existence of Limit":["LHL = RHL condition","Non-existence cases"]
+          "Existence of Limit":["LHL = RHL condition","Non‑existence cases"]
         },
         "Standard Limits":{
           "Trigonometric Limits":["sinx/x","tanx/x","(1−cosx)/x²"],
@@ -147,7 +147,7 @@ const syllabus = {
         "Differentiability":{
           "Definition":["Left derivative","Right derivative"],
           "Relation with Continuity":["Differentiable ⇒ Continuous","Not vice versa"],
-          "Non-Differentiable Points":["Sharp corner","Cusp","Vertical tangent"]
+          "Non‑Differentiable Points":["Sharp corner","Cusp","Vertical tangent"]
         },
         "Piecewise Functions":{
           "Checking Continuity":["At junction points","Parameter based problems"],
@@ -305,7 +305,7 @@ const syllabus = {
           "Gravitational PE":["Near earth surface","General case"],
           "Spring PE":["Hooke law","PE = 1/2 kx^2"]
         },
-        "Conservative vs Non-Conservative Forces":["Path dependence","Examples"]
+        "Conservative vs Non‑Conservative Forces":["Path dependence","Examples"]
       },
       "Work Energy Theorem":["Statement","Proof idea","Applications"],
       "Power":{
@@ -680,7 +680,7 @@ const syllabus = {
         "Alkenes":{
           "Nomenclature":["IUPAC rules","E–Z notation"],
           "Preparation":["Dehydration of alcohols","Dehydrohalogenation"],
-          "Reactions":["Electrophilic addition","Markovnikov rule","Anti-Markovnikov"],
+          "Reactions":["Electrophilic addition","Markovnikov rule","Anti‑Markovnikov"],
           "Tests":["Baeyer test","Ozonolysis"]
         },
         "Alkynes":{
@@ -729,18 +729,26 @@ const syllabus = {
 let stack = [];
 let view, nav, breadcrumb, subjectBtns;
 
+function syncURL(){
+  const path = stack.join("/");
+  history.pushState({ stack:[...stack] }, "", path ? `#/${path}` : "#/");
+}
+
 function goSubject(sub){
   stack = [sub];
+  syncURL();
   render();
 }
 
 function goBack(){
   stack.pop();
+  syncURL();
   render();
 }
 
 function jumpTo(i){
   stack = stack.slice(0, i + 1);
+  syncURL();
   render();
 }
 
@@ -785,7 +793,7 @@ function render(){
       const d = document.createElement("div");
       d.className = "item";
       d.innerText = k;
-      d.onclick = () => { stack.push(k); render(); };
+      d.onclick = () => { stack.push(k); syncURL(); render(); };
       view.appendChild(d);
     });
   }
@@ -802,12 +810,29 @@ function renderLeaf(title, content){
     </div>`;
 }
 
-// INIT AFTER DOM LOAD
+// INIT AFTER DOM LOAD + HANDLE BROWSER BACK/FORWARD
 window.addEventListener("DOMContentLoaded", () => {
   view = document.getElementById("view");
   nav = document.getElementById("nav");
   breadcrumb = document.getElementById("breadcrumb");
   subjectBtns = document.querySelectorAll(".subject-btn");
+
+  if(location.hash.startsWith("#/")){
+    const parts = location.hash.replace("#/", "").split("/").filter(Boolean);
+    stack = parts;
+  }
+
+  render();
+});
+
+window.addEventListener("popstate", e => {
+  if(e.state?.stack){
+    stack = e.state.stack;
+  } else if(location.hash.startsWith("#/")){
+    stack = location.hash.replace("#/", "").split("/").filter(Boolean);
+  } else {
+    stack = [];
+  }
   render();
 });
 </script>
