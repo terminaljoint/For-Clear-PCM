@@ -1,132 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
 <title>For clear PCM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#0b0e1a;
-  --panel:#11162b;
-  --panel-soft:#151b36;
-  --border:#242c55;
-  --text:#eef1ff;
-  --muted:#9aa4d6;
-  --accent:#6ee7e0;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Comic Neue", system-ui, sans-serif;
-}
-
 body{
-  background:radial-gradient(circle at top, #0f1430, #0b0e1a 70%);
-  color:var(--text);
+  margin:0;
+  font-family:"Comic Neue", system-ui;
+  background:#0b0e1a;
+  color:#eef1ff;
 }
-
-/* ===== HEADER ===== */
 header{
-  padding:24px 30px;
-  border-bottom:1px solid var(--border);
+  padding:20px 28px;
+  border-bottom:1px solid #242c55;
 }
+.brand{font-size:2rem;font-weight:700}
+.tagline{color:#9aa4d6;margin-top:6px}
 
-.brand{
-  font-size:2.2rem;
-  font-weight:700;
-}
-
-.tagline{
-  font-size:0.95rem;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* ===== CONTROLS ===== */
 .controls{
   display:flex;
   gap:12px;
-  flex-wrap:wrap;
-  padding:16px 30px;
-  border-bottom:1px solid var(--border);
-  background:#0c1024;
+  padding:14px 28px;
+  border-bottom:1px solid #242c55;
 }
-
 .controls button{
   padding:8px 16px;
-  border-radius:20px;
-  border:1px solid var(--border);
+  border-radius:18px;
+  border:1px solid #242c55;
   background:transparent;
-  color:var(--text);
+  color:#eef1ff;
   cursor:pointer;
 }
-
 .controls button.active{
-  background:var(--accent);
+  background:#6ee7e0;
   color:#002b2b;
 }
 
-/* ===== LAYOUT ===== */
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:32px;
-}
+.container{padding:28px;max-width:1200px;margin:auto}
 
-/* ===== HOME ===== */
-.home{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:24px;
-}
-
-/* ===== CHAPTER ===== */
-.chapter{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:18px;
+.list{
+  background:#11162b;
+  border:1px solid #242c55;
+  border-radius:14px;
+  padding:16px;
   margin-bottom:14px;
+}
+
+.item{
+  padding:6px 10px;
+  margin:4px 0;
+  border-radius:10px;
   cursor:pointer;
 }
+.item:hover{background:#151b36}
 
-.chapter h3{
-  font-size:1.2rem;
+.hidden{display:none}
+
+/* Dialog */
+.backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
-
-.chapter p{
-  color:var(--muted);
-  font-size:0.9rem;
-  margin-top:6px;
+.dialog{
+  background:#11162b;
+  border:1px solid #242c55;
+  border-radius:16px;
+  width:min(900px,90%);
+  padding:20px;
 }
+.dialog h3{margin-top:0}
+.close{float:right;cursor:pointer;color:#9aa4d6}
 
-.content{
-  margin-top:14px;
-  padding-top:14px;
-  border-top:1px dashed var(--border);
-}
-
-.block{
-  background:var(--panel-soft);
-  border:1px solid var(--border);
+.mode-block{
+  display:none;
+  background:#151b36;
+  border:1px solid #242c55;
   border-radius:12px;
   padding:14px;
-  margin-bottom:10px;
-}
-
-.hidden{ display:none; }
-
-footer{
-  text-align:center;
-  padding:28px;
-  color:var(--muted);
-  font-size:0.8rem;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -135,311 +94,232 @@ footer{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="tagline">one page · real chapters · selection driven</div>
+  <div class="tagline">subject → chapter → topic → concept → clarity</div>
 </header>
 
-<!-- CORE -->
-<div class="controls" id="coreControls">
-  <button class="active" data-core="home">Home</button>
-  <button data-core="maths">Maths</button>
-  <button data-core="physics">Physics</button>
-  <button data-core="chemistry">Chemistry</button>
+<!-- HOME -->
+<div class="controls" id="subjectBar">
+  <button data-subject="physics">Physics</button>
+  <button data-subject="chemistry">Chemistry</button>
+  <button data-subject="maths">Maths</button>
 </div>
 
-<!-- MODE -->
-<div class="controls hidden" id="modeControls">
-  <button data-mode="base">Base Level</button>
+<div class="controls hidden" id="modeBar">
+  <button data-mode="base" class="active">Base Level</button>
   <button data-mode="jee">JEE Main</button>
   <button data-mode="mistake">Mistake Bank</button>
 </div>
 
 <div class="container">
-
-  <!-- HOME -->
-  <div class="home" id="homeView">
-    <h2>How to use</h2>
-    <p>Select a subject → select a chapter → choose depth using modes.</p>
-  </div>
-
-  <!-- ================= MATHS ================= -->
-  <div class="chapter hidden" data-core="maths">
-    <h3>Sets & Relations</h3>
-    <p>Set language, Venn logic, relations.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Definitions, symbols, Venn basics.</div>
-      <div class="block hidden" data-mode="jee">Cardinality, PYQ patterns.</div>
-      <div class="block hidden" data-mode="mistake">Subset vs element errors.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="maths">
-    <h3>Functions</h3>
-    <p>Domain, range, inverse, composition.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Mapping idea, definitions.</div>
-      <div class="block hidden" data-mode="jee">Injective/surjective traps.</div>
-      <div class="block hidden" data-mode="mistake">Domain negligence.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="maths">
-    <h3>Algebra</h3>
-    <p>Quadratic equations, sequences, binomial.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Core formulas.</div>
-      <div class="block hidden" data-mode="jee">Series & root logic.</div>
-      <div class="block hidden" data-mode="mistake">Wrong term identification.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="maths">
-    <h3>Coordinate Geometry</h3>
-    <p>Straight lines, circles, conics.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Equations & meaning.</div>
-      <div class="block hidden" data-mode="jee">Distance & locus traps.</div>
-      <div class="block hidden" data-mode="mistake">Formula misuse.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="maths">
-    <h3>Calculus</h3>
-    <p>Limits, differentiation, integration.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Conceptual meaning.</div>
-      <div class="block hidden" data-mode="jee">Application-heavy problems.</div>
-      <div class="block hidden" data-mode="mistake">Blind differentiation.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="maths">
-    <h3>Vectors & 3D Geometry</h3>
-    <p>Vectors, lines, planes.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Vector basics.</div>
-      <div class="block hidden" data-mode="jee">Line-plane relations.</div>
-      <div class="block hidden" data-mode="mistake">Direction confusion.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="maths">
-    <h3>Probability</h3>
-    <p>Classical, conditional, Bayes.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Sample space logic.</div>
-      <div class="block hidden" data-mode="jee">Conditional probability.</div>
-      <div class="block hidden" data-mode="mistake">Independent vs dependent.</div>
-    </div>
-  </div>
-
-  <!-- ================= PHYSICS ================= -->
-  <div class="chapter hidden" data-core="physics">
-    <h3>Kinematics</h3>
-    <p>Motion in 1D & 2D.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Displacement & velocity.</div>
-      <div class="block hidden" data-mode="jee">Graphs & relative motion.</div>
-      <div class="block hidden" data-mode="mistake">Sign errors.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="physics">
-    <h3>Laws of Motion</h3>
-    <p>Newton’s laws, friction.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Forces & FBD.</div>
-      <div class="block hidden" data-mode="jee">Pulley & wedge models.</div>
-      <div class="block hidden" data-mode="mistake">Pseudo force misuse.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="physics">
-    <h3>Work, Energy & Power</h3>
-    <p>Energy methods.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Work-energy theorem.</div>
-      <div class="block hidden" data-mode="jee">Variable force.</div>
-      <div class="block hidden" data-mode="mistake">Sign confusion.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="physics">
-    <h3>COM & Rotation</h3>
-    <p>Torque, angular momentum.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Rotational basics.</div>
-      <div class="block hidden" data-mode="jee">Rolling motion.</div>
-      <div class="block hidden" data-mode="mistake">Axis confusion.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="physics">
-    <h3>Gravitation</h3>
-    <p>Field, potential, satellites.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Newton’s law.</div>
-      <div class="block hidden" data-mode="jee">Orbital energy.</div>
-      <div class="block hidden" data-mode="mistake">Wrong reference.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="physics">
-    <h3>Electrostatics & Current Electricity</h3>
-    <p>Charge, field, circuits.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Basic laws.</div>
-      <div class="block hidden" data-mode="jee">Capacitors & circuits.</div>
-      <div class="block hidden" data-mode="mistake">Sign & direction errors.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="physics">
-    <h3>Magnetism & EMI</h3>
-    <p>Magnetic field & induction.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Lorentz force.</div>
-      <div class="block hidden" data-mode="jee">EMI problems.</div>
-      <div class="block hidden" data-mode="mistake">Right-hand rule misuse.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="physics">
-    <h3>AC, Optics & Modern Physics</h3>
-    <p>AC circuits, optics, atoms.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Core ideas.</div>
-      <div class="block hidden" data-mode="jee">Numerical models.</div>
-      <div class="block hidden" data-mode="mistake">Formula mismatch.</div>
-    </div>
-  </div>
-
-  <!-- ================= CHEMISTRY ================= -->
-  <div class="chapter hidden" data-core="chemistry">
-    <h3>Mole Concept & Redox</h3>
-    <p>Stoichiometry & oxidation.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Mole logic.</div>
-      <div class="block hidden" data-mode="jee">Limiting reagent.</div>
-      <div class="block hidden" data-mode="mistake">Unit errors.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="chemistry">
-    <h3>Chemical Bonding</h3>
-    <p>Structure & bonding.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">VSEPR & hybridisation.</div>
-      <div class="block hidden" data-mode="jee">MO theory logic.</div>
-      <div class="block hidden" data-mode="mistake">Shape memorisation.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="chemistry">
-    <h3>Thermodynamics & Kinetics</h3>
-    <p>Energy & reaction rates.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Core laws.</div>
-      <div class="block hidden" data-mode="jee">Numerical focus.</div>
-      <div class="block hidden" data-mode="mistake">Sign mistakes.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="chemistry">
-    <h3>GOC & Hydrocarbons</h3>
-    <p>Reaction mechanisms.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Conceptual base.</div>
-      <div class="block hidden" data-mode="jee">Mechanism problems.</div>
-      <div class="block hidden" data-mode="mistake">Stability errors.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="chemistry">
-    <h3>Coordination Compounds</h3>
-    <p>Complex chemistry.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Werner theory.</div>
-      <div class="block hidden" data-mode="jee">Isomerism.</div>
-      <div class="block hidden" data-mode="mistake">Oxidation confusion.</div>
-    </div>
-  </div>
-
-  <div class="chapter hidden" data-core="chemistry">
-    <h3>Biomolecules & Polymers</h3>
-    <p>Biological chemistry.</p>
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">Basic structures.</div>
-      <div class="block hidden" data-mode="jee">NCERT focus.</div>
-      <div class="block hidden" data-mode="mistake">Overthinking.</div>
-    </div>
-  </div>
-
+  <div class="list" id="chapterList"><strong>Select a subject</strong></div>
+  <div class="list hidden" id="topicList"></div>
+  <div class="list hidden" id="conceptList"></div>
 </div>
 
-<footer>
-  Built under TerminalJoint · For clear PCM
-</footer>
+<!-- DIALOG -->
+<div class="backdrop" id="dialog">
+  <div class="dialog">
+    <span class="close" onclick="closeDialog()">✕</span>
+    <h3 id="conceptTitle"></h3>
+
+    <div class="mode-block" data-mode="base">
+      <strong>Base Level</strong>
+      <p>Definitions, core formulas, meaning.</p>
+    </div>
+    <div class="mode-block" data-mode="jee">
+      <strong>JEE Main</strong>
+      <p>Application patterns and traps.</p>
+    </div>
+    <div class="mode-block" data-mode="mistake">
+      <strong>Mistake Bank</strong>
+      <p>Common wrong assumptions.</p>
+    </div>
+  </div>
+</div>
 
 <script>
-let selectedCore = "home";
-let selectedMode = null;
-let activeChapter = null;
-
-const homeView = document.getElementById("homeView");
-
-/* CORE */
-document.querySelectorAll("#coreControls button").forEach(btn=>{
-  btn.onclick = ()=>{
-    selectedCore = btn.dataset.core;
-
-    document.querySelectorAll("#coreControls button")
-      .forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-
-    document.getElementById("modeControls").classList.add("hidden");
-    selectedMode = null;
-
-    if(selectedCore === "home"){
-      homeView.classList.remove("hidden");
-      document.querySelectorAll(".chapter").forEach(c=>c.classList.add("hidden"));
-      return;
+/* ===== SYLLABUS DATA (ALL FROM "MY LIST FOR JEE") ===== */
+const syllabus = {
+  maths:{
+    "Sets & Functions":{
+      "Sets":["Types of Sets","Operations","Venn Diagrams"],
+      "Functions":["Domain & Range","Types of Functions","Inverse"]
+    },
+    "Algebra":{
+      "Quadratic Equations":["Roots","Nature of Roots"],
+      "Sequences & Series":["AP","GP"],
+      "Binomial Theorem":["General Term","Middle Term"]
+    },
+    "Coordinate Geometry":{
+      "Straight Lines":["Slope","Forms"],
+      "Circles":["Equation","Tangents"]
+    },
+    "Calculus":{
+      "Limits":["Standard Limits","LHL/RHL"],
+      "Differentiation":["Rules","Applications"],
+      "Integration":["Indefinite","Definite"]
+    },
+    "Vectors & 3D":{
+      "Vectors":["Dot Product","Cross Product"],
+      "3D Geometry":["Line","Plane"]
+    },
+    "Probability":{
+      "Probability":["Classical","Conditional","Bayes"]
     }
+  },
 
-    homeView.classList.add("hidden");
+  physics:{
+    "Kinematics":{
+      "1D Motion":["Equations","Graphs"],
+      "2D Motion":["Projectile","Relative Motion"]
+    },
+    "Laws of Motion":{
+      "Newton Laws":["FBD","Friction"]
+    },
+    "Work Energy Power":{
+      "Energy":["Work-Energy Theorem","Conservation"]
+    },
+    "COM & Rotation":{
+      "Rotation":["Torque","Angular Momentum"]
+    },
+    "Gravitation":{
+      "Gravitation":["Field","Potential","Satellites"]
+    },
+    "Electrostatics":{
+      "Electrostatics":["Field","Potential","Capacitors"]
+    },
+    "Current Electricity":{
+      "Circuits":["Ohm Law","Kirchhoff"]
+    },
+    "Magnetism & EMI":{
+      "Magnetism":["Lorentz Force","Biot Savart"],
+      "EMI":["Faraday Law","Lenz Law"]
+    },
+    "Optics & Modern":{
+      "Optics":["Ray","Wave"],
+      "Modern Physics":["Atoms","Nuclei","Semiconductors"]
+    }
+  },
 
-    document.querySelectorAll(".chapter").forEach(ch=>{
-      ch.classList.toggle("hidden", ch.dataset.core !== selectedCore);
-      ch.querySelector(".content").classList.add("hidden");
-    });
-  };
-});
+  chemistry:{
+    "Mole Concept":{
+      "Stoichiometry":["Mole","Limiting Reagent"]
+    },
+    "Redox":{
+      "Redox":["Oxidation Number","Balancing"]
+    },
+    "Chemical Bonding":{
+      "Bonding":["VSEPR","Hybridisation","MO Theory"]
+    },
+    "Thermodynamics":{
+      "Thermodynamics":["Enthalpy","Entropy","Gibbs"]
+    },
+    "Kinetics":{
+      "Kinetics":["Rate Law","Arrhenius"]
+    },
+    "GOC":{
+      "GOC":["Inductive","Resonance","Hyperconjugation"]
+    },
+    "Hydrocarbons":{
+      "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
+    },
+    "Coordination Compounds":{
+      "Coordination":["Werner","Isomerism","CFT"]
+    },
+    "Biomolecules":{
+      "Biomolecules":["Carbohydrates","Proteins"]
+    },
+    "Polymers":{
+      "Polymers":["Types","Reactions"]
+    }
+  }
+};
 
-/* CHAPTER */
-document.querySelectorAll(".chapter").forEach(ch=>{
-  ch.onclick = ()=>{
-    activeChapter = ch;
-    document.getElementById("modeControls").classList.remove("hidden");
-    document.querySelectorAll(".content").forEach(c=>c.classList.add("hidden"));
-    ch.querySelector(".content").classList.remove("hidden");
-  };
-});
+let currentMode="base";
 
 /* MODE */
-document.querySelectorAll("#modeControls button").forEach(btn=>{
-  btn.onclick = ()=>{
-    selectedMode = btn.dataset.mode;
-
-    document.querySelectorAll("#modeControls button")
-      .forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-
-    if(!activeChapter) return;
-
-    activeChapter.querySelectorAll(".block").forEach(block=>{
-      block.classList.toggle("hidden", block.dataset.mode !== selectedMode);
-    });
-  };
+document.querySelectorAll("#modeBar button").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll("#modeBar button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    currentMode=b.dataset.mode;
+    updateDialog();
+  }
 });
+
+let currentConcept="";
+
+/* SUBJECT */
+document.querySelectorAll("#subjectBar button").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll("#subjectBar button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    document.getElementById("modeBar").classList.remove("hidden");
+    loadChapters(b.dataset.subject);
+  }
+});
+
+function loadChapters(subject){
+  const cl=document.getElementById("chapterList");
+  const tl=document.getElementById("topicList");
+  const col=document.getElementById("conceptList");
+  tl.classList.add("hidden"); col.classList.add("hidden");
+
+  cl.innerHTML="<strong>Chapters</strong>";
+  Object.keys(syllabus[subject]).forEach(ch=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=ch;
+    d.onclick=()=>loadTopics(subject,ch);
+    cl.appendChild(d);
+  });
+}
+
+function loadTopics(subject,chapter){
+  const tl=document.getElementById("topicList");
+  const col=document.getElementById("conceptList");
+  col.classList.add("hidden");
+
+  tl.classList.remove("hidden");
+  tl.innerHTML="<strong>Topics</strong>";
+  Object.keys(syllabus[subject][chapter]).forEach(tp=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=tp;
+    d.onclick=()=>loadConcepts(subject,chapter,tp);
+    tl.appendChild(d);
+  });
+}
+
+function loadConcepts(subject,chapter,topic){
+  const col=document.getElementById("conceptList");
+  col.classList.remove("hidden");
+  col.innerHTML="<strong>Concepts</strong>";
+  syllabus[subject][chapter][topic].forEach(c=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=c;
+    d.onclick=()=>openDialog(c);
+    col.appendChild(d);
+  });
+}
+
+function openDialog(c){
+  currentConcept=c;
+  document.getElementById("conceptTitle").innerText=c;
+  document.getElementById("dialog").style.display="flex";
+  updateDialog();
+}
+
+function updateDialog(){
+  document.querySelectorAll(".mode-block").forEach(b=>{
+    b.style.display=b.dataset.mode===currentMode?"block":"none";
+  });
+}
+
+function closeDialog(){
+  document.getElementById("dialog").style.display="none";
+}
 </script>
 
 </body>
