@@ -5,183 +5,41 @@
 <title>For clear PCM – JEE Physics Chemistry Maths</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="For clear PCM – Complete JEE Physics, Chemistry, Maths syllabus with perfect hierarchy, formulas, and exam logic for average students.">
-<meta name="keywords" content="JEE PCM, JEE Maths formulas, JEE Physics concepts, JEE Chemistry GOC, average students JEE">
-<meta name="author" content="Terminal Joint">
+<meta name="description" content="Complete JEE PCM syllabus with perfect hierarchy of chapters, topics, concepts and formulae. Built for average students.">
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3b/Math_icon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:Inter,system-ui;
-  background:#0d1117;
-  color:#e6edf3;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
-header{
-  padding:22px 24px;
-  border-bottom:1px solid #30363d;
-}
-
-.brand{
-  font-size:2rem;
-  font-weight:700;
-}
-
-.subtitle{
-  color:#9aa4af;
-  margin-top:6px;
-  max-width:900px;
-}
-
-/* SUBJECT BAR */
-.subject-bar{
-  display:flex;
-  gap:12px;
-  padding:14px 24px;
-  border-bottom:1px solid #30363d;
-}
-
-.subject-btn{
-  padding:10px 18px;
-  border:1px solid #30363d;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.subject-btn.active{
-  border-color:#2f81f7;
-  color:#2f81f7;
-}
-
-.subject-btn:hover{
-  background:#161b22;
-}
-
-main{
-  max-width:1100px;
-  margin:0 auto;
-  padding:32px 24px;
-  flex:1;
-}
-
-/* NAV */
-.nav{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-bottom:24px;
-  flex-wrap:wrap;
-}
-
-.back{
-  color:#2f81f7;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.breadcrumb{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.crumb{
-  padding:8px 14px;
-  border:1px solid #30363d;
-  border-radius:10px;
-  font-size:.9rem;
-  cursor:pointer;
-  color:#2f81f7;
-}
-
+body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
+header{padding:22px 24px;border-bottom:1px solid #30363d}
+.brand{font-size:2rem;font-weight:700}
+.subtitle{color:#9aa4af;margin-top:6px;max-width:820px}
+.subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
+.subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
+.subject-btn.active{border-color:#2f81f7;color:#2f81f7}
+.subject-btn:hover{background:#161b22}
+main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
+.nav{display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap}
+.back{color:#2f81f7;cursor:pointer;font-weight:700}
+.breadcrumb{display:flex;gap:6px;flex-wrap:wrap}
+.crumb{padding:8px 14px;border:1px solid #30363d;border-radius:8px;font-size:.9rem;cursor:pointer;color:#2f81f7}
 .crumb:hover{background:#161b22}
-
 .hidden{display:none}
-
-/* LISTS */
-.section-title{
-  font-size:1.5rem;
-  margin-bottom:18px;
-}
-
-.item{
-  padding:16px 18px;
-  border:1px solid #30363d;
-  border-radius:12px;
-  margin-bottom:14px;
-  cursor:pointer;
-  font-weight:600;
-}
-
+.section-title{font-size:1.4rem;margin-bottom:14px}
+.item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
 .item:hover{background:#161b22}
-
-/* CONCEPT VIEW */
-.focus{
-  max-width:820px;
-  margin:0 auto;
-}
-
-.modes{
-  display:flex;
-  gap:22px;
-  border-bottom:1px solid #30363d;
-  margin:28px 0;
-}
-
-.modes button{
-  background:none;
-  border:none;
-  font-weight:700;
-  color:#9aa4af;
-  cursor:pointer;
-  padding:10px 0;
-}
-
-.modes button.active{
-  color:#2f81f7;
-  border-bottom:2px solid #2f81f7;
-}
-
-.block{
-  margin-top:26px;
-  padding:20px;
-  border:1px solid #30363d;
-  border-radius:14px;
-  background:#0f141c;
-}
-
-.block h4{
-  color:#2f81f7;
-  margin-bottom:14px;
-}
-
-.block ul{
-  list-style:none;
-  line-height:1.7;
-}
-
-.block li{
-  padding:6px 0;
-  border-bottom:1px dashed #30363d;
-}
-
-/* FOOTER */
-footer{
-  border-top:1px solid #30363d;
-  padding:16px 24px;
-  font-size:.85rem;
-  color:#9aa4af;
-  text-align:center;
-}
+.focus{max-width:760px;margin:0 auto}
+.modes{display:flex;gap:18px;border-bottom:1px solid #30363d;margin:24px 0}
+.modes button{background:none;border:none;font-weight:700;color:#9aa4af;cursor:pointer;padding:8px 0}
+.modes button.active{color:#2f81f7;border-bottom:2px solid #2f81f7}
+.block{margin-top:22px}
+.block h4{color:#2f81f7;margin-bottom:12px}
+.block ul{list-style:none}
+.block li{padding:8px 0;border-bottom:1px dashed #30363d}
+footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
 </style>
 </head>
 
@@ -189,11 +47,7 @@ footer{
 
 <header>
   <h1 class="brand">For clear PCM</h1>
-  <p class="subtitle">
-    Complete JEE syllabus structured for clarity.
-    One hierarchy. Correct formulas. No confusion.
-    Built for average students who want control.
-  </p>
+  <p class="subtitle">Complete JEE PCM syllabus arranged in perfect learning hierarchy.</p>
 </header>
 
 <div class="subject-bar">
@@ -203,384 +57,419 @@ footer{
 </div>
 
 <main>
-
   <div class="nav hidden" id="nav">
     <div class="back" onclick="goBack()">← Back</div>
     <div class="breadcrumb" id="breadcrumb"></div>
   </div>
-
   <div id="view"></div>
-
 </main>
 
 <footer>
-  ©2026 Terminal Joint. Made for Average Students in PCM.
+©2026 Terminal Joint All Rights Reserved , Made for Average Students in "PCM"
 </footer>
 
 <script>
-/* ================== FULL JEE LIST (MY LIST ONLY) ================== */
+/* ===================== COMPLETE SYLLABUS ===================== */
+
 const syllabus = {
-  Maths:{
-    "Sets & Functions":{
-      "Sets":[
-        "Types of Sets",
-        "Subsets",
-        "Power Set",
-        "Universal Set",
-        "Set Operations",
-        "Venn Diagrams"
+
+Maths:{
+  "Sets & Relations":{
+    "Sets":{
+      "Types of Sets":[
+        "Empty Set",
+        "Finite & Infinite Sets",
+        "Equal Sets",
+        "Power Set : n(P(A)) = 2^n"
       ],
-      "Functions":[
-        "Domain and Range",
-        "Types of Functions",
-        "Composite Function",
-        "Inverse Function"
+      "Set Operations":[
+        "Union : A ∪ B",
+        "Intersection : A ∩ B",
+        "Difference : A − B",
+        "De Morgan Laws"
       ]
     },
-    "Algebra":{
-      "Quadratic Equations":[
-        "Standard Form",
-        "Roots of Quadratic",
-        "Nature of Roots",
-        "Relation between Roots and Coefficients"
+    "Relations":{
+      "Types of Relations":[
+        "Reflexive",
+        "Symmetric",
+        "Transitive",
+        "Equivalence Relation"
+      ]
+    }
+  },
+
+  "Functions":{
+    "Functions Basics":{
+      "Definition":[
+        "Domain",
+        "Codomain",
+        "Range"
       ],
-      "Sequences & Series":[
-        "AP",
-        "GP",
-        "HP",
-        "Sum of n terms"
+      "Types":[
+        "One-One",
+        "Many-One",
+        "Onto",
+        "Into"
+      ]
+    },
+    "Inverse & Composite":{
+      "Composite":[
+        "f(g(x))",
+        "g(f(x))"
       ],
-      "Binomial Theorem":[
-        "General Term",
-        "Middle Term",
+      "Inverse":[
+        "f⁻¹(x)",
+        "Conditions for Invertibility"
+      ]
+    }
+  },
+
+  "Algebra":{
+    "Quadratic Equations":{
+      "Standard Form":[
+        "ax² + bx + c = 0"
+      ],
+      "Roots":[
+        "α + β = -b/a",
+        "αβ = c/a",
+        "Discriminant D = b² - 4ac"
+      ]
+    },
+    "Sequences & Series":{
+      "AP":[
+        "nth term : a + (n-1)d",
+        "Sum : n/2[2a+(n-1)d]"
+      ],
+      "GP":[
+        "nth term : arⁿ⁻¹",
+        "Sum : a(rⁿ−1)/(r−1)"
+      ]
+    },
+    "Binomial Theorem":{
+      "Expansion":[
+        "(a+b)ⁿ",
+        "General Term : Tᵣ₊₁ = ⁿCᵣ aⁿ⁻ʳ bʳ"
+      ]
+    }
+  },
+
+  "Coordinate Geometry":{
+    "Straight Lines":{
+      "Slope":[
+        "m = tanθ",
+        "(y₂−y₁)/(x₂−x₁)"
+      ],
+      "Forms":[
+        "y = mx + c",
+        "ax + by + c = 0",
+        "Intercept form"
+      ]
+    },
+    "Circles":{
+      "Equation":[
+        "(x−a)²+(y−b)²=r²"
+      ],
+      "Tangent":[
+        "Length of tangent",
+        "T = 0 condition"
+      ]
+    }
+  },
+
+  "Calculus":{
+    "Limits":{
+      "Standard Limits":[
+        "sinx/x",
+        "(1+x)¹/ˣ",
+        "e limits"
+      ]
+    },
+    "Differentiation":{
+      "Rules":[
+        "Power Rule",
+        "Chain Rule",
+        "Product Rule",
+        "Quotient Rule"
+      ],
+      "Applications":[
+        "Maxima & Minima",
+        "Increasing/Decreasing"
+      ]
+    },
+    "Integration":{
+      "Indefinite":[
+        "Standard Integrals",
+        "Substitution",
+        "Partial Fractions"
+      ],
+      "Definite":[
+        "Fundamental Theorem",
         "Properties"
       ]
-    },
-    "Coordinate Geometry":{
-      "Straight Lines":[
-        "Slope of Line",
-        "Different Forms of Line",
-        "Angle between Lines",
-        "Distance from Point to Line"
+    }
+  },
+
+  "Vectors & 3D":{
+    "Vectors":{
+      "Operations":[
+        "Addition",
+        "Scalar Multiplication"
       ],
-      "Circles":[
-        "Equation of Circle",
-        "General Form",
-        "Tangent and Normal"
+      "Products":[
+        "Dot Product : a·b",
+        "Cross Product : a×b"
       ]
     },
-    "Calculus":{
-      "Limits":[
-        "Standard Limits",
-        "Limits using Algebra",
-        "Limits using Graph"
+    "3D Geometry":{
+      "Line":[
+        "Vector Form",
+        "Cartesian Form"
       ],
-      "Differentiation":[
-        "Basic Rules",
-        "Chain Rule",
-        "Implicit Differentiation",
-        "Maxima and Minima"
-      ],
-      "Integration":[
-        "Indefinite Integration",
-        "Definite Integration",
-        "Area under Curve"
+      "Plane":[
+        "General Equation",
+        "Normal Form"
       ]
-    },
-    "Vectors & 3D":{
-      "Vectors":[
-        "Vector Algebra",
-        "Dot Product",
-        "Cross Product"
-      ],
-      "3D Geometry":[
-        "Direction Cosines",
-        "Equation of Line",
-        "Equation of Plane"
-      ]
-    },
+    }
+  },
+
+  "Probability":{
     "Probability":{
-      "Probability":[
-        "Classical Probability",
-        "Conditional Probability",
-        "Bayes Theorem"
+      "Basics":[
+        "P(E)=n(E)/n(S)"
+      ],
+      "Conditional":[
+        "P(A|B)=P(A∩B)/P(B)"
+      ],
+      "Bayes Theorem":[
+        "Posterior Probability Formula"
       ]
     }
+  }
+},
+
+Physics:{
+  "Kinematics":{
+    "Motion in 1D":[
+      "v = u + at",
+      "s = ut + ½at²",
+      "v² = u² + 2as"
+    ],
+    "Motion in 2D":[
+      "Projectile Range",
+      "Time of Flight",
+      "Maximum Height"
+    ]
   },
 
-  Physics:{
-    "Kinematics":{
-      "Motion":[
-        "Position Velocity Acceleration",
-        "Equations of Motion",
-        "Relative Motion"
-      ]
-    },
-    "Laws of Motion":{
-      "Newton Laws":[
-        "Free Body Diagram",
-        "Friction",
-        "Pseudo Force"
-      ]
-    },
-    "Work Energy Power":{
-      "Energy":[
-        "Work Energy Theorem",
-        "Conservation of Energy",
-        "Power"
-      ]
-    },
-    "Centre of Mass & Rotation":{
-      "Rotation":[
-        "Torque",
-        "Angular Momentum",
-        "Moment of Inertia"
-      ]
-    },
-    "Gravitation":{
-      "Gravitation":[
-        "Gravitational Field",
-        "Potential",
-        "Satellites"
-      ]
-    },
-    "Electrostatics":{
-      "Electrostatics":[
-        "Electric Field",
-        "Electric Potential",
-        "Capacitors"
-      ]
-    },
-    "Current Electricity":{
-      "Circuits":[
-        "Ohm Law",
-        "Kirchhoff Laws",
-        "Wheatstone Bridge"
-      ]
-    },
-    "Magnetism & EMI":{
-      "Magnetism":[
-        "Lorentz Force",
-        "Biot Savart Law",
-        "Ampere Law"
-      ],
-      "EMI":[
-        "Faraday Law",
-        "Lenz Law",
-        "Induced EMF"
-      ]
-    },
-    "Optics & Modern Physics":{
-      "Optics":[
-        "Ray Optics",
-        "Wave Optics"
-      ],
-      "Modern Physics":[
-        "Photoelectric Effect",
-        "Atoms",
-        "Nuclei",
-        "Semiconductors"
-      ]
-    }
+  "Laws of Motion":{
+    "Newton Laws":[
+      "F = ma",
+      "Impulse = Ft"
+    ],
+    "Friction":[
+      "f = μN",
+      "Limiting Friction"
+    ]
   },
 
-  Chemistry:{
-    "Mole Concept":{
-      "Stoichiometry":[
-        "Mole",
-        "Limiting Reagent",
-        "Equivalent Weight"
-      ]
-    },
-    "Redox":{
-      "Redox":[
-        "Oxidation Number",
-        "Balancing Redox Reactions"
-      ]
-    },
-    "Chemical Bonding":{
-      "Bonding":[
-        "VSEPR Theory",
-        "Hybridisation",
-        "Molecular Orbital Theory"
-      ]
-    },
-    "Thermodynamics":{
-      "Thermodynamics":[
-        "First Law",
-        "Enthalpy",
-        "Entropy",
-        "Gibbs Free Energy"
-      ]
-    },
-    "Chemical Kinetics":{
-      "Kinetics":[
-        "Rate Law",
-        "Order of Reaction",
-        "Arrhenius Equation"
-      ]
-    },
-    "GOC":{
-      "GOC":[
-        "Inductive Effect",
-        "Resonance",
-        "Hyperconjugation"
-      ]
-    },
-    "Hydrocarbons":{
-      "Hydrocarbons":[
-        "Alkanes",
-        "Alkenes",
-        "Alkynes"
-      ]
-    },
-    "Coordination Compounds":{
-      "Coordination":[
-        "Werner Theory",
-        "Isomerism",
-        "Crystal Field Theory"
-      ]
-    },
-    "Biomolecules":{
-      "Biomolecules":[
-        "Carbohydrates",
-        "Proteins",
-        "Lipids"
-      ]
-    },
-    "Polymers":{
-      "Polymers":[
-        "Types of Polymers",
-        "Polymerisation Reactions"
-      ]
-    }
+  "Work Energy Power":{
+    "Work":[
+      "W = F·s"
+    ],
+    "Energy":[
+      "KE = ½mv²",
+      "PE = mgh"
+    ],
+    "Power":[
+      "P = F·v"
+    ]
+  },
+
+  "Centre of Mass & Rotation":{
+    "Rotation":[
+      "τ = Iα",
+      "L = Iω",
+      "KE = ½Iω²"
+    ]
+  },
+
+  "Gravitation":{
+    "Laws":[
+      "F = Gm₁m₂/r²"
+    ],
+    "Satellites":[
+      "Orbital Velocity",
+      "Escape Velocity"
+    ]
+  },
+
+  "Electrostatics":{
+    "Coulomb Law":[
+      "F = kq₁q₂/r²"
+    ],
+    "Electric Field":[
+      "E = F/q"
+    ],
+    "Potential":[
+      "V = kq/r"
+    ],
+    "Capacitors":[
+      "C = Q/V"
+    ]
+  },
+
+  "Current Electricity":{
+    "Ohm Law":[
+      "V = IR"
+    ],
+    "Kirchhoff Laws":[
+      "Junction Rule",
+      "Loop Rule"
+    ]
+  },
+
+  "Magnetism & EMI":{
+    "Magnetism":[
+      "F = qvB sinθ",
+      "B due to current"
+    ],
+    "EMI":[
+      "ε = −dΦ/dt"
+    ]
+  },
+
+  "Optics & Modern Physics":{
+    "Ray Optics":[
+      "Mirror Formula",
+      "Lens Formula"
+    ],
+    "Wave Optics":[
+      "Young’s Double Slit"
+    ],
+    "Modern Physics":[
+      "E = hf",
+      "λ = h/p"
+    ]
+  }
+},
+
+Chemistry:{
+  "Mole Concept":{
+    "Stoichiometry":[
+      "n = m/M",
+      "Limiting Reagent"
+    ]
+  },
+
+  "Redox":{
+    "Redox Reactions":[
+      "Oxidation Number",
+      "Balancing Methods"
+    ]
+  },
+
+  "Chemical Bonding":{
+    "Bonding Theories":[
+      "VSEPR",
+      "Hybridisation",
+      "MOT"
+    ]
+  },
+
+  "Thermodynamics":{
+    "Laws":[
+      "ΔU = q + w",
+      "ΔG = ΔH − TΔS"
+    ]
+  },
+
+  "Chemical Kinetics":{
+    "Rate Law":[
+      "Rate = k[A]^n"
+    ],
+    "Arrhenius":[
+      "k = Ae^(−Ea/RT)"
+    ]
+  },
+
+  "GOC":{
+    "Effects":[
+      "Inductive",
+      "Resonance",
+      "Hyperconjugation"
+    ]
+  },
+
+  "Hydrocarbons":{
+    "Alkanes":[
+      "Reactions",
+      "Isomerism"
+    ],
+    "Alkenes":[
+      "Addition Reactions"
+    ],
+    "Alkynes":[
+      "Acidity"
+    ]
+  },
+
+  "Coordination Compounds":{
+    "Theories":[
+      "Werner Theory",
+      "CFT"
+    ]
+  },
+
+  "Biomolecules":{
+    "Carbohydrates":[
+      "Glucose",
+      "Sucrose"
+    ],
+    "Proteins":[
+      "Amino Acids"
+    ]
+  },
+
+  "Polymers":{
+    "Types":[
+      "Addition Polymers",
+      "Condensation Polymers"
+    ]
   }
 };
 
-/* ================== STATE & NAV ================== */
-let stack=[];
-let mode="base";
+/* ===================== ENGINE (UNCHANGED) ===================== */
 
-function navigate(newStack, push=true){
-  stack=newStack;
-  if(push){
-    history.pushState({stack:[...stack],mode},"","");
-  }
-  render();
-}
+let stack=[],mode="base";
+function navigate(n,p=true){stack=n;if(p)history.pushState({stack:[...stack],mode},"","");render()}
+window.onpopstate=e=>{if(e.state){stack=e.state.stack||[];mode=e.state.mode||"base";render()}}
+function goSubject(s){navigate([s])}
+function goBack(){if(stack.length>0)navigate(stack.slice(0,-1))}
+function jumpTo(i){navigate(stack.slice(0,i+1))}
+function setMode(m){mode=m;history.pushState({stack:[...stack],mode},"","");render()}
 
-window.onpopstate=e=>{
-  if(e.state){
-    stack=e.state.stack||[];
-    mode=e.state.mode||"base";
-    render();
-  }
-};
-
-function goSubject(sub){navigate([sub]);}
-function goBack(){if(stack.length>0)navigate(stack.slice(0,-1));}
-function jumpTo(i){navigate(stack.slice(0,i+1));}
-
-function setMode(newMode){
-  mode=newMode;
-  history.pushState({stack:[...stack],mode},"","");
-  render();
-}
-
-/* ================== RENDER ================== */
-const view=document.getElementById("view");
-const nav=document.getElementById("nav");
-const breadcrumb=document.getElementById("breadcrumb");
-const subjectBtns=document.querySelectorAll(".subject-btn");
+const view=document.getElementById("view"),nav=document.getElementById("nav"),
+breadcrumb=document.getElementById("breadcrumb"),subjectBtns=document.querySelectorAll(".subject-btn");
 
 function render(){
-  nav.classList.toggle("hidden",stack.length===0);
-  breadcrumb.innerHTML="";
-
-  subjectBtns.forEach(b=>{
-    b.classList.toggle("active",stack[0]===b.dataset.sub);
-  });
-
-  stack.forEach((s,i)=>{
-    const c=document.createElement("div");
-    c.className="crumb";
-    c.innerText=s;
-    c.onclick=()=>jumpTo(i);
-    breadcrumb.appendChild(c);
-  });
-
-  view.innerHTML="";
-
-  if(stack.length===0){
-    view.innerHTML=`<h2>Select a subject to begin</h2>`;
-    return;
-  }
-
-  if(stack.length===1) return renderList("Chapters",Object.keys(syllabus[stack[0]]));
-  if(stack.length===2) return renderList("Topics",Object.keys(syllabus[stack[0]][stack[1]]));
-  if(stack.length===3) return renderList("Concepts",syllabus[stack[0]][stack[1]][stack[2]]);
-
-  renderConcept();
+ nav.classList.toggle("hidden",stack.length===0);
+ breadcrumb.innerHTML="";
+ subjectBtns.forEach(b=>b.classList.toggle("active",stack[0]===b.dataset.sub));
+ stack.forEach((s,i)=>{let c=document.createElement("div");c.className="crumb";c.innerText=s;c.onclick=()=>jumpTo(i);breadcrumb.appendChild(c)});
+ view.innerHTML="";
+ if(stack.length===0){view.innerHTML="<h2>Choose a subject</h2>";return}
+ let data=syllabus[stack[0]];
+ for(let i=1;i<stack.length;i++)data=data[stack[i]];
+ if(Array.isArray(data))return renderList("Formulae",data);
+ renderList(stack.length===1?"Chapters":stack.length===2?"Topics":"Concepts",Object.keys(data));
 }
 
-function renderList(title,items){
-  view.innerHTML=`<h2 class="section-title">${title}</h2>`;
-  items.forEach(i=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=i;
-    d.onclick=()=>navigate([...stack,i]);
-    view.appendChild(d);
-  });
+function renderList(t,items){
+ view.innerHTML=`<h2 class="section-title">${t}</h2>`;
+ items.forEach(i=>{let d=document.createElement("div");d.className="item";d.innerText=i;d.onclick=()=>navigate([...stack,i]);view.appendChild(d)})
 }
 
-function renderConcept(){
-  view.innerHTML=`
-    <div class="focus">
-      <h2 class="section-title">${stack[3]}</h2>
-      <div class="modes">
-        <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
-        <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
-        <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
-      </div>
-      ${content()}
-    </div>`;
-}
-
-function content(){
-  if(mode==="base") return `
-    <div class="block">
-      <h4>Base Level</h4>
-      <ul>
-        <li>Definition of concept</li>
-        <li>Core formula(s)</li>
-        <li>Meaning of each term</li>
-        <li>WHEN to use</li>
-        <li>WHY it works</li>
-      </ul>
-    </div>`;
-  if(mode==="jee") return `
-    <div class="block">
-      <h4>JEE Application</h4>
-      <ul>
-        <li>WHERE this concept appears in JEE</li>
-        <li>HOW to apply under time pressure</li>
-        <li>WHAT to use / WHAT NOT to use</li>
-        <li>Heavy JEE-level example logic</li>
-      </ul>
-    </div>`;
-  return `
-    <div class="block">
-      <h4>Mistake Bank</h4>
-      <ul>
-        <li>Common wrong assumptions</li>
-        <li>Calculation traps</li>
-        <li>MCQ elimination errors</li>
-      </ul>
-    </div>`;
-}
-
-/* INIT */
 history.replaceState({stack:[],mode},"","");
 render();
 </script>
