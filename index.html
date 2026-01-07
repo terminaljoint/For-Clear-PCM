@@ -5,7 +5,7 @@
 <title>For clear PCM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 body{
@@ -16,68 +16,108 @@ body{
 }
 
 header{
-  padding:24px 32px;
+  padding:18px 24px;
   border-bottom:1px solid #30363d;
 }
 
-.brand{font-size:2.2rem;font-weight:700}
-.subtitle{color:#8b949e;margin-top:6px}
+.brand{
+  font-size:1.8rem;
+  font-weight:700;
+}
 
-main{max-width:1000px;margin:0 auto;padding:32px}
+.sub{
+  font-size:0.9rem;
+  color:#8b949e;
+  margin-top:4px;
+}
+
+main{
+  max-width:900px;
+  margin:0 auto;
+  padding:24px;
+}
 
 .hidden{display:none}
 
-h2{margin-bottom:12px}
-p{color:#8b949e}
-
-.list-item{
-  padding:12px 14px;
-  border:1px solid #30363d;
-  border-radius:6px;
-  margin-bottom:10px;
-  cursor:pointer;
+/* NAV BAR */
+.navbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
 }
-.list-item:hover{background:#161b22}
-.list-item.active{
-  border-color:#2f81f7;
+
+.back{
+  cursor:pointer;
   color:#2f81f7;
+  font-size:0.9rem;
 }
 
 .breadcrumb{
   font-size:0.85rem;
   color:#8b949e;
-  margin-bottom:14px;
 }
 
-/* Concept focus */
+.breadcrumb span{
+  cursor:pointer;
+  color:#2f81f7;
+}
+
+/* LIST */
+.list h2{
+  font-size:1.3rem;
+  margin-bottom:12px;
+}
+
+.item{
+  padding:10px 12px;
+  border:1px solid #30363d;
+  border-radius:6px;
+  margin-bottom:8px;
+  cursor:pointer;
+}
+
+.item:hover{
+  background:#161b22;
+}
+
+/* MODES */
 .modes{
   display:flex;
   gap:12px;
-  margin:20px 0;
   border-bottom:1px solid #30363d;
+  margin-bottom:16px;
 }
+
 .modes button{
   background:none;
   border:none;
-  padding:8px 10px;
-  color:#8b949e;
+  padding:8px 6px;
   cursor:pointer;
+  color:#8b949e;
+  font-weight:700;
 }
+
 .modes button.active{
   color:#2f81f7;
   border-bottom:2px solid #2f81f7;
 }
 
+/* CONTENT */
 .section{
-  margin-top:18px;
+  margin-top:16px;
 }
-.section h4{
+
+.section h3{
+  font-size:1.1rem;
   color:#2f81f7;
   margin-bottom:8px;
 }
+
 .section ol{
   margin-left:20px;
 }
+
 .section li{
   margin-bottom:6px;
 }
@@ -88,227 +128,240 @@ p{color:#8b949e}
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="subtitle">browse → focus → master</div>
+  <div class="sub">simple navigation · focused study</div>
 </header>
 
 <main>
 
-<!-- HOME -->
-<section id="home">
-  <h2>Select a subject</h2>
-  <div class="list-item" onclick="selectSubject('maths')">Maths</div>
-  <div class="list-item" onclick="selectSubject('physics')">Physics</div>
-  <div class="list-item" onclick="selectSubject('chemistry')">Chemistry</div>
-</section>
-
-<!-- SUBJECT -->
-<section id="subjectView" class="hidden">
-  <div class="breadcrumb" id="subjectCrumb"></div>
-  <h2>Chapters</h2>
-  <div id="chapterList"></div>
-</section>
-
-<!-- CHAPTER -->
-<section id="chapterView" class="hidden">
-  <div class="breadcrumb" id="chapterCrumb"></div>
-  <h2>Topics</h2>
-  <div id="topicList"></div>
-</section>
-
-<!-- TOPIC -->
-<section id="topicView" class="hidden">
-  <div class="breadcrumb" id="topicCrumb"></div>
-  <h2>Concepts</h2>
-  <div id="conceptList"></div>
-</section>
-
-<!-- CONCEPT FOCUS -->
-<section id="conceptView" class="hidden">
-  <div class="breadcrumb" id="conceptCrumb"></div>
-  <h2 id="conceptTitle"></h2>
-
-  <div class="modes">
-    <button class="active" onclick="setMode('base')">Base Level</button>
-    <button onclick="setMode('jee')">JEE Main</button>
-    <button onclick="setMode('mistake')">Mistake Bank</button>
+  <!-- NAV -->
+  <div class="navbar hidden" id="nav">
+    <div class="back" onclick="goBack()">← Back</div>
+    <div class="breadcrumb" id="breadcrumb"></div>
   </div>
 
-  <div id="content"></div>
-</section>
+  <!-- VIEW -->
+  <div id="view"></div>
 
 </main>
 
 <script>
-/* FULL SYLLABUS */
-const syllabus = {
- maths:{
-  "Sets & Functions":{
-   "Sets":["Types of Sets","Set Operations","Venn Diagrams"],
-   "Functions":["Domain & Range","Types of Functions","Inverse Function"]
+/* ===== DATA (ALL CHAPTERS INCLUDED) ===== */
+const data = {
+  Maths:{
+    "Sets & Functions":{
+      "Sets":["Types of Sets","Set Operations","Venn Diagrams"],
+      "Functions":["Domain & Range","Types of Functions","Inverse Function"]
+    },
+    "Algebra":{
+      "Quadratic Equations":["Roots","Nature of Roots"],
+      "Sequences & Series":["AP","GP"],
+      "Binomial Theorem":["General Term"]
+    },
+    "Coordinate Geometry":{
+      "Straight Lines":["Slope","Forms"],
+      "Circles":["Equation","Tangents"]
+    },
+    "Calculus":{
+      "Limits":["Standard Limits"],
+      "Differentiation":["Rules","Applications"],
+      "Integration":["Indefinite","Definite"]
+    },
+    "Vectors & 3D":{
+      "Vectors":["Dot Product","Cross Product"],
+      "3D Geometry":["Line","Plane"]
+    },
+    "Probability":{
+      "Probability":["Classical","Conditional","Bayes"]
+    }
   },
-  "Algebra":{
-   "Quadratic Equations":["Roots","Nature of Roots"],
-   "Sequences & Series":["AP","GP"],
-   "Binomial Theorem":["General Term"]
+
+  Physics:{
+    "Kinematics":{
+      "Motion":["1D Motion","2D Motion"]
+    },
+    "Laws of Motion":{
+      "Newton Laws":["FBD","Friction"]
+    },
+    "Work Energy Power":{
+      "Energy":["Work Energy Theorem"]
+    },
+    "COM & Rotation":{
+      "Rotation":["Torque","Angular Momentum"]
+    },
+    "Gravitation":{
+      "Gravitation":["Field","Potential","Satellites"]
+    },
+    "Electrostatics":{
+      "Electrostatics":["Field","Potential","Capacitors"]
+    },
+    "Current Electricity":{
+      "Circuits":["Ohm Law","Kirchhoff Laws"]
+    },
+    "Magnetism & EMI":{
+      "Magnetism":["Lorentz Force","Biot Savart"],
+      "EMI":["Faraday Law","Lenz Law"]
+    },
+    "Optics & Modern":{
+      "Optics":["Ray Optics","Wave Optics"],
+      "Modern Physics":["Atoms","Nuclei","Semiconductors"]
+    }
   },
-  "Coordinate Geometry":{
-   "Straight Lines":["Slope","Forms"],
-   "Circles":["Equation","Tangents"]
-  },
-  "Calculus":{
-   "Limits":["Standard Limits"],
-   "Differentiation":["Rules","Applications"],
-   "Integration":["Indefinite","Definite"]
-  },
-  "Vectors & 3D":{
-   "Vectors":["Dot Product","Cross Product"],
-   "3D Geometry":["Line","Plane"]
-  },
-  "Probability":{
-   "Probability":["Classical","Conditional","Bayes"]
+
+  Chemistry:{
+    "Mole Concept":{
+      "Stoichiometry":["Mole","Limiting Reagent"]
+    },
+    "Redox":{
+      "Redox":["Oxidation Number"]
+    },
+    "Chemical Bonding":{
+      "Bonding":["VSEPR","Hybridisation","MO Theory"]
+    },
+    "Thermodynamics":{
+      "Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]
+    },
+    "Kinetics":{
+      "Kinetics":["Rate Law","Arrhenius Equation"]
+    },
+    "GOC":{
+      "GOC":["Inductive Effect","Resonance","Hyperconjugation"]
+    },
+    "Hydrocarbons":{
+      "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
+    },
+    "Coordination Compounds":{
+      "Coordination":["Werner Theory","Isomerism","CFT"]
+    },
+    "Biomolecules":{
+      "Biomolecules":["Carbohydrates","Proteins"]
+    },
+    "Polymers":{
+      "Polymers":["Types","Reactions"]
+    }
   }
- },
- physics:{
-  "Kinematics":{
-   "Motion":["1D Motion","2D Motion"]
-  },
-  "Laws of Motion":{
-   "Newton Laws":["FBD","Friction"]
-  },
-  "Work Energy Power":{
-   "Energy":["Work Energy Theorem"]
-  },
-  "COM & Rotation":{
-   "Rotation":["Torque","Angular Momentum"]
-  },
-  "Gravitation":{
-   "Gravitation":["Field","Potential","Satellites"]
-  },
-  "Electrostatics":{
-   "Electrostatics":["Field","Potential","Capacitors"]
-  },
-  "Current Electricity":{
-   "Circuits":["Ohm Law","Kirchhoff Laws"]
-  },
-  "Magnetism & EMI":{
-   "Magnetism":["Lorentz Force","Biot Savart"],
-   "EMI":["Faraday Law","Lenz Law"]
-  },
-  "Optics & Modern":{
-   "Optics":["Ray Optics","Wave Optics"],
-   "Modern Physics":["Atoms","Nuclei","Semiconductors"]
-  }
- },
- chemistry:{
-  "Mole Concept":{
-   "Stoichiometry":["Mole","Limiting Reagent"]
-  },
-  "Redox":{
-   "Redox":["Oxidation Number"]
-  },
-  "Chemical Bonding":{
-   "Bonding":["VSEPR","Hybridisation","MO Theory"]
-  },
-  "Thermodynamics":{
-   "Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]
-  },
-  "Kinetics":{
-   "Kinetics":["Rate Law","Arrhenius Equation"]
-  },
-  "GOC":{
-   "GOC":["Inductive Effect","Resonance","Hyperconjugation"]
-  },
-  "Hydrocarbons":{
-   "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
-  },
-  "Coordination Compounds":{
-   "Coordination":["Werner Theory","Isomerism","CFT"]
-  },
-  "Biomolecules":{
-   "Biomolecules":["Carbohydrates","Proteins"]
-  },
-  "Polymers":{
-   "Polymers":["Types","Reactions"]
-  }
- }
 };
 
-let state={}, mode="base";
+/* ===== STATE ===== */
+let stack = [];
+let mode = "base";
 
-function hideAll(){
-  ["home","subjectView","chapterView","topicView","conceptView"]
-    .forEach(id=>document.getElementById(id).classList.add("hidden"));
+const view = document.getElementById("view");
+const nav = document.getElementById("nav");
+const breadcrumb = document.getElementById("breadcrumb");
+
+/* ===== NAVIGATION ===== */
+function goBack(){
+  stack.pop();
+  render();
 }
 
-function selectSubject(s){
-  state={subject:s};
-  hideAll();
-  document.getElementById("subjectView").classList.remove("hidden");
-  document.getElementById("subjectCrumb").innerText=s.toUpperCase();
-  const cl=document.getElementById("chapterList");
-  cl.innerHTML="";
-  Object.keys(syllabus[s]).forEach(ch=>{
-    cl.innerHTML+=`<div class="list-item" onclick="selectChapter('${ch}')">${ch}</div>`;
+function setPath(){
+  breadcrumb.innerHTML = stack.map((s,i)=>
+    `<span onclick="jump(${i})">${s}</span>`
+  ).join(" › ");
+}
+
+function jump(i){
+  stack = stack.slice(0,i+1);
+  render();
+}
+
+/* ===== RENDER ===== */
+function render(){
+  view.innerHTML = "";
+  nav.classList.toggle("hidden", stack.length===0);
+  setPath();
+
+  if(stack.length===0){
+    renderList("Select Subject", Object.keys(data), s=>{stack.push(s);render();});
+    return;
+  }
+
+  if(stack.length===1){
+    renderList("Chapters", Object.keys(data[stack[0]]),
+      s=>{stack.push(s);render();});
+    return;
+  }
+
+  if(stack.length===2){
+    renderList("Topics", Object.keys(data[stack[0]][stack[1]]),
+      s=>{stack.push(s);render();});
+    return;
+  }
+
+  if(stack.length===3){
+    renderList("Concepts", data[stack[0]][stack[1]][stack[2]],
+      s=>{stack.push(s);render();});
+    return;
+  }
+
+  renderConcept();
+}
+
+/* ===== HELPERS ===== */
+function renderList(title, items, onClick){
+  view.innerHTML = `<div class="list"><h2>${title}</h2></div>`;
+  const list = view.querySelector(".list");
+  items.forEach(i=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=i;
+    d.onclick=()=>onClick(i);
+    list.appendChild(d);
   });
 }
 
-function selectChapter(ch){
-  state.chapter=ch;
-  hideAll();
-  document.getElementById("chapterView").classList.remove("hidden");
-  document.getElementById("chapterCrumb").innerText=`${state.subject} > ${ch}`;
-  const tl=document.getElementById("topicList");
-  tl.innerHTML="";
-  Object.keys(syllabus[state.subject][ch]).forEach(tp=>{
-    tl.innerHTML+=`<div class="list-item" onclick="selectTopic('${tp}')">${tp}</div>`;
-  });
-}
+function renderConcept(){
+  view.innerHTML = `
+    <h2>${stack[3]}</h2>
 
-function selectTopic(tp){
-  state.topic=tp;
-  hideAll();
-  document.getElementById("topicView").classList.remove("hidden");
-  document.getElementById("topicCrumb").innerText=
-    `${state.subject} > ${state.chapter} > ${tp}`;
-  const cl=document.getElementById("conceptList");
-  cl.innerHTML="";
-  syllabus[state.subject][state.chapter][tp].forEach(c=>{
-    cl.innerHTML+=`<div class="list-item" onclick="openConcept('${c}')">${c}</div>`;
-  });
-}
+    <div class="modes">
+      <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
+      <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
+      <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
+    </div>
 
-function openConcept(c){
-  state.concept=c;
-  hideAll();
-  document.getElementById("conceptView").classList.remove("hidden");
-  document.getElementById("conceptTitle").innerText=c;
-  document.getElementById("conceptCrumb").innerText=
-    `${state.subject} > ${state.chapter} > ${state.topic}`;
-  renderContent();
+    <div class="section">
+      ${modeContent()}
+    </div>
+  `;
 }
 
 function setMode(m){
   mode=m;
-  document.querySelectorAll(".modes button").forEach(b=>b.classList.remove("active"));
-  event.target.classList.add("active");
-  renderContent();
+  render();
 }
 
-function renderContent(){
-  const c=document.getElementById("content");
-  if(mode==="base"){
-    c.innerHTML=`<div class="section"><h4>Base Level</h4>
-      <ol><li>Definition</li><li>Formula</li><li>Terms</li><li>WHEN</li><li>WHY</li></ol></div>`;
-  }
-  if(mode==="jee"){
-    c.innerHTML=`<div class="section"><h4>JEE Main</h4>
-      <ol start="6"><li>WHERE</li><li>HOW</li><li>WHAT TO USE / NOT</li><li>Heavy Example</li></ol></div>`;
-  }
-  if(mode==="mistake"){
-    c.innerHTML=`<div class="section"><h4>Mistake Bank</h4>
-      <ol start="10"><li>Wrong assumptions</li><li>Wrong steps</li><li>MCQ traps</li></ol></div>`;
-  }
+function modeContent(){
+  if(mode==="base")
+    return `<h3>Base Level</h3>
+    <ol>
+      <li>Definition</li>
+      <li>Formula</li>
+      <li>Terms</li>
+      <li>WHEN to use</li>
+      <li>WHY this formula</li>
+    </ol>`;
+
+  if(mode==="jee")
+    return `<h3>JEE Main</h3>
+    <ol start="6">
+      <li>WHERE it appears</li>
+      <li>HOW to apply</li>
+      <li>WHAT to use / not use</li>
+      <li>Heavy example</li>
+    </ol>`;
+
+  return `<h3>Mistake Bank</h3>
+    <ol start="10">
+      <li>Wrong assumptions</li>
+      <li>Wrong steps</li>
+      <li>MCQ traps</li>
+    </ol>`;
 }
+
+/* INIT */
+render();
 </script>
 
 </body>
