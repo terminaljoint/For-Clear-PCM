@@ -80,7 +80,49 @@ header{
   padding:32px;
 }
 
-/* ===== CHAPTER LIST ===== */
+/* ===== HOME ===== */
+.home{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+}
+
+.home h2{
+  margin-bottom:12px;
+}
+
+.home p{
+  color:var(--muted);
+  margin-bottom:16px;
+  max-width:800px;
+}
+
+.map{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:16px;
+  margin-top:20px;
+}
+
+.map-block{
+  background:var(--panel-soft);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+}
+
+.map-block h3{
+  margin-bottom:8px;
+}
+
+.map-block ul{
+  font-size:0.9rem;
+  color:var(--muted);
+  margin-left:18px;
+}
+
+/* ===== CHAPTERS ===== */
 .chapter{
   background:var(--panel);
   border:1px solid var(--border);
@@ -100,10 +142,9 @@ header{
   margin-top:6px;
 }
 
-/* ===== CONTENT ===== */
 .content{
   margin-top:16px;
-  padding:16px;
+  padding-top:16px;
   border-top:1px dashed var(--border);
 }
 
@@ -115,13 +156,7 @@ header{
   margin-bottom:12px;
 }
 
-.block h4{
-  margin-bottom:6px;
-}
-
-.hidden{
-  display:none;
-}
+.hidden{ display:none; }
 
 footer{
   text-align:center;
@@ -136,11 +171,12 @@ footer{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="tagline">selection-driven learning · zero clutter</div>
+  <div class="tagline">one page · zero clutter · selection-driven learning</div>
 </header>
 
 <!-- CORE SELECTOR -->
 <div class="controls" id="coreControls">
+  <button class="active" data-core="home">Home</button>
   <button data-core="maths">Maths</button>
   <button data-core="physics">Physics</button>
   <button data-core="chemistry">Chemistry</button>
@@ -153,50 +189,87 @@ footer{
   <button data-mode="mistake">Mistake Bank</button>
 </div>
 
-<div class="container" id="chapters">
+<div class="container">
 
-  <!-- ================= MATHS : SETS ================= -->
-  <div class="chapter hidden" data-core="maths" data-chapter="sets">
-    <h3>Sets</h3>
-    <p>Language of mathematics. Operations and logic.</p>
+  <!-- HOME -->
+  <div class="home" id="homeView">
+    <h2>How this site works</h2>
+    <p>
+      Select a subject → choose a chapter → control depth using modes.
+      Nothing is shown unless you ask for it.
+    </p>
 
-    <div class="content hidden">
-      <div class="block hidden" data-mode="base">
-        <h4>Base Level</h4>
-        <p>Definition of sets, notation, Venn diagrams.</p>
+    <h2>Complete JEE Coverage (My List)</h2>
+
+    <div class="map">
+      <div class="map-block">
+        <h3>Maths</h3>
+        <ul>
+          <li>Sets & Functions</li>
+          <li>Algebra</li>
+          <li>Coordinate Geometry</li>
+          <li>Calculus</li>
+          <li>Vectors & 3D</li>
+          <li>Probability</li>
+        </ul>
       </div>
 
-      <div class="block hidden" data-mode="jee">
-        <h4>JEE Main</h4>
-        <p>Cardinality traps, Venn-based PYQ logic.</p>
+      <div class="map-block">
+        <h3>Physics</h3>
+        <ul>
+          <li>Kinematics</li>
+          <li>Laws of Motion</li>
+          <li>Work, Energy, Power</li>
+          <li>COM & Rotation</li>
+          <li>Gravitation</li>
+          <li>Electrostatics</li>
+          <li>Current Electricity</li>
+          <li>Magnetism & EMI</li>
+          <li>AC</li>
+          <li>Optics</li>
+          <li>Modern Physics</li>
+        </ul>
       </div>
 
-      <div class="block hidden" data-mode="mistake">
-        <h4>Mistake Bank</h4>
-        <p>Confusing subset vs element, wrong region counting.</p>
+      <div class="map-block">
+        <h3>Chemistry</h3>
+        <ul>
+          <li>Mole Concept</li>
+          <li>Redox</li>
+          <li>Chemical Bonding</li>
+          <li>Thermodynamics</li>
+          <li>Chemical Kinetics</li>
+          <li>GOC</li>
+          <li>Hydrocarbons</li>
+          <li>Coordination Compounds</li>
+          <li>Biomolecules</li>
+          <li>Polymers</li>
+        </ul>
       </div>
     </div>
+
+    <p style="margin-top:20px;">
+      Choose a subject above to start learning.
+    </p>
   </div>
 
-  <!-- ================= PHYSICS : KINEMATICS ================= -->
-  <div class="chapter hidden" data-core="physics" data-chapter="kinematics">
-    <h3>Kinematics</h3>
-    <p>Motion without force. Language of mechanics.</p>
+  <!-- SUBJECT CONTENT (example: Maths → Sets) -->
+  <div class="chapter hidden" data-core="maths">
+    <h3>Sets</h3>
+    <p>Language of mathematics. Base for relations and functions.</p>
 
     <div class="content hidden">
       <div class="block hidden" data-mode="base">
-        <h4>Base Level</h4>
-        <p>Displacement, velocity, acceleration meaning.</p>
+        <strong>Base Level</strong>
+        <p>Definitions, notation, Venn logic.</p>
       </div>
-
       <div class="block hidden" data-mode="jee">
-        <h4>JEE Main</h4>
-        <p>Graphs, relative motion, equation selection.</p>
+        <strong>JEE Main</strong>
+        <p>Cardinality, PYQ patterns.</p>
       </div>
-
       <div class="block hidden" data-mode="mistake">
-        <h4>Mistake Bank</h4>
-        <p>Wrong sign convention, mixing distance & displacement.</p>
+        <strong>Mistake Bank</strong>
+        <p>Subset vs element confusion.</p>
       </div>
     </div>
   </div>
@@ -208,54 +281,61 @@ footer{
 </footer>
 
 <script>
-let selectedCore = null;
+let selectedCore = "home";
 let selectedMode = null;
 let activeChapter = null;
 
-/* CORE SELECTION */
-document.querySelectorAll('#coreControls button').forEach(btn=>{
+const homeView = document.getElementById("homeView");
+
+/* CORE */
+document.querySelectorAll("#coreControls button").forEach(btn=>{
   btn.onclick = ()=>{
     selectedCore = btn.dataset.core;
 
-    document.querySelectorAll('#coreControls button')
-      .forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
+    document.querySelectorAll("#coreControls button")
+      .forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
 
-    document.getElementById('modeControls').classList.add('hidden');
+    document.getElementById("modeControls").classList.add("hidden");
     selectedMode = null;
 
-    document.querySelectorAll('.chapter').forEach(ch=>{
-      ch.classList.toggle('hidden', ch.dataset.core !== selectedCore);
-      ch.querySelector('.content').classList.add('hidden');
+    if(selectedCore === "home"){
+      homeView.classList.remove("hidden");
+      document.querySelectorAll(".chapter").forEach(c=>c.classList.add("hidden"));
+      return;
+    }
+
+    homeView.classList.add("hidden");
+
+    document.querySelectorAll(".chapter").forEach(ch=>{
+      ch.classList.toggle("hidden", ch.dataset.core !== selectedCore);
+      ch.querySelector(".content").classList.add("hidden");
     });
   };
 });
 
-/* CHAPTER SELECTION */
-document.querySelectorAll('.chapter').forEach(chapter=>{
-  chapter.onclick = ()=>{
-    activeChapter = chapter;
-
-    document.getElementById('modeControls').classList.remove('hidden');
-
-    document.querySelectorAll('.content').forEach(c=>c.classList.add('hidden'));
-    chapter.querySelector('.content').classList.remove('hidden');
+/* CHAPTER */
+document.querySelectorAll(".chapter").forEach(ch=>{
+  ch.onclick = ()=>{
+    activeChapter = ch;
+    document.getElementById("modeControls").classList.remove("hidden");
+    document.querySelectorAll(".content").forEach(c=>c.classList.add("hidden"));
+    ch.querySelector(".content").classList.remove("hidden");
   };
 });
 
-/* MODE SELECTION */
-document.querySelectorAll('#modeControls button').forEach(btn=>{
+/* MODE */
+document.querySelectorAll("#modeControls button").forEach(btn=>{
   btn.onclick = ()=>{
     selectedMode = btn.dataset.mode;
-
-    document.querySelectorAll('#modeControls button')
-      .forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
+    document.querySelectorAll("#modeControls button")
+      .forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
 
     if(!activeChapter) return;
 
-    activeChapter.querySelectorAll('.block').forEach(block=>{
-      block.classList.toggle('hidden', block.dataset.mode !== selectedMode);
+    activeChapter.querySelectorAll(".block").forEach(block=>{
+      block.classList.toggle("hidden", block.dataset.mode !== selectedMode);
     });
   };
 });
