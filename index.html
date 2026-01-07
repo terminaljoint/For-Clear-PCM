@@ -402,149 +402,369 @@ const syllabus = {
     },
     "Thermodynamics":["Temperature","Heat","Thermal Expansion","Calorimetry","First Law of Thermodynamics","Isothermal Process","Adiabatic Process","Second Law of Thermodynamics","Entropy","Heat Engines"],
     "Oscillations & Waves":["Simple Harmonic Motion","Energy in SHM","Wave Motion","Wave Equation","Sound Waves","Doppler Effect","Standing Waves"],
-    "Electrostatics":["Electric Charge","Coulombs Law","Electric Field","Electric Flux","Gauss Law","Electric Potential","Potential Energy","Capacitance","Dielectrics"],
-    "Current Electricity":["Electric Current","Drift Velocity","Ohms Law","Electrical Resistance","Temperature Dependence of Resistance","Kirchhoffs Laws","Wheatstone Bridge","Electrical Power"],
-    "Magnetism & EMI":["Magnetic Field","Lorentz Force","Motion of Charge in Magnetic Field","Biot Savart Law","Ampere Circuital Law","Electromagnetic Induction","Faraday Laws","Lenz Law","Self Inductance","Mutual Inductance"],
-    "AC & EM Waves":["Alternating Current","RMS Values","Reactance","Impedance","LC Oscillations","Electromagnetic Spectrum","Properties of EM Waves"],
-    "Optics":["Reflection of Light","Refraction of Light","Mirrors","Lenses","Optical Instruments","Interference","Diffraction","Polarisation"],
-    "Modern Physics":["Photoelectric Effect","Einstein Equation","Bohr Atomic Model","Atomic Spectra","Radioactivity","Nuclear Fission","Nuclear Fusion","Semiconductors"]
+    "Electrostatics":{
+      "Electric Charge":{
+        "Basic Properties":["Nature of charge","Conservation of charge","Quantisation of charge"],
+        "Charging Methods":["Charging by friction","Charging by conduction","Charging by induction"],
+        "Coulomb Interaction":["Like charges repel","Unlike charges attract"]
+      },
+      "Coulomb’s Law":{
+        "Statement":["Force between two point charges","Inverse square law"],
+        "Mathematical Form":["F = k q1 q2 / r^2","Role of medium"],
+        "Vector Form":["Direction of force","Superposition principle"],
+        "Applications":["Collinear charges","Equilateral triangle configuration"]
+      },
+      "Electric Field":{
+        "Field Concept":["Force per unit charge","Test charge concept"],
+        "Electric Field Intensity":["E = F/q","Units & direction"],
+        "Field due to Point Charge":["E = kq/r^2","Radial nature"],
+        "Electric Field Lines":["Properties","Field pattern interpretation"],
+        "Motion of Charged Particle":["Along field","Perpendicular to field"]
+      },
+      "Electric Flux":{
+        "Definition":["Flux through surface","Scalar quantity"],
+        "Mathematical Expression":["Φ = E·A","Dependence on orientation"],
+        "Special Cases":["Closed surface","Zero flux cases"]
+      },
+      "Gauss Law":{
+        "Statement":["Total flux proportional to enclosed charge"],
+        "Mathematical Form":["∮E·dA = q/ε0"],
+        "Applications":{
+          "Infinite Line Charge":["Cylindrical symmetry","Field expression"],
+          "Infinite Plane Sheet":["Uniform field","Independence from distance"],
+          "Spherical Charge Distribution":["Inside sphere","Outside sphere"]
+        }
+      },
+      "Electric Potential":{
+        "Concept":["Work done per unit charge","Scalar nature"],
+        "Potential due to Point Charge":["V = kq/r","Relation with field"],
+        "Potential Difference":["Between two points","Energy interpretation"],
+        "Equipotential Surfaces":["Properties","Relation with field lines"]
+      },
+      "Electric Potential Energy":{
+        "Two Charge System":["PE of system","Relation with potential"],
+        "Multiple Charges":["Superposition of energies"]
+      },
+      "Capacitance":{
+        "Capacitor Basics":["Definition","Capacitance = Q/V"],
+        "Parallel Plate Capacitor":["Capacitance formula","Effect of dielectric"],
+        "Combination of Capacitors":["Series combination","Parallel combination"],
+        "Energy Stored in Capacitor":["U = 1/2 CV^2","Energy density"],
+        "Dielectrics":["Polarisation","Effect on capacitance"]
+      }
+    },
+    "Current Electricity":{
+      "Electric Current":{
+        "Concept":["Flow of charge","Conventional vs electron current"],
+        "Current Density":["J = nqv","Microscopic view"]
+      },
+      "Drift Velocity":{
+        "Definition":["Average velocity of electrons"],
+        "Derivation":["Relation with electric field"],
+        "Relation with Current":["I = nqAv_d"]
+      },
+      "Ohm’s Law":{
+        "Statement":["V ∝ I"],
+        "Resistance":["R = V/I","Unit ohm"],
+        "Limitations":["Non-ohmic devices"]
+      },
+      "Resistance":{
+        "Factors Affecting R":["Length","Area","Material","Temperature"],
+        "Temperature Dependence":["Linear relation","Coefficient of resistance"]
+      },
+      "Electrical Circuits":{
+        "Series Circuits":["Equivalent resistance","Current distribution"],
+        "Parallel Circuits":["Equivalent resistance","Voltage distribution"]
+      },
+      "Kirchhoff’s Laws":{
+        "Junction Law":["Current conservation"],
+        "Loop Law":["Energy conservation"],
+        "Applications":["Multi-loop circuits"]
+      },
+      "Measuring Instruments":{
+        "Wheatstone Bridge":["Condition of balance","Applications"],
+        "Meter Bridge":["Practical Wheatstone","Error analysis"]
+      },
+      "Electrical Power":{
+        "Power in Circuits":["P = VI","P = I^2R","P = V^2/R"],
+        "Heating Effect":["Joule’s law","Applications"]
+      }
+    },
+    "Magnetism & EMI":{
+      "Magnetic Field":{
+        "Concept":["Region of magnetic influence"],
+        "Magnetic Field Lines":["Properties","Pattern interpretation"]
+      },
+      "Lorentz Force":{
+        "Force on Moving Charge":["q(v × B)","Right hand rule"],
+        "Special Cases":["Parallel motion","Perpendicular motion"]
+      },
+      "Motion of Charged Particle":{
+        "Uniform Magnetic Field":["Circular motion","Radius and time period"],
+        "Crossed Fields":["Velocity selector"]
+      },
+      "Biot–Savart Law":{
+        "Statement":["Magnetic field due to current element"],
+        "Applications":["Straight wire","Circular loop"]
+      },
+      "Ampere’s Circuital Law":{
+        "Statement":["Line integral of B"],
+        "Applications":["Infinite straight wire","Solenoid","Toroid"]
+      },
+      "Electromagnetic Induction":{
+        "Faraday’s Laws":["Change of flux","Induced emf"],
+        "Lenz’s Law":["Direction of induced current","Energy conservation"],
+        "Induced EMF":["Motional emf","Flux rule"]
+      },
+      "Inductance":{
+        "Self Inductance":["Definition","Energy stored"],
+        "Mutual Inductance":["Coupled coils","Transformers"]
+      }
+    },
+    "AC & EM Waves":{
+      "Alternating Current":{
+        "AC Basics":["Alternating emf","Sinusoidal variation","Time period & frequency"],
+        "AC Voltage & Current":["v = V0 sinωt","i = I0 sinωt","Phase difference"],
+        "RMS Values":["Vrms = V0/√2","Irms = I0/√2","Physical meaning"],
+        "AC Circuits":{
+          "Pure Resistor":["Voltage & current in phase","Power dissipation"],
+          "Pure Inductor":["Current lags by π/2","Inductive reactance"],
+          "Pure Capacitor":["Current leads by π/2","Capacitive reactance"],
+          "LCR Series Circuit":["Impedance","Phase angle","Power factor"]
+        },
+        "Resonance":["Condition XL = XC","Resonant frequency","Sharpness of resonance"]
+      },
+      "Electromagnetic Waves":{
+        "Nature of EM Waves":["Transverse waves","No medium required"],
+        "Maxwell’s Prediction":["Coupled electric & magnetic fields"],
+        "Speed of EM Waves":["c = 1/√(μ0ε0)"],
+        "Electromagnetic Spectrum":{
+          "Radio Waves":["Communication","Large wavelength"],
+          "Microwaves":["Radar","Microwave oven"],
+          "Infrared":["Heat radiation","Remote control"],
+          "Visible Light":["Human eye sensitivity"],
+          "Ultraviolet":["Sterilization","Vitamin D"],
+          "X-Rays":["Medical imaging"],
+          "Gamma Rays":["Nuclear reactions","Cancer therapy"]
+        }
+      }
+    },
+    "Optics":{
+      "Ray Optics":{
+        "Reflection of Light":{
+          "Laws of Reflection":["Incident ray","Reflected ray","Normal"],
+          "Plane Mirror":["Image characteristics","Multiple reflections"],
+          "Spherical Mirrors":{
+            "Concave Mirror":["Ray diagrams","Mirror formula","Magnification"],
+            "Convex Mirror":["Image formation","Uses"]
+          }
+        },
+        "Refraction of Light":{
+          "Snell’s Law":["Refractive index","Relation between angles"],
+          "Total Internal Reflection":["Critical angle","Applications"],
+          "Prism":["Deviation","Dispersion","Minimum deviation"]
+        },
+        "Lenses":{
+          "Thin Lens Formula":["1/f = 1/v + 1/u","Sign convention"],
+          "Magnification":["Image size relation"],
+          "Combination of Lenses":["Equivalent focal length"]
+        }
+      },
+      "Wave Optics":{
+        "Huygens Principle":["Wavefront concept","Secondary wavelets"],
+        "Interference":{
+          "Young’s Double Slit Experiment":["Fringe formation","Fringe width"],
+          "Conditions":["Coherent sources","Same frequency"]
+        },
+        "Diffraction":["Single slit diffraction","Width of central maxima"],
+        "Polarisation":["Transverse nature of light","Malus law"]
+      }
+    },
+    "Modern Physics":{
+      "Dual Nature of Radiation & Matter":{
+        "Photoelectric Effect":{
+          "Observations":["Threshold frequency","Instantaneous emission"],
+          "Einstein’s Equation":["E = hf − φ","Explanation of experiment"]
+        },
+        "de Broglie Hypothesis":["Matter waves","λ = h/p","Applications"]
+      },
+      "Atomic Physics":{
+        "Bohr Atomic Model":{
+          "Postulates":["Quantized orbits","Angular momentum quantization"],
+          "Energy Levels":["En = −13.6/n²","Hydrogen spectrum"]
+        },
+        "Atomic Spectra":["Emission spectrum","Absorption spectrum"]
+      },
+      "Nuclear Physics":{
+        "Radioactivity":{
+          "Types of Radiation":["Alpha","Beta","Gamma"],
+          "Decay Law":["N = N0 e^(−λt)","Half life","Mean life"]
+        },
+        "Nuclear Reactions":["Fission","Fusion","Mass defect","Binding energy"]
+      },
+      "Semiconductors":{
+        "Energy Bands":["Valence band","Conduction band","Band gap"],
+        "Intrinsic Semiconductors":["Pure silicon","Pure germanium"],
+        "Extrinsic Semiconductors":{
+          "n-type":["Donor impurity","Majority carriers"],
+          "p-type":["Acceptor impurity","Majority carriers"]
+        },
+        "Diodes":["p-n junction","Rectification","Zener diode"],
+        "Transistors":["npn & pnp","Amplifier action"]
+      }
+    }
   },
   Chemistry:{
     "Physical Chemistry":{
-      "Mole Concept":["Mole","Avogadro Number","Molar Mass","Stoichiometry","Limiting Reagent","Percentage Composition","Empirical Formula","Molecular Formula"],
-      "Thermodynamics":["System & Surroundings","First Law","Internal Energy","Enthalpy","Entropy","Gibbs Free Energy","Spontaneity of Reactions"],
-      "Chemical Kinetics":["Rate of Reaction","Rate Law","Order of Reaction","Molecularity","Integrated Rate Equations","Half Life","Arrhenius Equation"],
-      "Equilibrium":["Chemical Equilibrium","Law of Mass Action","Le Chatelier Principle","Ionic Equilibrium","pH","Buffers","Solubility Product"],
-      "Electrochemistry":["Electrochemical Cells","Galvanic Cell","Nernst Equation","Electrode Potential","Electrolysis"]
+      "Mole Concept":{
+        "Basic Definitions":{
+          "Mole":["Amount of substance"],
+          "Avogadro Number":["6.022 × 10^23"],
+          "Molar Mass":["Mass per mole"]
+        },
+        "Stoichiometry":{
+          "Balanced Equations":["Mole ratios","Coefficients"],
+          "Limiting Reagent":["Identification","Excess reactant"],
+          "Theoretical Yield":["Based on limiting reagent"]
+        },
+        "Concentration Terms":{
+          "Molarity":["Definition","Formula"],
+          "Molality":["Definition","Temperature independence"],
+          "Mole Fraction":["Definition","Applications"]
+        }
+      },
+      "Thermodynamics":{
+        "Basic Concepts":["System","Surroundings","State functions","Path functions"],
+        "First Law":["ΔQ = ΔU + ΔW","Sign convention"],
+        "Entropy & Gibbs Energy":["Spontaneity","ΔG = ΔH − TΔS"]
+      }
     },
     "Inorganic Chemistry":{
-      "Periodic Table":["Modern Periodic Law","Periodic Trends","Atomic Radius","Ionisation Energy","Electron Affinity","Electronegativity"],
-      "Chemical Bonding":["Lewis Structure","VSEPR Theory","Hybridisation","Valence Bond Theory","Molecular Orbital Theory","Bond Parameters","Hydrogen Bonding"],
-      "Coordination Compounds":["Werner Theory","Nomenclature","Isomerism","Crystal Field Theory","Magnetic Properties","Stability of Complexes"],
-      "p-Block Elements":["Group 13","Group 14","Group 15","Group 16","Group 17","Group 18","Important Compounds"]
+      "Periodic Table":{
+        "Modern Periodic Law":["Atomic number based arrangement"],
+        "Periodic Trends":{
+          "Atomic Radius":["Across period","Down group"],
+          "Ionisation Energy":["Factors affecting"],
+          "Electron Affinity":["Trend","Exceptions"],
+          "Electronegativity":["Pauling scale","Applications"]
+        }
+      },
+      "Chemical Bonding":{
+        "Lewis Structure":["Octet rule","Formal charge"],
+        "VSEPR Theory":["Electron pair repulsion","Molecular shapes"],
+        "Hybridisation":{
+          "sp":["Linear","BeCl2"],
+          "sp2":["Trigonal planar","BF3"],
+          "sp3":["Tetrahedral","CH4"]
+        },
+        "Molecular Orbital Theory":["Bond order","Magnetic nature"],
+        "Hydrogen Bonding":["Intermolecular","Intramolecular"]
+      },
+      "Coordination Compounds":{
+        "Werner Theory":["Primary valency","Secondary valency"],
+        "Nomenclature":["IUPAC rules","Examples"],
+        "Isomerism":{
+          "Structural Isomerism":["Linkage","Coordination"],
+          "Stereoisomerism":["Geometrical","Optical"]
+        },
+        "Crystal Field Theory":["d-orbital splitting","High spin","Low spin"],
+        "Magnetic Properties":["Para","Dia","Ferro"],
+        "Stability of Complexes":["Factors","Chelate effect"]
+      }
     },
     "Organic Chemistry":{
-      "GOC":["Inductive Effect","Resonance","Hyperconjugation","Electromeric Effect","Acidity & Basicity","Reaction Intermediates"],
-      "Hydrocarbons":["Alkanes","Alkenes","Alkynes","Aromatic Hydrocarbons","Mechanism of Reactions"],
-      "Haloalkanes & Haloarenes":["SN1 Reaction","SN2 Reaction","E1 Reaction","E2 Reaction","Reactivity Order"],
-      "Alcohols Phenols Ethers":["Preparation","Physical Properties","Chemical Reactions","Distinction Tests"],
-      "Carbonyl Compounds":["Aldehydes","Ketones","Nucleophilic Addition","Tests & Reactions"],
-      "Carboxylic Acids":["Preparation","Acidity","Reactions","Derivatives"],
-      "Biomolecules":["Carbohydrates","Proteins","Amino Acids","Enzymes","Vitamins","Nucleic Acids"],
-      "Polymers":["Classification","Addition Polymers","Condensation Polymers","Important Polymers"]
+      "General Organic Chemistry (GOC)":{
+        "Basic Concepts":{
+          "Hybridisation in Organic Molecules":["sp","sp2","sp3"],
+          "Sigma & Pi Bonds":["Bond formation","Strength comparison"],
+          "Bond Cleavage":["Homolytic cleavage","Heterolytic cleavage"],
+          "Reaction Intermediates":["Carbocation","Carbanion","Free radical","Carbene"]
+        },
+        "Electronic Effects":{
+          "Inductive Effect":["+I effect","−I effect","Applications"],
+          "Resonance Effect":["Canonical structures","Stability"],
+          "Hyperconjugation":["No-bond resonance","Alkyl substitution"],
+          "Electromeric Effect":["Temporary effect","Reagent dependent"]
+        },
+        "Acidity & Basicity":{
+          "Acidity Order":["Factors affecting acidity","Comparative strength"],
+          "Basicity Order":["Electron density","Steric effects"]
+        }
+      },
+      "Hydrocarbons":{
+        "Alkanes":{
+          "Nomenclature":["IUPAC naming","Common names"],
+          "Preparation":["Wurtz reaction","Kolbe reaction"],
+          "Reactions":["Free radical substitution","Combustion"],
+          "Conformations":["Ethane","Butane"]
+        },
+        "Alkenes":{
+          "Nomenclature":["IUPAC rules","E–Z notation"],
+          "Preparation":["Dehydration of alcohols","Dehydrohalogenation"],
+          "Reactions":["Electrophilic addition","Markovnikov rule","Anti‑Markovnikov"],
+          "Tests":["Baeyer test","Ozonolysis"]
+        },
+        "Alkynes":{
+          "Nomenclature":["IUPAC rules"],
+          "Preparation":["From calcium carbide","Double elimination"],
+          "Reactions":["Addition reactions","Acidity of alkynes"]
+        }
+      },
+      "Haloalkanes & Haloarenes":{
+        "Haloalkanes":{
+          "Nucleophilic Substitution":{
+            "SN1 Mechanism":["Carbocation formation","Rate law"],
+            "SN2 Mechanism":["Backside attack","Inversion of configuration"]
+          },
+          "Elimination Reactions":["E1","E2","Zaitsev rule"]
+        },
+        "Haloarenes":["Stability","Electrophilic substitution","Difference from haloalkanes"]
+      },
+      "Alcohols, Phenols & Ethers":{
+        "Alcohols":{
+          "Preparation":["From alkenes","From carbonyl compounds"],
+          "Reactions":["Oxidation","Dehydration","Substitution"],
+          "Tests":["Lucas test","Victor Meyer test"]
+        },
+        "Phenols":["Acidity","Reactions","Kolbe reaction","Reimer–Tiemann reaction"],
+        "Ethers":["Preparation","Williamson synthesis","Cleavage reactions"]
+      },
+      "Carbonyl Compounds":{
+        "Aldehydes & Ketones":{
+          "Nucleophilic Addition":["HCN","NaHSO3","Grignard reagent"],
+          "Oxidation & Reduction":["Tollens test","Fehling test"],
+          "Aldol Condensation":["Mechanism","Applications"]
+        },
+        "Carboxylic Acids":["Acidity","Preparation","Hell–Volhard–Zelinsky reaction"],
+        "Derivatives":["Acid chlorides","Esters","Amides"]
+      },
+      "Biomolecules & Polymers":{
+        "Biomolecules":["Carbohydrates","Proteins","Amino acids","Enzymes"],
+        "Polymers":["Addition polymers","Condensation polymers","Important polymers"]
+      }
+    },
+      "Chemical Bonding":{
+        "Lewis Structure":["Octet rule","Formal charge"],
+        "VSEPR Theory":["Electron pair repulsion","Molecular shapes"],
+        "Hybridisation":{
+          "sp":["Linear","BeCl2"],
+          "sp2":["Trigonal planar","BF3"],
+          "sp3":["Tetrahedral","CH4"]
+        },
+        "Molecular Orbital Theory":["Bond order","Magnetic nature"],
+        "Hydrogen Bonding":["Intermolecular","Intramolecular"]
+      },
+      "Coordination Compounds":{
+        "Werner Theory":["Primary valency","Secondary valency"],
+        "Nomenclature":["IUPAC rules","Examples"],
+        "Isomerism":{
+          "Structural Isomerism":["Linkage","Coordination"],
+          "Stereoisomerism":["Geometrical","Optical"]
+        },
+        "Crystal Field Theory":["d-orbital splitting","High spin","Low spin"],
+        "Magnetic Properties":["Para","Dia","Ferro"],
+        "Stability of Complexes":["Factors","Chelate effect"]
+      }
     }
   }
 };
-
-/* ===================== STATE ===================== */
-let stack = [];
-const view = document.getElementById('view');
-const nav = document.getElementById('nav');
-const breadcrumb = document.getElementById('breadcrumb');
-const subjectBtns = document.querySelectorAll('.subject-btn');
-
-/* ===================== ACTIONS ===================== */
-function goSubject(sub){ stack = [sub]; render(); }
-function goBack(){ stack.pop(); render(); }
-function jumpTo(i){ stack = stack.slice(0, i+1); render(); }
-
-/* ===================== RENDER ===================== */
-function render(){
-  nav.style.display = stack.length ? 'flex' : 'none';
-  subjectBtns.forEach(b => b.classList.toggle('active', b.innerText === stack[0]));
-
-  breadcrumb.innerHTML = '';
-  stack.forEach((s,i)=>{
-    const c = document.createElement('div');
-    c.className = 'crumb';
-    c.innerText = s;
-    c.onclick = () => jumpTo(i);
-    breadcrumb.appendChild(c);
-  });
-
-  view.innerHTML = '';
-  if(!stack.length){
-    view.innerHTML = '<div class="focus"><h2 class="section-title">Welcome</h2><p>Select a subject above.</p></div>';
-    return;
-  }
-
-  let data = syllabus;
-  stack.forEach(k => data = data[k]);
-
-  if(Array.isArray(data)){
-    renderConcept(stack[stack.length-1]);
-  } else {
-    Object.keys(data).forEach(k => {
-      const d = document.createElement('div');
-      d.className = 'item';
-      d.innerText = k;
-      d.onclick = () => { stack.push(k); render(); };
-      view.appendChild(d);
-    });
-  }
-}
-
-function renderConcept(title){
-  let data = syllabus;
-  stack.forEach(k => data = data[k]);
-
-  let blocks = '';
-
-  // CASE 1: Simple list
-  if(Array.isArray(data)){
-    blocks += `<div class="block"><h4>Concepts / Formula Points</h4><ul>${data.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
-  }
-
-  // CASE 2: Structured object (Definition, Formula, WHEN, WHY etc.)
-  else if(typeof data === 'object'){
-    Object.entries(data).forEach(([key,val])=>{
-      if(typeof val === 'string'){
-        blocks += `<div class="block"><h4>${key}</h4><p>${val}</p></div>`;
-      }
-      else if(Array.isArray(val)){
-        blocks += `<div class="block"><h4>${key}</h4><ul>${val.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
-      }
-      else if(typeof val === 'object'){
-        // Deep structured blocks (Definition / Formula / WHEN / WHY)
-        Object.entries(val).forEach(([subKey,subVal])=>{
-          if(Array.isArray(subVal)){
-            blocks += `<div class="block"><h4>${subKey}</h4><ul>${subVal.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
-          }
-        });
-      }
-    });
-  }
-
-  if(!blocks) blocks = '<p>No detailed content added yet.</p>';
-
-  const content = `
-  <div class="focus">
-    <h2 class="section-title">${title}</h2>
-    ${blocks}
-    <div class="block"><h4>Example Sums</h4><ul>
-      <li>Level 1 – Direct formula based</li>
-      <li>Level 2 – Multi‑concept linking</li>
-      <li>Level 3 – JEE Main / Advanced mixed traps</li>
-    </ul></div>
-    <div class="block"><h4>Mistake Bank</h4><ul>
-      <li>Wrong formula selection</li>
-      <li>Invalid condition usage</li>
-      <li>Sign / unit mistakes</li>
-    </ul></div>
-  </div>`;
-
-  view.innerHTML = content;
-}
-
-/* ===================== SELF-TESTS ===================== */
-(function tests(){
-  console.assert(typeof goSubject === 'function', 'goSubject should be defined');
-  console.assert(typeof goBack === 'function', 'goBack should be defined');
-  console.assert(typeof render === 'function', 'render should be defined');
-  console.assert(document.querySelectorAll('.subject-btn').length === 3, 'There should be 3 subject buttons');
-})();
-
-render();
-</script>
-</body>
-</html>
