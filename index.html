@@ -8,131 +8,70 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET ===== */
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-/* ===== BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:"Comic Neue", system-ui, sans-serif;
+  font-family:"Comic Neue",system-ui;
   background:#0d1117;
   color:#e6edf3;
-  line-height:1.5;
 }
-
-/* ===== HEADER ===== */
 header{
   padding:16px 24px;
   border-bottom:1px solid #30363d;
 }
+.brand{font-size:1.8rem;font-weight:700}
+.subtitle{font-size:.9rem;color:#8b949e;margin-top:4px}
+main{max-width:900px;margin:0 auto;padding:24px}
 
-.brand{
-  font-size:1.8rem;
-  font-weight:700;
-}
+.hidden{display:none}
 
-.subtitle{
-  font-size:0.9rem;
-  color:#8b949e;
-  margin-top:4px;
-}
-
-/* ===== MAIN ===== */
-main{
-  max-width:900px;
-  margin:0 auto;
-  padding:24px;
-}
-
-/* ===== NAV BAR ===== */
-.navbar{
+/* NAV */
+.nav{
   display:flex;
-  align-items:center;
   gap:12px;
+  align-items:center;
   margin-bottom:16px;
 }
+.back{cursor:pointer;color:#2f81f7;font-size:.85rem}
+.path{font-size:.8rem;color:#8b949e}
+.path span{color:#2f81f7;cursor:pointer}
 
-.back{
-  font-size:0.85rem;
-  color:#2f81f7;
-  cursor:pointer;
-  user-select:none;
-}
-
-.breadcrumb{
-  font-size:0.85rem;
-  color:#8b949e;
-}
-
-.breadcrumb span{
-  color:#2f81f7;
-  cursor:pointer;
-}
-
-.hidden{
-  display:none;
-}
-
-/* ===== LIST VIEW ===== */
-h2{
-  font-size:1.3rem;
-  margin-bottom:14px;
-}
-
+/* LIST */
+h2{font-size:1.25rem;margin-bottom:14px}
 .item{
   padding:10px 12px;
   border:1px solid #30363d;
   border-radius:6px;
   margin-bottom:8px;
   cursor:pointer;
-  background:#0d1117;
 }
+.item:hover{background:#161b22}
 
-.item:hover{
-  background:#161b22;
-}
-
-/* ===== CONCEPT VIEW ===== */
+/* FOCUS */
+.focus{max-width:720px;margin:0 auto}
 .modes{
   display:flex;
-  gap:14px;
+  gap:16px;
   border-bottom:1px solid #30363d;
-  margin:16px 0;
+  margin:18px 0;
 }
-
 .modes button{
-  background:none;
-  border:none;
-  padding:8px 4px;
+  background:none;border:none;
   font-weight:700;
   color:#8b949e;
   cursor:pointer;
+  padding:6px 0;
 }
-
 .modes button.active{
   color:#2f81f7;
   border-bottom:2px solid #2f81f7;
 }
 
-.section{
-  margin-top:18px;
-}
-
-.section h3{
-  font-size:1.1rem;
-  color:#2f81f7;
-  margin-bottom:8px;
-}
-
-.section ol{
-  margin-left:20px;
-}
-
-.section li{
-  margin-bottom:6px;
+.block{margin-top:18px}
+.block h3{color:#2f81f7;margin-bottom:10px}
+.block ul{list-style:none}
+.block li{
+  padding:6px 0;
+  border-bottom:1px dashed #30363d;
 }
 </style>
 </head>
@@ -141,24 +80,19 @@ h2{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="subtitle">official hierarchy · focused study</div>
+  <div class="subtitle">official hierarchy · zero clutter · exam focus</div>
 </header>
 
 <main>
-
-  <!-- NAVIGATION -->
-  <div class="navbar hidden" id="navbar">
+  <div class="nav hidden" id="nav">
     <div class="back" onclick="goBack()">← Back</div>
-    <div class="breadcrumb" id="breadcrumb"></div>
+    <div class="path" id="path"></div>
   </div>
-
-  <!-- VIEW -->
   <div id="view"></div>
-
 </main>
 
 <script>
-/* ===== SYLLABUS DATA ===== */
+/* ===== FULL SYLLABUS ===== */
 const syllabus = {
   Maths:{
     "Sets & Functions":{
@@ -184,7 +118,7 @@ const syllabus = {
       "3D Geometry":["Line","Plane"]
     },
     "Probability":{
-      "Probability":["Classical","Conditional","Bayes"]
+      "Probability":["Classical","Conditional","Bayes Theorem"]
     }
   },
 
@@ -193,10 +127,10 @@ const syllabus = {
       "Motion":["1D Motion","2D Motion"]
     },
     "Laws of Motion":{
-      "Newton Laws":["FBD","Friction"]
+      "Newton Laws":["Free Body Diagram","Friction"]
     },
     "Work Energy Power":{
-      "Energy":["Work Energy Theorem"]
+      "Energy":["Work Energy Theorem","Conservation of Energy"]
     },
     "COM & Rotation":{
       "Rotation":["Torque","Angular Momentum"]
@@ -205,13 +139,13 @@ const syllabus = {
       "Gravitation":["Field","Potential","Satellites"]
     },
     "Electrostatics":{
-      "Electrostatics":["Field","Potential","Capacitors"]
+      "Electrostatics":["Electric Field","Electric Potential","Capacitors"]
     },
     "Current Electricity":{
       "Circuits":["Ohm Law","Kirchhoff Laws"]
     },
     "Magnetism & EMI":{
-      "Magnetism":["Lorentz Force","Biot Savart"],
+      "Magnetism":["Lorentz Force","Biot Savart Law"],
       "EMI":["Faraday Law","Lenz Law"]
     },
     "Optics & Modern":{
@@ -225,15 +159,15 @@ const syllabus = {
       "Stoichiometry":["Mole","Limiting Reagent"]
     },
     "Redox":{
-      "Redox":["Oxidation Number"]
+      "Redox":["Oxidation Number","Balancing Redox"]
     },
     "Chemical Bonding":{
-      "Bonding":["VSEPR","Hybridisation","MO Theory"]
+      "Bonding":["VSEPR Theory","Hybridisation","MO Theory"]
     },
     "Thermodynamics":{
       "Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]
     },
-    "Kinetics":{
+    "Chemical Kinetics":{
       "Kinetics":["Rate Law","Arrhenius Equation"]
     },
     "GOC":{
@@ -249,149 +183,101 @@ const syllabus = {
       "Biomolecules":["Carbohydrates","Proteins"]
     },
     "Polymers":{
-      "Polymers":["Types","Reactions"]
+      "Polymers":["Types of Polymers","Polymerisation Reactions"]
     }
   }
 };
 
 /* ===== STATE ===== */
-let path = [];
+let stack = [];
 let mode = "base";
 
 const view = document.getElementById("view");
-const navbar = document.getElementById("navbar");
-const breadcrumb = document.getElementById("breadcrumb");
+const nav = document.getElementById("nav");
+const pathEl = document.getElementById("path");
 
-/* ===== NAV HELPERS ===== */
-function updateBreadcrumb(){
-  breadcrumb.innerHTML = path.map((p,i)=>
-    `<span onclick="jumpTo(${i})">${p}</span>`
+/* ===== NAV ===== */
+function updatePath(){
+  pathEl.innerHTML = stack.map((s,i)=>
+    `<span onclick="jumpTo(${i})">${s}</span>`
   ).join(" › ");
 }
-
-function goBack(){
-  path.pop();
-  render();
-}
-
-function jumpTo(i){
-  path = path.slice(0,i+1);
-  render();
-}
+function goBack(){ stack.pop(); render(); }
+function jumpTo(i){ stack = stack.slice(0,i+1); render(); }
 
 /* ===== RENDER ===== */
 function render(){
-  view.innerHTML = "";
-  navbar.classList.toggle("hidden", path.length === 0);
-  updateBreadcrumb();
+  view.innerHTML="";
+  nav.classList.toggle("hidden",stack.length===0);
+  updatePath();
 
-  if(path.length === 0){
-    renderList("Select Subject", Object.keys(syllabus), s=>{
-      path.push(s);
-      render();
-    });
+  if(stack.length===0){
+    renderList("Select Subject",Object.keys(syllabus),s=>{stack.push(s);render();});
     return;
   }
-
-  if(path.length === 1){
-    renderList("Chapters", Object.keys(syllabus[path[0]]), s=>{
-      path.push(s);
-      render();
-    });
+  if(stack.length===1){
+    renderList("Chapters",Object.keys(syllabus[stack[0]]),s=>{stack.push(s);render();});
     return;
   }
-
-  if(path.length === 2){
-    renderList("Topics", Object.keys(syllabus[path[0]][path[1]]), s=>{
-      path.push(s);
-      render();
-    });
+  if(stack.length===2){
+    renderList("Topics",Object.keys(syllabus[stack[0]][stack[1]]),s=>{stack.push(s);render();});
     return;
   }
-
-  if(path.length === 3){
-    renderList("Concepts", syllabus[path[0]][path[1]][path[2]], s=>{
-      path.push(s);
-      render();
-    });
+  if(stack.length===3){
+    renderList("Concepts",syllabus[stack[0]][stack[1]][stack[2]],s=>{stack.push(s);render();});
     return;
   }
-
   renderConcept();
 }
 
-/* ===== LIST VIEW ===== */
-function renderList(title, items, onClick){
-  const h = document.createElement("h2");
-  h.innerText = title;
-  view.appendChild(h);
-
-  items.forEach(item=>{
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerText = item;
-    d.onclick = ()=>onClick(item);
+function renderList(title,items,cb){
+  view.innerHTML=`<h2>${title}</h2>`;
+  items.forEach(i=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=i;
+    d.onclick=()=>cb(i);
     view.appendChild(d);
   });
 }
 
-/* ===== CONCEPT VIEW ===== */
 function renderConcept(){
-  const title = document.createElement("h2");
-  title.innerText = path[3];
-  view.appendChild(title);
-
-  const modesDiv = document.createElement("div");
-  modesDiv.className = "modes";
-  modesDiv.innerHTML = `
-    <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
-    <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
-    <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
-  `;
-  view.appendChild(modesDiv);
-
-  const section = document.createElement("div");
-  section.className = "section";
-  section.innerHTML = getModeContent();
-  view.appendChild(section);
+  view.innerHTML=`
+    <div class="focus">
+      <h2>${stack[3]}</h2>
+      <div class="modes">
+        <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
+        <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
+        <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
+      </div>
+      ${content()}
+    </div>`;
 }
 
-function setMode(m){
-  mode = m;
-  render();
-}
+function setMode(m){ mode=m; render(); }
 
-function getModeContent(){
-  if(mode === "base"){
-    return `
-      <h3>Base Level</h3>
-      <ol>
-        <li>Definition</li>
-        <li>Formula</li>
-        <li>Terms</li>
-        <li>WHEN to use</li>
-        <li>WHY this formula</li>
-      </ol>`;
-  }
-
-  if(mode === "jee"){
-    return `
-      <h3>JEE Main</h3>
-      <ol start="6">
-        <li>WHERE it appears</li>
-        <li>HOW to apply</li>
-        <li>WHAT to use / not use</li>
-        <li>Heavy example</li>
-      </ol>`;
-  }
-
+function content(){
+  if(mode==="base") return `
+    <div class="block"><h3>Base Level</h3><ul>
+      <li>Definition</li>
+      <li>Formula</li>
+      <li>Terms</li>
+      <li>WHEN to use</li>
+      <li>WHY this formula</li>
+    </ul></div>`;
+  if(mode==="jee") return `
+    <div class="block"><h3>JEE Main</h3><ul>
+      <li>WHERE it appears</li>
+      <li>HOW to apply</li>
+      <li>WHAT to use / not use</li>
+      <li>Heavy JEE example</li>
+    </ul></div>`;
   return `
-    <h3>Mistake Bank</h3>
-    <ol start="10">
+    <div class="block"><h3>Mistake Bank</h3><ul>
       <li>Wrong assumptions</li>
       <li>Wrong steps</li>
       <li>MCQ traps</li>
-    </ol>`;
+    </ul></div>`;
 }
 
 /* INIT */
