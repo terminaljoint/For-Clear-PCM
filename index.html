@@ -1,260 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For clear PCM</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For clear PCM</title>
 
-  <!-- Comic Font (clean one, not cursed) -->
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#0b0e1a;
-      --panel:#11162b;
-      --panel-soft:#151b36;
-      --border:#242c55;
-      --text:#eef1ff;
-      --muted:#9aa4d6;
-      --accent:#6ee7e0;
-      --danger:#fb7185;
-    }
+<style>
+:root{
+  --bg:#0b0e1a;
+  --panel:#11162b;
+  --panel-soft:#151b36;
+  --border:#242c55;
+  --text:#eef1ff;
+  --muted:#9aa4d6;
+  --accent:#6ee7e0;
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:"Comic Neue", system-ui, sans-serif;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:"Comic Neue", system-ui, sans-serif;
+}
 
-    body{
-      background:radial-gradient(circle at top, #0f1430, #0b0e1a 70%);
-      color:var(--text);
-      line-height:1.65;
-    }
+body{
+  background:radial-gradient(circle at top, #0f1430, #0b0e1a 70%);
+  color:var(--text);
+}
 
-    a{
-      color:var(--accent);
-      text-decoration:none;
-    }
+header{
+  padding:22px 28px;
+  border-bottom:1px solid var(--border);
+}
 
-    /* ===== HEADER ===== */
-    header{
-      padding:22px 28px;
-      border-bottom:1px solid var(--border);
-      background:linear-gradient(180deg, #0d1230, #0b0e1a);
-    }
+.brand{
+  font-size:2rem;
+  font-weight:700;
+}
 
-    .brand{
-      font-size:1.9rem;
-      font-weight:700;
-      letter-spacing:0.8px;
-    }
+.tagline{
+  font-size:0.9rem;
+  color:var(--muted);
+  margin-top:6px;
+}
 
-    .tagline{
-      font-size:0.95rem;
-      color:var(--muted);
-      margin-top:6px;
-    }
+/* ===== FILTER BAR ===== */
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:16px 28px;
+  border-bottom:1px solid var(--border);
+  background:#0c1024;
+}
 
-    /* ===== LAYOUT ===== */
-    .container{
-      max-width:1200px;
-      margin:auto;
-      padding:26px;
-      display:grid;
-      grid-template-columns:260px 1fr;
-      gap:24px;
-    }
+.filters button{
+  padding:8px 14px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text);
+  cursor:pointer;
+  font-size:0.9rem;
+}
 
-    @media(max-width:900px){
-      .container{
-        grid-template-columns:1fr;
-      }
-    }
+.filters button.active{
+  background:var(--accent);
+  color:#002b2b;
+  border-color:transparent;
+}
 
-    /* ===== SIDEBAR ===== */
-    .sidebar{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px;
-      position:sticky;
-      top:20px;
-      height:fit-content;
-    }
+/* ===== LAYOUT ===== */
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:28px;
+}
 
-    .sidebar h3{
-      font-size:0.85rem;
-      color:var(--muted);
-      margin:14px 0 8px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-    }
+/* ===== SECTION TITLE ===== */
+.section-title{
+  font-size:1.4rem;
+  margin-bottom:16px;
+}
 
-    .nav a{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border-radius:8px;
-      margin-bottom:6px;
-      color:var(--text);
-      font-size:0.95rem;
-      background:transparent;
-    }
+/* ===== TOPIC GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+}
 
-    .nav a:hover{
-      background:var(--panel-soft);
-      border-left:3px solid var(--accent);
-    }
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+}
 
-    /* ===== MAIN ===== */
-    .main{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:32px;
-    }
+.card h3{
+  font-size:1.1rem;
+  margin-bottom:6px;
+}
 
-    .main h1{
-      font-size:2.2rem;
-      margin-bottom:12px;
-    }
+.card p{
+  font-size:0.9rem;
+  color:var(--muted);
+}
 
-    .main p{
-      color:var(--muted);
-      max-width:700px;
-    }
+.badges{
+  margin-top:10px;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
 
-    /* ===== INFO GRID ===== */
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:18px;
-      margin-top:26px;
-    }
+.badge{
+  font-size:0.7rem;
+  padding:4px 8px;
+  border-radius:10px;
+  background:var(--panel-soft);
+  border:1px solid var(--border);
+  color:var(--muted);
+}
 
-    .card{
-      background:var(--panel-soft);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px;
-    }
+.hidden{
+  display:none;
+}
 
-    .card h2{
-      font-size:1.1rem;
-      margin-bottom:8px;
-    }
-
-    .card ul{
-      margin-left:18px;
-      color:var(--muted);
-      font-size:0.95rem;
-    }
-
-    /* ===== ALERT ===== */
-    .alert{
-      margin-top:28px;
-      padding:16px 18px;
-      border-left:4px solid var(--danger);
-      background:#1a0f1d;
-      color:#fecdd3;
-      border-radius:10px;
-      font-size:0.95rem;
-    }
-
-    /* ===== FOOTER ===== */
-    footer{
-      text-align:center;
-      padding:26px;
-      color:var(--muted);
-      font-size:0.8rem;
-    }
-  </style>
+footer{
+  text-align:center;
+  padding:24px;
+  color:var(--muted);
+  font-size:0.8rem;
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="brand">For clear PCM</div>
-    <div class="tagline">
-      clear() confusion. build logic. survive exams.
+<header>
+  <div class="brand">For clear PCM</div>
+  <div class="tagline">clear() confusion. structured thinking. exam survival.</div>
+</header>
+
+<!-- CORE FILTER -->
+<div class="filters" id="coreFilters">
+  <button class="active" data-core="all">Home</button>
+  <button data-core="physics">Physics</button>
+  <button data-core="chemistry">Chemistry</button>
+  <button data-core="maths">Maths</button>
+  <button data-core="formula">Formula Logics</button>
+</div>
+
+<!-- MODE FILTER -->
+<div class="filters" id="modeFilters">
+  <button class="active" data-mode="all">All Modes</button>
+  <button data-mode="base">Base Level</button>
+  <button data-mode="jee">JEE Main</button>
+  <button data-mode="mistake">Mistake Bank</button>
+</div>
+
+<div class="container">
+  <div class="section-title">Chapters & Topics</div>
+
+  <div class="grid" id="topicGrid">
+
+    <!-- MATHS -->
+    <div class="card" data-core="maths" data-mode="base">
+      <h3>Sets – Fundamentals</h3>
+      <p>Basic language, notation, and thinking model.</p>
+      <div class="badges">
+        <span class="badge">Maths</span>
+        <span class="badge">Base</span>
+      </div>
     </div>
-  </header>
 
-  <div class="container">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <h3>Core</h3>
-      <nav class="nav">
-        <a href="#">Home</a>
-        <a href="#">Mathematics</a>
-        <a href="#">Physics</a>
-        <a href="#">Chemistry</a>
-        <a href="#">Formula Logic</a>
-      </nav>
-
-      <h3>Modes</h3>
-      <nav class="nav">
-        <a href="#">Base Level</a>
-        <a href="#">JEE Main</a>
-        <a href="#">Mistake Bank</a>
-      </nav>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-      <h1>Welcome</h1>
-      <p>
-        This is not a motivation site.  
-        This is not a topper showcase.  
-        This is a **problem-solving environment for PCM**.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <h2>What this site does</h2>
-          <ul>
-            <li>Explains how formulas actually work</li>
-            <li>Shows when and where to apply them</li>
-            <li>Breaks common thinking mistakes</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>What this site avoids</h2>
-          <ul>
-            <li>No derivation essays</li>
-            <li>No video spoon-feeding</li>
-            <li>No false confidence</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>Target audience</h2>
-          <ul>
-            <li>Confused students</li>
-            <li>Average scorers</li>
-            <li>Anyone tired of memorising blindly</li>
-          </ul>
-        </div>
+    <div class="card" data-core="maths" data-mode="jee">
+      <h3>Functions – Mapping Logic</h3>
+      <p>Domain, codomain, range with exam traps.</p>
+      <div class="badges">
+        <span class="badge">Maths</span>
+        <span class="badge">JEE</span>
       </div>
+    </div>
 
-      <div class="alert">
-        Warning:  
-        If you use this site seriously, shortcut thinking will collapse.  
-        Expect discomfort before clarity.
+    <!-- PHYSICS -->
+    <div class="card" data-core="physics" data-mode="base">
+      <h3>Kinematics – Motion Language</h3>
+      <p>Displacement, velocity, acceleration clarity.</p>
+      <div class="badges">
+        <span class="badge">Physics</span>
+        <span class="badge">Base</span>
       </div>
+    </div>
 
-    </main>
+    <div class="card" data-core="physics" data-mode="mistake">
+      <h3>Newton’s Laws – Common Errors</h3>
+      <p>Wrong FBDs, sign confusion, fake forces.</p>
+      <div class="badges">
+        <span class="badge">Physics</span>
+        <span class="badge">Mistake</span>
+      </div>
+    </div>
+
+    <!-- CHEMISTRY -->
+    <div class="card" data-core="chemistry" data-mode="jee">
+      <h3>Chemical Bonding – Logic</h3>
+      <p>Why shapes, why polarity, not memorisation.</p>
+      <div class="badges">
+        <span class="badge">Chemistry</span>
+        <span class="badge">JEE</span>
+      </div>
+    </div>
+
+    <!-- FORMULA LOGICS -->
+    <div class="card" data-core="formula" data-mode="base">
+      <h3>Formula Usage Framework</h3>
+      <p>When, where, why, how to apply formulas.</p>
+      <div class="badges">
+        <span class="badge">Formula</span>
+        <span class="badge">Base</span>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <footer>
-    Built under TerminalJoint · For clear PCM
-  </footer>
+<footer>
+  Built under TerminalJoint · For clear PCM
+</footer>
+
+<script>
+let activeCore = "all";
+let activeMode = "all";
+
+const cards = document.querySelectorAll(".card");
+
+function applyFilters(){
+  cards.forEach(card=>{
+    const core = card.dataset.core;
+    const mode = card.dataset.mode;
+
+    const coreMatch = activeCore === "all" || core === activeCore;
+    const modeMatch = activeMode === "all" || mode === activeMode;
+
+    card.classList.toggle("hidden", !(coreMatch && modeMatch));
+  });
+}
+
+document.querySelectorAll("#coreFilters button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("#coreFilters button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    activeCore = btn.dataset.core;
+    applyFilters();
+  });
+});
+
+document.querySelectorAll("#modeFilters button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("#modeFilters button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    activeMode = btn.dataset.mode;
+    applyFilters();
+  });
+});
+</script>
 
 </body>
 </html>
-
