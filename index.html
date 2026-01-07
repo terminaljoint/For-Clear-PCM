@@ -8,85 +8,171 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
-body{
+:root{
+  --bg:#0b0f1a;
+  --panel:#11172c;
+  --panel-soft:#151d3d;
+  --border:#26306a;
+  --text:#eef1ff;
+  --muted:#9aa6d6;
+  --accent:#6ee7e0;
+  --accent-soft:#203a3a;
+}
+
+*{
+  box-sizing:border-box;
   margin:0;
-  font-family:"Comic Neue", system-ui;
-  background:#0b0e1a;
-  color:#eef1ff;
+  padding:0;
+  font-family:"Comic Neue", system-ui, sans-serif;
 }
+
+body{
+  background:linear-gradient(180deg,#0b0f1a,#090c16);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* HEADER */
 header{
-  padding:20px 28px;
-  border-bottom:1px solid #242c55;
+  padding:26px 34px;
+  border-bottom:1px solid var(--border);
 }
-.brand{font-size:2rem;font-weight:700}
-.tagline{color:#9aa4d6;margin-top:6px}
+.brand{
+  font-size:2.3rem;
+  font-weight:700;
+}
+.tagline{
+  margin-top:6px;
+  color:var(--muted);
+  max-width:700px;
+}
 
-.controls{
-  display:flex;
-  gap:12px;
-  padding:14px 28px;
-  border-bottom:1px solid #242c55;
+/* HOME SUBJECT SELECT */
+.subjects{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  padding:36px;
+  max-width:1000px;
+  margin:auto;
 }
-.controls button{
-  padding:8px 16px;
-  border-radius:18px;
-  border:1px solid #242c55;
-  background:transparent;
-  color:#eef1ff;
+.subject-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:26px;
   cursor:pointer;
+  transition:0.2s;
 }
-.controls button.active{
-  background:#6ee7e0;
-  color:#002b2b;
+.subject-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent);
+}
+.subject-card h2{
+  margin-bottom:8px;
+}
+.subject-card p{
+  color:var(--muted);
+  font-size:0.95rem;
 }
 
-.container{padding:28px;max-width:1200px;margin:auto}
+/* MAIN PIPELINE */
+.pipeline{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:22px;
+  padding:30px;
+  max-width:1300px;
+  margin:auto;
+}
 
-.list{
-  background:#11162b;
-  border:1px solid #242c55;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:14px;
+.column{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  min-height:360px;
+}
+
+.column h3{
+  margin-bottom:12px;
+  font-size:1.2rem;
 }
 
 .item{
-  padding:6px 10px;
-  margin:4px 0;
-  border-radius:10px;
+  padding:10px 14px;
+  border-radius:12px;
   cursor:pointer;
+  margin-bottom:8px;
+  background:transparent;
 }
-.item:hover{background:#151b36}
+.item:hover{
+  background:var(--panel-soft);
+}
+.item.active{
+  background:var(--accent-soft);
+  border:1px solid var(--accent);
+}
 
-.hidden{display:none}
-
-/* Dialog */
+/* DIALOG */
 .backdrop{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.65);
   display:none;
   align-items:center;
   justify-content:center;
 }
 .dialog{
-  background:#11162b;
-  border:1px solid #242c55;
-  border-radius:16px;
-  width:min(900px,90%);
-  padding:20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:22px;
+  width:min(900px,92%);
+  padding:26px;
 }
-.dialog h3{margin-top:0}
-.close{float:right;cursor:pointer;color:#9aa4d6}
+.dialog-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.dialog-header h2{
+  font-size:1.6rem;
+}
+.close{
+  cursor:pointer;
+  color:var(--muted);
+}
+
+/* MODE TABS */
+.modes{
+  display:flex;
+  gap:10px;
+  margin:18px 0;
+}
+.modes button{
+  padding:8px 14px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text);
+  cursor:pointer;
+}
+.modes button.active{
+  background:var(--accent);
+  color:#002b2b;
+}
 
 .mode-block{
   display:none;
-  background:#151b36;
-  border:1px solid #242c55;
-  border-radius:12px;
-  padding:14px;
-  margin-top:10px;
+  background:var(--panel-soft);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px;
+  line-height:1.6;
 }
+
+/* UTIL */
+.hidden{display:none}
 </style>
 </head>
 
@@ -94,231 +180,165 @@ header{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="tagline">subject → chapter → topic → concept → clarity</div>
+  <div class="tagline">
+    One page. Zero clutter.  
+    Select step by step and study only what you asked for.
+  </div>
 </header>
 
 <!-- HOME -->
-<div class="controls" id="subjectBar">
-  <button data-subject="physics">Physics</button>
-  <button data-subject="chemistry">Chemistry</button>
-  <button data-subject="maths">Maths</button>
+<div id="home">
+  <div class="subjects">
+    <div class="subject-card" onclick="selectSubject('maths')">
+      <h2>Maths</h2>
+      <p>Logic, structure, problem solving.</p>
+    </div>
+    <div class="subject-card" onclick="selectSubject('physics')">
+      <h2>Physics</h2>
+      <p>Motion, forces, fields, systems.</p>
+    </div>
+    <div class="subject-card" onclick="selectSubject('chemistry')">
+      <h2>Chemistry</h2>
+      <p>Reactions, structure, reasoning.</p>
+    </div>
+  </div>
 </div>
 
-<div class="controls hidden" id="modeBar">
-  <button data-mode="base" class="active">Base Level</button>
-  <button data-mode="jee">JEE Main</button>
-  <button data-mode="mistake">Mistake Bank</button>
-</div>
-
-<div class="container">
-  <div class="list" id="chapterList"><strong>Select a subject</strong></div>
-  <div class="list hidden" id="topicList"></div>
-  <div class="list hidden" id="conceptList"></div>
+<!-- PIPELINE -->
+<div class="pipeline hidden" id="pipeline">
+  <div class="column">
+    <h3>Chapters</h3>
+    <div id="chapters"></div>
+  </div>
+  <div class="column">
+    <h3>Topics</h3>
+    <div id="topics"></div>
+  </div>
+  <div class="column">
+    <h3>Concepts</h3>
+    <div id="concepts"></div>
+  </div>
 </div>
 
 <!-- DIALOG -->
 <div class="backdrop" id="dialog">
   <div class="dialog">
-    <span class="close" onclick="closeDialog()">✕</span>
-    <h3 id="conceptTitle"></h3>
+    <div class="dialog-header">
+      <h2 id="dialogTitle"></h2>
+      <span class="close" onclick="closeDialog()">✕</span>
+    </div>
+
+    <div class="modes">
+      <button class="active" onclick="setMode('base')">Base Level</button>
+      <button onclick="setMode('jee')">JEE Main</button>
+      <button onclick="setMode('mistake')">Mistake Bank</button>
+    </div>
 
     <div class="mode-block" data-mode="base">
       <strong>Base Level</strong>
-      <p>Definitions, core formulas, meaning.</p>
+      <p>Definitions, formulas, symbol meaning.</p>
     </div>
     <div class="mode-block" data-mode="jee">
       <strong>JEE Main</strong>
-      <p>Application patterns and traps.</p>
+      <p>Application logic, question patterns, traps.</p>
     </div>
     <div class="mode-block" data-mode="mistake">
       <strong>Mistake Bank</strong>
-      <p>Common wrong assumptions.</p>
+      <p>Common wrong assumptions and errors.</p>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== SYLLABUS DATA (ALL FROM "MY LIST FOR JEE") ===== */
-const syllabus = {
+let mode="base";
+
+/* SAMPLE DATA (extend freely) */
+const data={
   maths:{
-    "Sets & Functions":{
-      "Sets":["Types of Sets","Operations","Venn Diagrams"],
-      "Functions":["Domain & Range","Types of Functions","Inverse"]
-    },
-    "Algebra":{
-      "Quadratic Equations":["Roots","Nature of Roots"],
-      "Sequences & Series":["AP","GP"],
-      "Binomial Theorem":["General Term","Middle Term"]
-    },
-    "Coordinate Geometry":{
-      "Straight Lines":["Slope","Forms"],
-      "Circles":["Equation","Tangents"]
-    },
-    "Calculus":{
-      "Limits":["Standard Limits","LHL/RHL"],
-      "Differentiation":["Rules","Applications"],
-      "Integration":["Indefinite","Definite"]
-    },
-    "Vectors & 3D":{
-      "Vectors":["Dot Product","Cross Product"],
-      "3D Geometry":["Line","Plane"]
-    },
-    "Probability":{
-      "Probability":["Classical","Conditional","Bayes"]
+    "Sets":{
+      "Basics":["Types of Sets","Operations","Venn Diagrams"]
     }
   },
-
   physics:{
     "Kinematics":{
-      "1D Motion":["Equations","Graphs"],
-      "2D Motion":["Projectile","Relative Motion"]
-    },
-    "Laws of Motion":{
-      "Newton Laws":["FBD","Friction"]
-    },
-    "Work Energy Power":{
-      "Energy":["Work-Energy Theorem","Conservation"]
-    },
-    "COM & Rotation":{
-      "Rotation":["Torque","Angular Momentum"]
-    },
-    "Gravitation":{
-      "Gravitation":["Field","Potential","Satellites"]
-    },
-    "Electrostatics":{
-      "Electrostatics":["Field","Potential","Capacitors"]
-    },
-    "Current Electricity":{
-      "Circuits":["Ohm Law","Kirchhoff"]
-    },
-    "Magnetism & EMI":{
-      "Magnetism":["Lorentz Force","Biot Savart"],
-      "EMI":["Faraday Law","Lenz Law"]
-    },
-    "Optics & Modern":{
-      "Optics":["Ray","Wave"],
-      "Modern Physics":["Atoms","Nuclei","Semiconductors"]
+      "1D Motion":["Equations of Motion"]
     }
   },
-
   chemistry:{
-    "Mole Concept":{
-      "Stoichiometry":["Mole","Limiting Reagent"]
-    },
-    "Redox":{
-      "Redox":["Oxidation Number","Balancing"]
-    },
     "Chemical Bonding":{
-      "Bonding":["VSEPR","Hybridisation","MO Theory"]
-    },
-    "Thermodynamics":{
-      "Thermodynamics":["Enthalpy","Entropy","Gibbs"]
-    },
-    "Kinetics":{
-      "Kinetics":["Rate Law","Arrhenius"]
-    },
-    "GOC":{
-      "GOC":["Inductive","Resonance","Hyperconjugation"]
-    },
-    "Hydrocarbons":{
-      "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
-    },
-    "Coordination Compounds":{
-      "Coordination":["Werner","Isomerism","CFT"]
-    },
-    "Biomolecules":{
-      "Biomolecules":["Carbohydrates","Proteins"]
-    },
-    "Polymers":{
-      "Polymers":["Types","Reactions"]
+      "Bonding":["Hybridisation","VSEPR"]
     }
   }
 };
 
-let currentMode="base";
+function selectSubject(sub){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("pipeline").classList.remove("hidden");
 
-/* MODE */
-document.querySelectorAll("#modeBar button").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll("#modeBar button").forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-    currentMode=b.dataset.mode;
-    updateDialog();
-  }
-});
-
-let currentConcept="";
-
-/* SUBJECT */
-document.querySelectorAll("#subjectBar button").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll("#subjectBar button").forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-    document.getElementById("modeBar").classList.remove("hidden");
-    loadChapters(b.dataset.subject);
-  }
-});
-
-function loadChapters(subject){
-  const cl=document.getElementById("chapterList");
-  const tl=document.getElementById("topicList");
-  const col=document.getElementById("conceptList");
-  tl.classList.add("hidden"); col.classList.add("hidden");
-
-  cl.innerHTML="<strong>Chapters</strong>";
-  Object.keys(syllabus[subject]).forEach(ch=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=ch;
-    d.onclick=()=>loadTopics(subject,ch);
-    cl.appendChild(d);
-  });
-}
-
-function loadTopics(subject,chapter){
-  const tl=document.getElementById("topicList");
-  const col=document.getElementById("conceptList");
-  col.classList.add("hidden");
-
-  tl.classList.remove("hidden");
-  tl.innerHTML="<strong>Topics</strong>";
-  Object.keys(syllabus[subject][chapter]).forEach(tp=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=tp;
-    d.onclick=()=>loadConcepts(subject,chapter,tp);
-    tl.appendChild(d);
-  });
-}
-
-function loadConcepts(subject,chapter,topic){
-  const col=document.getElementById("conceptList");
-  col.classList.remove("hidden");
-  col.innerHTML="<strong>Concepts</strong>";
-  syllabus[subject][chapter][topic].forEach(c=>{
+  const ch=document.getElementById("chapters");
+  ch.innerHTML="";
+  Object.keys(data[sub]).forEach(c=>{
     const d=document.createElement("div");
     d.className="item";
     d.innerText=c;
-    d.onclick=()=>openDialog(c);
-    col.appendChild(d);
+    d.onclick=()=>loadTopics(sub,c,d);
+    ch.appendChild(d);
   });
 }
 
-function openDialog(c){
-  currentConcept=c;
-  document.getElementById("conceptTitle").innerText=c;
+function loadTopics(sub,chName,el){
+  activate(el);
+  const t=document.getElementById("topics");
+  const c=document.getElementById("concepts");
+  t.innerHTML=""; c.innerHTML="";
+  Object.keys(data[sub][chName]).forEach(tp=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=tp;
+    d.onclick=()=>loadConcepts(sub,chName,tp,d);
+    t.appendChild(d);
+  });
+}
+
+function loadConcepts(sub,ch,tp,el){
+  activate(el);
+  const c=document.getElementById("concepts");
+  c.innerHTML="";
+  data[sub][ch][tp].forEach(con=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=con;
+    d.onclick=()=>openDialog(con);
+    c.appendChild(d);
+  });
+}
+
+function activate(el){
+  el.parentNode.querySelectorAll(".item").forEach(i=>i.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function openDialog(title){
+  document.getElementById("dialogTitle").innerText=title;
   document.getElementById("dialog").style.display="flex";
-  updateDialog();
-}
-
-function updateDialog(){
-  document.querySelectorAll(".mode-block").forEach(b=>{
-    b.style.display=b.dataset.mode===currentMode?"block":"none";
-  });
+  updateMode();
 }
 
 function closeDialog(){
   document.getElementById("dialog").style.display="none";
+}
+
+function setMode(m){
+  mode=m;
+  document.querySelectorAll(".modes button").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+  updateMode();
+}
+
+function updateMode(){
+  document.querySelectorAll(".mode-block").forEach(b=>{
+    b.style.display=b.dataset.mode===mode?"block":"none";
+  });
 }
 </script>
 
