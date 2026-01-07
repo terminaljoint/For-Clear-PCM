@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For clear PCM – JEE Physics Chemistry Maths</title>
+<title>For clear PCM – Complete JEE PCM (My List)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Complete JEE PCM syllabus with perfect hierarchy of chapters, topics, concepts and formulae. Built for average students.">
+<meta name="description" content="For clear PCM covers ONLY the essential JEE PCM topics from the official 'my list for JEE'. No extra chapters, no dilution. Built for average students.">
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3b/Math_icon.svg">
@@ -16,7 +16,7 @@
 body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
 header{padding:22px 24px;border-bottom:1px solid #30363d}
 .brand{font-size:2rem;font-weight:700}
-.subtitle{color:#9aa4af;margin-top:6px;max-width:820px}
+.subtitle{color:#9aa4af;margin-top:6px;max-width:860px}
 .subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
 .subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
@@ -31,14 +31,10 @@ main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
 .section-title{font-size:1.4rem;margin-bottom:14px}
 .item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
 .item:hover{background:#161b22}
-.focus{max-width:760px;margin:0 auto}
-.modes{display:flex;gap:18px;border-bottom:1px solid #30363d;margin:24px 0}
-.modes button{background:none;border:none;font-weight:700;color:#9aa4af;cursor:pointer;padding:8px 0}
-.modes button.active{color:#2f81f7;border-bottom:2px solid #2f81f7}
-.block{margin-top:22px}
-.block h4{color:#2f81f7;margin-bottom:12px}
-.block ul{list-style:none}
-.block li{padding:8px 0;border-bottom:1px dashed #30363d}
+.home{max-width:880px}
+.home h2{font-size:1.6rem;margin-bottom:14px}
+.home p{color:#9aa4af;line-height:1.6;margin-bottom:18px}
+.home ul{margin-left:18px;color:#9aa4af}
 footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
 </style>
 </head>
@@ -47,7 +43,11 @@ footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9a
 
 <header>
   <h1 class="brand">For clear PCM</h1>
-  <p class="subtitle">Complete JEE PCM syllabus arranged in perfect learning hierarchy.</p>
+  <p class="subtitle">
+    This platform strictly follows the official <b>“my list for JEE”</b>.
+    No extra chapters. No skipped essentials. Every topic here is useful
+    for JEE and connected to real problem-solving.
+  </p>
 </header>
 
 <div class="subject-bar">
@@ -69,408 +69,132 @@ footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9a
 </footer>
 
 <script>
-/* ===================== COMPLETE SYLLABUS ===================== */
+/* ===================== STRICT "MY LIST FOR JEE" ===================== */
 
 const syllabus = {
 
 Maths:{
-  "Sets & Relations":{
-    "Sets":{
-      "Types of Sets":[
-        "Empty Set",
-        "Finite & Infinite Sets",
-        "Equal Sets",
-        "Power Set : n(P(A)) = 2^n"
-      ],
-      "Set Operations":[
-        "Union : A ∪ B",
-        "Intersection : A ∩ B",
-        "Difference : A − B",
-        "De Morgan Laws"
-      ]
-    },
-    "Relations":{
-      "Types of Relations":[
-        "Reflexive",
-        "Symmetric",
-        "Transitive",
-        "Equivalence Relation"
-      ]
-    }
+  "Sets, Relations & Functions":{
+    "Sets":["Types of Sets","Operations on Sets","De Morgan Laws"],
+    "Relations":["Equivalence Relation"],
+    "Functions":["Domain & Range","Types of Functions","Inverse & Composite"]
   },
-
-  "Functions":{
-    "Functions Basics":{
-      "Definition":[
-        "Domain",
-        "Codomain",
-        "Range"
-      ],
-      "Types":[
-        "One-One",
-        "Many-One",
-        "Onto",
-        "Into"
-      ]
-    },
-    "Inverse & Composite":{
-      "Composite":[
-        "f(g(x))",
-        "g(f(x))"
-      ],
-      "Inverse":[
-        "f⁻¹(x)",
-        "Conditions for Invertibility"
-      ]
-    }
-  },
-
   "Algebra":{
-    "Quadratic Equations":{
-      "Standard Form":[
-        "ax² + bx + c = 0"
-      ],
-      "Roots":[
-        "α + β = -b/a",
-        "αβ = c/a",
-        "Discriminant D = b² - 4ac"
-      ]
-    },
-    "Sequences & Series":{
-      "AP":[
-        "nth term : a + (n-1)d",
-        "Sum : n/2[2a+(n-1)d]"
-      ],
-      "GP":[
-        "nth term : arⁿ⁻¹",
-        "Sum : a(rⁿ−1)/(r−1)"
-      ]
-    },
-    "Binomial Theorem":{
-      "Expansion":[
-        "(a+b)ⁿ",
-        "General Term : Tᵣ₊₁ = ⁿCᵣ aⁿ⁻ʳ bʳ"
-      ]
-    }
+    "Quadratic Equations":["Standard Form","Roots & Discriminant"],
+    "Sequences & Series":["AP","GP"],
+    "Binomial Theorem":["General Term"]
   },
-
   "Coordinate Geometry":{
-    "Straight Lines":{
-      "Slope":[
-        "m = tanθ",
-        "(y₂−y₁)/(x₂−x₁)"
-      ],
-      "Forms":[
-        "y = mx + c",
-        "ax + by + c = 0",
-        "Intercept form"
-      ]
-    },
-    "Circles":{
-      "Equation":[
-        "(x−a)²+(y−b)²=r²"
-      ],
-      "Tangent":[
-        "Length of tangent",
-        "T = 0 condition"
-      ]
-    }
+    "Straight Lines":["Slope","All Forms of Line"],
+    "Circles":["Standard Equation","Tangents"]
   },
-
   "Calculus":{
-    "Limits":{
-      "Standard Limits":[
-        "sinx/x",
-        "(1+x)¹/ˣ",
-        "e limits"
-      ]
-    },
-    "Differentiation":{
-      "Rules":[
-        "Power Rule",
-        "Chain Rule",
-        "Product Rule",
-        "Quotient Rule"
-      ],
-      "Applications":[
-        "Maxima & Minima",
-        "Increasing/Decreasing"
-      ]
-    },
-    "Integration":{
-      "Indefinite":[
-        "Standard Integrals",
-        "Substitution",
-        "Partial Fractions"
-      ],
-      "Definite":[
-        "Fundamental Theorem",
-        "Properties"
-      ]
-    }
+    "Limits":["Standard Limits"],
+    "Differentiation":["Rules","Applications of Derivatives"],
+    "Integration":["Indefinite","Definite"]
   },
-
   "Vectors & 3D":{
-    "Vectors":{
-      "Operations":[
-        "Addition",
-        "Scalar Multiplication"
-      ],
-      "Products":[
-        "Dot Product : a·b",
-        "Cross Product : a×b"
-      ]
-    },
-    "3D Geometry":{
-      "Line":[
-        "Vector Form",
-        "Cartesian Form"
-      ],
-      "Plane":[
-        "General Equation",
-        "Normal Form"
-      ]
-    }
+    "Vectors":["Dot Product","Cross Product"],
+    "3D Geometry":["Line","Plane"]
   },
-
   "Probability":{
-    "Probability":{
-      "Basics":[
-        "P(E)=n(E)/n(S)"
-      ],
-      "Conditional":[
-        "P(A|B)=P(A∩B)/P(B)"
-      ],
-      "Bayes Theorem":[
-        "Posterior Probability Formula"
-      ]
-    }
+    "Probability":["Classical","Conditional","Bayes Theorem"]
   }
 },
 
 Physics:{
-  "Kinematics":{
-    "Motion in 1D":[
-      "v = u + at",
-      "s = ut + ½at²",
-      "v² = u² + 2as"
-    ],
-    "Motion in 2D":[
-      "Projectile Range",
-      "Time of Flight",
-      "Maximum Height"
-    ]
-  },
-
-  "Laws of Motion":{
-    "Newton Laws":[
-      "F = ma",
-      "Impulse = Ft"
-    ],
-    "Friction":[
-      "f = μN",
-      "Limiting Friction"
-    ]
-  },
-
-  "Work Energy Power":{
-    "Work":[
-      "W = F·s"
-    ],
-    "Energy":[
-      "KE = ½mv²",
-      "PE = mgh"
-    ],
-    "Power":[
-      "P = F·v"
-    ]
-  },
-
-  "Centre of Mass & Rotation":{
-    "Rotation":[
-      "τ = Iα",
-      "L = Iω",
-      "KE = ½Iω²"
-    ]
-  },
-
-  "Gravitation":{
-    "Laws":[
-      "F = Gm₁m₂/r²"
-    ],
-    "Satellites":[
-      "Orbital Velocity",
-      "Escape Velocity"
-    ]
-  },
-
-  "Electrostatics":{
-    "Coulomb Law":[
-      "F = kq₁q₂/r²"
-    ],
-    "Electric Field":[
-      "E = F/q"
-    ],
-    "Potential":[
-      "V = kq/r"
-    ],
-    "Capacitors":[
-      "C = Q/V"
-    ]
-  },
-
-  "Current Electricity":{
-    "Ohm Law":[
-      "V = IR"
-    ],
-    "Kirchhoff Laws":[
-      "Junction Rule",
-      "Loop Rule"
-    ]
-  },
-
-  "Magnetism & EMI":{
-    "Magnetism":[
-      "F = qvB sinθ",
-      "B due to current"
-    ],
-    "EMI":[
-      "ε = −dΦ/dt"
-    ]
-  },
-
-  "Optics & Modern Physics":{
-    "Ray Optics":[
-      "Mirror Formula",
-      "Lens Formula"
-    ],
-    "Wave Optics":[
-      "Young’s Double Slit"
-    ],
-    "Modern Physics":[
-      "E = hf",
-      "λ = h/p"
-    ]
-  }
+  "Kinematics":["1D Motion","2D Motion","Equations of Motion"],
+  "Laws of Motion":["Newton Laws","Friction"],
+  "Work Energy Power":["Work","Energy","Power"],
+  "Centre of Mass & Rotation":["COM","Torque","Angular Momentum"],
+  "Gravitation":["Newton Law","Satellites"],
+  "Electrostatics":["Electric Field","Potential","Capacitors"],
+  "Current Electricity":["Ohm Law","Kirchhoff Laws"],
+  "Magnetism & EMI":["Lorentz Force","Faraday Law"],
+  "AC":["AC Circuits","Reactance","Impedance"],
+  "Optics":["Ray Optics","Wave Optics"],
+  "Modern Physics":["Atoms","Nuclei","Semiconductors"]
 },
 
 Chemistry:{
-  "Mole Concept":{
-    "Stoichiometry":[
-      "n = m/M",
-      "Limiting Reagent"
-    ]
-  },
-
-  "Redox":{
-    "Redox Reactions":[
-      "Oxidation Number",
-      "Balancing Methods"
-    ]
-  },
-
-  "Chemical Bonding":{
-    "Bonding Theories":[
-      "VSEPR",
-      "Hybridisation",
-      "MOT"
-    ]
-  },
-
-  "Thermodynamics":{
-    "Laws":[
-      "ΔU = q + w",
-      "ΔG = ΔH − TΔS"
-    ]
-  },
-
-  "Chemical Kinetics":{
-    "Rate Law":[
-      "Rate = k[A]^n"
-    ],
-    "Arrhenius":[
-      "k = Ae^(−Ea/RT)"
-    ]
-  },
-
-  "GOC":{
-    "Effects":[
-      "Inductive",
-      "Resonance",
-      "Hyperconjugation"
-    ]
-  },
-
-  "Hydrocarbons":{
-    "Alkanes":[
-      "Reactions",
-      "Isomerism"
-    ],
-    "Alkenes":[
-      "Addition Reactions"
-    ],
-    "Alkynes":[
-      "Acidity"
-    ]
-  },
-
-  "Coordination Compounds":{
-    "Theories":[
-      "Werner Theory",
-      "CFT"
-    ]
-  },
-
-  "Biomolecules":{
-    "Carbohydrates":[
-      "Glucose",
-      "Sucrose"
-    ],
-    "Proteins":[
-      "Amino Acids"
-    ]
-  },
-
-  "Polymers":{
-    "Types":[
-      "Addition Polymers",
-      "Condensation Polymers"
-    ]
-  }
+  "Mole Concept":["Stoichiometry","Limiting Reagent"],
+  "Thermodynamics":["First Law","Gibbs Free Energy"],
+  "Redox":["Oxidation Number","Balancing"],
+  "Chemical Bonding":["VSEPR","Hybridisation","MOT"],
+  "Chemical Kinetics":["Rate Law","Arrhenius Equation"],
+  "GOC":["Inductive Effect","Resonance","Hyperconjugation"],
+  "Hydrocarbons":["Alkanes","Alkenes","Alkynes"],
+  "Coordination Compounds":["Werner Theory","CFT"],
+  "Biomolecules":["Carbohydrates","Proteins"],
+  "Polymers":["Types","Polymerisation"]
 };
 
-/* ===================== ENGINE (UNCHANGED) ===================== */
-
-let stack=[],mode="base";
-function navigate(n,p=true){stack=n;if(p)history.pushState({stack:[...stack],mode},"","");render()}
-window.onpopstate=e=>{if(e.state){stack=e.state.stack||[];mode=e.state.mode||"base";render()}}
+let stack=[];
+function navigate(n){stack=n;render()}
 function goSubject(s){navigate([s])}
 function goBack(){if(stack.length>0)navigate(stack.slice(0,-1))}
 function jumpTo(i){navigate(stack.slice(0,i+1))}
-function setMode(m){mode=m;history.pushState({stack:[...stack],mode},"","");render()}
 
-const view=document.getElementById("view"),nav=document.getElementById("nav"),
-breadcrumb=document.getElementById("breadcrumb"),subjectBtns=document.querySelectorAll(".subject-btn");
+const view=document.getElementById("view"),
+nav=document.getElementById("nav"),
+breadcrumb=document.getElementById("breadcrumb"),
+subjectBtns=document.querySelectorAll(".subject-btn");
 
 function render(){
  nav.classList.toggle("hidden",stack.length===0);
  breadcrumb.innerHTML="";
  subjectBtns.forEach(b=>b.classList.toggle("active",stack[0]===b.dataset.sub));
- stack.forEach((s,i)=>{let c=document.createElement("div");c.className="crumb";c.innerText=s;c.onclick=()=>jumpTo(i);breadcrumb.appendChild(c)});
+
+ stack.forEach((s,i)=>{
+   const c=document.createElement("div");
+   c.className="crumb";
+   c.innerText=s;
+   c.onclick=()=>jumpTo(i);
+   breadcrumb.appendChild(c);
+ });
+
  view.innerHTML="";
- if(stack.length===0){view.innerHTML="<h2>Choose a subject</h2>";return}
+ if(stack.length===0){
+   view.innerHTML=`
+   <div class="home">
+     <h2>What is covered here</h2>
+     <p>
+       Every chapter you see here belongs to the official <b>my list for JEE</b>.
+       This is not a dump of the NCERT book. This is a filtered, exam-useful syllabus.
+     </p>
+     <ul>
+       <li>Only high-value JEE topics</li>
+       <li>No missing fundamentals</li>
+       <li>No unnecessary extras</li>
+     </ul>
+   </div>`;
+   return;
+ }
+
  let data=syllabus[stack[0]];
- for(let i=1;i<stack.length;i++)data=data[stack[i]];
- if(Array.isArray(data))return renderList("Formulae",data);
- renderList(stack.length===1?"Chapters":stack.length===2?"Topics":"Concepts",Object.keys(data));
+ for(let i=1;i<stack.length;i++) data=data[stack[i]];
+
+ if(Array.isArray(data)){
+   view.innerHTML="<h2 class='section-title'>Concepts</h2>";
+   data.forEach(i=>{
+     const d=document.createElement("div");
+     d.className="item";
+     d.innerText=i;
+     view.appendChild(d);
+   });
+   return;
+ }
+
+ view.innerHTML="<h2 class='section-title'>Topics</h2>";
+ Object.keys(data).forEach(i=>{
+   const d=document.createElement("div");
+   d.className="item";
+   d.innerText=i;
+   d.onclick=()=>navigate([...stack,i]);
+   view.appendChild(d);
+ });
 }
 
-function renderList(t,items){
- view.innerHTML=`<h2 class="section-title">${t}</h2>`;
- items.forEach(i=>{let d=document.createElement("div");d.className="item";d.innerText=i;d.onclick=()=>navigate([...stack,i]);view.appendChild(d)})
-}
-
-history.replaceState({stack:[],mode},"","");
 render();
 </script>
 
