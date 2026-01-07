@@ -2,31 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>For clear PCM</title>
+
+  <!-- Comic Font (clean one, not cursed) -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#0b0f1a;
-      --panel:#11172a;
-      --border:#1f294a;
-      --text:#e8ecff;
-      --muted:#9aa6d6;
-      --accent:#5eead4;
-      --danger:#f87171;
+      --bg:#0b0e1a;
+      --panel:#11162b;
+      --panel-soft:#151b36;
+      --border:#242c55;
+      --text:#eef1ff;
+      --muted:#9aa4d6;
+      --accent:#6ee7e0;
+      --danger:#fb7185;
     }
 
     *{
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family:"Comic Neue", system-ui, sans-serif;
     }
 
     body{
-      background:var(--bg);
+      background:radial-gradient(circle at top, #0f1430, #0b0e1a 70%);
       color:var(--text);
-      line-height:1.6;
+      line-height:1.65;
     }
 
     a{
@@ -36,31 +40,31 @@
 
     /* ===== HEADER ===== */
     header{
+      padding:22px 28px;
       border-bottom:1px solid var(--border);
-      padding:16px 20px;
-      background:linear-gradient(180deg, #0b0f1a, #0a0d16);
+      background:linear-gradient(180deg, #0d1230, #0b0e1a);
     }
 
     .brand{
-      font-size:1.4rem;
+      font-size:1.9rem;
       font-weight:700;
-      letter-spacing:0.5px;
+      letter-spacing:0.8px;
     }
 
     .tagline{
-      font-size:0.9rem;
+      font-size:0.95rem;
       color:var(--muted);
-      margin-top:4px;
+      margin-top:6px;
     }
 
     /* ===== LAYOUT ===== */
     .container{
-      max-width:1100px;
+      max-width:1200px;
       margin:auto;
-      padding:20px;
+      padding:26px;
       display:grid;
-      grid-template-columns: 240px 1fr;
-      gap:20px;
+      grid-template-columns:260px 1fr;
+      gap:24px;
     }
 
     @media(max-width:900px){
@@ -73,83 +77,99 @@
     .sidebar{
       background:var(--panel);
       border:1px solid var(--border);
-      border-radius:10px;
-      padding:16px;
+      border-radius:14px;
+      padding:18px;
+      position:sticky;
+      top:20px;
       height:fit-content;
     }
 
     .sidebar h3{
-      font-size:0.95rem;
+      font-size:0.85rem;
       color:var(--muted);
-      margin-bottom:10px;
+      margin:14px 0 8px;
+      text-transform:uppercase;
+      letter-spacing:1px;
     }
 
     .nav a{
-      display:block;
-      padding:8px 10px;
-      border-radius:6px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:8px;
       margin-bottom:6px;
       color:var(--text);
       font-size:0.95rem;
+      background:transparent;
     }
 
     .nav a:hover{
-      background:#182045;
+      background:var(--panel-soft);
+      border-left:3px solid var(--accent);
     }
 
     /* ===== MAIN ===== */
     .main{
       background:var(--panel);
       border:1px solid var(--border);
-      border-radius:12px;
-      padding:24px;
+      border-radius:18px;
+      padding:32px;
     }
 
     .main h1{
-      font-size:1.8rem;
-      margin-bottom:10px;
+      font-size:2.2rem;
+      margin-bottom:12px;
     }
 
     .main p{
       color:var(--muted);
-      margin-bottom:14px;
+      max-width:700px;
     }
 
-    /* ===== BLOCKS ===== */
-    .block{
+    /* ===== INFO GRID ===== */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:18px;
+      margin-top:26px;
+    }
+
+    .card{
+      background:var(--panel-soft);
       border:1px solid var(--border);
-      border-radius:10px;
-      padding:16px;
-      margin-top:16px;
-      background:#0f1430;
+      border-radius:14px;
+      padding:18px;
     }
 
-    .block h2{
+    .card h2{
       font-size:1.1rem;
       margin-bottom:8px;
     }
 
-    .block ul{
+    .card ul{
       margin-left:18px;
       color:var(--muted);
+      font-size:0.95rem;
     }
 
     /* ===== ALERT ===== */
     .alert{
-      margin-top:18px;
-      padding:14px;
+      margin-top:28px;
+      padding:16px 18px;
       border-left:4px solid var(--danger);
-      background:#1a0f18;
-      color:#fecaca;
-      border-radius:6px;
+      background:#1a0f1d;
+      color:#fecdd3;
+      border-radius:10px;
       font-size:0.95rem;
     }
 
+    /* ===== FOOTER ===== */
     footer{
       text-align:center;
-      padding:20px;
+      padding:26px;
       color:var(--muted);
-      font-size:0.85rem;
+      font-size:0.8rem;
     }
   </style>
 </head>
@@ -158,7 +178,9 @@
 
   <header>
     <div class="brand">For clear PCM</div>
-    <div class="tagline">clear() your confusion. not for toppers. for survivors.</div>
+    <div class="tagline">
+      clear() confusion. build logic. survive exams.
+    </div>
   </header>
 
   <div class="container">
@@ -168,13 +190,13 @@
       <h3>Core</h3>
       <nav class="nav">
         <a href="#">Home</a>
-        <a href="#">Maths</a>
+        <a href="#">Mathematics</a>
         <a href="#">Physics</a>
         <a href="#">Chemistry</a>
         <a href="#">Formula Logic</a>
       </nav>
 
-      <h3 style="margin-top:14px;">Mode</h3>
+      <h3>Modes</h3>
       <nav class="nav">
         <a href="#">Base Level</a>
         <a href="#">JEE Main</a>
@@ -182,37 +204,48 @@
       </nav>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main class="main">
-      <h1>Welcome to For clear PCM</h1>
+      <h1>Welcome</h1>
       <p>
-        Idhu motivation site illa.  
-        Idhu topper showcase illa.  
-        Idhu **PCM debugging environment**.
+        This is not a motivation site.  
+        This is not a topper showcase.  
+        This is a **problem-solving environment for PCM**.
       </p>
 
-      <div class="block">
-        <h2>What this site does</h2>
-        <ul>
-          <li>Formula usage explain pannum</li>
-          <li>When / where / why clarity kudukkum</li>
-          <li>Wrong thinking patterns identify pannum</li>
-        </ul>
-      </div>
+      <div class="grid">
+        <div class="card">
+          <h2>What this site does</h2>
+          <ul>
+            <li>Explains how formulas actually work</li>
+            <li>Shows when and where to apply them</li>
+            <li>Breaks common thinking mistakes</li>
+          </ul>
+        </div>
 
-      <div class="block">
-        <h2>What this site will NOT do</h2>
-        <ul>
-          <li>No derivations essay</li>
-          <li>No video spoon-feeding</li>
-          <li>No fake confidence</li>
-        </ul>
+        <div class="card">
+          <h2>What this site avoids</h2>
+          <ul>
+            <li>No derivation essays</li>
+            <li>No video spoon-feeding</li>
+            <li>No false confidence</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Target audience</h2>
+          <ul>
+            <li>Confused students</li>
+            <li>Average scorers</li>
+            <li>Anyone tired of memorising blindly</li>
+          </ul>
+        </div>
       </div>
 
       <div class="alert">
         Warning:  
-        Indha site use panninaa, shortcut mindset break aagum.  
-        Blame pannradhukku yaarum illa. Responsibility ungalukku.
+        If you use this site seriously, shortcut thinking will collapse.  
+        Expect discomfort before clarity.
       </div>
 
     </main>
@@ -224,3 +257,4 @@
 
 </body>
 </html>
+
