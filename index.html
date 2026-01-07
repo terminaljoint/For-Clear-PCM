@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For clear PCM – Complete JEE PCM (My List)</title>
+<title>For clear PCM – JEE Physics Chemistry Maths</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="For clear PCM covers ONLY the essential JEE PCM topics from the official 'my list for JEE'. No extra chapters, no dilution. Built for average students.">
+<!-- SEO -->
+<meta name="description" content="For clear PCM is a structured JEE learning platform for Physics, Chemistry, and Maths. Clear formulas, exam logic, and mistake analysis for average students.">
+<meta name="keywords" content="JEE PCM, JEE Maths, JEE Physics, JEE Chemistry, PCM formulas, average students JEE">
+<meta name="author" content="Terminal Joint">
 <meta name="robots" content="index, follow">
 
 <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3b/Math_icon.svg">
@@ -13,29 +16,198 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
-header{padding:22px 24px;border-bottom:1px solid #30363d}
-.brand{font-size:2rem;font-weight:700}
-.subtitle{color:#9aa4af;margin-top:6px;max-width:860px}
-.subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
-.subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
-.subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-.subject-btn:hover{background:#161b22}
-main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
-.nav{display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap}
-.back{color:#2f81f7;cursor:pointer;font-weight:700}
-.breadcrumb{display:flex;gap:6px;flex-wrap:wrap}
-.crumb{padding:8px 14px;border:1px solid #30363d;border-radius:8px;font-size:.9rem;cursor:pointer;color:#2f81f7}
+
+body{
+  font-family:"Comic Neue",system-ui;
+  background:#0d1117;
+  color:#e6edf3;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+header{
+  padding:22px 24px;
+  border-bottom:1px solid #30363d;
+}
+
+.brand{
+  font-size:2rem;
+  font-weight:700;
+}
+
+.subtitle{
+  color:#9aa4af;
+  margin-top:6px;
+  max-width:820px;
+}
+
+/* SUBJECT SWITCH */
+.subject-bar{
+  display:flex;
+  gap:12px;
+  padding:14px 24px;
+  border-bottom:1px solid #30363d;
+}
+
+.subject-btn{
+  padding:8px 16px;
+  border:1px solid #30363d;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.subject-btn.active{
+  border-color:#2f81f7;
+  color:#2f81f7;
+}
+
+.subject-btn:hover{
+  background:#161b22;
+}
+
+main{
+  max-width:1000px;
+  margin:0 auto;
+  padding:32px 24px;
+  flex:1;
+}
+
+/* NAV */
+.nav{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+
+.back{
+  color:#2f81f7;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.breadcrumb{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.crumb{
+  padding:6px 12px;
+  border:1px solid #30363d;
+  border-radius:8px;
+  font-size:.85rem;
+  cursor:pointer;
+  color:#2f81f7;
+}
+
 .crumb:hover{background:#161b22}
+
 .hidden{display:none}
-.section-title{font-size:1.4rem;margin-bottom:14px}
-.item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
+
+/* HOME */
+.home{
+  max-width:860px;
+}
+
+.home h2{
+  font-size:1.6rem;
+  margin-bottom:14px;
+}
+
+.home p{
+  color:#9aa4af;
+  margin-bottom:26px;
+  line-height:1.6;
+}
+
+.home-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+.home-card{
+  border:1px solid #30363d;
+  border-radius:14px;
+  padding:18px;
+  cursor:pointer;
+}
+
+.home-card:hover{background:#161b22}
+
+.home-card h3{margin-bottom:6px}
+
+/* LISTS */
+.section-title{
+  font-size:1.4rem;
+  margin-bottom:14px;
+}
+
+.item{
+  padding:14px 16px;
+  border:1px solid #30363d;
+  border-radius:10px;
+  margin-bottom:12px;
+  cursor:pointer;
+}
+
 .item:hover{background:#161b22}
-.home{max-width:880px}
-.home h2{font-size:1.6rem;margin-bottom:14px}
-.home p{color:#9aa4af;line-height:1.6;margin-bottom:18px}
-.home ul{margin-left:18px;color:#9aa4af}
-footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
+
+/* CONCEPT */
+.focus{
+  max-width:760px;
+  margin:0 auto;
+}
+
+.modes{
+  display:flex;
+  gap:18px;
+  border-bottom:1px solid #30363d;
+  margin:24px 0;
+}
+
+.modes button{
+  background:none;
+  border:none;
+  font-weight:700;
+  color:#9aa4af;
+  cursor:pointer;
+  padding:8px 0;
+}
+
+.modes button.active{
+  color:#2f81f7;
+  border-bottom:2px solid #2f81f7;
+}
+
+.block{
+  margin-top:22px;
+}
+
+.block h4{
+  color:#2f81f7;
+  margin-bottom:12px;
+}
+
+.block ul{list-style:none}
+
+.block li{
+  padding:8px 0;
+  border-bottom:1px dashed #30363d;
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid #30363d;
+  padding:16px 24px;
+  font-size:.85rem;
+  color:#9aa4af;
+  text-align:center;
+}
 </style>
 </head>
 
@@ -44,157 +216,275 @@ footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9a
 <header>
   <h1 class="brand">For clear PCM</h1>
   <p class="subtitle">
-    This platform strictly follows the official <b>“my list for JEE”</b>.
-    No extra chapters. No skipped essentials. Every topic here is useful
-    for JEE and connected to real problem-solving.
+    Structured, exam-oriented Physics, Chemistry, and Maths learning
+    designed especially for average students preparing for JEE.
   </p>
 </header>
 
 <div class="subject-bar">
-  <div class="subject-btn" data-sub="Maths" onclick="goSubject('Maths')">Maths</div>
-  <div class="subject-btn" data-sub="Physics" onclick="goSubject('Physics')">Physics</div>
-  <div class="subject-btn" data-sub="Chemistry" onclick="goSubject('Chemistry')">Chemistry</div>
+  <div class="subject-btn" onclick="goSubject('Maths')">Maths</div>
+  <div class="subject-btn" onclick="goSubject('Physics')">Physics</div>
+  <div class="subject-btn" onclick="goSubject('Chemistry')">Chemistry</div>
 </div>
 
 <main>
+
   <div class="nav hidden" id="nav">
     <div class="back" onclick="goBack()">← Back</div>
     <div class="breadcrumb" id="breadcrumb"></div>
   </div>
+
   <div id="view"></div>
+
 </main>
 
 <footer>
-©2026 Terminal Joint All Rights Reserved , Made for Average Students in "PCM"
+  ©2026 Terminal Joint All Rights Reserved , Made for Average Students in "PCM"
 </footer>
 
 <script>
-/* ===================== STRICT "MY LIST FOR JEE" ===================== */
-
+/* ===== SYLLABUS (COMPLETE) ===== */
 const syllabus = {
-
-Maths:{
-  "Sets, Relations & Functions":{
-    "Sets":["Types of Sets","Operations on Sets","De Morgan Laws"],
-    "Relations":["Equivalence Relation"],
-    "Functions":["Domain & Range","Types of Functions","Inverse & Composite"]
+  Maths:{
+    "Sets & Functions":{
+      "Sets":["Types of Sets","Set Operations","Venn Diagrams"],
+      "Functions":["Domain & Range","Types of Functions","Inverse Function"]
+    },
+    "Algebra":{
+      "Quadratic Equations":["Roots","Nature of Roots"],
+      "Sequences & Series":["AP","GP"],
+      "Binomial Theorem":["General Term"]
+    },
+    "Coordinate Geometry":{
+      "Straight Lines":["Slope","Forms of Line"],
+      "Circles":["Equation of Circle","Tangents"]
+    },
+    "Calculus":{
+      "Limits":["Standard Limits"],
+      "Differentiation":["Rules","Applications"],
+      "Integration":["Indefinite","Definite"]
+    },
+    "Vectors & 3D":{
+      "Vectors":["Dot Product","Cross Product"],
+      "3D Geometry":["Line","Plane"]
+    },
+    "Probability":{
+      "Probability":["Classical","Conditional","Bayes Theorem"]
+    }
   },
-  "Algebra":{
-    "Quadratic Equations":["Standard Form","Roots & Discriminant"],
-    "Sequences & Series":["AP","GP"],
-    "Binomial Theorem":["General Term"]
+  Physics:{
+    "Kinematics":{
+      "Motion":["1D Motion","2D Motion"]
+    },
+    "Laws of Motion":{
+      "Newton Laws":["Free Body Diagram","Friction"]
+    },
+    "Work Energy Power":{
+      "Energy":["Work Energy Theorem","Conservation of Energy"]
+    },
+    "Centre of Mass & Rotation":{
+      "Rotation":["Torque","Angular Momentum"]
+    },
+    "Gravitation":{
+      "Gravitation":["Field","Potential","Satellites"]
+    },
+    "Electrostatics":{
+      "Electrostatics":["Electric Field","Electric Potential","Capacitors"]
+    },
+    "Current Electricity":{
+      "Circuits":["Ohm Law","Kirchhoff Laws"]
+    },
+    "Magnetism & EMI":{
+      "Magnetism":["Lorentz Force","Biot Savart Law"],
+      "EMI":["Faraday Law","Lenz Law"]
+    },
+    "Optics & Modern Physics":{
+      "Optics":["Ray Optics","Wave Optics"],
+      "Modern Physics":["Atoms","Nuclei","Semiconductors"]
+    }
   },
-  "Coordinate Geometry":{
-    "Straight Lines":["Slope","All Forms of Line"],
-    "Circles":["Standard Equation","Tangents"]
-  },
-  "Calculus":{
-    "Limits":["Standard Limits"],
-    "Differentiation":["Rules","Applications of Derivatives"],
-    "Integration":["Indefinite","Definite"]
-  },
-  "Vectors & 3D":{
-    "Vectors":["Dot Product","Cross Product"],
-    "3D Geometry":["Line","Plane"]
-  },
-  "Probability":{
-    "Probability":["Classical","Conditional","Bayes Theorem"]
+  Chemistry:{
+    "Mole Concept":{
+      "Stoichiometry":["Mole","Limiting Reagent"]
+    },
+    "Redox":{
+      "Redox":["Oxidation Number","Balancing Redox"]
+    },
+    "Chemical Bonding":{
+      "Bonding":["VSEPR Theory","Hybridisation","Molecular Orbital Theory"]
+    },
+    "Thermodynamics":{
+      "Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]
+    },
+    "Chemical Kinetics":{
+      "Kinetics":["Rate Law","Arrhenius Equation"]
+    },
+    "GOC":{
+      "GOC":["Inductive Effect","Resonance","Hyperconjugation"]
+    },
+    "Hydrocarbons":{
+      "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
+    },
+    "Coordination Compounds":{
+      "Coordination":["Werner Theory","Isomerism","Crystal Field Theory"]
+    },
+    "Biomolecules":{
+      "Biomolecules":["Carbohydrates","Proteins"]
+    },
+    "Polymers":{
+      "Polymers":["Types","Polymerisation Reactions"]
+    }
   }
-},
-
-Physics:{
-  "Kinematics":["1D Motion","2D Motion","Equations of Motion"],
-  "Laws of Motion":["Newton Laws","Friction"],
-  "Work Energy Power":["Work","Energy","Power"],
-  "Centre of Mass & Rotation":["COM","Torque","Angular Momentum"],
-  "Gravitation":["Newton Law","Satellites"],
-  "Electrostatics":["Electric Field","Potential","Capacitors"],
-  "Current Electricity":["Ohm Law","Kirchhoff Laws"],
-  "Magnetism & EMI":["Lorentz Force","Faraday Law"],
-  "AC":["AC Circuits","Reactance","Impedance"],
-  "Optics":["Ray Optics","Wave Optics"],
-  "Modern Physics":["Atoms","Nuclei","Semiconductors"]
-},
-
-Chemistry:{
-  "Mole Concept":["Stoichiometry","Limiting Reagent"],
-  "Thermodynamics":["First Law","Gibbs Free Energy"],
-  "Redox":["Oxidation Number","Balancing"],
-  "Chemical Bonding":["VSEPR","Hybridisation","MOT"],
-  "Chemical Kinetics":["Rate Law","Arrhenius Equation"],
-  "GOC":["Inductive Effect","Resonance","Hyperconjugation"],
-  "Hydrocarbons":["Alkanes","Alkenes","Alkynes"],
-  "Coordination Compounds":["Werner Theory","CFT"],
-  "Biomolecules":["Carbohydrates","Proteins"],
-  "Polymers":["Types","Polymerisation"]
 };
 
+/* ===== STATE + NAVIGATION ===== */
 let stack=[];
-function navigate(n){stack=n;render()}
-function goSubject(s){navigate([s])}
-function goBack(){if(stack.length>0)navigate(stack.slice(0,-1))}
-function jumpTo(i){navigate(stack.slice(0,i+1))}
+let mode="base";
 
-const view=document.getElementById("view"),
-nav=document.getElementById("nav"),
-breadcrumb=document.getElementById("breadcrumb"),
-subjectBtns=document.querySelectorAll(".subject-btn");
-
-function render(){
- nav.classList.toggle("hidden",stack.length===0);
- breadcrumb.innerHTML="";
- subjectBtns.forEach(b=>b.classList.toggle("active",stack[0]===b.dataset.sub));
-
- stack.forEach((s,i)=>{
-   const c=document.createElement("div");
-   c.className="crumb";
-   c.innerText=s;
-   c.onclick=()=>jumpTo(i);
-   breadcrumb.appendChild(c);
- });
-
- view.innerHTML="";
- if(stack.length===0){
-   view.innerHTML=`
-   <div class="home">
-     <h2>What is covered here</h2>
-     <p>
-       Every chapter you see here belongs to the official <b>my list for JEE</b>.
-       This is not a dump of the NCERT book. This is a filtered, exam-useful syllabus.
-     </p>
-     <ul>
-       <li>Only high-value JEE topics</li>
-       <li>No missing fundamentals</li>
-       <li>No unnecessary extras</li>
-     </ul>
-   </div>`;
-   return;
- }
-
- let data=syllabus[stack[0]];
- for(let i=1;i<stack.length;i++) data=data[stack[i]];
-
- if(Array.isArray(data)){
-   view.innerHTML="<h2 class='section-title'>Concepts</h2>";
-   data.forEach(i=>{
-     const d=document.createElement("div");
-     d.className="item";
-     d.innerText=i;
-     view.appendChild(d);
-   });
-   return;
- }
-
- view.innerHTML="<h2 class='section-title'>Topics</h2>";
- Object.keys(data).forEach(i=>{
-   const d=document.createElement("div");
-   d.className="item";
-   d.innerText=i;
-   d.onclick=()=>navigate([...stack,i]);
-   view.appendChild(d);
- });
+function navigate(newStack, push=true){
+  stack = newStack;
+  if(push){
+    history.pushState({stack:[...stack],mode},"","");
+  }
+  render();
 }
 
+window.onpopstate = e=>{
+  if(e.state){
+    stack = e.state.stack || [];
+    mode = e.state.mode || "base";
+    render(false);
+  }
+};
+
+function goSubject(sub){
+  navigate([sub]);
+}
+
+function goBack(){
+  if(stack.length>0){
+    navigate(stack.slice(0,-1));
+  }
+}
+
+function jumpTo(i){
+  navigate(stack.slice(0,i+1));
+}
+
+/* ===== RENDER ===== */
+const view=document.getElementById("view");
+const nav=document.getElementById("nav");
+const breadcrumb=document.getElementById("breadcrumb");
+const subjectBtns=document.querySelectorAll(".subject-btn");
+
+function render(){
+  nav.classList.toggle("hidden",stack.length===0);
+  breadcrumb.innerHTML="";
+  subjectBtns.forEach(b=>b.classList.toggle("active",stack[0]===b.innerText));
+
+  stack.forEach((s,i)=>{
+    const c=document.createElement("div");
+    c.className="crumb";
+    c.innerText=s;
+    c.onclick=()=>jumpTo(i);
+    breadcrumb.appendChild(c);
+  });
+
+  view.innerHTML="";
+
+  if(stack.length===0){
+    view.innerHTML=`
+      <div class="home">
+        <h2>Learn PCM with clarity, not confusion</h2>
+        <p>
+          This platform is built for average students who want a clean path
+          to understand PCM concepts, apply formulas correctly, and avoid
+          common exam mistakes.
+        </p>
+        <div class="home-grid">
+          <div class="home-card" onclick="goSubject('Maths')">
+            <h3>Maths</h3>
+            <p>Algebra, Calculus, Coordinate Geometry, Vectors, Probability</p>
+          </div>
+          <div class="home-card" onclick="goSubject('Physics')">
+            <h3>Physics</h3>
+            <p>Mechanics, Electrodynamics, Optics, Modern Physics</p>
+          </div>
+          <div class="home-card" onclick="goSubject('Chemistry')">
+            <h3>Chemistry</h3>
+            <p>Physical, Organic, and Inorganic Chemistry essentials</p>
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  if(stack.length===1){
+    renderList("Chapters",Object.keys(syllabus[stack[0]]));
+    return;
+  }
+  if(stack.length===2){
+    renderList("Topics",Object.keys(syllabus[stack[0]][stack[1]]));
+    return;
+  }
+  if(stack.length===3){
+    renderList("Concepts",syllabus[stack[0]][stack[1]][stack[2]]);
+    return;
+  }
+
+  renderConcept();
+}
+
+function renderList(title,items){
+  view.innerHTML=`<h2 class="section-title">${title}</h2>`;
+  items.forEach(i=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=i;
+    d.onclick=()=>navigate([...stack,i]);
+    view.appendChild(d);
+  });
+}
+
+function renderConcept(){
+  view.innerHTML=`
+    <div class="focus">
+      <h2 class="section-title">${stack[3]}</h2>
+      <div class="modes">
+        <button class="${mode==='base'?'active':''}" onclick="mode='base';navigate(stack,false)">Base</button>
+        <button class="${mode==='jee'?'active':''}" onclick="mode='jee';navigate(stack,false)">JEE</button>
+        <button class="${mode==='mistake'?'active':''}" onclick="mode='mistake';navigate(stack,false)">Mistake</button>
+      </div>
+      ${content()}
+    </div>`;
+}
+
+function content(){
+  if(mode==="base") return `
+    <div class="block"><h4>Base Level</h4><ul>
+      <li>Definition</li>
+      <li>Formula</li>
+      <li>Terms explained</li>
+      <li>WHEN to use</li>
+      <li>WHY it works</li>
+    </ul></div>`;
+  if(mode==="jee") return `
+    <div class="block"><h4>JEE Main</h4><ul>
+      <li>WHERE questions appear</li>
+      <li>HOW to apply in exam</li>
+      <li>WHAT to use / not use</li>
+      <li>Heavy JEE-level example</li>
+    </ul></div>`;
+  return `
+    <div class="block"><h4>Mistake Bank</h4><ul>
+      <li>Wrong assumptions</li>
+      <li>Wrong steps</li>
+      <li>MCQ traps</li>
+    </ul></div>`;
+}
+
+/* INIT */
+history.replaceState({stack:[],mode},"","");
 render();
 </script>
 
