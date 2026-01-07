@@ -8,142 +8,79 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#0b0f1a;
-  --panel:#11172c;
-  --panel-soft:#151d3d;
-  --border:#26306a;
-  --text:#eef1ff;
-  --muted:#9aa6d6;
-  --accent:#6ee7e0;
-}
-
-*{box-sizing:border-box;margin:0;padding:0;font-family:"Comic Neue",system-ui}
-
 body{
-  background:linear-gradient(180deg,#0b0f1a,#090c16);
-  color:var(--text);
-  min-height:100vh;
+  margin:0;
+  font-family:"Comic Neue", system-ui;
+  background:#0e1117;
+  color:#e6edf3;
 }
 
-/* HEADER */
 header{
-  padding:26px 36px;
-  border-bottom:1px solid var(--border);
+  padding:24px 32px;
+  border-bottom:1px solid #30363d;
 }
-.brand{font-size:2.4rem;font-weight:700}
-.tagline{color:var(--muted);margin-top:6px}
 
-/* HOME */
-.home{
-  max-width:1000px;
-  margin:40px auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-}
-.subject{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:28px;
-  cursor:pointer;
-  transition:.2s;
-}
-.subject:hover{
-  border-color:var(--accent);
-  transform:translateY(-4px);
-}
-.subject h2{margin-bottom:10px}
-.subject p{color:var(--muted)}
+.brand{font-size:2.2rem;font-weight:700}
+.subtitle{color:#8b949e;margin-top:6px}
 
-/* PIPELINE */
-.pipeline{
-  max-width:1400px;
-  margin:30px auto;
-  padding:0 30px;
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:22px;
-}
-.column{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;
-  min-height:380px;
-}
-.column h3{margin-bottom:14px}
-.item{
-  padding:10px 14px;
-  border-radius:14px;
-  cursor:pointer;
-  margin-bottom:8px;
-}
-.item:hover{background:var(--panel-soft)}
-.item.active{
-  background:rgba(110,231,224,.12);
-  border:1px solid var(--accent);
-}
+main{max-width:1000px;margin:0 auto;padding:32px}
 
 .hidden{display:none}
 
-/* DIALOG */
-.backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-.dialog{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:26px;
-  width:min(980px,92%);
-  padding:26px;
-  max-height:90vh;
-  overflow:auto;
-}
-.dialog-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.dialog-header h2{font-size:1.6rem}
-.close{cursor:pointer;color:var(--muted)}
+h2{margin-bottom:12px}
+p{color:#8b949e}
 
-/* MODES */
+.list-item{
+  padding:12px 14px;
+  border:1px solid #30363d;
+  border-radius:6px;
+  margin-bottom:10px;
+  cursor:pointer;
+}
+.list-item:hover{background:#161b22}
+.list-item.active{
+  border-color:#2f81f7;
+  color:#2f81f7;
+}
+
+.breadcrumb{
+  font-size:0.85rem;
+  color:#8b949e;
+  margin-bottom:14px;
+}
+
+/* Concept focus */
 .modes{
   display:flex;
   gap:12px;
   margin:20px 0;
+  border-bottom:1px solid #30363d;
 }
 .modes button{
-  padding:8px 16px;
-  border-radius:14px;
-  border:1px solid var(--border);
-  background:transparent;
-  color:var(--text);
+  background:none;
+  border:none;
+  padding:8px 10px;
+  color:#8b949e;
   cursor:pointer;
 }
 .modes button.active{
-  background:var(--accent);
-  color:#002b2b;
+  color:#2f81f7;
+  border-bottom:2px solid #2f81f7;
 }
 
-.mode-block{
-  display:none;
-  background:var(--panel-soft);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:16px;
+.section{
+  margin-top:18px;
 }
-.mode-block h4{margin-bottom:10px;color:var(--accent)}
-.mode-block ol{margin-left:18px}
-.mode-block li{margin-bottom:8px}
+.section h4{
+  color:#2f81f7;
+  margin-bottom:8px;
+}
+.section ol{
+  margin-left:20px;
+}
+.section li{
+  margin-bottom:6px;
+}
 </style>
 </head>
 
@@ -151,241 +88,226 @@ header{
 
 <header>
   <div class="brand">For clear PCM</div>
-  <div class="tagline">perfect hierarchy · one page · zero noise</div>
+  <div class="subtitle">browse → focus → master</div>
 </header>
 
+<main>
+
 <!-- HOME -->
-<div class="home" id="home">
-  <div class="subject" onclick="selectSubject('maths')">
-    <h2>Maths</h2><p>Structure, logic, abstraction</p>
+<section id="home">
+  <h2>Select a subject</h2>
+  <div class="list-item" onclick="selectSubject('maths')">Maths</div>
+  <div class="list-item" onclick="selectSubject('physics')">Physics</div>
+  <div class="list-item" onclick="selectSubject('chemistry')">Chemistry</div>
+</section>
+
+<!-- SUBJECT -->
+<section id="subjectView" class="hidden">
+  <div class="breadcrumb" id="subjectCrumb"></div>
+  <h2>Chapters</h2>
+  <div id="chapterList"></div>
+</section>
+
+<!-- CHAPTER -->
+<section id="chapterView" class="hidden">
+  <div class="breadcrumb" id="chapterCrumb"></div>
+  <h2>Topics</h2>
+  <div id="topicList"></div>
+</section>
+
+<!-- TOPIC -->
+<section id="topicView" class="hidden">
+  <div class="breadcrumb" id="topicCrumb"></div>
+  <h2>Concepts</h2>
+  <div id="conceptList"></div>
+</section>
+
+<!-- CONCEPT FOCUS -->
+<section id="conceptView" class="hidden">
+  <div class="breadcrumb" id="conceptCrumb"></div>
+  <h2 id="conceptTitle"></h2>
+
+  <div class="modes">
+    <button class="active" onclick="setMode('base')">Base Level</button>
+    <button onclick="setMode('jee')">JEE Main</button>
+    <button onclick="setMode('mistake')">Mistake Bank</button>
   </div>
-  <div class="subject" onclick="selectSubject('physics')">
-    <h2>Physics</h2><p>Motion, forces, fields</p>
-  </div>
-  <div class="subject" onclick="selectSubject('chemistry')">
-    <h2>Chemistry</h2><p>Structure, reactions, energy</p>
-  </div>
-</div>
 
-<!-- PIPELINE -->
-<div class="pipeline hidden" id="pipeline">
-  <div class="column"><h3>Chapters</h3><div id="chapters"></div></div>
-  <div class="column"><h3>Topics</h3><div id="topics"></div></div>
-  <div class="column"><h3>Concepts</h3><div id="concepts"></div></div>
-</div>
+  <div id="content"></div>
+</section>
 
-<!-- DIALOG -->
-<div class="backdrop" id="dialog">
-  <div class="dialog">
-    <div class="dialog-header">
-      <h2 id="conceptTitle"></h2>
-      <span class="close" onclick="closeDialog()">✕</span>
-    </div>
-
-    <div class="modes">
-      <button class="active" onclick="setMode('base')">Base Level</button>
-      <button onclick="setMode('jee')">JEE Main</button>
-      <button onclick="setMode('mistake')">Mistake Bank</button>
-    </div>
-
-    <!-- BASE -->
-    <div class="mode-block" data-mode="base">
-      <h4>Base Level</h4>
-      <ol>
-        <li>Definition</li>
-        <li>Formula</li>
-        <li>Terms</li>
-        <li>WHEN to use</li>
-        <li>WHY this formula</li>
-      </ol>
-    </div>
-
-    <!-- JEE -->
-    <div class="mode-block" data-mode="jee">
-      <h4>JEE Main</h4>
-      <ol start="6">
-        <li>WHERE it appears</li>
-        <li>HOW to apply</li>
-        <li>WHAT to use / not use</li>
-        <li>Heavy JEE-level example</li>
-      </ol>
-    </div>
-
-    <!-- MISTAKE -->
-    <div class="mode-block" data-mode="mistake">
-      <h4>Mistake Bank</h4>
-      <ol start="10">
-        <li>Wrong assumptions</li>
-        <li>Wrong steps</li>
-        <li>MCQ traps</li>
-      </ol>
-    </div>
-  </div>
-</div>
+</main>
 
 <script>
-/* FULL SYLLABUS (ALL CHAPTERS) */
-const syllabus={
+/* FULL SYLLABUS */
+const syllabus = {
  maths:{
   "Sets & Functions":{
-    "Sets":["Types of Sets","Operations","Venn Diagrams"],
-    "Functions":["Domain & Range","Types","Inverse"]
+   "Sets":["Types of Sets","Set Operations","Venn Diagrams"],
+   "Functions":["Domain & Range","Types of Functions","Inverse Function"]
   },
   "Algebra":{
-    "Quadratic Equations":["Roots","Nature"],
-    "Sequences & Series":["AP","GP"],
-    "Binomial Theorem":["General Term"]
+   "Quadratic Equations":["Roots","Nature of Roots"],
+   "Sequences & Series":["AP","GP"],
+   "Binomial Theorem":["General Term"]
   },
   "Coordinate Geometry":{
-    "Straight Lines":["Slope","Forms"],
-    "Circles":["Equation","Tangents"]
+   "Straight Lines":["Slope","Forms"],
+   "Circles":["Equation","Tangents"]
   },
   "Calculus":{
-    "Limits":["Standard Limits"],
-    "Differentiation":["Rules","Applications"],
-    "Integration":["Indefinite","Definite"]
+   "Limits":["Standard Limits"],
+   "Differentiation":["Rules","Applications"],
+   "Integration":["Indefinite","Definite"]
   },
   "Vectors & 3D":{
-    "Vectors":["Dot","Cross"],
-    "3D Geometry":["Line","Plane"]
+   "Vectors":["Dot Product","Cross Product"],
+   "3D Geometry":["Line","Plane"]
   },
   "Probability":{
-    "Probability":["Classical","Conditional","Bayes"]
+   "Probability":["Classical","Conditional","Bayes"]
   }
  },
  physics:{
   "Kinematics":{
-    "Motion":["1D","2D"]
+   "Motion":["1D Motion","2D Motion"]
   },
   "Laws of Motion":{
-    "Newton Laws":["FBD","Friction"]
+   "Newton Laws":["FBD","Friction"]
   },
   "Work Energy Power":{
-    "Energy":["WET","Conservation"]
+   "Energy":["Work Energy Theorem"]
   },
   "COM & Rotation":{
-    "Rotation":["Torque","Angular Momentum"]
+   "Rotation":["Torque","Angular Momentum"]
   },
   "Gravitation":{
-    "Gravitation":["Field","Potential"]
+   "Gravitation":["Field","Potential","Satellites"]
   },
   "Electrostatics":{
-    "Electrostatics":["Field","Potential","Capacitors"]
+   "Electrostatics":["Field","Potential","Capacitors"]
   },
   "Current Electricity":{
-    "Circuits":["Ohm","Kirchhoff"]
+   "Circuits":["Ohm Law","Kirchhoff Laws"]
   },
   "Magnetism & EMI":{
-    "Magnetism":["Lorentz","Biot Savart"],
-    "EMI":["Faraday","Lenz"]
+   "Magnetism":["Lorentz Force","Biot Savart"],
+   "EMI":["Faraday Law","Lenz Law"]
   },
   "Optics & Modern":{
-    "Optics":["Ray","Wave"],
-    "Modern Physics":["Atoms","Nuclei","Semiconductors"]
+   "Optics":["Ray Optics","Wave Optics"],
+   "Modern Physics":["Atoms","Nuclei","Semiconductors"]
   }
  },
  chemistry:{
   "Mole Concept":{
-    "Stoichiometry":["Mole","Limiting Reagent"]
+   "Stoichiometry":["Mole","Limiting Reagent"]
   },
   "Redox":{
-    "Redox":["Oxidation Number"]
+   "Redox":["Oxidation Number"]
   },
   "Chemical Bonding":{
-    "Bonding":["VSEPR","Hybridisation","MO"]
+   "Bonding":["VSEPR","Hybridisation","MO Theory"]
   },
   "Thermodynamics":{
-    "Thermodynamics":["Enthalpy","Entropy","Gibbs"]
+   "Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]
   },
   "Kinetics":{
-    "Kinetics":["Rate Law","Arrhenius"]
+   "Kinetics":["Rate Law","Arrhenius Equation"]
   },
   "GOC":{
-    "GOC":["Inductive","Resonance","Hyperconjugation"]
+   "GOC":["Inductive Effect","Resonance","Hyperconjugation"]
   },
   "Hydrocarbons":{
-    "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
+   "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
   },
   "Coordination Compounds":{
-    "Coordination":["Werner","Isomerism","CFT"]
+   "Coordination":["Werner Theory","Isomerism","CFT"]
   },
   "Biomolecules":{
-    "Biomolecules":["Carbohydrates","Proteins"]
+   "Biomolecules":["Carbohydrates","Proteins"]
   },
   "Polymers":{
-    "Polymers":["Types","Reactions"]
+   "Polymers":["Types","Reactions"]
   }
  }
 };
 
-let currentMode="base";
+let state={}, mode="base";
 
-/* LOGIC */
+function hideAll(){
+  ["home","subjectView","chapterView","topicView","conceptView"]
+    .forEach(id=>document.getElementById(id).classList.add("hidden"));
+}
+
 function selectSubject(s){
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("pipeline").classList.remove("hidden");
-  loadChapters(s);
-}
-function loadChapters(s){
-  const c=document.getElementById("chapters");
-  const t=document.getElementById("topics");
-  const o=document.getElementById("concepts");
-  c.innerHTML="";t.innerHTML="";o.innerHTML="";
+  state={subject:s};
+  hideAll();
+  document.getElementById("subjectView").classList.remove("hidden");
+  document.getElementById("subjectCrumb").innerText=s.toUpperCase();
+  const cl=document.getElementById("chapterList");
+  cl.innerHTML="";
   Object.keys(syllabus[s]).forEach(ch=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=ch;
-    d.onclick=()=>loadTopics(s,ch,d);
-    c.appendChild(d);
+    cl.innerHTML+=`<div class="list-item" onclick="selectChapter('${ch}')">${ch}</div>`;
   });
 }
-function loadTopics(s,ch,el){
-  activate(el);
-  const t=document.getElementById("topics");
-  const o=document.getElementById("concepts");
-  t.innerHTML="";o.innerHTML="";
-  Object.keys(syllabus[s][ch]).forEach(tp=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=tp;
-    d.onclick=()=>loadConcepts(s,ch,tp,d);
-    t.appendChild(d);
+
+function selectChapter(ch){
+  state.chapter=ch;
+  hideAll();
+  document.getElementById("chapterView").classList.remove("hidden");
+  document.getElementById("chapterCrumb").innerText=`${state.subject} > ${ch}`;
+  const tl=document.getElementById("topicList");
+  tl.innerHTML="";
+  Object.keys(syllabus[state.subject][ch]).forEach(tp=>{
+    tl.innerHTML+=`<div class="list-item" onclick="selectTopic('${tp}')">${tp}</div>`;
   });
 }
-function loadConcepts(s,ch,tp,el){
-  activate(el);
-  const o=document.getElementById("concepts");
-  o.innerHTML="";
-  syllabus[s][ch][tp].forEach(con=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=con;
-    d.onclick=()=>openDialog(con);
-    o.appendChild(d);
+
+function selectTopic(tp){
+  state.topic=tp;
+  hideAll();
+  document.getElementById("topicView").classList.remove("hidden");
+  document.getElementById("topicCrumb").innerText=
+    `${state.subject} > ${state.chapter} > ${tp}`;
+  const cl=document.getElementById("conceptList");
+  cl.innerHTML="";
+  syllabus[state.subject][state.chapter][tp].forEach(c=>{
+    cl.innerHTML+=`<div class="list-item" onclick="openConcept('${c}')">${c}</div>`;
   });
 }
-function activate(el){
-  el.parentNode.querySelectorAll(".item").forEach(i=>i.classList.remove("active"));
-  el.classList.add("active");
-}
-function openDialog(c){
+
+function openConcept(c){
+  state.concept=c;
+  hideAll();
+  document.getElementById("conceptView").classList.remove("hidden");
   document.getElementById("conceptTitle").innerText=c;
-  document.getElementById("dialog").style.display="flex";
-  updateMode();
+  document.getElementById("conceptCrumb").innerText=
+    `${state.subject} > ${state.chapter} > ${state.topic}`;
+  renderContent();
 }
-function closeDialog(){
-  document.getElementById("dialog").style.display="none";
-}
+
 function setMode(m){
-  currentMode=m;
+  mode=m;
   document.querySelectorAll(".modes button").forEach(b=>b.classList.remove("active"));
   event.target.classList.add("active");
-  updateMode();
+  renderContent();
 }
-function updateMode(){
-  document.querySelectorAll(".mode-block").forEach(b=>{
-    b.style.display=b.dataset.mode===currentMode?"block":"none";
-  });
+
+function renderContent(){
+  const c=document.getElementById("content");
+  if(mode==="base"){
+    c.innerHTML=`<div class="section"><h4>Base Level</h4>
+      <ol><li>Definition</li><li>Formula</li><li>Terms</li><li>WHEN</li><li>WHY</li></ol></div>`;
+  }
+  if(mode==="jee"){
+    c.innerHTML=`<div class="section"><h4>JEE Main</h4>
+      <ol start="6"><li>WHERE</li><li>HOW</li><li>WHAT TO USE / NOT</li><li>Heavy Example</li></ol></div>`;
+  }
+  if(mode==="mistake"){
+    c.innerHTML=`<div class="section"><h4>Mistake Bank</h4>
+      <ol start="10"><li>Wrong assumptions</li><li>Wrong steps</li><li>MCQ traps</li></ol></div>`;
+  }
 }
 </script>
 
