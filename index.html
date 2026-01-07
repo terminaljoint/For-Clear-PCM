@@ -96,10 +96,10 @@ main{
 }
 
 .crumb{
-  padding:6px 12px;
+  padding:8px 14px;
   border:1px solid #30363d;
   border-radius:8px;
-  font-size:.85rem;
+  font-size:.9rem;
   cursor:pointer;
   color:#2f81f7;
 }
@@ -222,9 +222,9 @@ footer{
 </header>
 
 <div class="subject-bar">
-  <div class="subject-btn" onclick="goSubject('Maths')">Maths</div>
-  <div class="subject-btn" onclick="goSubject('Physics')">Physics</div>
-  <div class="subject-btn" onclick="goSubject('Chemistry')">Chemistry</div>
+  <div class="subject-btn" data-sub="Maths" onclick="goSubject('Maths')">Maths</div>
+  <div class="subject-btn" data-sub="Physics" onclick="goSubject('Physics')">Physics</div>
+  <div class="subject-btn" data-sub="Chemistry" onclick="goSubject('Chemistry')">Chemistry</div>
 </div>
 
 <main>
@@ -243,7 +243,7 @@ footer{
 </footer>
 
 <script>
-/* ===== SYLLABUS (COMPLETE) ===== */
+/* ===== SYLLABUS ===== */
 const syllabus = {
   Maths:{
     "Sets & Functions":{
@@ -273,27 +273,13 @@ const syllabus = {
     }
   },
   Physics:{
-    "Kinematics":{
-      "Motion":["1D Motion","2D Motion"]
-    },
-    "Laws of Motion":{
-      "Newton Laws":["Free Body Diagram","Friction"]
-    },
-    "Work Energy Power":{
-      "Energy":["Work Energy Theorem","Conservation of Energy"]
-    },
-    "Centre of Mass & Rotation":{
-      "Rotation":["Torque","Angular Momentum"]
-    },
-    "Gravitation":{
-      "Gravitation":["Field","Potential","Satellites"]
-    },
-    "Electrostatics":{
-      "Electrostatics":["Electric Field","Electric Potential","Capacitors"]
-    },
-    "Current Electricity":{
-      "Circuits":["Ohm Law","Kirchhoff Laws"]
-    },
+    "Kinematics":{"Motion":["1D Motion","2D Motion"]},
+    "Laws of Motion":{"Newton Laws":["Free Body Diagram","Friction"]},
+    "Work Energy Power":{"Energy":["Work Energy Theorem","Conservation of Energy"]},
+    "Centre of Mass & Rotation":{"Rotation":["Torque","Angular Momentum"]},
+    "Gravitation":{"Gravitation":["Field","Potential","Satellites"]},
+    "Electrostatics":{"Electrostatics":["Electric Field","Electric Potential","Capacitors"]},
+    "Current Electricity":{"Circuits":["Ohm Law","Kirchhoff Laws"]},
     "Magnetism & EMI":{
       "Magnetism":["Lorentz Force","Biot Savart Law"],
       "EMI":["Faraday Law","Lenz Law"]
@@ -304,71 +290,49 @@ const syllabus = {
     }
   },
   Chemistry:{
-    "Mole Concept":{
-      "Stoichiometry":["Mole","Limiting Reagent"]
-    },
-    "Redox":{
-      "Redox":["Oxidation Number","Balancing Redox"]
-    },
-    "Chemical Bonding":{
-      "Bonding":["VSEPR Theory","Hybridisation","Molecular Orbital Theory"]
-    },
-    "Thermodynamics":{
-      "Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]
-    },
-    "Chemical Kinetics":{
-      "Kinetics":["Rate Law","Arrhenius Equation"]
-    },
-    "GOC":{
-      "GOC":["Inductive Effect","Resonance","Hyperconjugation"]
-    },
-    "Hydrocarbons":{
-      "Hydrocarbons":["Alkanes","Alkenes","Alkynes"]
-    },
-    "Coordination Compounds":{
-      "Coordination":["Werner Theory","Isomerism","Crystal Field Theory"]
-    },
-    "Biomolecules":{
-      "Biomolecules":["Carbohydrates","Proteins"]
-    },
-    "Polymers":{
-      "Polymers":["Types","Polymerisation Reactions"]
-    }
+    "Mole Concept":{"Stoichiometry":["Mole","Limiting Reagent"]},
+    "Redox":{"Redox":["Oxidation Number","Balancing Redox"]},
+    "Chemical Bonding":{"Bonding":["VSEPR Theory","Hybridisation","Molecular Orbital Theory"]},
+    "Thermodynamics":{"Thermodynamics":["Enthalpy","Entropy","Gibbs Free Energy"]},
+    "Chemical Kinetics":{"Kinetics":["Rate Law","Arrhenius Equation"]},
+    "GOC":{"GOC":["Inductive Effect","Resonance","Hyperconjugation"]},
+    "Hydrocarbons":{"Hydrocarbons":["Alkanes","Alkenes","Alkynes"]},
+    "Coordination Compounds":{"Coordination":["Werner Theory","Isomerism","Crystal Field Theory"]},
+    "Biomolecules":{"Biomolecules":["Carbohydrates","Proteins"]},
+    "Polymers":{"Polymers":["Types","Polymerisation Reactions"]}
   }
 };
 
-/* ===== STATE + NAVIGATION ===== */
+/* ===== STATE ===== */
 let stack=[];
 let mode="base";
 
+/* ===== NAVIGATION ===== */
 function navigate(newStack, push=true){
-  stack = newStack;
+  stack=newStack;
   if(push){
     history.pushState({stack:[...stack],mode},"","");
   }
   render();
 }
 
-window.onpopstate = e=>{
+window.onpopstate=e=>{
   if(e.state){
-    stack = e.state.stack || [];
-    mode = e.state.mode || "base";
-    render(false);
+    stack=e.state.stack||[];
+    mode=e.state.mode||"base";
+    render();
   }
 };
 
-function goSubject(sub){
-  navigate([sub]);
-}
+function goSubject(sub){navigate([sub]);}
+function goBack(){if(stack.length>0)navigate(stack.slice(0,-1));}
+function jumpTo(i){navigate(stack.slice(0,i+1));}
 
-function goBack(){
-  if(stack.length>0){
-    navigate(stack.slice(0,-1));
-  }
-}
-
-function jumpTo(i){
-  navigate(stack.slice(0,i+1));
+/* MODE FIX */
+function setMode(newMode){
+  mode=newMode;
+  history.pushState({stack:[...stack],mode},"","");
+  render();
 }
 
 /* ===== RENDER ===== */
@@ -380,7 +344,10 @@ const subjectBtns=document.querySelectorAll(".subject-btn");
 function render(){
   nav.classList.toggle("hidden",stack.length===0);
   breadcrumb.innerHTML="";
-  subjectBtns.forEach(b=>b.classList.toggle("active",stack[0]===b.innerText));
+
+  subjectBtns.forEach(b=>{
+    b.classList.toggle("active",stack[0]===b.dataset.sub);
+  });
 
   stack.forEach((s,i)=>{
     const c=document.createElement("div");
@@ -419,18 +386,9 @@ function render(){
     return;
   }
 
-  if(stack.length===1){
-    renderList("Chapters",Object.keys(syllabus[stack[0]]));
-    return;
-  }
-  if(stack.length===2){
-    renderList("Topics",Object.keys(syllabus[stack[0]][stack[1]]));
-    return;
-  }
-  if(stack.length===3){
-    renderList("Concepts",syllabus[stack[0]][stack[1]][stack[2]]);
-    return;
-  }
+  if(stack.length===1) return renderList("Chapters",Object.keys(syllabus[stack[0]]));
+  if(stack.length===2) return renderList("Topics",Object.keys(syllabus[stack[0]][stack[1]]));
+  if(stack.length===3) return renderList("Concepts",syllabus[stack[0]][stack[1]][stack[2]]);
 
   renderConcept();
 }
@@ -451,9 +409,9 @@ function renderConcept(){
     <div class="focus">
       <h2 class="section-title">${stack[3]}</h2>
       <div class="modes">
-        <button class="${mode==='base'?'active':''}" onclick="mode='base';navigate(stack,false)">Base</button>
-        <button class="${mode==='jee'?'active':''}" onclick="mode='jee';navigate(stack,false)">JEE</button>
-        <button class="${mode==='mistake'?'active':''}" onclick="mode='mistake';navigate(stack,false)">Mistake</button>
+        <button class="${mode==='base'?'active':''}" onclick="setMode('base')">Base</button>
+        <button class="${mode==='jee'?'active':''}" onclick="setMode('jee')">JEE</button>
+        <button class="${mode==='mistake'?'active':''}" onclick="setMode('mistake')">Mistake</button>
       </div>
       ${content()}
     </div>`;
