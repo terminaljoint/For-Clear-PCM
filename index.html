@@ -4,13 +4,10 @@
 <meta charset="UTF-8">
 <title>For clear PCM – Structured JEE Learning</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <meta name="description" content="For clear PCM is a structured JEE learning system focusing on clear hierarchy, exam logic, and mistake prevention for average students.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://terminaljoint.github.io/For-Clear-PCM/">
-
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
@@ -36,27 +33,9 @@ main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
 .block li{padding:8px 0;border-bottom:1px dashed #30363d;color:#9aa4af}
 footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
 </style>
-</head>
-<body>
-<header>
-  <h1 class="brand">For clear PCM</h1>
-  <p class="subtitle">A clean hierarchy-based JEE learning system. Structure first. Content next.</p>
-</header>
-<div class="subject-bar">
-  <div class="subject-btn" onclick="goSubject('Maths')">Maths</div>
-  <div class="subject-btn" onclick="goSubject('Physics')">Physics</div>
-  <div class="subject-btn" onclick="goSubject('Chemistry')">Chemistry</div>
-</div>
-<main>
-  <div class="nav" id="nav" style="display:none">
-    <div class="back" onclick="goBack()">← Back</div>
-    <div class="breadcrumb" id="breadcrumb"></div>
-  </div>
-  <div id="view"></div>
-</main>
-<footer>©2026 Terminal Joint · For Clear PCM · Structure over noise</footer>
 
-<script>
+<!-- SCRIPT IS DEFERRED SO FUNCTIONS EXIST BEFORE CLICKS -->
+<script defer>
 /* ===================== DATA ===================== */
 const syllabus = {
   Maths:{
@@ -141,7 +120,7 @@ const syllabus = {
           "Basic Idea":["Approaching a value","Neighbourhood concept"],
           "Left Hand Limit":["Approach from left","Notation & meaning"],
           "Right Hand Limit":["Approach from right","Notation & meaning"],
-          "Existence of Limit":["LHL = RHL condition","Non‑existence cases"]
+          "Existence of Limit":["LHL = RHL condition","Non-existence cases"]
         },
         "Standard Limits":{
           "Trigonometric Limits":["sinx/x","tanx/x","(1−cosx)/x²"],
@@ -168,7 +147,7 @@ const syllabus = {
         "Differentiability":{
           "Definition":["Left derivative","Right derivative"],
           "Relation with Continuity":["Differentiable ⇒ Continuous","Not vice versa"],
-          "Non‑Differentiable Points":["Sharp corner","Cusp","Vertical tangent"]
+          "Non-Differentiable Points":["Sharp corner","Cusp","Vertical tangent"]
         },
         "Piecewise Functions":{
           "Checking Continuity":["At junction points","Parameter based problems"],
@@ -326,7 +305,7 @@ const syllabus = {
           "Gravitational PE":["Near earth surface","General case"],
           "Spring PE":["Hooke law","PE = 1/2 kx^2"]
         },
-        "Conservative vs Non‑Conservative Forces":["Path dependence","Examples"]
+        "Conservative vs Non-Conservative Forces":["Path dependence","Examples"]
       },
       "Work Energy Theorem":["Statement","Proof idea","Applications"],
       "Power":{
@@ -701,7 +680,7 @@ const syllabus = {
         "Alkenes":{
           "Nomenclature":["IUPAC rules","E–Z notation"],
           "Preparation":["Dehydration of alcohols","Dehydrohalogenation"],
-          "Reactions":["Electrophilic addition","Markovnikov rule","Anti‑Markovnikov"],
+          "Reactions":["Electrophilic addition","Markovnikov rule","Anti-Markovnikov"],
           "Tests":["Baeyer test","Ozonolysis"]
         },
         "Alkynes":{
@@ -742,29 +721,114 @@ const syllabus = {
         "Biomolecules":["Carbohydrates","Proteins","Amino acids","Enzymes"],
         "Polymers":["Addition polymers","Condensation polymers","Important polymers"]
       }
-    },
-      "Chemical Bonding":{
-        "Lewis Structure":["Octet rule","Formal charge"],
-        "VSEPR Theory":["Electron pair repulsion","Molecular shapes"],
-        "Hybridisation":{
-          "sp":["Linear","BeCl2"],
-          "sp2":["Trigonal planar","BF3"],
-          "sp3":["Tetrahedral","CH4"]
-        },
-        "Molecular Orbital Theory":["Bond order","Magnetic nature"],
-        "Hydrogen Bonding":["Intermolecular","Intramolecular"]
-      },
-      "Coordination Compounds":{
-        "Werner Theory":["Primary valency","Secondary valency"],
-        "Nomenclature":["IUPAC rules","Examples"],
-        "Isomerism":{
-          "Structural Isomerism":["Linkage","Coordination"],
-          "Stereoisomerism":["Geometrical","Optical"]
-        },
-        "Crystal Field Theory":["d-orbital splitting","High spin","Low spin"],
-        "Magnetic Properties":["Para","Dia","Ferro"],
-        "Stability of Complexes":["Factors","Chelate effect"]
-      }
     }
   }
 };
+
+/* ===================== ENGINE ===================== */
+let stack = [];
+let view, nav, breadcrumb, subjectBtns;
+
+function goSubject(sub){
+  stack = [sub];
+  render();
+}
+
+function goBack(){
+  stack.pop();
+  render();
+}
+
+function jumpTo(i){
+  stack = stack.slice(0, i + 1);
+  render();
+}
+
+function render(){
+  if(!view) return;
+
+  nav.style.display = stack.length ? "flex" : "none";
+
+  subjectBtns.forEach(b =>
+    b.classList.toggle("active", b.innerText === stack[0])
+  );
+
+  breadcrumb.innerHTML = "";
+  stack.forEach((s, i) => {
+    const c = document.createElement("div");
+    c.className = "crumb";
+    c.innerText = s;
+    c.onclick = () => jumpTo(i);
+    breadcrumb.appendChild(c);
+  });
+
+  view.innerHTML = "";
+  if(!stack.length){
+    view.innerHTML = "<h2>Select a subject to begin</h2>";
+    return;
+  }
+
+  let data = syllabus;
+  stack.forEach(k => data = data?.[k]);
+
+  if(!data){
+    view.innerHTML = "<p>No data attached yet.</p>";
+    return;
+  }
+
+  if(typeof data === "string"){
+    renderLeaf(stack.at(-1), data);
+  } else if(Array.isArray(data)){
+    renderLeaf(stack.at(-1), data.join(", "));
+  } else {
+    Object.keys(data).forEach(k => {
+      const d = document.createElement("div");
+      d.className = "item";
+      d.innerText = k;
+      d.onclick = () => { stack.push(k); render(); };
+      view.appendChild(d);
+    });
+  }
+}
+
+function renderLeaf(title, content){
+  view.innerHTML = `
+    <div class="focus">
+      <h2 class="section-title">${title}</h2>
+      <div class="block"><h4>Concept</h4><ul><li>${content}</li></ul></div>
+      <div class="block"><h4>Formula</h4><ul><li>[Add formula]</li></ul></div>
+      <div class="block"><h4>Example Sums</h4><ul><li>Level 1</li><li>Level 2</li><li>Level 3</li></ul></div>
+      <div class="block"><h4>Common Mistakes</h4><ul><li>Wrong condition</li></ul></div>
+    </div>`;
+}
+
+// INIT AFTER DOM LOAD
+window.addEventListener("DOMContentLoaded", () => {
+  view = document.getElementById("view");
+  nav = document.getElementById("nav");
+  breadcrumb = document.getElementById("breadcrumb");
+  subjectBtns = document.querySelectorAll(".subject-btn");
+  render();
+});
+</script>
+</head>
+<body>
+<header>
+  <h1 class="brand">For clear PCM</h1>
+  <p class="subtitle">A clean hierarchy-based JEE learning system. Structure first. Content next.</p>
+</header>
+<div class="subject-bar">
+  <div class="subject-btn" onclick="goSubject('Maths')">Maths</div>
+  <div class="subject-btn" onclick="goSubject('Physics')">Physics</div>
+  <div class="subject-btn" onclick="goSubject('Chemistry')">Chemistry</div>
+</div>
+<main>
+  <div class="nav" id="nav" style="display:none">
+    <div class="back" onclick="goBack()">← Back</div>
+    <div class="breadcrumb" id="breadcrumb"></div>
+  </div>
+  <div id="view"></div>
+</main>
+<footer>©2026 Terminal Joint · For Clear PCM · Structure over noise</footer>
+</body>
+</html>
