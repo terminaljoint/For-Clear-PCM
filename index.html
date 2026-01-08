@@ -16,39 +16,39 @@
   --accent:#2f81f7;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:14px}
 
-header{padding:24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.brand{font-size:1.8rem;font-weight:800}
-.tag{color:var(--muted);font-size:.9rem}
+header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:1.4rem;font-weight:800;line-height:1}
+.tag{color:var(--muted);font-size:.75rem}
 
-#editorBadge{background:#238636;color:#fff;padding:6px 12px;border-radius:999px;font-size:.8rem;font-weight:600;display:none}
+#editorBadge{background:#238636;color:#fff;padding:4px 10px;border-radius:999px;font-size:.65rem;font-weight:600;display:none}
 
-.subject-bar{display:flex;gap:10px;padding:14px 24px;border-bottom:1px solid var(--border)}
-.subject-btn{padding:10px 18px;border:1px solid var(--border);border-radius:12px;cursor:pointer;font-weight:600;background:var(--panel)}
+.subject-bar{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.subject-btn{padding:6px 12px;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-weight:600;background:var(--panel);font-size:.8rem}
 .subject-btn.active{border-color:var(--accent);color:var(--accent)}
 
-main{display:grid;grid-template-columns:260px 1fr;flex:1;min-height:0}
+main{display:grid;grid-template-columns:220px 1fr;flex:1;min-height:0}
 
-.sidebar{border-right:1px solid var(--border);padding:20px;overflow:auto}
-.sidebar h3{font-size:.85rem;color:var(--muted);margin-bottom:10px}
-.node{padding:10px 12px;border-radius:8px;cursor:pointer;margin-bottom:4px}
+.sidebar{border-right:1px solid var(--border);padding:12px;overflow:auto}
+.sidebar h3{font-size:.7rem;color:var(--muted);margin-bottom:6px;letter-spacing:.05em}
+.node{padding:6px 8px;border-radius:6px;cursor:pointer;margin-bottom:2px;font-size:.8rem}
 .node:hover{background:var(--panel)}
-.node.active{background:var(--panel);border-left:3px solid var(--accent)}
+.node.active{background:var(--panel);border-left:2px solid var(--accent)}
 
-.content{padding:28px;overflow:auto}
-.content h1{font-size:1.6rem;margin-bottom:8px}
-.content .meta{color:var(--muted);font-size:.85rem;margin-bottom:18px}
+.content{padding:18px;overflow:auto}
+.content h1{font-size:1.2rem;margin-bottom:4px}
+.content .meta{color:var(--muted);font-size:.7rem;margin-bottom:12px}
 
-textarea,select,button{width:100%;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.95rem}
-textarea{min-height:260px;line-height:1.6}
+textarea,select,button{width:100%;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px;font-size:.8rem}
+textarea{min-height:200px;line-height:1.5}
 button.primary{background:var(--accent);border:none;font-weight:700}
 
-#loginBox{max-width:360px;margin:60px auto;padding:28px;border:1px solid var(--border);border-radius:16px;background:var(--panel)}
-#loginBox h2{text-align:center;margin-bottom:12px}
-#loginBox p{text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:20px}
+#loginBox{max-width:300px;margin:40px auto;padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--panel)}
+#loginBox h2{text-align:center;margin-bottom:8px;font-size:1rem}
+#loginBox p{text-align:center;color:var(--muted);font-size:.75rem;margin-bottom:14px}
 
-footer{border-top:1px solid var(--border);padding:14px;text-align:center;font-size:.8rem;color:var(--muted)}
+footer{border-top:1px solid var(--border);padding:8px;text-align:center;font-size:.65rem;color:var(--muted)}
 </style>
 
 <script type="module">
@@ -66,12 +66,10 @@ const db=getFirestore(app);
 const OWNER_UIDS=["NbJq7HLBt0Pd7O55f4u82HTWOyu2","4MXKQ1JnnIUARfdYlIUbD0Q4erD2"];
 
 const syllabus={
-  Maths:{Sets:{Operations:{DeMorgan:{}}}},
-  Physics:{Kinematics:{OneD:{},TwoD:{}}},
-  Chemistry:{Physical:{MoleConcept:{}},Organic:{},Inorganic:{}}
-};
+Maths:{Sets_and_Relations:{Sets:{Definition:{Meaning:{},Representation:{Roster:{},SetBuilder:{}}},Types:{Empty:{},Singleton:{},Finite:{},Infinite:{}},Subsets:{Proper:{},Improper:{},PowerSet:{Cardinality:{Formula:{}}}},Operations:{Union:{},Intersection:{},Difference:{},Complement:{}},Laws:{DeMorgan:{First:{},Second:{}}}},Relations:{OrderedPairs:{CartesianProduct:{}},Types:{Reflexive:{},Symmetric:{},Transitive:{},Equivalence:{Classes:{}}},Functions:{Domain:{},Codomain:{},Range:{},Types:{OneOne:{},Onto:{},Into:{},Bijective:{}}}}},Algebra:{Quadratic_Equations:{Standard_Form:{},Roots:{Nature:{Discriminant:{Positive:{},Zero:{},Negative:{}}}},Methods:{Factorisation:{},Completing_Square:{},Formula:{}},Graph:{Parabola:{Vertex:{},Axis:{},Intercepts:{}}}},Sequences_and_Series:{AP:{Terms:{},Sum:{},Properties:{}},GP:{Terms:{},Sum:{},Infinite_GP:{}},HP:{Relation_With_AP:{}}}},Coordinate_Geometry:{Straight_Lines:{Slope:{Definition:{},Formula:{}},Forms:{Point_Slope:{},Two_Point:{},Intercept:{},Normal:{}},Distance:{Between_Points:{},Point_to_Line:{}},Angle:{Between_Lines:{}}},Circles:{Equation:{Standard:{},General:{}},Tangent:{Length:{},Condition:{}},Chord:{Properties:{}}}},Calculus:{Limits:{Concept:{Approach:{}},Standard_Limits:{Trigonometric:{},Algebraic:{}},Techniques:{Rationalisation:{},LHopital:{}}},Differentiation:{Definition:{},Rules:{Product:{},Quotient:{},Chain:{}},Applications:{Slope:{},Maxima_Minima:{}}},Integration:{Indefinite:{Methods:{Substitution:{},Parts:{},Partial_Fractions:{}}},Definite:{Properties:{},Area_Under_Curve:{}}}}},Physics:{Kinematics:{One_D:{Quantities:{Displacement:{},Velocity:{},Acceleration:{}},Equations:{First:{},Second:{},Third:{}},Graphs:{x_t:{},v_t:{},a_t:{}}},Two_D:{Projectile:{Range:{},Time_of_Flight:{},Max_Height:{}},Relative_Motion:{}}},Laws_of_Motion:{Newton_Laws:{First:{},Second:{},Third:{}},Friction:{Static:{},Kinetic:{},Limiting:{}},Applications:{Lift:{},Pulley:{}}},Work_Energy_Power:{Work:{Variable_Force:{}},Energy:{Kinetic:{},Potential:{}},Theorems:{Work_Energy:{},Conservation:{}},Power:{}},Electrodynamics:{Electrostatics:{Charge:{Properties:{}},Coulomb_Law:{},Electric_Field:{},Electric_Potential:{}},Current_Electricity:{Ohm_Law:{},Circuits:{Series:{},Parallel:{}},Kirchhoff:{Rules:{}}}}},Chemistry:{Physical:{Mole_Concept:{Laws:{Conservation_of_Mass:{},Definite_Proportions:{}},Calculations:{Stoichiometry:{},Limiting_Reagent:{}},Concentration:{Molarity:{},Molality:{},Normality:{}}},Thermodynamics:{System:{},Surroundings:{},Laws:{First:{},Second:{}},Functions:{Enthalpy:{},Entropy:{},Gibbs_Free_Energy:{}}}},Organic:{GOC:{Bonding:{Sigma:{},Pi:{}},Effects:{Inductive:{},Resonance:{},Hyperconjugation:{}},Acidity_Basicity:{}},Hydrocarbons:{Alkanes:{Properties:{},Reactions:{}},Alkenes:{Mechanism:{},Reactions:{}},Alkynes:{Reactions:{}}}},Inorganic:{Periodic_Table:{Trends:{Atomic_Radius:{},Ionisation_Energy:{},Electronegativity:{}},Blocks:{s_Block:{},p_Block:{},d_Block:{},f_Block:{}}},Coordination_Compounds:{Nomenclature:{},Isomerism:{Structural:{},Geometrical:{},Optical:{}},Bonding:{VBT:{},CFT:{}}}}}};
 
 let OWNER=false;
+const isLeaf=node=>typeof node==='object'&&Object.keys(node).length===0;
 let currentSubject=null;
 let currentPath=[];
 
@@ -105,7 +103,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   async function render(){
     if(!currentSubject){
       sidebar.innerHTML='<h3>START</h3><div class="node">Select a subject</div>';
-      content.innerHTML='<h1>For Clear PCM</h1><p class="meta">A structured, owner‑controlled JEE learning platform.</p>';
+      content.innerHTML='<h1>For Clear PCM</h1><p class="meta">A structured, owner-controlled JEE learning platform.</p>';
       return;
     }
 
@@ -114,7 +112,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
     renderSidebar(node,currentPath);
 
-    if(typeof node==='object'){
+    if(!isLeaf(node)){
       content.innerHTML='<h1>'+currentPath[currentPath.length-1]+'</h1><p class="meta">Navigate deeper</p>';
       return;
     }
@@ -135,12 +133,11 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
 
   document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{currentSubject=b.dataset.sub;currentPath=[b.dataset.sub];render();});
-
   document.getElementById('loginBtn').onclick=()=>signInWithPopup(auth,provider);
   document.getElementById('logoutBtn').onclick=()=>signOut(auth);
 
   onAuthStateChanged(auth,user=>{
-    OWNER=!!user && OWNER_UIDS.includes(user.uid);
+    OWNER=!!user&&OWNER_UIDS.includes(user.uid);
     badge.style.display=OWNER?'inline-block':'none';
     document.getElementById('loginBox').style.display=user?'none':'block';
     document.getElementById('logoutBtn').style.display=user?'block':'none';
