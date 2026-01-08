@@ -51,7 +51,14 @@ main{flex:1}
 .tag{font-size:.65rem;border:1px solid var(--border);border-radius:999px;padding:2px 8px;color:var(--muted);cursor:pointer}
 .tag.active{border-color:var(--accent);color:var(--accent)}
 
-/* Progress summary */
+/* Dashboard */
+.dashboard{border:1px solid var(--border);border-radius:12px;background:var(--panel);padding:10px;margin-bottom:10px;box-shadow:var(--shadow)}
+.dashboard .title{font-size:.85rem;font-weight:700;margin-bottom:6px}
+.dashboard .list{display:flex;flex-wrap:wrap;gap:6px}
+.dashboard .pill{font-size:.65rem;border:1px solid var(--border);border-radius:999px;padding:3px 8px;color:var(--muted);cursor:pointer}
+.dashboard .pill:hover{border-color:var(--accent);color:var(--text)}
+
+/* Summary */
 .summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .summary .box{border:1px solid var(--border);border-radius:12px;padding:8px 10px;background:var(--panel)}
 .summary .box .k{font-size:.7rem;color:var(--muted)}
@@ -66,7 +73,7 @@ main{flex:1}
 .controls{display:flex;gap:6px}
 .controls .mini{font-size:.7rem;padding:4px 7px;border-radius:8px}
 
-/* Progress bar (card + editor) */
+/* Progress bar */
 .progress{height:6px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
 .progress > div{height:100%;background:var(--accent);width:0%}
 .progress-label{font-size:.65rem;color:var(--muted)}
@@ -114,6 +121,7 @@ footer{border-top:1px solid var(--border);background:var(--panel)}
   <div class="main-inner">
     <div id="breadcrumb" class="breadcrumb"></div>
     <div id="filters" class="filters"></div>
+    <div id="dashboard" class="dashboard" style="display:none"></div>
     <div id="summary" class="summary"></div>
     <div id="view"></div>
   </div>
@@ -147,18 +155,24 @@ let user = null;
 let tree = {};
 let stack = [];
 let permissionError = false;
-let activeTag = null; // global filter
+let activeTag = null; // tag filter
+let showOnlyNotUnderstood = false; // revision filter
 
 const view = document.getElementById("view");
 const breadcrumb = document.getElementById("breadcrumb");
 const filters = document.getElementById("filters");
 const summary = document.getElementById("summary");
+const dashboard = document.getElementById("dashboard");
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const ownerBadge = document.getElementById("ownerBadge");
 
 function isOwner(){ return user && user.uid === OWNER_UID; }
-function pathId(path=stack){ return path.join("__"); }
+// Always return a valid document id (never empty)
+function pathId(path = stack){
+  const id = (path && path.length ? path.join("__") : "root");
+  return id;
+}
 
 // History sync
 window.addEventListener("popstate", e => {
@@ -206,31 +220,36 @@ function renderBreadcrumb(){
   }
 }
 
-async function getMeta(path=stack){
+async function getMeta(path = stack){
   try{
-    const snap = await getDoc(doc(db,"meta", pathId(path)));
+    // Ensure even segments: collection 'meta' + document id
+    const snap = await getDoc(doc(db, "meta", pathId(path)));
     if(snap.exists()) return snap.data();
   }catch(e){ console.error(e); }
   return { progress:0, tags:[] };
 }
 
-async function saveMeta(meta, path=stack){
-  try{ await setDoc(doc(db,"meta", pathId(path)), meta, { merge:true }); }
-  catch(e){ console.error(e); }
+async function saveMeta(meta, path = stack){
+  try{
+    // Ensure even segments: collection 'meta' + document id
+    await setDoc(doc(db, "meta", pathId(path)), meta, { merge:true });
+  }catch(e){ console.error(e); }
 }
 
-// Recursively aggregate progress and tags from children
+// Recursively aggregate progress and tags, and count not-understood leaves
 async function aggregate(path, node){
   const meta = await getMeta(path);
-  let total = 0, count = 0, tagged = 0;
+  let total = 0, count = 0, tagged = 0, notUnderstood = 0;
   if(Object.keys(node).length === 0){
-    return { progress: meta.progress||0, count:1, tagged: (activeTag && (meta.tags||[]).includes(activeTag)) ? 1:0 };
+    const isTagged = activeTag && (meta.tags||[]).includes(activeTag);
+    const isNot = (meta.progress||0) !== 100;
+    return { progress: meta.progress||0, count:1, tagged: isTagged?1:0, notUnderstood: isNot?1:0 };
   }
   for(const k in node){
     const child = await aggregate([...path, k], node[k]);
-    total += child.progress; count += child.count; tagged += child.tagged;
+    total += child.progress; count += child.count; tagged += child.tagged; notUnderstood += child.notUnderstood;
   }
-  return { progress: count? Math.round(total/count):0, count, tagged };
+  return { progress: count? Math.round(total/count):0, count, tagged, notUnderstood };
 }
 
 function renderFilters(){
@@ -242,6 +261,36 @@ function renderFilters(){
     s.onclick = ()=>{ activeTag = (activeTag===t? null:t); render(false); };
     filters.appendChild(s);
   });
+  const rev = document.createElement('span'); rev.className='tag'; rev.textContent='REVISION (NOT UNDERSTOOD)';
+  if(showOnlyNotUnderstood) rev.classList.add('active');
+  rev.onclick = ()=>{ showOnlyNotUnderstood = !showOnlyNotUnderstood; render(false); };
+  filters.appendChild(rev);
+}
+
+async function renderDashboard(){
+  const node = getNode();
+  const items = [];
+  async function walk(path, n){
+    if(Object.keys(n).length === 0){
+      const meta = await getMeta(path);
+      if((meta.progress||0) !== 100) items.push(path);
+      return;
+    }
+    for(const k in n) await walk([...path, k], n[k]);
+  }
+  await walk(stack, node);
+
+  if(items.length === 0){ dashboard.style.display='none'; return; }
+  dashboard.style.display='block';
+  dashboard.innerHTML='';
+  const t = document.createElement('div'); t.className='title'; t.textContent='Not understood (click to open):';
+  const list = document.createElement('div'); list.className='list';
+  items.slice(0, 50).forEach(p=>{
+    const pill = document.createElement('span'); pill.className='pill'; pill.textContent=p.join(' › ');
+    pill.onclick=()=>{ stack=[...p]; render(); };
+    list.appendChild(pill);
+  });
+  dashboard.appendChild(t); dashboard.appendChild(list);
 }
 
 async function renderSummary(){
@@ -251,7 +300,8 @@ async function renderSummary(){
   const b1 = document.createElement('div'); b1.className='box'; b1.innerHTML = `<div class="k">Progress</div><div class="v">${agg.progress}%</div>`;
   const b2 = document.createElement('div'); b2.className='box'; b2.innerHTML = `<div class="k">Items</div><div class="v">${agg.count}</div>`;
   const b3 = document.createElement('div'); b3.className='box'; b3.innerHTML = `<div class="k">Tagged</div><div class="v">${agg.tagged}</div>`;
-  summary.appendChild(b1); summary.appendChild(b2); summary.appendChild(b3);
+  const b4 = document.createElement('div'); b4.className='box'; b4.innerHTML = `<div class="k">Not understood</div><div class="v">${agg.notUnderstood}</div>`;
+  summary.appendChild(b1); summary.appendChild(b2); summary.appendChild(b3); summary.appendChild(b4);
 }
 
 async function render(pushHistory = true){
@@ -259,6 +309,7 @@ async function render(pushHistory = true){
   view.innerHTML = "";
   renderBreadcrumb();
   renderFilters();
+  await renderDashboard();
   await renderSummary();
 
   if(permissionError){
@@ -269,11 +320,11 @@ async function render(pushHistory = true){
 
   const node = getNode();
 
-  // Leaf: content + per-node meta (UNDERSTOOD toggle)
+  // Leaf: content + UNDERSTOOD toggle
   if(Object.keys(node).length === 0){
     let text = "";
     try{
-      const snap = await getDoc(doc(db,"content",pathId()));
+      const snap = await getDoc(doc(db, "content", pathId()));
       if(snap.exists()) text = snap.data().text || "";
     }catch(e){ console.error(e); }
 
@@ -281,11 +332,10 @@ async function render(pushHistory = true){
 
     const wrap = document.createElement('div'); wrap.className = 'editor';
 
-    // Progress bar (binary: understood or not)
+    // Progress bar (binary)
     const p = document.createElement('div'); p.className='progress';
     const pf=document.createElement('div'); pf.style.width=(meta.progress||0)+'%'; p.appendChild(pf);
-    const pl=document.createElement('div'); pl.className='progress-label';
-    pl.textContent = meta.progress===100 ? 'Status: UNDERSTOOD' : 'Status: NOT UNDERSTOOD';
+    const pl=document.createElement('div'); pl.className='progress-label'; pl.textContent = meta.progress===100 ? 'Status: UNDERSTOOD' : 'Status: NOT UNDERSTOOD';
     wrap.appendChild(p); wrap.appendChild(pl);
 
     // Tags
@@ -299,25 +349,18 @@ async function render(pushHistory = true){
     });
     wrap.appendChild(tagRow);
 
-    // UNDERSTOOD toggle button
-    const btn = document.createElement('button');
-    btn.className = 'btn';
+    // UNDERSTOOD toggle
+    const btn = document.createElement('button'); btn.className='btn';
     btn.textContent = meta.progress===100 ? 'Revert (Not Understood)' : 'Understood';
-    btn.onclick = async () => {
-      meta.progress = meta.progress===100 ? 0 : 100;
-      await saveMeta(meta);
-      render(false);
-    };
+    btn.onclick = async () => { meta.progress = meta.progress===100 ? 0 : 100; await saveMeta(meta); render(false); };
     wrap.appendChild(btn);
 
     if(isOwner() && !permissionError){
       const ta = document.createElement("textarea"); ta.value = text;
-      ta.onchange = async () => { try{ await setDoc(doc(db,"content",pathId()), { text: ta.value }, { merge:true }); }catch(e){ alert("Save failed"); } };
+      ta.onchange = async () => { try{ await setDoc(doc(db, "content", pathId()), { text: ta.value }, { merge:true }); }catch(e){ alert("Save failed"); } };
       wrap.appendChild(ta);
 
-      const hint=document.createElement('div'); hint.className='hint';
-      hint.textContent='Progress is updated only by the UNDERSTOOD button. Click again to revert.';
-      wrap.appendChild(hint);
+      const hint=document.createElement('div'); hint.className='hint'; hint.textContent='Progress updates only via the UNDERSTOOD button. Click again to revert.'; wrap.appendChild(hint);
     } else {
       if(text.trim().length===0){ const empty=document.createElement('div'); empty.className='empty'; empty.textContent='No content here yet.'; wrap.appendChild(empty);} 
       else { const pre=document.createElement('pre'); pre.textContent=text; pre.style.whiteSpace='pre-wrap'; wrap.appendChild(pre);} 
@@ -326,15 +369,15 @@ async function render(pushHistory = true){
     view.appendChild(wrap);
     return;
   }
-  }
 
-  // Non-leaf: cards with aggregated progress + tag counts
+  // Non-leaf: cards with aggregated progress
   const grid = document.createElement('div'); grid.className = 'grid';
 
   for(const key in node){
     const childPath=[...stack,key];
     const agg=await aggregate(childPath, node[key]);
-    if(activeTag && agg.tagged===0) continue; // filter by tag at any depth
+    if(activeTag && agg.tagged===0) continue;
+    if(showOnlyNotUnderstood && agg.notUnderstood===0) continue;
 
     const card = document.createElement("div"); card.className = "card";
 
@@ -350,9 +393,10 @@ async function render(pushHistory = true){
 
     row.appendChild(name); row.appendChild(c); card.appendChild(row);
 
-    const pbar=document.createElement('div'); pbar.className='progress'; const pf=document.createElement('div'); pf.style.width=agg.progress+'%'; pbar.appendChild(pf);
-    const pl=document.createElement('div'); pl.className='progress-label'; pl.textContent=`${agg.progress}% · ${agg.count} items`;
-    card.appendChild(pbar); card.appendChild(pl);
+    const pbar=document.createElement('div'); pbar.className='progress';
+    const pfill=document.createElement('div'); pfill.style.width=agg.progress+'%'; pbar.appendChild(pfill);
+    const plabel=document.createElement('div'); plabel.className='progress-label'; plabel.textContent=`${agg.progress}% · ${agg.count} items · ${agg.notUnderstood} not understood`;
+    card.appendChild(pbar); card.appendChild(plabel);
 
     card.onclick = () => { stack.push(key); render(); };
     grid.appendChild(card);
@@ -363,7 +407,7 @@ async function render(pushHistory = true){
 
 async function saveTree(){
   if(!isOwner()) return;
-  try{ await setDoc(doc(db,"syllabus","root"), { tree }); }
+  try{ await setDoc(doc(db, "syllabus", "root"), { tree }); }
   catch(e){ console.error(e); permissionError = true; }
 }
 
