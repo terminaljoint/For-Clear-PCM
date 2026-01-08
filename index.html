@@ -7,69 +7,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{overscroll-behavior-y:auto; overscroll-behavior-x:none; touch-action:pan-y}
-body{font-family:"Comic Sans MS","Comic Neue",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
+html,body{overscroll-behavior-y:auto;overscroll-behavior-x:none;touch-action:pan-y}
+body{font-family:"Comic Sans MS","Comic Neue",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
 header{padding:14px 16px;border-bottom:1px solid #30363d}
 .brand{font-size:clamp(1.4rem,4.5vw,1.9rem);font-weight:700}
 .subtitle{color:#9aa4af;margin-top:2px;font-size:clamp(.75rem,3vw,.9rem)}
 .subject-bar{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid #30363d;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.subject-btn{padding:8px 14px;border:1px solid #30363d;border-radius:14px;cursor:pointer;font-weight:700;white-space:nowrap;transition:.12s;font-size:.9rem}
+.subject-btn{padding:8px 14px;border:1px solid #30363d;border-radius:14px;cursor:pointer;font-weight:700;white-space:nowrap;font-size:.9rem}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-.subject-btn:active{transform:scale(.95)}
 main{max-width:960px;margin:0 auto;padding:16px 14px;flex:1}
-.item{padding:14px 14px;border:1px solid #30363d;border-radius:16px;margin-bottom:10px;cursor:pointer;transition:.1s;background:#0d1117;font-size:.95rem}
-.item:active{transform:scale(.97)}
-.breadcrumb{font-size:.75rem;overflow-x:auto;white-space:nowrap;display:flex;align-items:center;gap:2px;font-family:"Comic Sans MS","Comic Neue",cursive;color:#9aa4af}
+.item{padding:14px;border:1px solid #30363d;border-radius:16px;margin-bottom:10px;cursor:pointer;font-size:.95rem}
+.breadcrumb{display:flex;align-items:center;gap:2px;font-size:.75rem;white-space:nowrap;overflow-x:auto;font-family:"Comic Sans MS","Comic Neue",cursive;color:#9aa4af}
 .top-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.9rem;padding:6px 8px;border-radius:8px}
-.backBtn:active{background:#161b22}
+.backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.9rem}
 footer{border-top:1px solid #30363d;padding:10px 12px;font-size:.7rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none}
 textarea{width:100%;min-height:260px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:18px;padding:18px;font-size:1.05rem;line-height:1.65;font-family:"Comic Sans MS","Comic Neue",cursive}
 .fade{animation:fadeIn .16s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
-@media (min-width:768px){
-  main{padding:28px}
-  .item{font-size:1rem}
-  textarea{min-height:300px}
-}
-
-/* better touch scrolling */
-.subject-bar, .breadcrumb{scrollbar-width:none}
-.subject-bar::-webkit-scrollbar, .breadcrumb::-webkit-scrollbar{display:none}
-
-/* tap highlight remove */
-*{-webkit-tap-highlight-color:transparent}
-
-  .item{font-size:1rem}
-}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1}}
 </style>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",
-  authDomain: "forclearpcm.firebaseapp.com",
-  projectId: "forclearpcm",
-  storageBucket: "forclearpcm.firebasestorage.app",
-  messagingSenderId: "313585574692",
-  appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1"
-};
+const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.firebasestorage.app",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const OWNER_PASSWORD="FailMarks";
+let OWNER_UNLOCKED=false;
+let stack=[];
+let view,subjectBtns;
 
-const OWNER_PASSWORD = "FailMarks";
-let OWNER_UNLOCKED = false;
-let stack = [];
-let view, subjectBtns;
+function checkLock(){OWNER_UNLOCKED=localStorage.getItem("OWNER_UNLOCK")==="YES"}
+function lockOwner(){OWNER_UNLOCKED=false;localStorage.removeItem("OWNER_UNLOCK");render(false)}
+function unlockOwner(){const p=prompt("Owner password");if(p===OWNER_PASSWORD){OWNER_UNLOCKED=true;localStorage.setItem("OWNER_UNLOCK","YES");render(false)}}
 
-function checkLock(){ OWNER_UNLOCKED = localStorage.getItem("OWNER_UNLOCK") === "YES"; }
-function lockOwner(){ OWNER_UNLOCKED=false; localStorage.removeItem("OWNER_UNLOCK"); render(false); }
-function unlockOwner(){ const p=prompt("Owner password"); if(p===OWNER_PASSWORD){ OWNER_UNLOCKED=true; localStorage.setItem("OWNER_UNLOCK","YES"); render(false); } }
-
-/* ===== SYLLABUS UNCHANGED (PASTED AS-IS) ===== */
+/* ===== SYLLABUS PLACEHOLDER (MUST BE REPLACED WITH REAL DATA) ===== */
 const syllabus = {
   Maths:{
     Sets_and_Relations:{
@@ -113,131 +87,30 @@ const syllabus = {
     Organic:{General_Organic_Chemistry:{Electronic_Effects:{Inductive:{I_Plus:{},I_Minus:{}},Resonance:{},Hyperconjugation:{}},Acidity_and_Basicity:{},Reaction_Intermediates:{Carbocation:{Stability:{}},Carbanion:{Stability:{}},Free_Radical:{Stability:{}}},Reaction_Mechanisms:{SN1:{},SN2:{},E1:{},E2:{}},Isomerism:{Structural:{},Geometrical:{},Optical:{}}}}
   }
 };
-function getCurrentData(){
-  let ref = syllabus;
-  for(const k of stack){
-    if(ref && typeof ref === "object" && k in ref){ ref = ref[k]; }
-    else return null;
-  }
-  return ref;
-}
-function isLeaf(obj){ return obj && typeof obj==="object" && Object.keys(obj).length===0; }
 
-function syncHistory(){
-  const path = stack.join("/") || "root";
-  history.pushState({stack:[...stack]},"",`#${path}`);
-}
+function getCurrentData(){let ref=syllabus;for(const k of stack){if(ref&&typeof ref==="object"&&k in ref){ref=ref[k]}else return null}return ref}
+function isLeaf(obj){return obj&&typeof obj==="object"&&Object.keys(obj).length===0}
 
-function restoreFromHistory(state){
-  if(state && Array.isArray(state.stack)){
-    stack = [...state.stack];
-    render(false);
-  }
-}
+function syncHistory(){const path=stack.join("/")||"root";history.pushState({stack:[...stack]},"",`#${path}`)}
+function restoreFromHistory(state){if(state&&Array.isArray(state.stack)){stack=[...state.stack];render(false)}}
 
-async function render(pushHistory=true){
-  checkLock();
-  if(pushHistory) syncHistory();
-
-  subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));
-  view.innerHTML="";
-
-  if(stack.length===0){ view.innerHTML="<h2 class='fade'>Select a subject</h2>"; return; }
-
-  const data = getCurrentData();
-  if(!data){ view.innerHTML="<div class='error'>Invalid path</div>"; return; }
-
-  const top=document.createElement("div"); top.className="top-bar";
-  if(stack.length>1){
-    const back=document.createElement("div");
-    back.className="backBtn";
-    back.innerText="← Back";
-    back.onclick=()=>{ stack.pop(); render(); };
-    top.appendChild(back);
-  }
-  const bc=document.createElement("div"); bc.className="breadcrumb";
-    bc.innerHTML="";
-    stack.forEach((name,idx)=>{
-      const span=document.createElement("span");
-      span.innerText=name;
-      span.style.cursor = idx===stack.length-1 ? "default" : "pointer";
-      span.style.fontFamily = "Comic Sans MS, Comic Neue, cursive";
-      span.style.fontWeight = idx===stack.length-1 ? "700" : "600";
-      span.style.opacity = idx===stack.length-1 ? "1" : ".85";
-      span.style.color = idx===stack.length-1 ? "#e6edf3" : "#2f81f7";
-      if(idx!==stack.length-1){
-        span.onclick=()=>{
-          stack = stack.slice(0, idx+1);
-          render();
-        };
-      }
-      bc.appendChild(span);
-      if(idx<stack.length-1){
-        const sep=document.createElement("span");
-        sep.innerText=" → ";
-        sep.style.color="#9aa4af";
-        bc.appendChild(sep);
-      }
-    });
-  top.appendChild(bc);
-  view.appendChild(top);
-
-  if(isLeaf(data)){
-    const path="content/"+stack.join("__");
-    let saved="";
-    try{ const snap=await getDoc(doc(db,path)); if(snap.exists()) saved=snap.data().text||""; }catch(e){ console.error(e); }
-
-    if(OWNER_UNLOCKED){
-      view.innerHTML+=`<textarea class='fade' id='editor'>${saved}</textarea>`+
-        `<div class='saveBtn' id='saveBtn'>Save</div>`+
-        `<div class='saveBtn' id='lockBtn'>Lock</div>`;
-      document.getElementById("saveBtn").onclick=async()=>{
-        await setDoc(doc(db,path),{text:document.getElementById("editor").value,updatedAt:Date.now()});
-        alert("Saved");
-      };
-      document.getElementById("lockBtn").onclick=lockOwner;
-    }else{
-      
-      if(saved) view.innerHTML+=`<pre class='fade' style='white-space:pre-wrap;font-family:Comic Sans MS,Comic Neue,cursive;font-size:1rem;line-height:1.6'>${saved}</pre>`;
-    }
-    return;
-  }
-
-  Object.keys(data).forEach(k=>{
-    const d=document.createElement("div");
-    d.className="item fade";
-    d.innerText=k;
-    d.onclick=()=>{ stack.push(k); render(); };
-    view.appendChild(d);
-  });
-}
+async function render(pushHistory=true){checkLock();if(pushHistory)syncHistory();subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));view.innerHTML="";if(stack.length===0){view.innerHTML="<h2>Select a subject</h2>";return}
+const data=getCurrentData();if(!data){view.innerHTML="<div>Invalid path</div>";return}
+const top=document.createElement("div");top.className="top-bar";if(stack.length>1){const back=document.createElement("div");back.className="backBtn";back.innerText="← Back";back.onclick=()=>{stack.pop();render()};top.appendChild(back)}
+const bc=document.createElement("div");bc.className="breadcrumb";stack.forEach((name,idx)=>{const span=document.createElement("span");span.innerText=name;span.style.cursor="pointer";span.onclick=()=>{stack=stack.slice(0,idx+1);render()};bc.appendChild(span);if(idx<stack.length-1){const sep=document.createElement("span");sep.innerText=" → ";bc.appendChild(sep)}});top.appendChild(bc);view.appendChild(top)
+if(isLeaf(data)){const path="content/"+stack.join("__");let saved="";try{const snap=await getDoc(doc(db,path));if(snap.exists())saved=snap.data().text||""}catch(e){console.error(e)}
+if(OWNER_UNLOCKED){view.innerHTML+=`<textarea id="editor">${saved}</textarea><div id="saveBtn">Save</div>`;document.getElementById("saveBtn").onclick=async()=>{await setDoc(doc(db,path),{text:document.getElementById("editor").value,updatedAt:Date.now()});alert("Saved")}}else if(saved){view.innerHTML+=`<pre>${saved}</pre>`}
+return}
+Object.keys(data).forEach(k=>{const d=document.createElement("div");d.className="item";d.innerText=k;d.onclick=()=>{stack.push(k);render()};view.appendChild(d)})}
 
 window.addEventListener("popstate",e=>restoreFromHistory(e.state));
-
-window.addEventListener("DOMContentLoaded",()=>{
-  view=document.getElementById("view");
-  subjectBtns=document.querySelectorAll(".subject-btn");
-  subjectBtns.forEach(b=>b.onclick=()=>{ stack=[b.dataset.sub]; render(); });
-
-  // allow mobile pull-to-refresh by not locking scroll
-const footer=document.getElementById("footerTrigger");
-  let last=0; footer.onclick=()=>{ const n=Date.now(); if(n-last<350) unlockOwner(); last=n; };
-
-  render(false);
-});
+window.addEventListener("DOMContentLoaded",()=>{view=document.getElementById("view");subjectBtns=document.querySelectorAll(".subject-btn");subjectBtns.forEach(b=>b.onclick=()=>{stack=[b.dataset.sub];render()});render(false)})
 </script>
 </head>
 <body>
-<header>
-  <h1 class="brand">For clear PCM</h1>
-  <p class="subtitle">Structured JEE learning</p>
-</header>
-<div class="subject-bar">
-  <div class="subject-btn" data-sub="Maths">Maths</div>
-  <div class="subject-btn" data-sub="Physics">Physics</div>
-  <div class="subject-btn" data-sub="Chemistry">Chemistry</div>
-</div>
+<header><h1 class="brand">For clear PCM</h1><p class="subtitle">Structured JEE learning</p></header>
+<div class="subject-bar"><div class="subject-btn" data-sub="Maths">Maths</div><div class="subject-btn" data-sub="Physics">Physics</div><div class="subject-btn" data-sub="Chemistry">Chemistry</div></div>
 <main><div id="view"></div></main>
-<footer id="footerTrigger">©2026 Terminal Joint · For Clear PCM</footer>
+<footer>©2026 Terminal Joint · For Clear PCM</footer>
 </body>
 </html>
