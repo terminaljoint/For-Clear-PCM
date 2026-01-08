@@ -17,13 +17,14 @@ header{padding:14px 16px;border-bottom:1px solid #30363d}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
 main{max-width:960px;margin:0 auto;padding:16px 14px;flex:1}
 .item{padding:14px;border:1px solid #30363d;border-radius:16px;margin-bottom:10px;cursor:pointer;font-size:.95rem}
-.breadcrumb{display:flex;align-items:center;gap:4px;font-size:.8rem;white-space:nowrap;overflow-x:auto;font-family:"Comic Sans MS","Comic Neue",cursive !important;color:#9aa4af} .breadcrumb span{font-family:"Comic Sans MS","Comic Neue",cursive !important;pointer-events:auto;touch-action:manipulation} .breadcrumb span:last-child{color:#e6edf3 !important;font-weight:700}
-.top-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.9rem}
-footer{border-top:1px solid #30363d;padding:10px 12px;font-size:.7rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none}
+.breadcrumb{display:flex;align-items:center;gap:4px;font-size:.8rem;white-space:nowrap;overflow-x:auto;font-family:"Comic Sans MS","Comic Neue",cursive;color:#9aa4af}
+.breadcrumb span{cursor:pointer;pointer-events:auto}
+.breadcrumb span:last-child{color:#e6edf3;font-weight:700}
+.top-bar{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.9rem;width:max-content}
+footer{border-top:1px solid #30363d;padding:10px 12px;font-size:.7rem;color:#9aa4af;text-align:center}
 textarea{width:100%;min-height:260px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:18px;padding:18px;font-size:1.05rem;line-height:1.65;font-family:"Comic Sans MS","Comic Neue",cursive}
-.fade{animation:fadeIn .16s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1}}
+#saveBtn{margin-top:8px;padding:8px 14px;border:1px solid #2f81f7;color:#2f81f7;border-radius:12px;cursor:pointer;width:max-content}
 </style>
 
 <script type="module">
@@ -40,10 +41,8 @@ let stack=[];
 let view,subjectBtns;
 
 function checkLock(){OWNER_UNLOCKED=localStorage.getItem("OWNER_UNLOCK")==="YES"}
-function lockOwner(){OWNER_UNLOCKED=false;localStorage.removeItem("OWNER_UNLOCK");render(false)}
 function unlockOwner(){const p=prompt("Owner password");if(p===OWNER_PASSWORD){OWNER_UNLOCKED=true;localStorage.setItem("OWNER_UNLOCK","YES");render(false)}}
 
-/* ===== SYLLABUS PLACEHOLDER (MUST BE REPLACED WITH REAL DATA) ===== */
 const syllabus = {
   Maths:{
     Sets_and_Relations:{
@@ -134,52 +133,73 @@ const syllabus = {
     }
   }
 };
+  
 function getCurrentData(){let ref=syllabus;for(const k of stack){if(ref&&typeof ref==="object"&&k in ref){ref=ref[k]}else return null}return ref}
 function isLeaf(obj){return obj&&typeof obj==="object"&&Object.keys(obj).length===0}
 
-function syncHistory(){const path=stack.join("/")||"root";history.pushState({stack:[...stack]},"",`#${path}`)}
+function syncHistory(){history.pushState({stack:[...stack]},"",`#${stack.join("/")||"root"}`)}
 function restoreFromHistory(state){if(state&&Array.isArray(state.stack)){stack=[...state.stack];render(false)}}
 
-async function render(pushHistory=true){checkLock();if(pushHistory)syncHistory();subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));view.innerHTML="";if(stack.length===0){view.innerHTML="<h2>Select a subject</h2>";return}
-const data=getCurrentData();if(!data){view.innerHTML="<div>Invalid path</div>";return}
-const top=document.createElement("div");top.className="top-bar";if(stack.length>1){const back=document.createElement("div");back.className="backBtn";back.innerText="← Back";back.onclick=()=>{stack.pop();render()};top.appendChild(back)}
-const bc=document.createElement("div");
-  bc.className="breadcrumb";
-  stack.forEach((name,idx)=>{
-    const span=document.createElement("span");
-    span.innerText=name;
-    span.style.fontFamily="Comic Sans MS, Comic Neue, cursive";
-    span.style.fontWeight= idx===stack.length-1 ? "700" : "600";
-    span.style.color= idx===stack.length-1 ? "#e6edf3" : "#2f81f7";
-    span.style.cursor="pointer";
-    span.style.pointerEvents="auto";
-    span.addEventListener("click",()=>{
-      stack = stack.slice(0, idx+1);
-      render();
-    });
-    bc.appendChild(span);
-    if(idx<stack.length-1){
-      const sep=document.createElement("span");
-      sep.innerText=" → ";
-      sep.style.fontFamily="Comic Sans MS, Comic Neue, cursive";
-      sep.style.color="#9aa4af";
-      bc.appendChild(sep);
-    }
-  });
-  top.appendChild(bc);
-  view.appendChild(top)
-if(isLeaf(data)){const path="content/"+stack.join("__");let saved="";try{const snap=await getDoc(doc(db,path));if(snap.exists())saved=snap.data().text||""}catch(e){console.error(e)}
-if(OWNER_UNLOCKED){view.innerHTML+=`<textarea id="editor">${saved}</textarea><div id="saveBtn">Save</div>`;document.getElementById("saveBtn").onclick=async()=>{await setDoc(doc(db,path),{text:document.getElementById("editor").value,updatedAt:Date.now()});alert("Saved")}}else if(saved){view.innerHTML+=`<pre style="font-family:'Comic Sans MS','Comic Neue',cursive !important;font-size:1rem;line-height:1.6">${saved}</pre>`}
-return}
-Object.keys(data).forEach(k=>{const d=document.createElement("div");d.className="item";d.innerText=k;d.onclick=()=>{stack.push(k);render()};view.appendChild(d)})}
+async function render(pushHistory=true){
+checkLock();
+if(pushHistory)syncHistory();
+subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));
+view.innerHTML="";
+if(stack.length===0){view.innerHTML="<h2>Select a subject</h2>";return}
+const data=getCurrentData();
+if(!data){view.innerHTML="<div>Invalid path</div>";return}
+
+const top=document.createElement("div");
+top.className="top-bar";
+if(stack.length>1){const back=document.createElement("div");back.className="backBtn";back.textContent="← Back";back.onclick=()=>{stack.pop();render()};top.appendChild(back)}
+
+const bc=document.createElement("div");bc.className="breadcrumb";
+stack.forEach((name,idx)=>{
+const span=document.createElement("span");
+span.textContent=name;
+span.style.color=idx===stack.length-1?"#e6edf3":"#2f81f7";
+span.onclick=()=>{stack=stack.slice(0,idx+1);render()};
+bc.appendChild(span);
+if(idx<stack.length-1){const sep=document.createElement("span");sep.textContent=" → ";sep.style.color="#9aa4af";bc.appendChild(sep)}
+});
+
+top.appendChild(bc);
+view.appendChild(top);
+
+if(isLeaf(data)){
+const path="content/"+stack.join("__");
+let saved="";
+try{const snap=await getDoc(doc(db,path));if(snap.exists())saved=snap.data().text||""}catch(e){console.error(e)}
+if(OWNER_UNLOCKED){
+view.insertAdjacentHTML("beforeend",`<textarea id="editor">${saved}</textarea><div id="saveBtn">Save</div>`);
+document.getElementById("saveBtn").onclick=async()=>{
+await setDoc(doc(db,path),{text:document.getElementById("editor").value,updatedAt:Date.now()});
+alert("Saved")};
+}else if(saved){
+view.insertAdjacentHTML("beforeend",`<pre style="font-family:'Comic Sans MS','Comic Neue',cursive">${saved}</pre>`)
+}
+return;
+}
+
+Object.keys(data).forEach(k=>{const d=document.createElement("div");d.className="item";d.textContent=k;d.onclick=()=>{stack.push(k);render()};view.appendChild(d)})
+}
 
 window.addEventListener("popstate",e=>restoreFromHistory(e.state));
-window.addEventListener("DOMContentLoaded",()=>{view=document.getElementById("view");subjectBtns=document.querySelectorAll(".subject-btn");subjectBtns.forEach(b=>b.onclick=()=>{stack=[b.dataset.sub];render()});render(false)})
+window.addEventListener("DOMContentLoaded",()=>{
+view=document.getElementById("view");
+subjectBtns=document.querySelectorAll(".subject-btn");
+subjectBtns.forEach(b=>b.onclick=()=>{stack=[b.dataset.sub];render()});
+render(false)
+});
 </script>
 </head>
 <body>
 <header><h1 class="brand">For clear PCM</h1><p class="subtitle">Structured JEE learning</p></header>
-<div class="subject-bar"><div class="subject-btn" data-sub="Maths">Maths</div><div class="subject-btn" data-sub="Physics">Physics</div><div class="subject-btn" data-sub="Chemistry">Chemistry</div></div>
+<div class="subject-bar">
+<div class="subject-btn" data-sub="Maths">Maths</div>
+<div class="subject-btn" data-sub="Physics">Physics</div>
+<div class="subject-btn" data-sub="Chemistry">Chemistry</div>
+</div>
 <main><div id="view"></div></main>
 <footer>©2026 Terminal Joint · For Clear PCM</footer>
 </body>
