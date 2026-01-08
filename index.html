@@ -9,28 +9,91 @@
 <style>
 :root{
   --bg:#0b0f14;--panel:#121821;--border:#1f2937;
-  --text:#e5e7eb;--muted:#9ca3af;--accent:#3b82f6;
+  --text:#e5e7eb;--muted:#9ca3af;--accent:#3b82f6;--green:#22c55e;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Inter;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
-header{padding:12px 16px;border-bottom:1px solid var(--border);background:#0b1220;display:flex;justify-content:space-between}
-.brand{font-weight:800;font-size:1.1rem}
-.tag{font-size:.7rem;color:var(--muted)}
-main{flex:1;display:grid;grid-template-columns:240px 1fr}
-.sidebar{border-right:1px solid var(--border);background:#0c1320}
-.sidebar h3{font-size:.75rem;color:var(--muted);padding:10px 12px}
-.sidebar button{width:100%;padding:10px 12px;border:none;background:none;color:var(--text);cursor:pointer;text-align:left}
-.sidebar button.active{background:#111827;color:var(--accent)}
-.content{padding:16px;overflow:auto}
-.pathbar{font-size:.7rem;color:var(--muted);margin-bottom:12px}
+
+header{
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.brand{font-weight:800}
+.mode{font-size:.7rem;color:var(--muted)}
+
+main{flex:1;max-width:1100px;margin:auto;padding:16px}
+
+.pathbar{
+  font-size:.75rem;
+  color:var(--muted);
+  margin-bottom:12px;
+}
 .pathbar span{color:var(--accent);cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  cursor:pointer;
+}
 .card:hover{border-color:var(--accent)}
-.editor{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
-.editor textarea{width:100%;min-height:220px;background:#0b1220;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px}
-button.action{background:#111827;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer}
-footer{border-top:1px solid var(--border);padding:8px;text-align:center;font-size:.6rem;color:var(--muted)}
+.card b{font-size:.85rem}
+
+.viewer{
+  margin-top:20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  white-space:pre-wrap;
+  line-height:1.6;
+}
+
+.editor{
+  margin-top:20px;
+  background:#020617;
+  border:2px solid var(--green);
+  border-radius:14px;
+  padding:16px;
+}
+.editor h3{font-size:.85rem;color:var(--green);margin-bottom:8px}
+.editor textarea{
+  width:100%;
+  min-height:260px;
+  background:#020617;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  font-size:.8rem;
+}
+
+.top-actions button{
+  background:#111827;
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+footer{
+  border-top:1px solid var(--border);
+  padding:8px;
+  text-align:center;
+  font-size:.6rem;
+  color:var(--muted);
+}
 </style>
 </head>
 
@@ -38,31 +101,23 @@ footer{border-top:1px solid var(--border);padding:8px;text-align:center;font-siz
 <header>
   <div>
     <div class="brand">For Clear PCM</div>
-    <div class="tag">Ultra-deep JEE knowledge system</div>
+    <div class="mode" id="mode">VIEW MODE</div>
   </div>
-  <div>
-    <span id="userStatus" class="tag">Not signed in</span>
-    <button id="loginBtn" class="action">Google Login</button>
-    <button id="logoutBtn" class="action" style="display:none">Logout</button>
+  <div class="top-actions">
+    <button id="loginBtn">Google Login</button>
+    <button id="logoutBtn" style="display:none">Logout</button>
   </div>
 </header>
 
 <main>
-  <aside class="sidebar">
-    <h3>Subjects</h3>
-    <div id="subjects"></div>
-  </aside>
-  <section class="content">
-    <div class="pathbar" id="pathbar"></div>
-    <div class="grid" id="grid"></div>
-    <div id="editor"></div>
-  </section>
+  <div class="pathbar" id="pathbar"></div>
+  <div class="grid" id="grid"></div>
+  <div id="content"></div>
 </main>
 
 <footer>©2026 Terminal Joint · For Clear PCM</footer>
 
 <script type="module">
-/* ================= FIREBASE ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
@@ -76,206 +131,55 @@ const firebaseConfig = {
   appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1"
 };
 
-const OWNER_UIDS = [
+const OWNER_UIDS=[
   "NbJq7HLBt0Pd7O55f4u82HTWOyu2",
   "4MXKQ1JnnIUARfdYlIUbD0Q4erD2"
 ];
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const provider = new GoogleAuthProvider();
+const syllabus={ Maths:{Algebra:{Quadratic_Equations:{Discriminant:{D_Positive:{},D_Zero:{}}}}} };
 
-/* ================= FULL ULTRA-DEEP SYLLABUS ================= */
-const syllabus = {
-  Maths:{
-    Algebra:{
-      Quadratic_Equations:{
-        Discriminant:{
-          D_Positive:{Distinct_Real_Roots:{},Inequality_Cases:{}},
-          D_Zero:{Equal_Roots:{}},
-          D_Negative:{Imaginary_Roots:{}}
-        },
-        Relation_Between_Roots:{Sum:{},Product:{},Sum_of_Squares:{}},
-        Formation_of_Quadratic:{Given_Roots:{},Parameter_Problems:{}},
-        Graph_of_Quadratic:{Vertex:{},Axis:{},Max_Min:{}}
-      },
-      Sequences_and_Series:{
-        AP:{Nth_Term:{},Sum:{},Word_Problems:{}},
-        GP:{Nth_Term:{},Sum:{},Infinite_GP:{}},
-        HP:{Relation_with_AP:{}}
-      },
-      Complex_Numbers:{
-        Algebra:{},
-        Argand_Plane:{Locus_Problems:{}},
-        Modulus_Argument:{},
-        Triangle_Inequality:{}
-      },
-      Probability:{
-        Conditional_Probability:{},
-        Bayes_Theorem:{},
-        Random_Variables:{Mean:{},Variance:{}}
-      }
-    },
-    Calculus:{
-      Limits:{
-        Standard_Limits:{},
-        LHospital_Rule:{Repeated:{}}
-      },
-      Differentiation:{
-        Rules:{},
-        Implicit:{},
-        Logarithmic:{}
-      },
-      Applications_of_Derivatives:{
-        Increasing_Decreasing:{},
-        Maxima_Minima:{Optimization:{}}
-      },
-      Integration:{
-        Indefinite:{Substitution:{},By_Parts:{},Partial_Fractions:{}},
-        Definite:{Properties:{},Area:{}}
-      }
-    }
-  },
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const provider=new GoogleAuthProvider();
 
-  Physics:{
-    Kinematics:{
-      One_D_Motion:{
-        Equations_of_Motion:{},
-        Graphs:{x_t:{},v_t:{}}
-      },
-      Two_D_Motion:{
-        Projectile:{Range:{},Time:{},Inclined_Plane:{}},
-        Circular_Motion:{Centripetal:{},Banking:{}}
-      }
-    },
-    Laws_of_Motion:{
-      Newtons_Laws:{},
-      Friction:{Static:{},Kinetic:{},Inclined_Plane:{}}
-    },
-    Work_Energy_Power:{
-      Work:{},
-      Energy:{Kinetic:{},Potential:{}},
-      Collisions:{Elastic:{},Inelastic:{}}
-    },
-    Electrostatics:{
-      Coulombs_Law:{},
-      Gauss_Law:{Applications:{}},
-      Capacitors:{Dielectric:{}}
-    },
-    Current_Electricity:{
-      Ohms_Law:{},
-      Kirchhoffs_Laws:{},
-      Potentiometer:{}
-    },
-    Modern_Physics:{
-      Photoelectric_Effect:{},
-      Bohr_Model:{},
-      Semiconductors:{Diodes:{},Transistors:{}}
-    }
-  },
+let path=[],user=null,isOwner=false;
 
-  Chemistry:{
-    Physical:{
-      Mole_Concept:{
-        Stoichiometry:{
-          Limiting_Reagent:{},
-          Percentage_Yield:{}
-        }
-      },
-      Thermodynamics:{
-        Enthalpy:{},
-        Entropy:{},
-        Gibbs_Free_Energy:{}
-      },
-      Chemical_Kinetics:{
-        Rate_Law:{},
-        Integrated_Rate_Equations:{}
-      }
-    },
-    Inorganic:{
-      Periodic_Trends:{},
-      Chemical_Bonding:{
-        Hybridization:{},
-        MO_Theory:{}
-      },
-      Coordination_Compounds:{
-        Isomerism:{},
-        Bonding:{}
-      }
-    },
-    Organic:{
-      GOC:{
-        Inductive:{},
-        Resonance:{},
-        Hyperconjugation:{}
-      },
-      Hydrocarbons:{
-        Alkanes:{},
-        Alkenes:{},
-        Alkynes:{}
-      },
-      Haloalkanes:{
-        SN1:{},
-        SN2:{}
-      }
-    }
-  }
-};
-
-/* ================= APP LOGIC ================= */
-let path=[];
-let user=null;
-let isOwner=false;
-
-const subjectsDiv=document.getElementById("subjects");
 const grid=document.getElementById("grid");
 const pathbar=document.getElementById("pathbar");
-const editor=document.getElementById("editor");
-const loginBtn=document.getElementById("loginBtn");
-const logoutBtn=document.getElementById("logoutBtn");
-const userStatus=document.getElementById("userStatus");
+const content=document.getElementById("content");
+const mode=document.getElementById("mode");
 
-loginBtn.onclick=()=>signInWithPopup(auth,provider);
-logoutBtn.onclick=()=>signOut(auth);
+document.getElementById("loginBtn").onclick=()=>signInWithPopup(auth,provider);
+document.getElementById("logoutBtn").onclick=()=>signOut(auth);
 
 onAuthStateChanged(auth,u=>{
   user=u;
   isOwner=!!u && OWNER_UIDS.includes(u.uid);
-  userStatus.textContent=u?(isOwner?"Owner":"User"):"Not signed in";
-  loginBtn.style.display=u?"none":"inline-block";
-  logoutBtn.style.display=u?"inline-block":"none";
+  mode.textContent=isOwner?"OWNER EDIT MODE":"VIEW MODE";
+  document.getElementById("loginBtn").style.display=u?"none":"inline-block";
+  document.getElementById("logoutBtn").style.display=u?"inline-block":"none";
   render();
 });
 
 function getNode(){
   let n=syllabus;
-  for(const p of path){ if(!n[p]) return null; n=n[p]; }
+  for(const p of path){ n=n[p]; }
   return n;
 }
-function isLeaf(n){ return n && typeof n==="object" && Object.keys(n).length===0; }
+function isLeaf(n){ return Object.keys(n).length===0; }
 function key(){ return path.join("/"); }
 
-async function loadContent(){
+async function load(){
   const snap=await getDoc(doc(db,"content",key()));
   return snap.exists()?snap.data().text:"";
 }
-async function saveContent(text){
+async function save(text){
   if(isOwner) await setDoc(doc(db,"content",key()),{text});
 }
 
-function renderSubjects(){
-  subjectsDiv.innerHTML="";
-  Object.keys(syllabus).forEach(s=>{
-    const b=document.createElement("button");
-    b.textContent=s;
-    if(path[0]===s) b.classList.add("active");
-    b.onclick=()=>{path=[s];render()};
-    subjectsDiv.appendChild(b);
-  });
-}
-function renderPath(){
-  pathbar.innerHTML="";
+function render(){
+  grid.innerHTML=""; content.innerHTML=""; pathbar.innerHTML="";
   path.forEach((p,i)=>{
     const s=document.createElement("span");
     s.textContent=p;
@@ -283,38 +187,29 @@ function renderPath(){
     pathbar.appendChild(s);
     if(i<path.length-1) pathbar.append(" › ");
   });
-}
-async function renderGrid(){
-  grid.innerHTML="";
-  editor.innerHTML="";
-  const node=getNode();
-  if(!node) return;
 
+  const node=getNode();
   if(isLeaf(node)){
-    const ed=document.createElement("div");
-    ed.className="editor";
-    const ta=document.createElement("textarea");
-    ta.value=await loadContent();
-    ta.disabled=!isOwner;
-    ta.oninput=()=>saveContent(ta.value);
-    ed.appendChild(ta);
-    editor.appendChild(ed);
+    load().then(t=>{
+      if(isOwner){
+        content.innerHTML=`<div class="editor"><h3>Owner Editor</h3><textarea>${t}</textarea></div>`;
+        content.querySelector("textarea").oninput=e=>save(e.target.value);
+      }else{
+        content.innerHTML=`<div class="viewer">${t||"No content yet"}</div>`;
+      }
+    });
     return;
   }
 
   Object.keys(node).forEach(k=>{
     const c=document.createElement("div");
     c.className="card";
-    c.textContent=k;
+    c.innerHTML=`<b>${k}</b>`;
     c.onclick=()=>{path.push(k);render()};
     grid.appendChild(c);
   });
 }
-async function render(){
-  renderSubjects();
-  renderPath();
-  await renderGrid();
-}
+
 render();
 </script>
 </body>
