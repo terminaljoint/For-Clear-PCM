@@ -9,27 +9,29 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{overscroll-behavior:none}
 body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
-header{padding:18px 22px;border-bottom:1px solid #30363d}
-.brand{font-size:1.9rem;font-weight:700}
-.subtitle{color:#9aa4af;margin-top:4px}
-.subject-bar{display:flex;gap:10px;padding:12px 22px;border-bottom:1px solid #30363d;overflow-x:auto}
-.subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:12px;cursor:pointer;font-weight:700;white-space:nowrap;transition:.15s}
+header{padding:14px 16px;border-bottom:1px solid #30363d}
+.brand{font-size:clamp(1.4rem,4.5vw,1.9rem);font-weight:700}
+.subtitle{color:#9aa4af;margin-top:2px;font-size:clamp(.75rem,3vw,.9rem)}
+.subject-bar{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid #30363d;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.subject-btn{padding:8px 14px;border:1px solid #30363d;border-radius:14px;cursor:pointer;font-weight:700;white-space:nowrap;transition:.12s;font-size:.9rem}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-.subject-btn:active{transform:scale(.96)}
-main{max-width:920px;margin:0 auto;padding:24px 20px;flex:1;will-change:transform}
-.item{padding:14px 16px;border:1px solid #30363d;border-radius:14px;margin-bottom:12px;cursor:pointer;transition:.12s;background:#0d1117}
-.item:hover{border-color:#2f81f7}
-.item:active{transform:scale(.985)}
-.breadcrumb{color:#9aa4af;margin-bottom:12px;font-size:.85rem;overflow-x:auto;white-space:nowrap}
-.top-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.95rem}
-footer{border-top:1px solid #30363d;padding:14px 20px;font-size:.8rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none}
-#lockBadge{color:#f85149;font-weight:700;margin-top:12px}
-textarea{width:100%;height:170px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:12px;padding:12px;font-size:.95rem}
-.saveBtn{margin-top:10px;color:#2f81f7;cursor:pointer;font-weight:700}
-.error{color:#f85149;font-weight:700;margin-top:12px}
-.fade{animation:fadeIn .18s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.subject-btn:active{transform:scale(.95)}
+main{max-width:960px;margin:0 auto;padding:16px 14px;flex:1}
+.item{padding:14px 14px;border:1px solid #30363d;border-radius:16px;margin-bottom:10px;cursor:pointer;transition:.1s;background:#0d1117;font-size:.95rem}
+.item:active{transform:scale(.97)}
+.breadcrumb{color:#9aa4af;font-size:.75rem;overflow-x:auto;white-space:nowrap}
+.top-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.9rem;padding:6px 8px;border-radius:8px}
+.backBtn:active{background:#161b22}
+footer{border-top:1px solid #30363d;padding:10px 12px;font-size:.7rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none}
+textarea{width:100%;min-height:220px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:14px;padding:14px;font-size:.9rem;line-height:1.45}
+.saveBtn{margin-top:12px;color:#2f81f7;cursor:pointer;font-weight:700;font-size:.9rem}
+.fade{animation:fadeIn .16s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media (min-width:768px){
+  main{padding:24px}
+  .item{font-size:1rem}
+}
 </style>
 
 <script type="module">
@@ -144,7 +146,25 @@ async function render(pushHistory=true){
     back.onclick=()=>{ stack.pop(); render(); };
     top.appendChild(back);
   }
-  const bc=document.createElement("div"); bc.className="breadcrumb"; bc.innerText=stack.join(" → ");
+  const bc=document.createElement("div"); bc.className="breadcrumb";
+    bc.innerHTML="";
+    stack.forEach((name,idx)=>{
+      const span=document.createElement("span");
+      span.innerText=name;
+      span.style.cursor="pointer";
+      span.style.color= idx===stack.length-1 ? "#9aa4af" : "#2f81f7";
+      span.onclick=()=>{
+        stack = stack.slice(0, idx+1);
+        render();
+      };
+      bc.appendChild(span);
+      if(idx<stack.length-1){
+        const sep=document.createElement("span");
+        sep.innerText=" → ";
+        sep.style.color="#9aa4af";
+        bc.appendChild(sep);
+      }
+    });
   top.appendChild(bc);
   view.appendChild(top);
 
@@ -163,7 +183,7 @@ async function render(pushHistory=true){
       };
       document.getElementById("lockBtn").onclick=lockOwner;
     }else{
-      view.innerHTML+=`<div id='lockBadge'>🔒 Editing Locked</div>`;
+      
       if(saved) view.innerHTML+=`<pre class='fade' style='white-space:pre-wrap'>${saved}</pre>`;
     }
     return;
