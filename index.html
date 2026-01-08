@@ -45,24 +45,31 @@ main{flex:1}
 .breadcrumb .crumb:hover{background:rgba(47,129,247,.08);color:var(--text)}
 .breadcrumb .sep{opacity:.5}
 
+/* Filters (global) */
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filters .label{font-size:.75rem;color:var(--muted)}
+.tag{font-size:.65rem;border:1px solid var(--border);border-radius:999px;padding:2px 8px;color:var(--muted);cursor:pointer}
+.tag.active{border-color:var(--accent);color:var(--accent)}
+
+/* Progress summary */
+.summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.summary .box{border:1px solid var(--border);border-radius:12px;padding:8px 10px;background:var(--panel)}
+.summary .box .k{font-size:.7rem;color:var(--muted)}
+.summary .box .v{font-size:.85rem;font-weight:700}
+
 /* Grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.0));border:1px solid var(--border);border-radius:var(--radius);padding:var(--pad-lg);display:flex;align-items:center;justify-content:space-between;gap:10px;transition:.15s;box-shadow:var(--shadow)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.0));border:1px solid var(--border);border-radius:var(--radius);padding:var(--pad-lg);display:flex;flex-direction:column;gap:8px;transition:.15s;box-shadow:var(--shadow)}
 .card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.card .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .card .name{font-weight:700}
 .controls{display:flex;gap:6px}
 .controls .mini{font-size:.7rem;padding:4px 7px;border-radius:8px}
 
-/* Tags */
-.tag{font-size:.65rem;border:1px solid var(--border);border-radius:999px;padding:2px 8px;color:var(--muted)}
-.tag.active{border-color:var(--accent);color:var(--accent)}
-.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-
-/* Progress */
-.progress-wrap{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.progress{flex:1;height:6px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
+/* Progress bar (card + editor) */
+.progress{height:6px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
 .progress > div{height:100%;background:var(--accent);width:0%}
-.progress-label{font-size:.7rem;color:var(--muted)}
+.progress-label{font-size:.65rem;color:var(--muted)}
 
 /* Editor */
 .editor{border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);padding:var(--pad-lg);box-shadow:var(--shadow)}
@@ -106,6 +113,8 @@ footer{border-top:1px solid var(--border);background:var(--panel)}
 <main>
   <div class="main-inner">
     <div id="breadcrumb" class="breadcrumb"></div>
+    <div id="filters" class="filters"></div>
+    <div id="summary" class="summary"></div>
     <div id="view"></div>
   </div>
 </main>
@@ -138,15 +147,18 @@ let user = null;
 let tree = {};
 let stack = [];
 let permissionError = false;
+let activeTag = null; // global filter
 
 const view = document.getElementById("view");
 const breadcrumb = document.getElementById("breadcrumb");
+const filters = document.getElementById("filters");
+const summary = document.getElementById("summary");
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const ownerBadge = document.getElementById("ownerBadge");
 
 function isOwner(){ return user && user.uid === OWNER_UID; }
-function pathId(){ return stack.join("__"); }
+function pathId(path=stack){ return path.join("__"); }
 
 // History sync
 window.addEventListener("popstate", e => {
@@ -183,8 +195,7 @@ function getNode(){
 
 function renderBreadcrumb(){
   breadcrumb.innerHTML = "";
-  const home = document.createElement('span');
-  home.textContent = 'Home'; home.className = 'crumb';
+  const home = document.createElement('span'); home.textContent = 'Home'; home.className = 'crumb';
   home.onclick = () => { stack = []; render(); };
   breadcrumb.appendChild(home);
   for(let i=0;i<stack.length;i++){
@@ -195,23 +206,60 @@ function renderBreadcrumb(){
   }
 }
 
-async function getMeta(){
+async function getMeta(path=stack){
   try{
-    const snap = await getDoc(doc(db,"meta", pathId()));
+    const snap = await getDoc(doc(db,"meta", pathId(path)));
     if(snap.exists()) return snap.data();
   }catch(e){ console.error(e); }
   return { progress:0, tags:[] };
 }
 
-async function saveMeta(meta){
-  try{ await setDoc(doc(db,"meta", pathId()), meta, { merge:true }); }
+async function saveMeta(meta, path=stack){
+  try{ await setDoc(doc(db,"meta", pathId(path)), meta, { merge:true }); }
   catch(e){ console.error(e); }
+}
+
+// Recursively aggregate progress and tags from children
+async function aggregate(path, node){
+  const meta = await getMeta(path);
+  let total = 0, count = 0, tagged = 0;
+  if(Object.keys(node).length === 0){
+    return { progress: meta.progress||0, count:1, tagged: (activeTag && (meta.tags||[]).includes(activeTag)) ? 1:0 };
+  }
+  for(const k in node){
+    const child = await aggregate([...path, k], node[k]);
+    total += child.progress; count += child.count; tagged += child.tagged;
+  }
+  return { progress: count? Math.round(total/count):0, count, tagged };
+}
+
+function renderFilters(){
+  filters.innerHTML = '';
+  const label = document.createElement('span'); label.className='label'; label.textContent='Filter:'; filters.appendChild(label);
+  ['important','formula','example'].forEach(t=>{
+    const s = document.createElement('span'); s.className='tag'; s.textContent=t.toUpperCase();
+    if(activeTag===t) s.classList.add('active');
+    s.onclick = ()=>{ activeTag = (activeTag===t? null:t); render(false); };
+    filters.appendChild(s);
+  });
+}
+
+async function renderSummary(){
+  summary.innerHTML='';
+  const node = getNode();
+  const agg = await aggregate(stack, node);
+  const b1 = document.createElement('div'); b1.className='box'; b1.innerHTML = `<div class="k">Progress</div><div class="v">${agg.progress}%</div>`;
+  const b2 = document.createElement('div'); b2.className='box'; b2.innerHTML = `<div class="k">Items</div><div class="v">${agg.count}</div>`;
+  const b3 = document.createElement('div'); b3.className='box'; b3.innerHTML = `<div class="k">Tagged</div><div class="v">${agg.tagged}</div>`;
+  summary.appendChild(b1); summary.appendChild(b2); summary.appendChild(b3);
 }
 
 async function render(pushHistory = true){
   if(pushHistory){ history.pushState({ stack:[...stack] }, ""); }
   view.innerHTML = "";
   renderBreadcrumb();
+  renderFilters();
+  await renderSummary();
 
   if(permissionError){
     const n = document.createElement("div"); n.className = "notice";
@@ -221,7 +269,7 @@ async function render(pushHistory = true){
 
   const node = getNode();
 
-  // Leaf: content + progress + tags
+  // Leaf: content + per-node meta (UNDERSTOOD toggle)
   if(Object.keys(node).length === 0){
     let text = "";
     try{
@@ -233,71 +281,65 @@ async function render(pushHistory = true){
 
     const wrap = document.createElement('div'); wrap.className = 'editor';
 
-    // Progress UI
-    const pWrap = document.createElement('div'); pWrap.className = 'progress-wrap';
-    const pBar = document.createElement('div'); pBar.className = 'progress';
-    const pFill = document.createElement('div'); pFill.style.width = (meta.progress||0) + '%'; pBar.appendChild(pFill);
-    const pLabel = document.createElement('div'); pLabel.className = 'progress-label'; pLabel.textContent = `Progress: ${meta.progress||0}%`;
-    pWrap.appendChild(pBar); pWrap.appendChild(pLabel);
-    wrap.appendChild(pWrap);
+    // Progress bar (binary: understood or not)
+    const p = document.createElement('div'); p.className='progress';
+    const pf=document.createElement('div'); pf.style.width=(meta.progress||0)+'%'; p.appendChild(pf);
+    const pl=document.createElement('div'); pl.className='progress-label';
+    pl.textContent = meta.progress===100 ? 'Status: UNDERSTOOD' : 'Status: NOT UNDERSTOOD';
+    wrap.appendChild(p); wrap.appendChild(pl);
 
-    // Tags UI
-    const tags = ['important','formula','example'];
-    const tagRow = document.createElement('div'); tagRow.className = 'tag-row';
-    tags.forEach(t=>{
-      const s = document.createElement('span'); s.className = 'tag'; s.textContent = t.toUpperCase();
-      if((meta.tags||[]).includes(t)) s.classList.add('active');
+    // Tags
+    const tagRow=document.createElement('div'); tagRow.style.margin='6px 0 10px';
+    ['important','formula','example'].forEach(t=>{
+      const s=document.createElement('span'); s.className='tag'; s.textContent=t.toUpperCase(); if((meta.tags||[]).includes(t)) s.classList.add('active');
       if(isOwner() && !permissionError){
-        s.onclick = async () => {
-          const cur = new Set(meta.tags||[]);
-          if(cur.has(t)) cur.delete(t); else cur.add(t);
-          meta.tags = Array.from(cur);
-          await saveMeta(meta);
-          render(false);
-        };
+        s.onclick=async()=>{ const cur=new Set(meta.tags||[]); cur.has(t)?cur.delete(t):cur.add(t); meta.tags=Array.from(cur); await saveMeta(meta); render(false); };
       }
       tagRow.appendChild(s);
     });
     wrap.appendChild(tagRow);
 
+    // UNDERSTOOD toggle button
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = meta.progress===100 ? 'Revert (Not Understood)' : 'Understood';
+    btn.onclick = async () => {
+      meta.progress = meta.progress===100 ? 0 : 100;
+      await saveMeta(meta);
+      render(false);
+    };
+    wrap.appendChild(btn);
+
     if(isOwner() && !permissionError){
       const ta = document.createElement("textarea"); ta.value = text;
-      ta.onchange = async () => {
-        try{ await setDoc(doc(db,"content",pathId()), { text: ta.value }, { merge:true }); }
-        catch(e){ alert("Save failed: permission denied"); }
-      };
+      ta.onchange = async () => { try{ await setDoc(doc(db,"content",pathId()), { text: ta.value }, { merge:true }); }catch(e){ alert("Save failed"); } };
       wrap.appendChild(ta);
 
-      // Progress input for owner
-      const range = document.createElement('input');
-      range.type = 'range'; range.min = 0; range.max = 100; range.value = meta.progress||0; range.style.width = '100%';
-      range.oninput = e => { pFill.style.width = e.target.value + '%'; pLabel.textContent = `Progress: ${e.target.value}%`; };
-      range.onchange = async e => { meta.progress = Number(e.target.value); await saveMeta(meta); };
-      wrap.appendChild(range);
-
-      const hint = document.createElement('div'); hint.className = 'hint';
-      hint.textContent = 'Owner mode: edit content, set progress, and toggle tags. All auto-saved.';
+      const hint=document.createElement('div'); hint.className='hint';
+      hint.textContent='Progress is updated only by the UNDERSTOOD button. Click again to revert.';
       wrap.appendChild(hint);
     } else {
-      if(text.trim().length === 0){
-        const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = 'No content here yet.';
-        wrap.appendChild(empty);
-      } else {
-        const pre = document.createElement('pre'); pre.textContent = text; pre.style.whiteSpace = 'pre-wrap';
-        wrap.appendChild(pre);
-      }
+      if(text.trim().length===0){ const empty=document.createElement('div'); empty.className='empty'; empty.textContent='No content here yet.'; wrap.appendChild(empty);} 
+      else { const pre=document.createElement('pre'); pre.textContent=text; pre.style.whiteSpace='pre-wrap'; wrap.appendChild(pre);} 
     }
 
     view.appendChild(wrap);
     return;
   }
+  }
 
-  // Non-leaf: show children
+  // Non-leaf: cards with aggregated progress + tag counts
   const grid = document.createElement('div'); grid.className = 'grid';
 
   for(const key in node){
+    const childPath=[...stack,key];
+    const agg=await aggregate(childPath, node[key]);
+    if(activeTag && agg.tagged===0) continue; // filter by tag at any depth
+
     const card = document.createElement("div"); card.className = "card";
-    const name = document.createElement('div'); name.className = 'name'; name.textContent = key;
+
+    const row=document.createElement('div'); row.className='row';
+    const name = document.createElement('div'); name.className='name'; name.textContent = key;
     const c = document.createElement("div"); c.className = "controls";
 
     if(isOwner() && !permissionError){
@@ -306,7 +348,12 @@ async function render(pushHistory = true){
       c.appendChild(add);
     }
 
-    card.appendChild(name); card.appendChild(c);
+    row.appendChild(name); row.appendChild(c); card.appendChild(row);
+
+    const pbar=document.createElement('div'); pbar.className='progress'; const pf=document.createElement('div'); pf.style.width=agg.progress+'%'; pbar.appendChild(pf);
+    const pl=document.createElement('div'); pl.className='progress-label'; pl.textContent=`${agg.progress}% · ${agg.count} items`;
+    card.appendChild(pbar); card.appendChild(pl);
+
     card.onclick = () => { stack.push(key); render(); };
     grid.appendChild(card);
   }
