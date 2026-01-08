@@ -2,57 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>For Clear PCM – Structured JEE Platform</title>
+<title>For Clear PCM – Ultra Deep JEE Platform</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0d1117;
-  --panel:#161b22;
-  --border:#30363d;
-  --text:#e6edf3;
-  --muted:#9aa4af;
-  --accent:#2f81f7;
+  --bg:#0d1117;--panel:#161b22;--border:#30363d;
+  --text:#e6edf3;--muted:#9aa4af;--accent:#2f81f7;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:13px}
-
 header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.brand{font-size:1.2rem;font-weight:800;line-height:1}
-.tag{color:var(--muted);font-size:.7rem}
-
-#editorBadge{background:#238636;color:#fff;padding:3px 8px;border-radius:999px;font-size:.6rem;font-weight:600;display:none}
-
-.subject-bar{display:flex;gap:6px;padding:6px 10px;border-bottom:1px solid var(--border)}
-.subject-btn{padding:4px 10px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-weight:600;background:var(--panel);font-size:.75rem}
-.subject-btn.active{border-color:var(--accent);color:var(--accent)}
-
-main{display:grid;grid-template-columns:200px 1fr;flex:1;min-height:0}
-
-.sidebar{border-right:1px solid var(--border);padding:8px;overflow:auto}
-.sidebar h3{font-size:.65rem;color:var(--muted);margin-bottom:6px;letter-spacing:.05em}
-.node{padding:4px 6px;border-radius:6px;cursor:pointer;margin-bottom:1px;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.node:hover{background:var(--panel)}
-.node.active{background:var(--panel);border-left:2px solid var(--accent)}
-.node.depth-1{padding-left:10px}
-.node.depth-2{padding-left:18px}
-.node.depth-3{padding-left:26px}
-.node.depth-4{padding-left:34px}
-.node.depth-5{padding-left:42px}
-
-.content{padding:12px;overflow:auto}
-.content h1{font-size:1rem;margin-bottom:4px}
-.content .meta{color:var(--muted);font-size:.65rem;margin-bottom:8px}
-
-textarea,select,button{width:100%;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px;font-size:.75rem}
-textarea{min-height:160px;line-height:1.4}
-button.primary{background:var(--accent);border:none;font-weight:700}
-
-#loginBox{max-width:260px;margin:30px auto;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
-#loginBox h2{text-align:center;margin-bottom:6px;font-size:.9rem}
-#loginBox p{text-align:center;color:var(--muted);font-size:.7rem;margin-bottom:10px}
-
+.brand{font-size:1.2rem;font-weight:800}
+.tag{font-size:.7rem;color:var(--muted)}
+#editorBadge{display:none;background:#238636;color:#fff;padding:3px 8px;border-radius:999px;font-size:.6rem;font-weight:600}
+main{flex:1;display:flex;justify-content:center;overflow:auto}
+.app{width:100%;max-width:900px;padding:12px}
+.step{margin-bottom:10px}
+.step-title{font-size:.8rem;color:var(--muted);margin-bottom:6px}
+.grid{display:flex;flex-wrap:wrap;gap:6px}
+button{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;font-size:.75rem;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.active{border-color:var(--accent);color:var(--accent)}
+textarea,select{width:100%;background:var(--panel);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px;font-size:.75rem}
+textarea{min-height:220px;line-height:1.5}
+.editor{margin-top:14px}
+.meta{font-size:.65rem;color:var(--muted);margin-bottom:6px}
+#loginBox{max-width:260px;margin:40px auto;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
+#loginBox h2{font-size:.9rem;text-align:center;margin-bottom:6px}
+#loginBox p{font-size:.7rem;color:var(--muted);text-align:center;margin-bottom:10px}
 footer{border-top:1px solid var(--border);padding:6px;text-align:center;font-size:.6rem;color:var(--muted)}
 </style>
 
@@ -62,22 +41,43 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.firebasestorage.app",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
+initializeApp(firebaseConfig);
+const auth=getAuth();
 const provider=new GoogleAuthProvider();
-const db=getFirestore(app);
+const db=getFirestore();
 
 const OWNER_UIDS=["NbJq7HLBt0Pd7O55f4u82HTWOyu2","4MXKQ1JnnIUARfdYlIUbD0Q4erD2"];
 
 const syllabus = {
   Maths:{
     Sets_and_Relations:{
-      Sets:{Definition:{Concept:{}},Representation:{Roster_Form:{},Set_Builder_Form:{}},Types:{Empty_Set:{},Singleton_Set:{},Finite_Set:{},Infinite_Set:{}},Subsets:{Proper_Subset:{},Improper_Subset:{},Power_Set:{Cardinality:{}},Operations:{Union:{},Intersection:{},Difference:{},Complement:{}},Laws:{De_Morgan_First:{},De_Morgan_Second:{}}},
-      Relations:{Ordered_Pairs:{},Cartesian_Product:{},Types:{Reflexive:{},Symmetric:{},Transitive:{},Equivalence:{Equivalence_Classes:{}}},Functions:{Domain:{},Codomain:{},Range:{},Types:{One_One:{},Onto:{},Into:{},Bijective:{}}}}
+      Sets:{
+        Definition:{Concept:{}},
+        Representation:{Roster_Form:{},Set_Builder_Form:{}},
+        Types:{Empty_Set:{},Singleton_Set:{},Finite_Set:{},Infinite_Set:{}},
+        Subsets:{Proper_Subset:{},Improper_Subset:{},Power_Set:{Cardinality:{}}},
+        Operations:{Union:{},Intersection:{},Difference:{},Complement:{}},
+        Laws:{De_Morgan_First:{},De_Morgan_Second:{}}
+      },
+      Relations:{
+        Ordered_Pairs:{},
+        Cartesian_Product:{},
+        Types:{Reflexive:{},Symmetric:{},Transitive:{},Equivalence:{Equivalence_Classes:{}}},
+        Functions:{Domain:{},Codomain:{},Range:{},Types:{One_One:{},Onto:{},Into:{},Bijective:{}}}
+      }
     },
     Algebra:{
-      Quadratic_Equations:{Standard_Form:{},Roots:{Nature_of_Roots:{},Discriminant:{}},Methods:{Factorisation:{},Completing_Square:{},Formula_Method:{}},Graphs:{Parabola:{Vertex:{},Axis:{},Intercepts:{}}}},
-      Sequences_and_Series:{Arithmetic_Progression:{Nth_Term:{},Sum:{}},Geometric_Progression:{Nth_Term:{},Sum:{},Infinite_GP:{}},Harmonic_Progression:{Relation_with_AP:{}}},
+      Quadratic_Equations:{
+        Standard_Form:{},
+        Roots:{Nature_of_Roots:{},Discriminant:{}},
+        Methods:{Factorisation:{},Completing_Square:{},Formula_Method:{}},
+        Graphs:{Parabola:{Vertex:{},Axis:{},Intercepts:{}}}
+      },
+      Sequences_and_Series:{
+        Arithmetic_Progression:{Nth_Term:{},Sum:{}},
+        Geometric_Progression:{Nth_Term:{},Sum:{},Infinite_GP:{}},
+        Harmonic_Progression:{Relation_with_AP:{}}
+      },
       Permutations_and_Combinations:{Fundamental_Principle:{},Factorial:{},Arrangements:{},Combinations:{}},
       Binomial_Theorem:{Expansion:{},General_Term:{},Middle_Term:{},Properties:{}},
       Complex_Numbers:{Algebra_of_Complex:{},Argand_Plane:{},Modulus_Argument:{}},
@@ -96,7 +96,8 @@ const syllabus = {
       Differentiation:{Definition:{},Rules:{Product:{},Quotient:{},Chain:{}},Derivatives_of_Functions:{}},
       Applications_of_Derivatives:{Increasing_Decreasing:{},Maxima_Minima:{},Tangents_Normals:{}},
       Integration:{Indefinite:{Methods:{Substitution:{},Integration_by_Parts:{},Partial_Fractions:{}}},Definite:{Properties:{},Area_Under_Curve:{}}},
-      Differential_Equations:{Order_Degree:{},Formation:{},Solution:{}}},
+      Differential_Equations:{Order_Degree:{},Formation:{},Solution:{}}
+    },
     Vectors_and_3D:{Vectors:{Addition:{},Scalar_Product:{},Vector_Product:{}},Three_D_Geometry:{Direction_Cosines:{},Equation_of_Line:{},Equation_of_Plane:{}}}
   },
   Physics:{
@@ -125,113 +126,93 @@ const syllabus = {
 let OWNER=false;
 let path=[];
 
-const content=document.getElementById('content');
+const app=document.getElementById('app');
 
 async function loadNode(p){
   const ref=doc(db,'syllabus',p[0]);
   const snap=await getDoc(ref);
   return snap.exists()?snap.data().nodes?.[p.join('/')]||null:null;
 }
-
-async function saveNode(p,contentText,status){
+async function saveNode(p,content,status){
   const ref=doc(db,'syllabus',p[0]);
-  await setDoc(ref,{nodes:{[p.join('/')]:{content:contentText,status}}},{merge:true});
+  await setDoc(ref,{nodes:{[p.join('/')]:{content,status}}},{merge:true});
 }
 
-function renderSelector(){
-  content.innerHTML='';
+function getNode(){let n=syllabus;for(const k of path)n=n[k];return n}
 
-  // Breadcrumb (option 3)
-  const bc=document.getElementById('breadcrumb');
-  bc.innerHTML='';
-  path.forEach((p,i)=>{
-    const b=document.createElement('button');
-    b.className='subject-btn';
-    b.style.marginRight='4px';
-    b.innerText=p;
-    b.onclick=()=>{path=path.slice(0,i+1);renderSelector();};
-    bc.appendChild(b);
-  });
+function render(){
+  app.innerHTML='';
+  let node=getNode();
 
-  let node=syllabus;
-  for(const k of path) node=node[k];
+  // Steps
+  let current=syllabus;
+  let labels=['Select Subject','Select Chapter','Select Topic','Select Subtopic','Select Concept'];
+  let level=0;
 
-  // Not terminal: buttons only
-  if(typeof node==='object' && Object.keys(node).length>0){
-    const title=document.createElement('h1');
-    title.innerText=path.length?path[path.length-1]:'Select Subject';
-    content.appendChild(title);
+  while(typeof current==='object' && Object.keys(current).length){
+    const step=document.createElement('div');step.className='step';
+    const title=document.createElement('div');title.className='step-title';title.innerText=labels[level]||'Select';
+    const grid=document.createElement('div');grid.className='grid';
 
-    Object.keys(node).forEach(k=>{
-      const btn=document.createElement('button');
-      btn.className='subject-btn';
-      btn.innerText=k;
-      btn.onclick=()=>{path.push(k);renderSelector();};
-      content.appendChild(btn);
+    Object.keys(current).forEach(k=>{
+      const b=document.createElement('button');b.innerText=k;
+      if(path[level]===k)b.classList.add('active');
+      b.onclick=()=>{path=path.slice(0,level);path[level]=k;render()};
+      grid.appendChild(b);
     });
-    return;
+
+    step.appendChild(title);step.appendChild(grid);app.appendChild(step);
+    if(!path[level])return;
+    current=current[path[level]];level++;
   }
 
-  // Terminal node
-  renderEditor();
-}
-
-async function renderEditor(){
+  // Terminal editor
   const data = await loadNode(path) || {content:'',status:'empty'};
-  content.innerHTML=`<h1>${path[path.length-1]}</h1><div class='meta'>Status: ${data.status}</div>`;
-
+  const ed=document.createElement('div');ed.className='editor';
+  ed.innerHTML=`<div class='meta'>Status: ${data.status}</div>`;
   if(OWNER){
-    const sel=document.createElement('select');
-    ['empty','draft','done','revised'].forEach(s=>{const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o);});
+    const sel=document.createElement('select');['empty','draft','done','revised'].forEach(s=>{const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o)});
     const ta=document.createElement('textarea');ta.value=data.content;
     ta.oninput=()=>saveNode(path,ta.value,sel.value);
     sel.onchange=()=>saveNode(path,ta.value,sel.value);
-    content.appendChild(sel);content.appendChild(ta);
+    ed.appendChild(sel);ed.appendChild(ta);
   } else {
-    content.innerHTML+= data.content?`<pre>${data.content}</pre>`:`<p class='meta'>No content yet</p>`;
+    ed.innerHTML+=data.content?`<pre>${data.content}</pre>`:`<div class='meta'>No content yet</div>`;
   }
+  app.appendChild(ed);
 }
 
 onAuthStateChanged(auth,user=>{
-  OWNER=!!user&&OWNER_UIDS.includes(user.uid);
+  OWNER=!!user && OWNER_UIDS.includes(user.uid);
   document.getElementById('editorBadge').style.display=OWNER?'inline-block':'none';
   document.getElementById('loginBox').style.display=user?'none':'block';
   document.getElementById('logoutBtn').style.display=user?'block':'none';
-  renderSelector();
+  render();
 });
 
-renderSelector();
+render();
 </script>
 </head>
 <body>
 <header>
   <div>
     <div class="brand">For Clear PCM</div>
-    <div class="tag">Structured JEE Learning · Firebase Powered</div>
+    <div class="tag">Ultra‑deep JEE knowledge system</div>
   </div>
-  <div id="editorBadge">EDITOR MODE</div>
+  <div id="editorBadge">EDITOR</div>
 </header>
 
-<div class="subject-bar">
-  <div class="subject-btn" data-sub="Maths">Maths</div>
-  <div class="subject-btn" data-sub="Physics">Physics</div>
-  <div class="subject-btn" data-sub="Chemistry">Chemistry</div>
-</div>
-
 <main>
-  <section class="content" id="content">
-  <div id="breadcrumb" style="margin-bottom:6px"></div>
-</section>
+  <div class="app" id="app"></div>
 </main>
 
 <div id="loginBox">
-  <h2>Owner Access</h2>
-  <p>Only verified editors can modify content.</p>
-  <button id="loginBtn" class="primary">Sign in with Google</button>
+  <h2>Owner Login</h2>
+  <p>Google access only</p>
+  <button onclick="signInWithPopup(auth,provider)">Sign in with Google</button>
 </div>
 
-<button id="logoutBtn" style="display:none;margin:12px">Logout</button>
-
+<button id="logoutBtn" onclick="signOut(auth)" style="display:none;margin:12px">Logout</button>
 <footer>©2026 Terminal Joint · For Clear PCM</footer>
 </body>
 </html>
