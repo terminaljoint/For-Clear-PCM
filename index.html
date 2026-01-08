@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Clear PCM – Firebase Edition</title>
+<title>For Clear PCM – Firebase Edition (Fixed)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -19,14 +19,14 @@ main{max-width:1100px;margin:0 auto;padding:32px 24px;flex:1}
 .item:hover{border-color:#2f81f7}
 .back{margin-bottom:14px;color:#2f81f7;cursor:pointer}
 footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
-textarea,input,select,button{width:100%;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px;margin-top:8px}
+textarea,select,button{width:100%;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px;margin-top:8px}
 button{cursor:pointer;font-weight:700}
 #loginBox{border:1px solid #30363d;border-radius:10px;padding:16px;margin-bottom:20px}
 #lockBadge{color:#f85149;font-weight:700}
 </style>
 
-<!-- Firebase -->
 <script type="module">
+/* ===== FIREBASE IMPORTS ===== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
@@ -46,113 +46,116 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
-/* ===== SYLLABUS TREE (STRUCTURE ONLY) ===== */
+/* ===== OWNER UID LOCK ===== */
+const OWNER_UIDS = [
+  "NbJq7HLBt0Pd7O55f4u82HTWOyu2",
+  "4MXKQ1JnnIUARfdYlIUbD0Q4erD2"
+];
+
+/* ===== SYLLABUS STRUCTURE ===== */
 const syllabus = {
   Maths:{ Sets:{ Operations:{ DeMorgan:{} } } },
   Physics:{ Kinematics:{ OneD:{}, TwoD:{} } },
   Chemistry:{ Physical:{ MoleConcept:{} }, Organic:{}, Inorganic:{} }
 };
 
-let path=[];
-const OWNER_UIDS = ["NbJq7HLBt0Pd7O55f4u82HTWOyu2","4MXKQ1JnnIUARfdYlIUbD0Q4erD2"]; 
-let OWNER=false;
-let view=document.getElementById("view");
+let path = [];
+let OWNER = false;
 
-const isLeaf=n=>typeof n!=="object";
-const getNode=()=>path.reduce((o,k)=>o[k],syllabus);
+/* ===== DOM READY FIX ===== */
+window.addEventListener('DOMContentLoaded', () => {
+  const view = document.getElementById('view');
+  const loginBox = document.getElementById('loginBox');
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
 
-function setActive(){
-  document.querySelectorAll('.subject-btn').forEach(b=>
-    b.classList.toggle('active', path[0]===b.dataset.sub)
-  );
-}
+  const isLeaf = n => typeof n !== 'object';
+  const getNode = () => path.reduce((o,k)=>o[k], syllabus);
 
-/* ===== FIRESTORE IO ===== */
-async function loadNode(p){
-  const ref = doc(db,'syllabus',p[0]);
-  const snap = await getDoc(ref);
-  if(!snap.exists()) return null;
-  return snap.data().nodes?.[p.join('/') ] || null;
-}
-
-async function saveNode(p,content,status){
-  const ref = doc(db,'syllabus',p[0]);
-  await setDoc(ref,{ nodes:{ [p.join('/')]:{content,status} } },{merge:true});
-}
-
-/* ===== RENDER ===== */
-async function render(){
-  view.innerHTML="";
-  setActive();
-
-  if(path.length){
-    const b=document.createElement('div');
-    b.className='back';
-    b.innerText='← Back';
-    b.onclick=()=>{path.pop();render();};
-    view.appendChild(b);
+  function setActive(){
+    document.querySelectorAll('.subject-btn').forEach(b=>
+      b.classList.toggle('active', path[0]===b.dataset.sub)
+    );
   }
 
-  if(!path.length){
-    view.innerHTML+=`<h2>Welcome to For Clear PCM</h2><p class='subtitle'>Firebase-powered JEE knowledge system</p>`;
-    return;
+  async function loadNode(p){
+    const ref = doc(db,'syllabus',p[0]);
+    const snap = await getDoc(ref);
+    if(!snap.exists()) return null;
+    return snap.data().nodes?.[p.join('/')] || null;
   }
 
-  const node=getNode();
+  async function saveNode(p,content,status){
+    const ref = doc(db,'syllabus',p[0]);
+    await setDoc(ref,{ nodes:{ [p.join('/')]:{content,status} } },{merge:true});
+  }
 
-  if(isLeaf(node)){
-    const data = await loadNode(path) || {content:'',status:'empty'};
-    view.innerHTML+=`<h2>${path[path.length-1]}</h2><div>Status: <b>${data.status}</b></div>`;
+  async function render(){
+    view.innerHTML = '';
+    setActive();
 
-    if(OWNER){
-      const sel=document.createElement('select');
-      ['empty','draft','done','revised'].forEach(s=>{
-        const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o);
-      });
-      view.appendChild(sel);
-
-      const ta=document.createElement('textarea');
-      ta.value=data.content;
-      view.appendChild(ta);
-
-      ta.oninput=()=>saveNode(path,ta.value,sel.value);
-      sel.onchange=()=>saveNode(path,ta.value,sel.value);
-
-    } else {
-      view.innerHTML+= data.content ? `<pre>${data.content}</pre>` : `<div id='lockBadge'>No content yet</div>`;
+    if(path.length){
+      const b=document.createElement('div');
+      b.className='back';
+      b.innerText='← Back';
+      b.onclick=()=>{path.pop();render();};
+      view.appendChild(b);
     }
-    return;
+
+    if(!path.length){
+      view.innerHTML += `<h2>Welcome to For Clear PCM</h2><p class='subtitle'>Firebase-powered JEE knowledge system</p>`;
+      return;
+    }
+
+    const node = getNode();
+
+    if(isLeaf(node)){
+      const data = await loadNode(path) || {content:'',status:'empty'};
+      view.innerHTML += `<h2>${path[path.length-1]}</h2><div>Status: <b>${data.status}</b></div>`;
+
+      if(OWNER){
+        const sel=document.createElement('select');
+        ['empty','draft','done','revised'].forEach(s=>{
+          const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o);
+        });
+        view.appendChild(sel);
+
+        const ta=document.createElement('textarea');
+        ta.value=data.content;
+        view.appendChild(ta);
+
+        ta.oninput=()=>saveNode(path,ta.value,sel.value);
+        sel.onchange=()=>saveNode(path,ta.value,sel.value);
+      } else {
+        view.innerHTML += data.content ? `<pre>${data.content}</pre>` : `<div id='lockBadge'>No content yet</div>`;
+      }
+      return;
+    }
+
+    Object.keys(node).forEach(k=>{
+      const d=document.createElement('div');
+      d.className='item';
+      d.innerText=k;
+      d.onclick=()=>{path.push(k);render();};
+      view.appendChild(d);
+    });
   }
 
-  Object.keys(node).forEach(k=>{
-    const d=document.createElement('div');
-    d.className='item';
-    d.innerText=k;
-    d.onclick=()=>{path.push(k);render();};
-    view.appendChild(d);
+  /* ===== AUTH EVENTS ===== */
+  loginBtn.onclick = () => signInWithPopup(auth, provider).catch(err=>alert(err.message));
+  logoutBtn.onclick = () => signOut(auth);
+
+  onAuthStateChanged(auth, user => {
+    OWNER = !!user && OWNER_UIDS.includes(user.uid);
+    loginBox.style.display = user ? 'none' : 'block';
+    logoutBtn.style.display = user ? 'block' : 'none';
+    render();
   });
-}
 
-/* ===== AUTH UI ===== */
-document.getElementById('loginBtn').onclick=()=>{
-  signInWithPopup(auth, provider).catch(()=>alert('Google login failed'));
-};
-  const p=document.getElementById('password').value;
-  signInWithEmailAndPassword(auth,e,p).catch(()=>alert('Login failed'));
-};
+  document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{path=[b.dataset.sub];render();});
 
-document.getElementById('logoutBtn').onclick=()=>signOut(auth);
-
-onAuthStateChanged(auth,user=>{
-  OWNER = !!user && OWNER_UIDS.includes(user.uid);
-  document.getElementById('loginBox').style.display=user?'none':'block';
-  document.getElementById('logoutBtn').style.display=user?'block':'none';
   render();
 });
-
-/* ===== INIT ===== */
-document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{path=[b.dataset.sub];render();});
-render();
 </script>
 </head>
 <body>
