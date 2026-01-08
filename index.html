@@ -2,75 +2,54 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>For Clear PCM – Structured JEE Learning</title>
+<title>For Clear PCM – Terminal Joint</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0d1117;--panel:#0f141b;--border:#30363d;--text:#e6edf3;--muted:#9aa4af;--accent:#2f81f7;--danger:#f85149;
-  --radius:14px;--pad:12px;--pad-lg:16px;--shadow:0 10px 30px rgba(0,0,0,.25);
-}
+:root{--bg:#0b0f14;--panel:#121824;--border:#1f2a3a;--text:#e7ecf3;--muted:#8fa0b8;--accent:#4da3ff;--radius:16px}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
-body{font-family:"Comic Sans MS","Comic Neue",cursive;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
-
-header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(13,17,23,.98),rgba(13,17,23,.9));border-bottom:1px solid var(--border)}
-.header-inner{max-width:1100px;margin:0 auto;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand .title{font-size:1.5rem;font-weight:700}
-.brand .subtitle{font-size:.8rem;color:var(--muted)}
-.auth{display:flex;align-items:center;gap:8px}
-.badge{display:none;font-size:.7rem;font-weight:700;color:var(--accent);border:1px solid rgba(47,129,247,.35);padding:3px 8px;border-radius:999px}
-.btn{cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);padding:6px 12px;border-radius:10px;transition:.15s}
-.btn:hover{border-color:var(--accent);color:var(--text)}
-
+body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+header{border-bottom:1px solid var(--border);background:#0b0f14}
+.header-inner{max-width:1200px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.brand h1{font-size:1.4rem;font-weight:800}
+.brand span{font-size:.75rem;color:var(--muted)}
+.auth{display:flex;gap:8px;align-items:center}
+.badge{display:none;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:999px}
+.btn{border:1px solid var(--border);background:transparent;color:var(--text);padding:6px 14px;border-radius:10px;cursor:pointer}
 .subject-bar{border-bottom:1px solid var(--border);background:var(--panel)}
-.subject-inner{max-width:1100px;margin:0 auto;padding:8px 14px;display:flex;gap:8px;overflow-x:auto}
-.subject-btn{white-space:nowrap;padding:8px 14px;border:1px solid var(--border);border-radius:999px;font-weight:700;color:var(--muted);transition:.15s}
+.subject-inner{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;gap:10px;overflow-x:auto}
+.subject-btn{border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-weight:600;color:var(--muted);background:transparent;cursor:pointer}
 .subject-btn.active{border-color:var(--accent);color:var(--accent)}
-
 main{flex:1}
-.main-inner{max-width:1100px;margin:0 auto;padding:14px}
-
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow-x:auto;margin-bottom:10px}
-.breadcrumb .crumb{cursor:pointer;padding:4px 6px;border-radius:6px}
-.breadcrumb .crumb:hover{background:rgba(47,129,247,.08);color:var(--text)}
-
-.summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.summary .box{border:1px solid var(--border);border-radius:12px;padding:8px 10px;background:var(--panel)}
-.summary .box .k{font-size:.7rem;color:var(--muted)}
-.summary .box .v{font-size:.85rem;font-weight:700}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.card{border:1px solid var(--border);border-radius:var(--radius);padding:var(--pad-lg);display:flex;flex-direction:column;gap:8px;background:var(--panel);cursor:pointer}
+.main-inner{max-width:1200px;margin:0 auto;padding:16px 18px}
+.breadcrumb{display:flex;gap:6px;font-size:.8rem;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.breadcrumb span{cursor:pointer}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.summary .box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+.summary .k{font-size:.7rem;color:var(--muted)}
+.summary .v{font-size:1.1rem;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;cursor:pointer}
 .card .name{font-weight:700}
-
 .progress{height:6px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
-.progress > div{height:100%;background:var(--accent)}
-.progress-label{font-size:.65rem;color:var(--muted)}
-
-.editor{border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);padding:var(--pad-lg)}
-.editor textarea{width:100%;min-height:180px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:1rem;line-height:1.6}
-.levels{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.level-btn{font-size:.7rem;border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:var(--muted);cursor:pointer}
+.progress > div{height:100%;background:linear-gradient(90deg,var(--accent),#7bb7ff)}
+.progress-label{font-size:.7rem;color:var(--muted)}
+.editor{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:14px}
+.editor textarea{width:100%;min-height:160px;background:#0b0f14;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:.95rem}
+.levels{display:flex;gap:6px;flex-wrap:wrap}
+.level-btn{border:1px solid var(--border);border-radius:999px;padding:4px 12px;font-size:.75rem;color:var(--muted);cursor:pointer}
 .level-btn.active{border-color:var(--accent);color:var(--accent)}
-
-.section{border:1px dashed var(--border);border-radius:12px;padding:10px;margin-top:10px}
-.section-title{font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:6px}
-
+.section{border:1px dashed var(--border);border-radius:10px;padding:10px}
+.section-title{font-size:.75rem;color:var(--muted);margin-bottom:6px;font-weight:600}
 footer{border-top:1px solid var(--border);background:var(--panel)}
-.footer-inner{max-width:1100px;margin:0 auto;padding:10px 14px;font-size:.7rem;color:var(--muted);text-align:center}
-
-.empty{border:1px dashed var(--border);border-radius:12px;padding:14px;color:var(--muted);text-align:center}
+.footer-inner{max-width:1200px;margin:0 auto;padding:10px 18px;font-size:.7rem;color:var(--muted);text-align:center}
 </style>
 </head>
 <body>
 <header>
   <div class="header-inner">
-    <div class="brand">
-      <div class="title">For Clear PCM</div>
-      <div class="subtitle">Structured JEE learning</div>
-    </div>
+    <div class="brand"><h1>For Clear PCM</h1><span>Terminal Joint · Structured JEE Learning</span></div>
     <div class="auth">
       <span id="ownerBadge" class="badge">OWNER</span>
       <button id="loginBtn" class="btn">Login</button>
@@ -78,251 +57,152 @@ footer{border-top:1px solid var(--border);background:var(--panel)}
     </div>
   </div>
 </header>
-
-<div class="subject-bar">
-  <div class="subject-inner">
-    <button class="subject-btn" data-sub="Maths">Maths</button>
-    <button class="subject-btn" data-sub="Physics">Physics</button>
-    <button class="subject-btn" data-sub="Chemistry">Chemistry</button>
-  </div>
-</div>
-
-<main>
-  <div class="main-inner">
-    <div id="breadcrumb" class="breadcrumb"></div>
-    <div id="summary" class="summary"></div>
-    <div id="view"></div>
-  </div>
-</main>
-
-<footer>
-  <div class="footer-inner">©2026 Terminal Joint · For Clear PCM</div>
-</footer>
+<div class="subject-bar"><div class="subject-inner">
+  <button class="subject-btn" data-sub="Maths">Maths</button>
+  <button class="subject-btn" data-sub="Physics">Physics</button>
+  <button class="subject-btn" data-sub="Chemistry">Chemistry</button>
+</div></div>
+<main><div class="main-inner">
+  <div id="breadcrumb" class="breadcrumb"></div>
+  <div id="summary" class="summary"></div>
+  <div id="view"></div>
+</div></main>
+<footer><div class="footer-inner">©2026 Terminal Joint · For Clear PCM</div></footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",
-  authDomain: "forclearpcm.firebaseapp.com",
-  projectId: "forclearpcm",
-  storageBucket: "forclearpcm.appspot.com",
-  messagingSenderId: "313585574692",
-  appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1"
-};
+const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.appspot.com",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
+const OWNER_UID="XS23F6EEK4VjO3ahyx5LVakP1Bd2";
 
-const OWNER_UID = "XS23F6EEK4VjO3ahyx5LVakP1Bd2";
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+let user=null; let tree={}; let stack=[];
+const view=document.getElementById('view');
+const breadcrumb=document.getElementById('breadcrumb');
+const summary=document.getElementById('summary');
+const loginBtn=document.getElementById('loginBtn');
+const logoutBtn=document.getElementById('logoutBtn');
+const ownerBadge=document.getElementById('ownerBadge');
 
-let user = null;
-let tree = {};
-let stack = [];
+const LEVELS=[0,1,2,3,4,5];
 
-const view = document.getElementById("view");
-const breadcrumb = document.getElementById("breadcrumb");
-const summary = document.getElementById("summary");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const ownerBadge = document.getElementById("ownerBadge");
+function isOwner(){return user && user.uid===OWNER_UID}
+function pathId(path=stack){return path.length?path.join('__'):'root'}
+function metaRef(path){ if(!user) return null; return doc(db,'users',user.uid,'meta',pathId(path)); }
 
-function isOwner(){ return user && user.uid === OWNER_UID; }
-function pathId(path=stack){ return path.length?path.join("__"):"root"; }
-function metaRef(path){ if(!user) return null; return doc(db,"users",user.uid,"meta",pathId(path)); }
+window.addEventListener('popstate',e=>{ if(e.state&&Array.isArray(e.state.stack)){ stack=e.state.stack; render(false);} });
 
-// ---- BROWSER BACK BUTTON SUPPORT ----
-window.addEventListener("popstate", (e)=>{
-  if(e.state && Array.isArray(e.state.stack)){
-    stack = e.state.stack;
-    render(false);
-  }
-});
+async function loadTree(){ const snap=await getDoc(doc(db,'syllabus','root')); tree=snap.exists()?snap.data().tree:{Maths:{},Physics:{},Chemistry:{}} }
+function getNode(){ let r=tree; for(const k of stack){ if(r&&k in r) r=r[k]; } return r||{} }
 
 async function getMeta(path){
-  try{
-    const r = metaRef(path);
-    if(!r) return {level:0,sections:{}};
-    const s = await getDoc(r);
-    if(s.exists()) return s.data();
-  }catch(e){ console.error(e); }
+  try{ const r=metaRef(path); if(!r) return {level:0,sections:{}}; const s=await getDoc(r); if(s.exists()){
+    const d=s.data(); return { level:Number(d.level||0), sections:d.sections||{} };
+  }}catch(e){ console.error(e); }
   return {level:0,sections:{}};
 }
 
-async function saveMeta(meta,path){
-  try{
-    const r = metaRef(path);
-    if(!r) return;
-    await setDoc(r, meta, { merge:true });
-  }catch(e){ console.error(e); }
+async function setLevel(path,level){
+  const r=metaRef(path); if(!r) return;
+  await setDoc(r,{ level:Number(level), sections:{} },{ merge:true });
 }
 
-async function loadTree(){
-  const snap = await getDoc(doc(db,"syllabus","root"));
-  tree = snap.exists()?snap.data().tree:{Maths:{},Physics:{},Chemistry:{}};
-}
+function pct(level){ return Math.round((Number(level)||0)/5*100); }
 
-function getNode(){
-  let r = tree;
-  for(const k of stack){ if(r && k in r) r = r[k]; }
-  return r || {};
+// ---- CORE PROGRESS ENGINE (REBUILT) ----
+async function computeProgress(path,node){
+  // returns { pct, count, level0 }
+  if(Object.keys(node).length===0){
+    const m=await getMeta(path);
+    const l=Number(m.level||0);
+    return { pct:pct(l), count:1, level0: l===0?1:0 };
+  }
+  let sum=0, cnt=0, l0=0;
+  for(const k in node){
+    const c=await computeProgress([...path,k], node[k]);
+    sum+=c.pct; cnt+=c.count; l0+=c.level0;
+  }
+  return { pct: cnt?Math.round(sum/cnt):0, count:cnt, level0:l0 };
 }
 
 function renderBreadcrumb(){
-  breadcrumb.innerHTML = "";
-  const home = document.createElement('span');
-  home.textContent='Home'; home.className='crumb';
-  home.onclick=()=>{ stack=[]; history.pushState({stack:[...stack]},""); render(false); };
-  breadcrumb.appendChild(home);
-
-  stack.forEach((s,i)=>{
-    const sp = document.createElement('span');
-    sp.textContent='› '+s; sp.className='crumb';
-    sp.onclick=()=>{ stack=stack.slice(0,i+1); history.pushState({stack:[...stack]},""); render(false); };
-    breadcrumb.appendChild(sp);
-  });
-}
-
-function levelPct(l){ return Math.round((l/5)*100); }
-
-async function aggregate(path,node){
-  let total=0,count=0,level0=0;
-  if(Object.keys(node).length===0){
-    const m = await getMeta(path);
-    if((m.level||0)===0) level0=1;
-    return {pct:levelPct(m.level||0),count:1,level0};
-  }
-  for(const k in node){
-    const c = await aggregate([...path,k], node[k]);
-    total += c.pct; count += c.count; level0 += c.level0;
-  }
-  return {pct:count?Math.round(total/count):0,count,level0};
+  breadcrumb.innerHTML='';
+  const h=document.createElement('span'); h.textContent='Home'; h.onclick=()=>{ stack=[]; history.pushState({stack:[...stack]},''); render(false); };
+  breadcrumb.appendChild(h);
+  stack.forEach((s,i)=>{ const sp=document.createElement('span'); sp.textContent='› '+s; sp.onclick=()=>{ stack=stack.slice(0,i+1); history.pushState({stack:[...stack]},''); render(false); }; breadcrumb.appendChild(sp); });
 }
 
 async function render(pushHistory=true){
-  if(pushHistory){ history.pushState({stack:[...stack]},""); }
+  if(pushHistory) history.pushState({stack:[...stack]},'');
   view.innerHTML='';
   renderBreadcrumb();
+  const node=getNode();
+  const agg=await computeProgress(stack,node);
+  summary.innerHTML=`<div class='box'><div class='k'>Progress</div><div class='v'>${agg.pct}%</div></div><div class='box'><div class='k'>Topics</div><div class='v'>${agg.count}</div></div><div class='box'><div class='k'>Level 0</div><div class='v'>${agg.level0}</div></div>`;
 
-  const node = getNode();
-  const agg = await aggregate(stack,node);
-  summary.innerHTML = `<div class='box'><div class='k'>Progress</div><div class='v'>${agg.pct}%</div></div>`+
-                      `<div class='box'><div class='k'>Items</div><div class='v'>${agg.count}</div></div>`+
-                      `<div class='box'><div class='k'>Level 0</div><div class='v'>${agg.level0}</div></div>`;
-
-  // ----- LEAF NODE -----
+  // ---- LEAF ----
   if(Object.keys(node).length===0){
-    let text='';
-    const cs = await getDoc(doc(db,"content",pathId()));
-    if(cs.exists()) text = cs.data().text || '';
+    let text=''; const cs=await getDoc(doc(db,'content',pathId())); if(cs.exists()) text=cs.data().text||'';
+    const meta=await getMeta(stack);
 
-    const meta = await getMeta(stack);
-
-    const ed = document.createElement('div'); ed.className='editor';
-
-    const p = document.createElement('div'); p.className='progress';
-    const pf = document.createElement('div'); pf.style.width = levelPct(meta.level||0)+'%';
-    p.appendChild(pf);
-
-    const pl = document.createElement('div'); pl.className='progress-label'; pl.textContent = `Level ${meta.level||0}/5`;
+    const ed=document.createElement('div'); ed.className='editor';
+    const p=document.createElement('div'); p.className='progress'; const pf=document.createElement('div'); pf.style.width=pct(meta.level)+'%'; p.appendChild(pf);
+    const pl=document.createElement('div'); pl.className='progress-label'; pl.textContent=`Level ${meta.level}/5`;
     ed.appendChild(p); ed.appendChild(pl);
 
-    // ---- LEVEL BUTTONS ----
-    const lv = document.createElement('div'); lv.className='levels';
-    [0,1,2,3,4,5].forEach(l=>{
-      const b = document.createElement('span');
-      b.className='level-btn'; b.textContent=l;
-      if((meta.level||0)===l) b.classList.add('active');
-      b.onclick = async()=>{
-        meta.level = l;
-        await saveMeta(meta,stack);
-        render(false);
-      };
+    const lv=document.createElement('div'); lv.className='levels';
+    LEVELS.forEach(l=>{
+      const b=document.createElement('span'); b.className='level-btn'; b.textContent=l;
+      if(meta.level===l) b.classList.add('active');
+      b.onclick=async()=>{ await setLevel(stack,l); render(false); };
       lv.appendChild(b);
     });
     ed.appendChild(lv);
 
-    // MAIN CONTENT
-    const ta = document.createElement('textarea');
-    ta.placeholder='Main explanation / theory'; ta.value=text;
-    if(isOwner()){
-      ta.onchange = async()=>{ await setDoc(doc(db,"content",pathId()),{text:ta.value},{merge:true}); };
-    } else {
-      ta.setAttribute('readonly',true);
-    }
+    const ta=document.createElement('textarea'); ta.value=text; ta.placeholder='Main explanation / theory';
+    if(isOwner()) ta.onchange=async()=>{ await setDoc(doc(db,'content',pathId()),{text:ta.value},{merge:true}); };
+    else ta.setAttribute('readonly',true);
     ed.appendChild(ta);
 
-    // LOGICAL SECTIONS
-    const sections = ['important','formula','example'];
-    meta.sections = meta.sections || {};
-
+    const sections=['important','formula','example'];
     for(const sec of sections){
-      const box = document.createElement('div'); box.className='section';
-      const title = document.createElement('div'); title.className='section-title'; title.textContent=sec.toUpperCase();
-      box.appendChild(title);
-
-      const area = document.createElement('textarea');
-      area.placeholder = `${sec} content`;
-      area.value = meta.sections[sec] || '';
-
-      if(isOwner()){
-        area.onchange = async()=>{ meta.sections[sec]=area.value; await saveMeta(meta,stack); };
-      } else {
-        area.setAttribute('readonly',true);
-      }
-
-      box.appendChild(area);
-      ed.appendChild(box);
+      const box=document.createElement('div'); box.className='section';
+      const t=document.createElement('div'); t.className='section-title'; t.textContent=sec.toUpperCase(); box.appendChild(t);
+      const area=document.createElement('textarea'); area.value=meta.sections[sec]||'';
+      if(isOwner()) area.onchange=async()=>{ meta.sections[sec]=area.value; await setDoc(metaRef(stack),{ sections:meta.sections },{merge:true}); };
+      else area.setAttribute('readonly',true);
+      box.appendChild(area); ed.appendChild(box);
     }
-
-    view.appendChild(ed);
-    return;
+    view.appendChild(ed); return;
   }
 
-  // ----- NON-LEAF GRID -----
-  const grid = document.createElement('div'); grid.className='grid';
+  // ---- NON-LEAF ----
+  const grid=document.createElement('div'); grid.className='grid';
   for(const k in node){
     const childPath=[...stack,k];
-    const a = await aggregate(childPath,node[k]);
-
-    const c = document.createElement('div'); c.className='card';
-    const n = document.createElement('div'); n.className='name'; n.textContent=k; c.appendChild(n);
-
-    const pb = document.createElement('div'); pb.className='progress';
-    const pf = document.createElement('div'); pf.style.width=a.pct+'%'; pb.appendChild(pf); c.appendChild(pb);
-
-    const lab = document.createElement('div'); lab.className='progress-label';
-    lab.textContent = `${a.pct}% · ${a.count} · L0:${a.level0}`;
-    c.appendChild(lab);
-
-    c.onclick = ()=>{ stack.push(k); render(); };
+    const a=await computeProgress(childPath,node[k]);
+    const c=document.createElement('div'); c.className='card';
+    const n=document.createElement('div'); n.className='name'; n.textContent=k; c.appendChild(n);
+    const pb=document.createElement('div'); pb.className='progress'; const pf=document.createElement('div'); pf.style.width=a.pct+'%'; pb.appendChild(pf); c.appendChild(pb);
+    const lab=document.createElement('div'); lab.className='progress-label'; lab.textContent=`${a.pct}% · ${a.count} · L0:${a.level0}`; c.appendChild(lab);
+    c.onclick=()=>{ stack.push(k); render(); };
     grid.appendChild(c);
   }
   view.appendChild(grid);
 }
 
-loginBtn.onclick = ()=>signInWithPopup(auth,new GoogleAuthProvider());
-logoutBtn.onclick = ()=>signOut(auth);
+loginBtn.onclick=()=>signInWithPopup(auth,new GoogleAuthProvider());
+logoutBtn.onclick=()=>signOut(auth);
 
-onAuthStateChanged(auth,async u=>{
-  user = u;
-  loginBtn.style.display = u?"none":"inline";
-  logoutBtn.style.display = u?"inline":"none";
-  ownerBadge.style.display = isOwner()?"inline":"none";
-  await loadTree();
-  render(false);
-});
+onAuthStateChanged(auth,async u=>{ user=u; loginBtn.style.display=u?'none':'inline'; logoutBtn.style.display=u?'inline':'none'; ownerBadge.style.display=isOwner()?'inline':'none'; await loadTree(); render(false); });
 
 Array.from(document.querySelectorAll('.subject-btn')).forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll('.subject-btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    stack=[b.dataset.sub];
-    render();
-  };
+  b.onclick=()=>{ document.querySelectorAll('.subject-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); stack=[b.dataset.sub]; render(); };
 });
 </script>
 </body>
