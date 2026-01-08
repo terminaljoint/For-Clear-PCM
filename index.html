@@ -7,8 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{overscroll-behavior:none}
-body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
+html,body{overscroll-behavior-y:auto; overscroll-behavior-x:none; touch-action:pan-y}
+body{font-family:"Comic Sans MS","Comic Neue",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
 header{padding:14px 16px;border-bottom:1px solid #30363d}
 .brand{font-size:clamp(1.4rem,4.5vw,1.9rem);font-weight:700}
 .subtitle{color:#9aa4af;margin-top:2px;font-size:clamp(.75rem,3vw,.9rem)}
@@ -24,12 +24,22 @@ main{max-width:960px;margin:0 auto;padding:16px 14px;flex:1}
 .backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.9rem;padding:6px 8px;border-radius:8px}
 .backBtn:active{background:#161b22}
 footer{border-top:1px solid #30363d;padding:10px 12px;font-size:.7rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none}
-textarea{width:100%;min-height:220px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:14px;padding:14px;font-size:.9rem;line-height:1.45}
-.saveBtn{margin-top:12px;color:#2f81f7;cursor:pointer;font-weight:700;font-size:.9rem}
+textarea{width:100%;min-height:240px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:16px;padding:16px;font-size:1rem;line-height:1.6;font-family:"Comic Sans MS","Comic Neue",cursivecolor:#2f81f7;cursor:pointer;font-weight:700;font-size:.9rem}
 .fade{animation:fadeIn .16s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
 @media (min-width:768px){
-  main{padding:24px}
+  main{padding:28px}
+  .item{font-size:1rem}
+  textarea{min-height:300px}
+}
+
+/* better touch scrolling */
+.subject-bar, .breadcrumb{scrollbar-width:none}
+.subject-bar::-webkit-scrollbar, .breadcrumb::-webkit-scrollbar{display:none}
+
+/* tap highlight remove */
+*{-webkit-tap-highlight-color:transparent}
+
   .item{font-size:1rem}
 }
 </style>
@@ -103,7 +113,6 @@ const syllabus = {
     Organic:{General_Organic_Chemistry:{Electronic_Effects:{Inductive:{I_Plus:{},I_Minus:{}},Resonance:{},Hyperconjugation:{}},Acidity_and_Basicity:{},Reaction_Intermediates:{Carbocation:{Stability:{}},Carbanion:{Stability:{}},Free_Radical:{Stability:{}}},Reaction_Mechanisms:{SN1:{},SN2:{},E1:{},E2:{}},Isomerism:{Structural:{},Geometrical:{},Optical:{}}}}
   }
 };
-
 function getCurrentData(){
   let ref = syllabus;
   for(const k of stack){
@@ -205,7 +214,8 @@ window.addEventListener("DOMContentLoaded",()=>{
   subjectBtns=document.querySelectorAll(".subject-btn");
   subjectBtns.forEach(b=>b.onclick=()=>{ stack=[b.dataset.sub]; render(); });
 
-  const footer=document.getElementById("footerTrigger");
+  // allow mobile pull-to-refresh by not locking scroll
+const footer=document.getElementById("footerTrigger");
   let last=0; footer.onclick=()=>{ const n=Date.now(); if(n-last<350) unlockOwner(); last=n; };
 
   render(false);
