@@ -19,12 +19,12 @@ header{padding:14px 16px;border-bottom:1px solid #30363d}
 main{max-width:960px;margin:0 auto;padding:16px 14px;flex:1}
 .item{padding:14px 14px;border:1px solid #30363d;border-radius:16px;margin-bottom:10px;cursor:pointer;transition:.1s;background:#0d1117;font-size:.95rem}
 .item:active{transform:scale(.97)}
-.breadcrumb{color:#9aa4af;font-size:.75rem;overflow-x:auto;white-space:nowrap}
+.breadcrumb{font-size:.75rem;overflow-x:auto;white-space:nowrap;display:flex;align-items:center;gap:2px;font-family:"Comic Sans MS","Comic Neue",cursive;color:#9aa4af}
 .top-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.9rem;padding:6px 8px;border-radius:8px}
 .backBtn:active{background:#161b22}
 footer{border-top:1px solid #30363d;padding:10px 12px;font-size:.7rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none}
-textarea{width:100%;min-height:240px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:16px;padding:16px;font-size:1rem;line-height:1.6;font-family:"Comic Sans MS","Comic Neue",cursivecolor:#2f81f7;cursor:pointer;font-weight:700;font-size:.9rem}
+textarea{width:100%;min-height:260px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:18px;padding:18px;font-size:1.05rem;line-height:1.65;font-family:"Comic Sans MS","Comic Neue",cursive}
 .fade{animation:fadeIn .16s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
 @media (min-width:768px){
@@ -160,12 +160,17 @@ async function render(pushHistory=true){
     stack.forEach((name,idx)=>{
       const span=document.createElement("span");
       span.innerText=name;
-      span.style.cursor="pointer";
-      span.style.color= idx===stack.length-1 ? "#9aa4af" : "#2f81f7";
-      span.onclick=()=>{
-        stack = stack.slice(0, idx+1);
-        render();
-      };
+      span.style.cursor = idx===stack.length-1 ? "default" : "pointer";
+      span.style.fontFamily = "Comic Sans MS, Comic Neue, cursive";
+      span.style.fontWeight = idx===stack.length-1 ? "700" : "600";
+      span.style.opacity = idx===stack.length-1 ? "1" : ".85";
+      span.style.color = idx===stack.length-1 ? "#e6edf3" : "#2f81f7";
+      if(idx!==stack.length-1){
+        span.onclick=()=>{
+          stack = stack.slice(0, idx+1);
+          render();
+        };
+      }
       bc.appendChild(span);
       if(idx<stack.length-1){
         const sep=document.createElement("span");
@@ -193,7 +198,7 @@ async function render(pushHistory=true){
       document.getElementById("lockBtn").onclick=lockOwner;
     }else{
       
-      if(saved) view.innerHTML+=`<pre class='fade' style='white-space:pre-wrap'>${saved}</pre>`;
+      if(saved) view.innerHTML+=`<pre class='fade' style='white-space:pre-wrap;font-family:Comic Sans MS,Comic Neue,cursive;font-size:1rem;line-height:1.6'>${saved}</pre>`;
     }
     return;
   }
