@@ -15,11 +15,13 @@ header{padding:14px 16px;border-bottom:1px solid #30363d;display:flex;justify-co
 button{cursor:pointer}
 #loginBtn,#logoutBtn{border:1px solid #30363d;background:none;color:#9aa4af;padding:6px 12px;border-radius:10px}
 #ownerBadge{color:#2f81f7;font-weight:700;font-size:.75rem;display:none;margin-right:8px}
-.subject-bar{display:flex;gap:8px;padding:10px;border-bottom:1px solid #30363d}
+.subject-bar{display:flex;gap:8px;padding:10px;border-bottom:1px solid #30363d;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.subject-bar::-webkit-scrollbar{display:none}
 .subject-btn{padding:8px 14px;border:1px solid #30363d;border-radius:14px;cursor:pointer;font-weight:700}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
 main{flex:1;max-width:960px;margin:0 auto;padding:16px}
-.breadcrumb{font-size:.8rem;color:#9aa4af;margin-bottom:10px}
+.breadcrumb{font-size:.8rem;color:#9aa4af;margin-bottom:12px;white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.breadcrumb::-webkit-scrollbar{display:none}
 .breadcrumb span{cursor:pointer}
 .item{padding:12px;border:1px solid #30363d;border-radius:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .controls button{margin-left:6px;border:1px solid #30363d;background:none;color:#9aa4af;border-radius:8px;padding:2px 6px;font-size:.75rem}
@@ -79,19 +81,21 @@ let tree = {};
 let stack = [];
 let permissionError = false;
 
-// HISTORY SYNC
-window.addEventListener("popstate", e=>{
-  if(e.state && Array.isArray(e.state.stack)){
-    stack = e.state.stack;
-    render();
-  }
-});
-
 const view = document.getElementById("view");
 const breadcrumb = document.getElementById("breadcrumb");
 
 function isOwner(){ return user && user.uid === OWNER_UID; }
 function pathId(){ return stack.join("__"); }
+
+// HISTORY SYNC (mobile-safe)
+window.addEventListener("popstate", e => {
+  if(e.state && Array.isArray(e.state.stack)){
+    stack = e.state.stack;
+  } else if(stack.length > 0){
+    stack.pop();
+  }
+  render(false);
+});
 
 async function loadTree(){
   try{
@@ -120,14 +124,18 @@ function getNode(){
 
 function renderBreadcrumb(){
   breadcrumb.innerHTML = stack.map((s,i)=>`<span data-i="${i}">${s}</span>`).join(" / ");
-  breadcrumb.querySelectorAll("span").forEach(sp=>{
-    sp.onclick = ()=>{ stack = stack.slice(0,Number(sp.dataset.i)+1); render(); };
+  breadcrumb.querySelectorAll("span").forEach(sp => {
+    sp.onclick = () => {
+      stack = stack.slice(0, Number(sp.dataset.i) + 1);
+      render();
+    };
   });
 }
 
-async function render(){
-  // sync browser history
-  history.replaceState({stack:[...stack]}, "");
+async function render(pushHistory = true){
+  if(pushHistory){
+    history.pushState({ stack:[...stack] }, "");
+  }
   view.innerHTML = "";
   renderBreadcrumb();
 
@@ -140,7 +148,7 @@ async function render(){
 
   const node = getNode();
 
-  if(Object.keys(node).length===0){
+  if(Object.keys(node).length === 0){
     let text = "";
     try{
       const snap = await getDoc(doc(db,"content",pathId()));
@@ -148,36 +156,47 @@ async function render(){
     }catch(e){ console.error(e); }
 
     if(isOwner() && !permissionError){
-      const ta = document.createElement("textarea"); ta.value = text;
-      ta.onchange = async ()=>{
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.onchange = async () => {
         try{
-          await setDoc(doc(db,"content",pathId()),{text:ta.value},{merge:true});
+          await setDoc(doc(db,"content",pathId()), { text: ta.value }, { merge:true });
         }catch(e){ alert("Save failed: permission denied"); }
       };
       view.appendChild(ta);
-    }else{
+    } else {
       view.innerHTML += `<pre>${text}</pre>`;
     }
     return;
   }
 
   for(const key in node){
-    const d = document.createElement("div"); d.className="item";
+    const d = document.createElement("div");
+    d.className = "item";
     d.innerHTML = `<span>${key}</span>`;
-    const c = document.createElement("div"); c.className="controls";
+
+    const c = document.createElement("div");
+    c.className = "controls";
 
     if(isOwner() && !permissionError){
-      const add = document.createElement("button"); add.textContent="+";
-      add.onclick = e=>{
+      const add = document.createElement("button");
+      add.textContent = "+";
+      add.onclick = e => {
         e.stopPropagation();
         const n = prompt("New child name");
-        if(n){ node[key][n] = {}; saveTree().then(render); }
+        if(n){
+          node[key][n] = {};
+          saveTree().then(() => render());
+        }
       };
       c.appendChild(add);
     }
 
     d.appendChild(c);
-    d.onclick = ()=>{ stack.push(key); render(); };
+    d.onclick = () => {
+      stack.push(key);
+      render();
+    };
     view.appendChild(d);
   }
 }
@@ -185,7 +204,7 @@ async function render(){
 async function saveTree(){
   if(!isOwner()) return;
   try{
-    await setDoc(doc(db,"syllabus","root"),{tree});
+    await setDoc(doc(db,"syllabus","root"), { tree });
   }catch(e){
     console.error(e);
     permissionError = true;
@@ -193,22 +212,25 @@ async function saveTree(){
 }
 
 // AUTH
-loginBtn.onclick = ()=>signInWithPopup(auth,new GoogleAuthProvider());
-logoutBtn.onclick = ()=>signOut(auth);
+loginBtn.onclick = () => signInWithPopup(auth, new GoogleAuthProvider());
+logoutBtn.onclick = () => signOut(auth);
 
-onAuthStateChanged(auth,async u=>{
+onAuthStateChanged(auth, async u => {
   user = u;
-  loginBtn.style.display = u?"none":"inline-block";
-  logoutBtn.style.display = u?"inline-block":"none";
-  ownerBadge.style.display = isOwner()?"inline":"none";
+  loginBtn.style.display = u ? "none" : "inline-block";
+  logoutBtn.style.display = u ? "inline-block" : "none";
+  ownerBadge.style.display = isOwner() ? "inline" : "none";
   permissionError = false;
   await loadTree();
-  render();
+  render(false);
 });
 
-// SUBJECTS
-Array.from(document.querySelectorAll(".subject-btn")).forEach(b=>{
-  b.onclick = ()=>{ stack=[b.dataset.sub]; render(); };
+// SUBJECT BUTTONS
+Array.from(document.querySelectorAll(".subject-btn")).forEach(b => {
+  b.onclick = () => {
+    stack = [b.dataset.sub];
+    render();
+  };
 });
 </script>
 </body>
