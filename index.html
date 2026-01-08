@@ -81,9 +81,29 @@ window.addEventListener("DOMContentLoaded",()=>{
  view=document.getElementById("view");nav=document.getElementById("nav");breadcrumb=document.getElementById("breadcrumb");subjectBtns=document.querySelectorAll(".subject-btn");subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
  document.getElementById("footerTrigger").onclick=showOwnerPanel;
  const close=document.getElementById("ownerClose");
- const start=()=>{holdTimer=setTimeout(askPassword,4000);};
- const cancel=()=>{clearTimeout(holdTimer);holdTimer=null;};
- close.addEventListener("touchstart",start);close.addEventListener("touchend",cancel);close.addEventListener("mousedown",start);close.addEventListener("mouseup",cancel);close.addEventListener("mouseleave",cancel);
+
+ // NORMAL CLICK = JUST CLOSE PANEL
+ close.addEventListener("click",()=>{
+   cancel();
+   hideOwnerPanel();
+ });
+
+ // LONG PRESS = OWNER UNLOCK
+ const start=()=>{
+   holdTimer=setTimeout(()=>{
+     hideOwnerPanel();
+     askPassword();
+   },4000);
+ };
+ const cancel=()=>{
+   if(holdTimer){clearTimeout(holdTimer);holdTimer=null;}
+ };
+ close.addEventListener("touchstart",start);
+ close.addEventListener("touchend",cancel);
+ close.addEventListener("touchmove",cancel);
+ close.addEventListener("mousedown",start);
+ close.addEventListener("mouseup",cancel);
+ close.addEventListener("mouseleave",cancel);
  if(location.hash.startsWith("#/")) stack=location.hash.replace("#/","").split("/").filter(Boolean);
  render();
 });
