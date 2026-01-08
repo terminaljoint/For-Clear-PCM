@@ -83,6 +83,9 @@ function renderLeaf(title,content){
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
+  // STRICT DEFAULT LOCK: always start locked
+  localStorage.removeItem("OWNER_UNLOCK");
+  OWNER_UNLOCKED = false;
   view=document.getElementById("view");
   subjectBtns=document.querySelectorAll(".subject-btn");
   subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
