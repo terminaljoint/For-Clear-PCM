@@ -1,608 +1,859 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>For Clear PCM</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>For clear PCM – Structured JEE Learning</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="For clear PCM is a structured JEE learning system focusing on clear hierarchy, exam logic, and mistake prevention for average students.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://terminaljoint.github.io/For-Clear-PCM/">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0b0f14;
-  --panel:#121821;
-  --panel2:#0f1522;
-  --border:#1f2937;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --accent:#3b82f6;
-}
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:Inter,system-ui;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:grid;
-  grid-template-rows:56px 1fr;
-}
-
-/* ================= TOP BAR ================= */
-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
-  border-bottom:1px solid var(--border);
-  background:#0b1220;
-}
-.brand{
-  font-weight:800;
-  letter-spacing:.3px;
-}
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-button.login{
-  background:var(--accent);
-  color:white;
-  border:none;
-  padding:8px 14px;
-  border-radius:8px;
-  font-size:.75rem;
-  cursor:pointer;
-}
-#ownerBadge{
-  font-size:.7rem;
-  color:var(--accent);
-  border:1px solid var(--border);
-  padding:4px 10px;
-  border-radius:999px;
-}
-
-/* ================= LAYOUT ================= */
-.app{
-  display:grid;
-  grid-template-columns:280px 1fr;
-  min-height:0;
-}
-
-/* ================= SIDEBAR ================= */
-.sidebar{
-  background:var(--panel2);
-  border-right:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-}
-.sidebar h3{
-  font-size:.7rem;
-  font-weight:600;
-  padding:14px 14px 6px;
-  color:var(--muted);
-}
-.subjects{
-  flex:1;
-  overflow:auto;
-}
-.subjects button{
-  width:100%;
-  background:none;
-  border:none;
-  color:var(--text);
-  padding:12px 14px;
-  text-align:left;
-  cursor:pointer;
-  font-size:.8rem;
-}
-.subjects button.active{
-  background:#111827;
-  color:var(--accent);
-}
-
-/* ================= MAIN ================= */
-.main{
-  padding:16px;
-  overflow:auto;
-}
-.pathbar{
-  font-size:.7rem;
-  color:var(--muted);
-  margin-bottom:12px;
-}
-.pathbar span{
-  cursor:pointer;
-  color:var(--accent);
-}
-
-/* ================= GRID ================= */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:12px;
-}
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px;
-  cursor:pointer;
-  transition:.15s ease;
-}
-.card:hover{
-  border-color:var(--accent);
-  transform:translateY(-2px);
-}
-.card-title{
-  font-size:.85rem;
-  font-weight:600;
-}
-.card-meta{
-  font-size:.65rem;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* ================= EDITOR ================= */
-.editor{
-  margin-top:16px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px;
-}
-.editor textarea{
-  width:100%;
-  min-height:220px;
-  background:#0b1220;
-  border:1px solid var(--border);
-  color:var(--text);
-  border-radius:10px;
-  padding:12px;
-  font-size:.8rem;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  text-align:center;
-  padding:10px;
-  font-size:.65rem;
-  color:var(--muted);
-  border-top:1px solid var(--border);
-}
+body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
+header{padding:22px 24px;border-bottom:1px solid #30363d}
+.brand{font-size:2rem;font-weight:700}
+.subtitle{color:#9aa4af;margin-top:6px;max-width:800px}
+.subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
+.subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
+.subject-btn.active{border-color:#2f81f7;color:#2f81f7}
+main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
+.nav{display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap}
+.back{color:#2f81f7;cursor:pointer;font-weight:700}
+.breadcrumb{display:flex;gap:6px;flex-wrap:wrap}
+.crumb{padding:6px 12px;border:1px solid #30363d;border-radius:8px;font-size:.85rem;cursor:pointer;color:#2f81f7}
+.crumb:last-child{background:#161b22;border-color:#2f81f7;color:#e6edf3}
+.section-title{font-size:1.4rem;margin-bottom:14px}
+.item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
+.item:hover{background:#161b22}
+.focus{max-width:760px;margin:0 auto}
+.block{margin-top:22px}
+.block h4{color:#2f81f7;margin-bottom:10px}
+.block ul{list-style:none}
+.block li{padding:8px 0;border-bottom:1px dashed #30363d;color:#9aa4af}
+footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
 </style>
-</head>
-<body>
-<header>
-  <div class="brand">For Clear PCM</div>
-  <div class="header-right">
-    <button class="login" id="googleLoginBtn">Google Login</button>
-    <div id="ownerBadge" style="display:none">OWNER</div>
-  </div>
-</header>
 
-<div class="app">
-  <aside class="sidebar">
-    <h3>SUBJECTS</h3>
-    <div class="subjects" id="subjects"></div>
-  </aside>
-
-  <main class="main">
-    <div class="pathbar" id="pathbar"></div>
-    <div class="grid" id="grid"></div>
-    <div class="editor" id="editor"></div>
-  </main>
-</div>
-
-<footer>©2026 For Clear PCM</footer>
-
-<script type="module">
-/* ================= FIREBASE GOOGLE AUTH ================= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",
-  authDomain: "forclearpcm.firebaseapp.com",
-  projectId: "forclearpcm",
-};
-
-const OWNER_UID = "4MXKQ1JnnIUARfdYlIUbD0Q4erD2";
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-let OWNER = false;
-
-onAuthStateChanged(auth, (user) => {
-  OWNER = Boolean(user && user.uid === OWNER_UID);
-  document.getElementById('ownerBadge').style.display = OWNER ? 'block' : 'none';
-  render();
-});
-
-document.getElementById('googleLoginBtn').onclick = async () => {
-  try{ await signInWithPopup(auth, provider); }
-  catch{ alert('Google login failed'); }
-};
-
-/* ================= SYLLABUS ================= */
+<!-- SCRIPT IS DEFERRED SO FUNCTIONS EXIST BEFORE CLICKS -->
+<script defer>
+/* ===================== DATA ===================== */
 const syllabus = {
   Maths:{
-  Sets_and_Relations:{
-    Sets:{Definition:{},Representation:{Roster_Form:{},Set_Builder_Form:{}},Types:{Null_Set:{},Singleton_Set:{},Finite_Set:{},Infinite_Set:{}},Subsets:{Proper:{},Improper:{},Power_Set:{Number_of_Elements:{},Problems:{}}},Operations:{Union:{Venn_Problems:{}},Intersection:{},Difference:{},Complement:{}},Laws:{De_Morgan:{Proof:{}},Distributive:{},Associative:{},Identity:{}}},
-    Relations:{Ordered_Pairs:{},Cartesian_Product:{},Types:{Reflexive:{},Symmetric:{},Transitive:{},Equivalence:{Equivalence_Classes:{},Problems:{}}}},
-    Functions:{Definition:{},Domain_Range_Codomain:{Restrictions:{}},Types:{One_One:{Tests:{}},Many_One:{},Onto:{},Into:{},Bijective:{}},Algebra_of_Functions:{Composition:{Domain_Range_Effects:{}},Inverse_Functions:{Existence_Conditions:{}}},Graphs_of_Functions:{Polynomial:{Degree_Analysis:{},Turning_Points:{}},Rational:{Asymptotes:{Vertical:{},Horizontal:{},Oblique:{}}},Modulus:{Graph_Shifts:{},Inequality_Problems:{}},Greatest_Integer_Function:{Intervals:{},Graphical_Problems:{}}}}
-  },
-  Algebra:{
-    Quadratic_Equations:{Standard_Form:{Coefficient_Comparison:{}},Discriminant:{Sign_Cases:{D_Positive:{Distinct_Real_Roots:{},Inequality_Cases:{}},D_Zero:{Equal_Roots:{}},D_Negative:{Imaginary_Roots:{}}}},Relation_Between_Roots:{Sum:{},Product:{},Sum_of_Squares:{},Common_Root_Conditions:{}},Formation_of_Quadratic:{Given_Roots:{},Given_Conditions:{Inequalities:{},Parameter_Problems:{}}},Common_Roots:{Condition:{},Problems:{}},Graph_of_Quadratic:{Vertex_Form:{},Axis_of_Symmetry:{},Maximum_Minimum_Value:{},Range_Problems:{}},Integer_Roots:{Bounding:{},Trial_Method:{},Diophantine_Problems:{}}},
-    Sequences_and_Series:{Arithmetic_Progression:{Nth_Term:{},Sum_of_n_Terms:{},Arithmetic_Mean:{},Word_Problems:{}},Geometric_Progression:{Nth_Term:{},Sum_of_n_Terms:{},Infinite_GP:{Convergence_Condition:{}},Geometric_Mean:{},Ratio_Problems:{}},Harmonic_Progression:{Relation_with_AP:{},Problems:{}}},
-    Permutations_and_Combinations:{Fundamental_Principle_of_Counting:{},Factorial_Notation:{},Permutations:{Linear:{},Circular:{},With_Repetition:{},Without_Repetition:{}},Combinations:{Basic_Formula:{},Properties:{},Selection_Problems:{},Distribution_Problems:{},Restricted_Cases:{}}},
-    Binomial_Theorem:{Expansion:{},General_Term:{},Middle_Term:{},Coefficient_Problems:{},Greatest_Term:{},Independent_Terms:{},Properties_of_Binomial_Coefficients:{}},
-    Complex_Numbers:{Algebra:{},Argand_Plane:{Geometrical_Locus:{Circle:{},Line:{}}},Modulus_and_Argument:{Properties:{},Principal_Argument:{}},Triangle_Inequality:{Applications:{}},Rotation_Interpretation:{},Quadratic_Equations_in_Complex_Plane:{}},
-    Matrices_and_Determinants:{Matrices:{Types:{},Operations:{},Transpose:{},Inverse:{By_Adjoint:{},Elementary_Transformations:{}}},Determinants:{Properties:{},Minors_and_Cofactors:{},Applications:{Area:{},System_of_Equations:{Cramer_Rule:{},Consistency_Conditions:{}}}}},
-    Probability:{Sample_Space_and_Events:{},Classical_Probability:{},Conditional_Probability:{},Bayes_Theorem:{},Independent_and_Dependent_Events:{},Total_Probability_Theorem:{},Random_Variables:{Mean:{},Variance:{},Standard_Deviation:{}}}
-  },
-  Coordinate_Geometry:{Straight_Lines:{Slope:{},Equation_of_Line:{Point_Slope:{},Two_Point:{},Intercept_Form:{},Normal_Form:{}},Angle_Between_Lines:{},Distance_of_Point_from_Line:{},Family_of_Lines:{Intersection_of_Lines:{}}},Circles:{Standard_Equation:{},General_Equation:{},Position_of_Point_and_Line:{},Tangent_and_Normal:{Condition_of_Tangency:{},Length_of_Tangent:{},Chord_of_Contact:{Polar_Concept:{}}},Director_Circle:{}},Conic_Sections:{Parabola:{Standard_Forms:{},Focus_Directrix:{},Latus_Rectum:{},Parametric_Form:{},Tangent_Normal_Parametric:{},Director_Circle:{}},Ellipse:{Standard_Forms:{},Eccentricity:{},Auxiliary_Circle:{},Director_Circle:{},Latus_Rectum:{}},Hyperbola:{Standard_Forms:{},Asymptotes:{},Rectangular_Hyperbola:{},Conjugate_Hyperbola:{}}}},
-  Calculus:{Limits:{Algebraic_Limits:{},Trigonometric_Limits:{Standard_Limits:{},Problems:{}},Indeterminate_Forms:{0_by_0:{},Infinity_by_Infinity:{}},LHospital_Rule:{Applicable_Cases:{},Repeated_Application:{}}},Continuity_and_Differentiability:{Continuity:{Types_of_Discontinuity:{Removable:{},Jump:{},Infinite:{}}},Differentiability:{},Piecewise_Functions:{Continuity_Check:{},Differentiability_Check:{}}},Differentiation:{Definition_of_Derivative:{Geometrical_Interpretation:{}},Derivatives_of_Standard_Functions:{},Rules:{Product:{},Quotient:{},Chain:{}},Implicit_Differentiation:{},Logarithmic_Differentiation:{},Higher_Order_Derivatives:{},Parametric_Differentiation:{}},Applications_of_Derivatives:{Increasing_Decreasing_Functions:{First_Derivative_Test:{}},Maxima_Minima:{Second_Derivative_Test:{},Optimization_Problems:{},Absolute_Extrema:{}},Tangents_and_Normals:{Equation_of_Tangent:{},Equation_of_Normal:{},Pair_of_Tangents:{},Length_of_Tangent:{}}},Integration:{Indefinite_Integration:{Methods:{Substitution:{},By_Parts:{},Partial_Fractions:{},Trigonometric_Integrals:{},Reduction_Formulae:{}}},Definite_Integration:{Properties:{},Evaluation:{},Symmetry_Properties:{},Change_of_Variable:{}},Area_Under_Curve:{Between_Curves:{},Using_Definite_Integrals:{},Polar_Curves:{}}},Differential_Equations:{Order_and_Degree:{},Formation_of_Differential_Equations:{},Solution_of_Differential_Equations:{Variable_Separable:{},Homogeneous:{},Linear_DE:{},Bernoulli_Equation:{}}}},
-  Vectors_and_3D:{Vectors:{Vector_Algebra:{Addition:{},Scalar_Multiplication:{}},Dot_Product:{Geometrical_Interpretation:{},Projection:{}},Cross_Product:{Area_of_Triangle:{},Direction:{}},Scalar_Triple_Product:{Volume_of_Parallelepiped:{}}},Three_D_Geometry:{Direction_Ratios_and_Cosines:{},Equation_of_Line:{},Equation_of_Plane:{},Angle_and_Distance:{Between_Lines:{},Between_Planes:{},Line_Plane_Angle:{},Point_to_Plane:{}},Shortest_Distance_Between_Lines:{}}}
-},
-Physics:{
-  Kinematics:{
-    Motion_in_One_Dimension:{
-      Position_Displacement:{},
-      Speed_and_Velocity:{Average:{},Instantaneous:{}},
-      Acceleration:{Uniform:{},Non_Uniform:{}},
-      Equations_of_Motion:{Derivation:{},Graphical_Method:{},Numerical_Applications:{}},
-      Graphs:{x_t_Graph:{Slope_Interpretation:{}},v_t_Graph:{Area_Interpretation:{}},a_t_Graph:{}},
-      Relative_Motion:{Chasing_Problems:{},Separation_Problems:{},Rain_Man_Problems:{}}
+    "Sets & Relations":{
+      "Sets":["Definition & Representation","Roster Form","Set-Builder Form","Empty Set","Singleton Set","Finite Sets","Infinite Sets","Equal Sets","Equivalent Sets","Subsets","Proper Subsets","Power Set","Operations on Sets","Union","Intersection","Difference","Complement","Venn Diagram Based Problems","De Morgan Laws","Cardinality of Sets"],
+      "Relations":["Ordered Pairs","Cartesian Product","Domain","Codomain","Range","Types of Relations","Reflexive Relation","Symmetric Relation","Transitive Relation","Equivalence Relation","Equivalence Classes"]
     },
-    Motion_in_Two_Dimensions:{
-      Projectile_Motion:{
-        Basic_Equations:{},Trajectory_Equation:{},
-        Time_of_Flight:{},Maximum_Height:{},Range:{},
-        Projectile_on_Inclined_Plane:{Cases:{}},
-        Horizontal_Projection:{}
+    "Functions":{
+      "Basic Concepts":["Definition of Function","Domain","Codomain","Range","Graph of a Function","Real Valued Functions"],
+      "Types of Functions":["One-One","Many-One","Onto","Into","Even Functions","Odd Functions","Periodic Functions","Monotonic Functions","Modulus Function","Greatest Integer Function"],
+      "Operations on Functions":["Composition of Functions","Inverse Function","Existence of Inverse","Properties of Inverse","Graph of Inverse"]
+    },
+    "Algebra":{
+      "Quadratic Equations":{
+        "Standard Form":["General quadratic ax^2+bx+c=0","Reducing to standard form"],
+        "Roots of Quadratic":{
+          "Finding Roots":["Factorisation Method","Completing the Square","Quadratic Formula"],
+          "Nature of Roots":["Discriminant Concept","Real & Distinct Roots","Real & Equal Roots","Complex Roots"],
+          "Relations Between Roots & Coefficients":["Alpha + Beta","Alpha × Beta","Symmetric Expressions"],
+          "Applications on Roots":["Formation of Equation","Common Roots","Maximum & Minimum Value"]
+        }
       },
-      Circular_Motion:{
-        Angular_Velocity:{},Angular_Acceleration:{},
-        Centripetal_Acceleration:{},
-        Centrifugal_Pseudo_Force:{},
-        Banking_of_Roads:{},Vertical_Circular_Motion:{}
+      "Sequences & Series":["Arithmetic Progression","nth Term of AP","Sum of AP","Geometric Progression","nth Term of GP","Sum of GP","Infinite GP","Harmonic Progression","Special Series"],
+      "Binomial Theorem":["Statement of Binomial Theorem","General Term","Middle Term","Greatest Coefficient","Properties of Binomial Coefficients","Binomial Identities"],
+      "Complex Numbers":["Imaginary Unit","Algebra of Complex Numbers","Modulus of Complex Number","Argument of Complex Number","Argand Plane","Triangle Inequality","De Moivre Theorem","nth Roots of Unity"]
+    },
+    "Coordinate Geometry":{
+      "Straight Lines":{
+        "Basic Geometry":{
+          "Slope":{
+            "Concept":"Slope as rate of change",
+            "Formulas":["m = tanθ","Slope between two points"],
+            "Special Cases":["Horizontal line","Vertical line"]
+          },
+          "Angle of Inclination":["Definition","Relation with slope"]
+        },
+        "Forms of Line":{
+          "Point-Slope Form":["Equation","Usage conditions"],
+          "Slope-Intercept Form":["Equation","Graph interpretation"],
+          "Two-Point Form":["Derivation logic","When to use"],
+          "Intercept Form":["x-intercept","y-intercept"],
+          "Normal Form":["Perpendicular distance","Angle with x-axis"]
+        },
+        "Relative Geometry":{
+          "Angle Between Two Lines":["Formula using slopes","Special cases"],
+          "Distance of Point from Line":["Formula","Geometrical meaning"]
+        },
+        "Advanced Concepts":{
+          "Family of Lines":["Through intersection","Through origin"],
+          "Pair of Straight Lines":["Homogeneous equation","Angle between pair"]
+        }
+      },
+      "Circles":{
+        "Basic Geometry":{
+          "Equation of Circle":{
+            "Standard Form":["(x−a)^2+(y−b)^2=r^2","Centre and Radius identification"],
+            "General Form":["x^2+y^2+2gx+2fy+c=0","Finding centre and radius"]
+          },
+          "Position of a Point":["Inside Circle","On the Circle","Outside Circle"]
+        },
+        "Tangents & Normals":{
+          "Tangent at a Point":{
+            "Condition of Tangency":["T=0 concept","Geometric meaning"],
+            "Equation of Tangent":["Point form","Slope form"]
+          },
+          "Normal at a Point":["Definition","Relation with tangent"]
+        },
+        "Length & Power Concepts":{
+          "Length of Tangent":["Formula","Geometrical interpretation"],
+          "Power of a Point":["Definition","Internal & External points"]
+        },
+        "Chord Concepts":{
+          "Chord of Contact":["Equation","Relation with tangents"],
+          "Director Circle":["Definition","Applications"]
+        }
+      },
+      "Conic Sections":["Parabola","Ellipse","Hyperbola","Focus & Directrix","Latus Rectum","Standard Equations","Parametric Coordinates"]
+    },
+    "Calculus":{
+      "Limits":{
+        "Concept of Limit":{
+          "Basic Idea":["Approaching a value","Neighbourhood concept"],
+          "Left Hand Limit":["Approach from left","Notation & meaning"],
+          "Right Hand Limit":["Approach from right","Notation & meaning"],
+          "Existence of Limit":["LHL = RHL condition","Non‑existence cases"]
+        },
+        "Standard Limits":{
+          "Trigonometric Limits":["sinx/x","tanx/x","(1−cosx)/x²"],
+          "Exponential Limits":["(1+x)^(1/x)","(1+1/x)^x"],
+          "Important Results":["e definition","Log related limits"]
+        },
+        "Algebraic Limits":{
+          "Direct Substitution":["Polynomial functions","Rational functions"],
+          "Factorisation Method":["Common factor","Cancellation"],
+          "Rationalisation":["Surds","Conjugate method"],
+          "Division by Highest Power":["x→∞ type limits"]
+        },
+        "Special Limits":{
+          "Limits at Infinity":["Polynomial behaviour","Rational functions"],
+          "Indeterminate Forms":["0/0","∞/∞","0×∞","∞−∞"]
+        }
+      },
+      "Continuity & Differentiability":{
+        "Continuity":{
+          "Continuity at a Point":["f(a) exists","Limit exists","Limit = f(a)"],
+          "Continuity in an Interval":["Open interval","Closed interval"],
+          "Types of Discontinuity":["Removable","Jump","Infinite"]
+        },
+        "Differentiability":{
+          "Definition":["Left derivative","Right derivative"],
+          "Relation with Continuity":["Differentiable ⇒ Continuous","Not vice versa"],
+          "Non‑Differentiable Points":["Sharp corner","Cusp","Vertical tangent"]
+        },
+        "Piecewise Functions":{
+          "Checking Continuity":["At junction points","Parameter based problems"],
+          "Checking Differentiability":["Using LHD & RHD"]
+        }
+      },
+      "Differentiation":{
+        "Concept of Derivative":{
+          "Derivative from First Principle":["Limit definition","Geometrical meaning","Physical meaning"]
+        },
+        "Rules of Differentiation":{
+          "Standard Derivatives":["Polynomial functions","Trigonometric functions","Exponential functions","Logarithmic functions"],
+          "Chain Rule":["Composite functions","Implicit dependence"],
+          "Product Rule":["Two functions","More than two functions"],
+          "Quotient Rule":["Numerator-denominator functions"]
+        },
+        "Advanced Differentiation":{
+          "Implicit Differentiation":["Implicit functions","Applications"],
+          "Logarithmic Differentiation":["Products & powers","Complex expressions"],
+          "Higher Order Derivatives":["Second derivative","nth derivative"]
+        },
+        "Applications of Derivatives":{
+          "Rate of Change":["Velocity & acceleration type","Related rates"],
+          "Tangents & Normals":["Equation of tangent","Equation of normal"],
+          "Maxima & Minima":["Increasing-decreasing functions","Optimization problems"]
+        }
+      },
+      "Integration":{
+        "Indefinite Integration":{
+          "Basic Idea":["Reverse of differentiation","Constant of integration"],
+          "Standard Integrals":["Polynomial functions","Trigonometric integrals","Exponential integrals","Logarithmic integrals"],
+          "Methods of Integration":{
+            "Substitution Method":["Change of variable","Identification of inner function"],
+            "Integration by Parts":["ILATE rule","Choice of u and dv"],
+            "Partial Fractions":["Proper rational functions","Linear factors","Quadratic factors"]
+          }
+        },
+        "Definite Integration":{
+          "Concept":["Area interpretation","Limits of integration"],
+          "Properties":["Symmetry property","Change of limits","Periodicity"],
+          "Evaluation Techniques":["Using properties","Reduction to standard form"]
+        },
+        "Applications of Integrals":{
+          "Area Under Curves":["Area w.r.t x-axis","Area w.r.t y-axis","Bounded regions"],
+          "Physical Applications":["Displacement from velocity","Work done by variable force"]
+        }
+      },
+      "Differential Equations":["Order & Degree","Formation of Differential Equation","Variable Separable","Homogeneous Differential Equation","Linear Differential Equation"]
+    },
+    "Vectors & 3D Geometry":{
+      "Vectors":["Position Vector","Magnitude of Vector","Direction Cosines","Unit Vector","Addition of Vectors","Scalar Multiplication","Dot Product","Cross Product","Scalar Triple Product","Applications of Vectors"],
+      "3D Geometry":["Direction Ratios","Equation of Line","Equation of Plane","Angle Between Lines","Angle Between Line & Plane","Shortest Distance Between Lines"]
+    },
+    "Probability & Statistics":{
+      "Probability":["Sample Space","Events","Classical Probability","Conditional Probability","Independent Events","Bayes Theorem"],
+      "Statistics":["Random Variable","Mean of Distribution","Variance","Standard Deviation","Binomial Distribution","Poisson Distribution"]
+    }
+  },
+  Physics:{
+    "Kinematics":{
+      "Motion in One Dimension":{
+        "Basic Quantities":{
+          "Position":["Position vector concept","Reference point"],
+          "Displacement":["Vector nature","Positive & negative displacement"],
+          "Distance":["Scalar nature","Path length"],
+          "Speed":["Average speed","Instantaneous speed"],
+          "Velocity":["Average velocity","Instantaneous velocity"],
+          "Acceleration":["Average acceleration","Instantaneous acceleration"]
+        },
+        "Equations of Motion":{
+          "First Equation (v = u + at)":["Conditions of validity","Physical meaning"],
+          "Second Equation (s = ut + 1/2 at^2)":["Area under v–t graph","Usage cases"],
+          "Third Equation (v^2 = u^2 + 2as)":["Eliminating time","Direct displacement relation"]
+        },
+        "Graphs":{
+          "Displacement–Time Graph":["Slope interpretation","Rest & uniform motion"],
+          "Velocity–Time Graph":["Slope as acceleration","Area as displacement"],
+          "Acceleration–Time Graph":["Area as change in velocity"]
+        }
+      },
+      "Motion in Two Dimensions":{
+        "Projectile Motion":{
+          "Basic Decomposition":["Horizontal component","Vertical component"],
+          "Time of Flight":["Formula","Dependence on angle"],
+          "Maximum Height":["Formula","Vertical motion concept"],
+          "Horizontal Range":["Formula","Condition for maximum range"],
+          "Trajectory Equation":["Parabolic path","Elimination of time"]
+        },
+        "Relative Motion":{
+          "Relative Velocity":["Same direction motion","Opposite direction motion"],
+          "River–Boat Problems":["Minimum time","Minimum distance"],
+          "Rain–Man Problems":["Velocity triangle","Angle of umbrella"]
+        },
+        "Uniform Circular Motion":{
+          "Angular Quantities":["Angular displacement","Angular velocity","Angular acceleration"],
+          "Centripetal Acceleration":["a = v^2/r","Direction towards centre"],
+          "Time Period & Frequency":["Relation with speed","Relation with angular velocity"]
+        }
+      }
+    },
+    "Laws of Motion":{
+      "Newton’s Laws":{
+        "First Law":{
+          "Statement":["Law of inertia","Qualitative meaning"],
+          "Inertia":["Inertia of rest","Inertia of motion","Inertia of direction"]
+        },
+        "Second Law":{
+          "Statement":["Rate of change of momentum","Vector form"],
+          "Mathematical Form":["F = ma","Impulse-momentum relation"],
+          "Special Cases":["Variable mass","Average force"]
+        },
+        "Third Law":{
+          "Statement":["Action-reaction pair","Mutual forces"],
+          "Examples":["Recoil","Walking","Swimming"]
+        }
+      },
+      "Free Body Diagrams":{
+        "Concept":["Isolating the body","Identifying forces"],
+        "Common Forces":["Normal reaction","Tension","Friction","Pseudo force"],
+        "Steps to Draw FBD":["Choose system","Draw all forces","Resolve components"]
+      },
+      "Friction":{
+        "Types of Friction":{
+          "Static Friction":["Limiting friction","fs ≤ μsN"],
+          "Kinetic Friction":["fk = μkN","Direction opposite motion"],
+          "Rolling Friction":["Less than sliding","Applications"]
+        },
+        "Angle of Friction & Repose":{
+          "Angle of Friction":["tanφ = μ","Geometrical meaning"],
+          "Angle of Repose":["tanθ = μ","Critical condition"]
+        },
+        "Applications":["Block on rough surface","Connected bodies","Inclined plane"]
+      },
+      "Pseudo Force & Non-Inertial Frames":{
+        "Inertial Frame":["Newton laws valid","No pseudo force"],
+        "Non-Inertial Frame":["Accelerated frame","Need of pseudo force"],
+        "Applications":["Lift problems","Accelerating vehicles"]
+      },
+      "Equilibrium of Forces":{
+        "Static Equilibrium":["ΣF = 0","Body at rest"],
+        "Dynamic Equilibrium":["Constant velocity","ΣF = 0"],
+        "Problem Types":["Multiple blocks","Pulley systems"]
+      }
+    },
+    "Work Energy Power":{
+      "Work":{
+        "Basic Concept":["Work = Force × Displacement","Scalar product"],
+        "Work by Constant Force":["Parallel force","Inclined force"],
+        "Work by Variable Force":["Graphical method","Integration concept"],
+        "Special Cases":["Zero work","Negative work","Positive work"]
+      },
+      "Energy":{
+        "Kinetic Energy":["Translational KE","Derivation using WET"],
+        "Potential Energy":{
+          "Gravitational PE":["Near earth surface","General case"],
+          "Spring PE":["Hooke law","PE = 1/2 kx^2"]
+        },
+        "Conservative vs Non‑Conservative Forces":["Path dependence","Examples"]
+      },
+      "Work Energy Theorem":["Statement","Proof idea","Applications"],
+      "Power":{
+        "Average Power":["Definition","Examples"],
+        "Instantaneous Power":["P = F·v","Special cases"]
+      }
+    },
+    "Centre of Mass & Rotation":{
+      "Centre of Mass":{
+        "Concept":["Definition of COM","System of particles","Continuous bodies"],
+        "Calculation Methods":["Discrete masses","Symmetry method","Integration method"],
+        "Motion of COM":["External force dependence","Isolated system"]
+      },
+      "Linear Momentum & Impulse":{
+        "Linear Momentum":["Definition","Vector nature","p = mv"],
+        "Impulse":["Change in momentum","Impulse-momentum theorem"],
+        "Conservation of Momentum":["Statement","Isolated system","Collision applications"]
+      },
+      "Rotational Kinematics":{
+        "Angular Quantities":["Angular displacement","Angular velocity","Angular acceleration"],
+        "Relations with Linear Quantities":["v = ωr","a_t = αr","a_c = ω²r"]
+      },
+      "Torque & Angular Momentum":{
+        "Torque":["Definition","τ = r × F","Direction using right hand rule"],
+        "Angular Momentum":["L = r × p","Conservation of angular momentum","Examples"]
+      },
+      "Moment of Inertia":{
+        "Concept":["Rotational inertia","Dependence on mass distribution"],
+        "Standard MOI":["Rod","Ring","Disc","Sphere"],
+        "Theorems":["Parallel axis theorem","Perpendicular axis theorem"]
+      },
+      "Rotational Dynamics":{
+        "Equation of Rotational Motion":["τ = Iα","Analogy with F = ma"],
+        "Rotational Kinetic Energy":["1/2 Iω²","Rolling motion"]
+      },
+      "Rolling Motion":{
+        "Pure Rolling":["Condition v = ωr","No slipping"],
+        "Energy in Rolling":["Translational KE","Rotational KE"],
+        "Rolling on Inclined Plane":["Acceleration","Comparison of bodies"]
+      }
+    },
+    "Gravitation":{
+      "Newton’s Law of Gravitation":{
+        "Statement":["Attractive force between two masses","Inverse square nature"],
+        "Mathematical Form":["F = G m1 m2 / r^2","Meaning of G"],
+        "Vector Form":["Direction along line joining masses"]
+      },
+      "Gravitational Field":{
+        "Field Intensity":["Definition","g = F/m"],
+        "Field due to Point Mass":["g = G M / r^2","Direction towards mass"],
+        "Variation of g":["With height","With depth","With latitude"]
+      },
+      "Gravitational Potential & PE":{
+        "Gravitational Potential":["Definition","V = −GM/r"],
+        "Gravitational Potential Energy":["PE of two-body system","Relation with potential"],
+        "Escape Energy":["Minimum energy to escape","Relation with escape velocity"]
+      },
+      "Motion under Gravity":{
+        "Free Fall":["Equations of motion","Special cases"],
+        "Vertical Motion":["Upward projection","Downward projection"],
+        "Weightlessness":["Concept","Lift problems"]
+      },
+      "Satellites":{
+        "Orbital Velocity":["Formula","Dependence on radius"],
+        "Time Period of Satellite":["Kepler’s third law","Geostationary satellite"],
+        "Energy of Satellite":["Kinetic","Potential","Total energy"]
+      },
+      "Kepler’s Laws":{
+        "First Law":["Law of orbits","Elliptical paths"],
+        "Second Law":["Law of areas","Angular momentum conservation"],
+        "Third Law":["T^2 ∝ r^3","Planetary motion"]
+      }
+    },
+    "Thermodynamics":["Temperature","Heat","Thermal Expansion","Calorimetry","First Law of Thermodynamics","Isothermal Process","Adiabatic Process","Second Law of Thermodynamics","Entropy","Heat Engines"],
+    "Oscillations & Waves":["Simple Harmonic Motion","Energy in SHM","Wave Motion","Wave Equation","Sound Waves","Doppler Effect","Standing Waves"],
+    "Electrostatics":{
+      "Electric Charge":{
+        "Basic Properties":["Nature of charge","Conservation of charge","Quantisation of charge"],
+        "Charging Methods":["Charging by friction","Charging by conduction","Charging by induction"],
+        "Coulomb Interaction":["Like charges repel","Unlike charges attract"]
+      },
+      "Coulomb’s Law":{
+        "Statement":["Force between two point charges","Inverse square law"],
+        "Mathematical Form":["F = k q1 q2 / r^2","Role of medium"],
+        "Vector Form":["Direction of force","Superposition principle"],
+        "Applications":["Collinear charges","Equilateral triangle configuration"]
+      },
+      "Electric Field":{
+        "Field Concept":["Force per unit charge","Test charge concept"],
+        "Electric Field Intensity":["E = F/q","Units & direction"],
+        "Field due to Point Charge":["E = kq/r^2","Radial nature"],
+        "Electric Field Lines":["Properties","Field pattern interpretation"],
+        "Motion of Charged Particle":["Along field","Perpendicular to field"]
+      },
+      "Electric Flux":{
+        "Definition":["Flux through surface","Scalar quantity"],
+        "Mathematical Expression":["Φ = E·A","Dependence on orientation"],
+        "Special Cases":["Closed surface","Zero flux cases"]
+      },
+      "Gauss Law":{
+        "Statement":["Total flux proportional to enclosed charge"],
+        "Mathematical Form":["∮E·dA = q/ε0"],
+        "Applications":{
+          "Infinite Line Charge":["Cylindrical symmetry","Field expression"],
+          "Infinite Plane Sheet":["Uniform field","Independence from distance"],
+          "Spherical Charge Distribution":["Inside sphere","Outside sphere"]
+        }
+      },
+      "Electric Potential":{
+        "Concept":["Work done per unit charge","Scalar nature"],
+        "Potential due to Point Charge":["V = kq/r","Relation with field"],
+        "Potential Difference":["Between two points","Energy interpretation"],
+        "Equipotential Surfaces":["Properties","Relation with field lines"]
+      },
+      "Electric Potential Energy":{
+        "Two Charge System":["PE of system","Relation with potential"],
+        "Multiple Charges":["Superposition of energies"]
+      },
+      "Capacitance":{
+        "Capacitor Basics":["Definition","Capacitance = Q/V"],
+        "Parallel Plate Capacitor":["Capacitance formula","Effect of dielectric"],
+        "Combination of Capacitors":["Series combination","Parallel combination"],
+        "Energy Stored in Capacitor":["U = 1/2 CV^2","Energy density"],
+        "Dielectrics":["Polarisation","Effect on capacitance"]
+      }
+    },
+    "Current Electricity":{
+      "Electric Current":{
+        "Concept":["Flow of charge","Conventional vs electron current"],
+        "Current Density":["J = nqv","Microscopic view"]
+      },
+      "Drift Velocity":{
+        "Definition":["Average velocity of electrons"],
+        "Derivation":["Relation with electric field"],
+        "Relation with Current":["I = nqAv_d"]
+      },
+      "Ohm’s Law":{
+        "Statement":["V ∝ I"],
+        "Resistance":["R = V/I","Unit ohm"],
+        "Limitations":["Non-ohmic devices"]
+      },
+      "Resistance":{
+        "Factors Affecting R":["Length","Area","Material","Temperature"],
+        "Temperature Dependence":["Linear relation","Coefficient of resistance"]
+      },
+      "Electrical Circuits":{
+        "Series Circuits":["Equivalent resistance","Current distribution"],
+        "Parallel Circuits":["Equivalent resistance","Voltage distribution"]
+      },
+      "Kirchhoff’s Laws":{
+        "Junction Law":["Current conservation"],
+        "Loop Law":["Energy conservation"],
+        "Applications":["Multi-loop circuits"]
+      },
+      "Measuring Instruments":{
+        "Wheatstone Bridge":["Condition of balance","Applications"],
+        "Meter Bridge":["Practical Wheatstone","Error analysis"]
+      },
+      "Electrical Power":{
+        "Power in Circuits":["P = VI","P = I^2R","P = V^2/R"],
+        "Heating Effect":["Joule’s law","Applications"]
+      }
+    },
+    "Magnetism & EMI":{
+      "Magnetic Field":{
+        "Concept":["Region of magnetic influence"],
+        "Magnetic Field Lines":["Properties","Pattern interpretation"]
+      },
+      "Lorentz Force":{
+        "Force on Moving Charge":["q(v × B)","Right hand rule"],
+        "Special Cases":["Parallel motion","Perpendicular motion"]
+      },
+      "Motion of Charged Particle":{
+        "Uniform Magnetic Field":["Circular motion","Radius and time period"],
+        "Crossed Fields":["Velocity selector"]
+      },
+      "Biot–Savart Law":{
+        "Statement":["Magnetic field due to current element"],
+        "Applications":["Straight wire","Circular loop"]
+      },
+      "Ampere’s Circuital Law":{
+        "Statement":["Line integral of B"],
+        "Applications":["Infinite straight wire","Solenoid","Toroid"]
+      },
+      "Electromagnetic Induction":{
+        "Faraday’s Laws":["Change of flux","Induced emf"],
+        "Lenz’s Law":["Direction of induced current","Energy conservation"],
+        "Induced EMF":["Motional emf","Flux rule"]
+      },
+      "Inductance":{
+        "Self Inductance":["Definition","Energy stored"],
+        "Mutual Inductance":["Coupled coils","Transformers"]
+      }
+    },
+    "AC & EM Waves":{
+      "Alternating Current":{
+        "AC Basics":["Alternating emf","Sinusoidal variation","Time period & frequency"],
+        "AC Voltage & Current":["v = V0 sinωt","i = I0 sinωt","Phase difference"],
+        "RMS Values":["Vrms = V0/√2","Irms = I0/√2","Physical meaning"],
+        "AC Circuits":{
+          "Pure Resistor":["Voltage & current in phase","Power dissipation"],
+          "Pure Inductor":["Current lags by π/2","Inductive reactance"],
+          "Pure Capacitor":["Current leads by π/2","Capacitive reactance"],
+          "LCR Series Circuit":["Impedance","Phase angle","Power factor"]
+        },
+        "Resonance":["Condition XL = XC","Resonant frequency","Sharpness of resonance"]
+      },
+      "Electromagnetic Waves":{
+        "Nature of EM Waves":["Transverse waves","No medium required"],
+        "Maxwell’s Prediction":["Coupled electric & magnetic fields"],
+        "Speed of EM Waves":["c = 1/√(μ0ε0)"],
+        "Electromagnetic Spectrum":{
+          "Radio Waves":["Communication","Large wavelength"],
+          "Microwaves":["Radar","Microwave oven"],
+          "Infrared":["Heat radiation","Remote control"],
+          "Visible Light":["Human eye sensitivity"],
+          "Ultraviolet":["Sterilization","Vitamin D"],
+          "X-Rays":["Medical imaging"],
+          "Gamma Rays":["Nuclear reactions","Cancer therapy"]
+        }
+      }
+    },
+    "Optics":{
+      "Ray Optics":{
+        "Reflection of Light":{
+          "Laws of Reflection":["Incident ray","Reflected ray","Normal"],
+          "Plane Mirror":["Image characteristics","Multiple reflections"],
+          "Spherical Mirrors":{
+            "Concave Mirror":["Ray diagrams","Mirror formula","Magnification"],
+            "Convex Mirror":["Image formation","Uses"]
+          }
+        },
+        "Refraction of Light":{
+          "Snell’s Law":["Refractive index","Relation between angles"],
+          "Total Internal Reflection":["Critical angle","Applications"],
+          "Prism":["Deviation","Dispersion","Minimum deviation"]
+        },
+        "Lenses":{
+          "Thin Lens Formula":["1/f = 1/v + 1/u","Sign convention"],
+          "Magnification":["Image size relation"],
+          "Combination of Lenses":["Equivalent focal length"]
+        }
+      },
+      "Wave Optics":{
+        "Huygens Principle":["Wavefront concept","Secondary wavelets"],
+        "Interference":{
+          "Young’s Double Slit Experiment":["Fringe formation","Fringe width"],
+          "Conditions":["Coherent sources","Same frequency"]
+        },
+        "Diffraction":["Single slit diffraction","Width of central maxima"],
+        "Polarisation":["Transverse nature of light","Malus law"]
+      }
+    },
+    "Modern Physics":{
+      "Dual Nature of Radiation & Matter":{
+        "Photoelectric Effect":{
+          "Observations":["Threshold frequency","Instantaneous emission"],
+          "Einstein’s Equation":["E = hf − φ","Explanation of experiment"]
+        },
+        "de Broglie Hypothesis":["Matter waves","λ = h/p","Applications"]
+      },
+      "Atomic Physics":{
+        "Bohr Atomic Model":{
+          "Postulates":["Quantized orbits","Angular momentum quantization"],
+          "Energy Levels":["En = −13.6/n²","Hydrogen spectrum"]
+        },
+        "Atomic Spectra":["Emission spectrum","Absorption spectrum"]
+      },
+      "Nuclear Physics":{
+        "Radioactivity":{
+          "Types of Radiation":["Alpha","Beta","Gamma"],
+          "Decay Law":["N = N0 e^(−λt)","Half life","Mean life"]
+        },
+        "Nuclear Reactions":["Fission","Fusion","Mass defect","Binding energy"]
+      },
+      "Semiconductors":{
+        "Energy Bands":["Valence band","Conduction band","Band gap"],
+        "Intrinsic Semiconductors":["Pure silicon","Pure germanium"],
+        "Extrinsic Semiconductors":{
+          "n-type":["Donor impurity","Majority carriers"],
+          "p-type":["Acceptor impurity","Majority carriers"]
+        },
+        "Diodes":["p-n junction","Rectification","Zener diode"],
+        "Transistors":["npn & pnp","Amplifier action"]
       }
     }
   },
-  Laws_of_Motion:{
-    Newtons_Laws:{First_Law:{},Second_Law:{Variable_Mass:{},Rocket_Equation:{}},Third_Law:{}},
-    Inertial_and_Non_Inertial_Frames:{Pseudo_Forces:{}},
-    Free_Body_Diagrams:{Construction:{},Force_Analysis:{},Constraint_Forces:{}},
-    Friction:{
-      Static_Friction:{Limiting_Friction:{},Coefficient_of_Friction:{}},
-      Kinetic_Friction:{},
-      Friction_on_Inclined_Plane:{},
-      Rolling_Friction:{},
-      Friction_with_Pulleys:{}
-    },
-    Tension_in_Strings:{Single_String:{},Multiple_Strings:{},Pulley_Systems:{}}
-  },
-  Work_Energy_Power:{
-    Work:{Constant_Force:{},Variable_Force:{Graphical_Work:{}}},
-    Energy:{
-      Kinetic_Energy:{},
-      Potential_Energy:{Gravitational:{},Spring_Potential:{}},
-      Conservative_and_Non_Conservative_Forces:{}
-    },
-    Work_Energy_Theorem:{},
-    Power:{Average_Power:{},Instantaneous_Power:{}},
-    Collision:{
-      Types_of_Collisions:{Elastic:{},Inelastic:{}},
-      One_D_Collisions:{},
-      Two_D_Collisions:{Oblique_Collisions:{}}
-    }
-  },
-  Rotational_Motion:{
-    Rigid_Body:{},
-    Torque:{Moment_of_Force:{},Couple:{}},
-    Angular_Momentum:{Conservation:{}},
-    Moment_of_Inertia:{
-      Discrete_System:{},
-      Continuous_Body:{Rod:{},Ring:{},Disc:{},Sphere:{}},
-      Parallel_Axis_Theorem:{},
-      Perpendicular_Axis_Theorem:{}
-    },
-    Rotational_Kinetic_Energy:{},
-    Rolling_Motion:{Pure_Rolling:{},Rolling_with_Slipping:{},Energy_Analysis:{}}
-  },
-  Gravitation:{
-    Newtons_Law_of_Gravitation:{},
-    Gravitational_Field_and_Potential:{Field_Intensity:{},Potential_Energy:{}},
-    Variation_of_g:{With_Height:{},With_Depth:{},With_Latitude:{}},
-    Escape_Velocity:{},
-    Satellite_Motion:{Orbital_Velocity:{},Time_Period:{},Energy_of_Satellite:{}}
-  },
-  Thermodynamics_and_Kinetic_Theory:{
-    Thermal_Properties_of_Matter:{
-      Temperature_Scales:{},
-      Thermal_Expansion:{Linear:{},Areal:{},Volumetric:{}},
-      Calorimetry:{},
-      Change_of_State:{Latent_Heat:{}}
-    },
-    Laws_of_Thermodynamics:{
-      Zeroth_Law:{},
-      First_Law:{Work_Heat_Relation:{},PV_Diagrams:{}},
-      Second_Law:{Heat_Engines:{Efficiency:{}},Refrigerators:{COP:{}}}
-    },
-    Entropy:{Change_in_Entropy:{}},
-    Kinetic_Theory_of_Gases:{
-      Assumptions:{},
-      Pressure_Formula:{},
-      RMS_Speed:{},
-      Degrees_of_Freedom:{},
-      Mean_Free_Path:{},
-      Law_of_Equipartition_of_Energy:{}
-    }
-  },
-  Oscillations_and_Waves:{
-    Simple_Harmonic_Motion:{
-      Definition:{},Equation_of_SHM:{},
-      Time_Period:{Spring_Mass_System:{},Simple_Pendulum:{Length_Correction:{}}},
-      Energy_in_SHM:{},
-      Phase_Relations:{},
-      Damped_and_Forced_Oscillations:{Resonance:{}}
-    },
-    Waves:{
-      Wave_Equation:{},Speed_of_Wave:{},
-      Superposition_of_Waves:{Beats:{}},
-      Sound_Waves:{Doppler_Effect:{Source_Motion:{},Observer_Motion:{}}},
-      Standing_Waves:{Nodes_and_Antinodes:{},Resonance_Tube:{}}
-    }
-  },
-  Electrostatics:{
-    Electric_Charge_and_Field:{
-      Coulombs_Law:{},
-      Electric_Field_Intensity:{},
-      Electric_Flux:{},
-      Gauss_Law:{Applications:{Infinite_Line:{},Infinite_Plane:{},Spherical_Shell:{}}}
-    },
-    Electric_Potential_and_Capacitance:{
-      Electric_Potential:{},
-      Potential_Energy:{},
-      Capacitance:{Parallel_Plate_Capacitor:{With_Dielectric:{}},Spherical_Capacitor:{}},
-      Combination_of_Capacitors:{Series:{},Parallel:{}}
-    }
-  },
-  Current_Electricity:{
-    Electric_Current:{Drift_Velocity:{},Mobility:{}},
-    Ohms_Law:{Microscopic_Form:{}},
-    Electrical_Resistance:{Temperature_Dependence:{}},
-    Kirchhoffs_Laws:{Loop_Rule:{},Junction_Rule:{}},
-    Electrical_Energy_and_Power:{},
-    Wheatstone_Bridge:{},
-    Potentiometer:{Principle:{},Applications:{}}},
-  Magnetism_and_Electromagnetic_Induction:{
-    Magnetism:{
-      Magnetic_Field:{},
-      Biot_Savart_Law:{},
-      Ampere_Circuital_Law:{},
-      Magnetic_Force_on_Charge_and_Current:{},
-      Torque_on_Current_Loop:{},
-      Moving_Coil_Galvanometer:{Sensitivity:{}}
-    },
-    Magnetic_Properties_of_Matter:{Dia:{},Para:{},Ferro:{Hysteresis:{}}},
-    Electromagnetic_Induction:{
-      Faradays_Laws:{},
-      Lenz_Law:{},
-      Induced_EMF:{Motional_EMF:{}},
-      Self_and_Mutual_Inductance:{Energy_Stored:{}}
-    }
-  },
-  Alternating_Current:{
-    AC_Circuits:{AC_Through_R:{},AC_Through_L:{},AC_Through_C:{},LCR_Circuit:{Resonance:{},Quality_Factor:{}}},
-    Power_in_AC_Circuit:{Power_Factor:{}},
-    Transformers:{Efficiency:{},Energy_Losses:{}}
-  },
-  Optics:{
-    Ray_Optics:{
-      Reflection:{Mirror_Formula:{},Magnification:{},Ray_Diagrams:{}},
-      Refraction:{Snells_Law:{},Refractive_Index:{},Total_Internal_Reflection:{Critical_Angle:{}}},
-      Optical_Instruments:{Microscope:{Magnifying_Power:{}},Telescope:{Magnifying_Power:{}}}
-    },
-    Wave_Optics:{
-      Interference:{Youngs_Double_Slit_Experiment:{Fringe_Width:{}}},
-      Diffraction:{Single_Slit_Diffraction:{Angular_Width:{}}},
-      Polarization:{Brewsters_Law:{}}
-    }
-  },
-  Modern_Physics:{
-    Dual_Nature_of_Radiation_and_Matter:{Photoelectric_Effect:{Stopping_Potential:{},Graphical_Analysis:{}}},
-    Atoms:{Bohrs_Model_of_Hydrogen:{Energy_Levels:{},Spectral_Lines:{}}},
-    Nuclei:{Radioactivity:{Decay_Law:{},Half_Life:{},Mean_Life:{}},Nuclear_Fission_and_Fusion:{Energy_Calculations:{}}},
-    Semiconductor_Electronics:{
-      Energy_Bands:{},
-      Diodes:{PN_Junction:{Biasing:{}},Zener_Diode:{Voltage_Regulation:{}}},
-      Transistors:{Configurations:{CE:{},CB:{},CC:{}}},
-      Logic_Gates:{AND:{},OR:{},NOT:{}}
-    }
-  }
-},
-Chemistry:{
-  Physical:{
-    Mole_Concept:{
-      Mole_Definition:{},Avogadro_Number:{},
-      Stoichiometry:{
-        Limiting_Reagent:{Concept:{},Numerical_Problems:{},Multi_Reaction_Cases:{}},
-        Excess_Reagent:{},Percentage_Yield:{},
-        Empirical_Formula:{},Molecular_Formula:{},
-        Volumetric_Analysis:{Titration_Curves:{}}
+  Chemistry:{
+    "Physical Chemistry":{
+      "Mole Concept":{
+        "Basic Definitions":{
+          "Mole":["Amount of substance"],
+          "Avogadro Number":["6.022 × 10^23"],
+          "Molar Mass":["Mass per mole"]
+        },
+        "Stoichiometry":{
+          "Balanced Equations":["Mole ratios","Coefficients"],
+          "Limiting Reagent":["Identification","Excess reactant"],
+          "Theoretical Yield":["Based on limiting reagent"]
+        },
+        "Concentration Terms":{
+          "Molarity":["Definition","Formula"],
+          "Molality":["Definition","Temperature independence"],
+          "Mole Fraction":["Definition","Applications"]
+        }
       },
-      Concentration_Terms:{Molarity:{Dilution_Problems:{}},Molality:{},Normality:{},Mole_Fraction:{},ppm:{}}
+      "Thermodynamics":{
+        "Basic Concepts":["System","Surroundings","State functions","Path functions"],
+        "First Law":["ΔQ = ΔU + ΔW","Sign convention"],
+        "Entropy & Gibbs Energy":["Spontaneity","ΔG = ΔH − TΔS"]
+      }
     },
-    Atomic_Structure:{
-      Subatomic_Particles:{Discovery:{},Properties:{}},
-      Bohrs_Model:{Postulates:{},Radius_of_Orbit:{},Energy_of_Orbit:{},Limitations:{}},
-      Dual_Nature_of_Matter:{Photoelectric_Link:{}},
-      de_Broglie_Wavelength:{},
-      Heisenberg_Uncertainty_Principle:{},
-      Quantum_Numbers:{n:{},l:{},m:{},s:{}},
-      Electronic_Configuration:{Aufbau_Principle:{Exceptions:{}},Pauli_Exclusion:{},Hunds_Rule:{}}
-    },
-    Thermodynamics:{
-      System_and_Surroundings:{},State_Functions:{},
-      First_Law_of_Thermodynamics:{Internal_Energy_Change:{}},
-      Enthalpy_Changes:{Reaction:{},Formation:{},Combustion:{},Neutralization:{}},
-      Hess_Law:{Application_Problems:{}},
-      Bond_Enthalpy:{},Entropy:{Entropy_Change:{}},
-      Gibbs_Free_Energy:{Spontaneity:{},Equilibrium_Relation:{}}
-    },
-    Chemical_Kinetics:{
-      Rate_of_Reaction:{Average:{},Instantaneous:{}},
-      Rate_Law:{Order_of_Reaction:{},Molecularity:{}},
-      Integrated_Rate_Equations:{Zero_Order:{},First_Order:{},Pseudo_First_Order:{}},
-      Half_Life:{},
-      Arrhenius_Equation:{Activation_Energy:{},Temperature_Dependence:{}},
-      Collision_Theory:{},Catalysis_Effect:{}}
-    ,
-    Electrochemistry:{
-      Electrochemical_Cells:{Cell_Representation:{}},
-      Galvanic_Cell:{},
-      Cell_Potential:{Standard_Electrode_Potential:{}},
-      Nernst_Equation:{Numerical_Problems:{},Concentration_Cell:{}},
-      Conductance:{Specific_Conductance:{},Molar_Conductance:{Limiting_Molar_Conductance:{}}},
-      Electrolysis:{Faradays_Laws:{},Numerical_Problems:{}}
-    },
-    Solutions:{
-      Types_of_Solutions:{},Solubility:{Henry_Law:{}},
-      Colligative_Properties:{
-        Relative_Lowering_of_Vapour_Pressure:{},
-        Elevation_of_Boiling_Point:{},
-        Depression_of_Freezing_Point:{},
-        Osmotic_Pressure:{}
+    "Inorganic Chemistry":{
+      "Periodic Table":{
+        "Modern Periodic Law":["Atomic number based arrangement"],
+        "Periodic Trends":{
+          "Atomic Radius":["Across period","Down group"],
+          "Ionisation Energy":["Factors affecting"],
+          "Electron Affinity":["Trend","Exceptions"],
+          "Electronegativity":["Pauling scale","Applications"]
+        }
       },
-      Abnormal_Molar_Mass:{Van_t_Hoff_Factor:{Association:{},Dissociation:{}}}
+      "Chemical Bonding":{
+        "Lewis Structure":["Octet rule","Formal charge"],
+        "VSEPR Theory":["Electron pair repulsion","Molecular shapes"],
+        "Hybridisation":{
+          "sp":["Linear","BeCl2"],
+          "sp2":["Trigonal planar","BF3"],
+          "sp3":["Tetrahedral","CH4"]
+        },
+        "Molecular Orbital Theory":["Bond order","Magnetic nature"],
+        "Hydrogen Bonding":["Intermolecular","Intramolecular"]
+      },
+      "Coordination Compounds":{
+        "Werner Theory":["Primary valency","Secondary valency"],
+        "Nomenclature":["IUPAC rules","Examples"],
+        "Isomerism":{
+          "Structural Isomerism":["Linkage","Coordination"],
+          "Stereoisomerism":["Geometrical","Optical"]
+        },
+        "Crystal Field Theory":["d-orbital splitting","High spin","Low spin"],
+        "Magnetic Properties":["Para","Dia","Ferro"],
+        "Stability of Complexes":["Factors","Chelate effect"]
+      }
     },
-    Surface_Chemistry:{
-      Adsorption:{Physisorption:{},Chemisorption:{},Isotherms:{Freundlich:{},Langmuir:{}}},
-      Catalysis:{Homogeneous:{},Heterogeneous:{}},
-      Colloids:{Types:{},Properties:{},Preparation:{},Applications:{}}
+    "Organic Chemistry":{
+      "General Organic Chemistry (GOC)":{
+        "Basic Concepts":{
+          "Hybridisation in Organic Molecules":["sp","sp2","sp3"],
+          "Sigma & Pi Bonds":["Bond formation","Strength comparison"],
+          "Bond Cleavage":["Homolytic cleavage","Heterolytic cleavage"],
+          "Reaction Intermediates":["Carbocation","Carbanion","Free radical","Carbene"]
+        },
+        "Electronic Effects":{
+          "Inductive Effect":["+I effect","−I effect","Applications"],
+          "Resonance Effect":["Canonical structures","Stability"],
+          "Hyperconjugation":["No-bond resonance","Alkyl substitution"],
+          "Electromeric Effect":["Temporary effect","Reagent dependent"]
+        },
+        "Acidity & Basicity":{
+          "Acidity Order":["Factors affecting acidity","Comparative strength"],
+          "Basicity Order":["Electron density","Steric effects"]
+        }
+      },
+      "Hydrocarbons":{
+        "Alkanes":{
+          "Nomenclature":["IUPAC naming","Common names"],
+          "Preparation":["Wurtz reaction","Kolbe reaction"],
+          "Reactions":["Free radical substitution","Combustion"],
+          "Conformations":["Ethane","Butane"]
+        },
+        "Alkenes":{
+          "Nomenclature":["IUPAC rules","E–Z notation"],
+          "Preparation":["Dehydration of alcohols","Dehydrohalogenation"],
+          "Reactions":["Electrophilic addition","Markovnikov rule","Anti‑Markovnikov"],
+          "Tests":["Baeyer test","Ozonolysis"]
+        },
+        "Alkynes":{
+          "Nomenclature":["IUPAC rules"],
+          "Preparation":["From calcium carbide","Double elimination"],
+          "Reactions":["Addition reactions","Acidity of alkynes"]
+        }
+      },
+      "Haloalkanes & Haloarenes":{
+        "Haloalkanes":{
+          "Nucleophilic Substitution":{
+            "SN1 Mechanism":["Carbocation formation","Rate law"],
+            "SN2 Mechanism":["Backside attack","Inversion of configuration"]
+          },
+          "Elimination Reactions":["E1","E2","Zaitsev rule"]
+        },
+        "Haloarenes":["Stability","Electrophilic substitution","Difference from haloalkanes"]
+      },
+      "Alcohols, Phenols & Ethers":{
+        "Alcohols":{
+          "Preparation":["From alkenes","From carbonyl compounds"],
+          "Reactions":["Oxidation","Dehydration","Substitution"],
+          "Tests":["Lucas test","Victor Meyer test"]
+        },
+        "Phenols":["Acidity","Reactions","Kolbe reaction","Reimer–Tiemann reaction"],
+        "Ethers":["Preparation","Williamson synthesis","Cleavage reactions"]
+      },
+      "Carbonyl Compounds":{
+        "Aldehydes & Ketones":{
+          "Nucleophilic Addition":["HCN","NaHSO3","Grignard reagent"],
+          "Oxidation & Reduction":["Tollens test","Fehling test"],
+          "Aldol Condensation":["Mechanism","Applications"]
+        },
+        "Carboxylic Acids":["Acidity","Preparation","Hell–Volhard–Zelinsky reaction"],
+        "Derivatives":["Acid chlorides","Esters","Amides"]
+      },
+      "Biomolecules & Polymers":{
+        "Biomolecules":["Carbohydrates","Proteins","Amino acids","Enzymes"],
+        "Polymers":["Addition polymers","Condensation polymers","Important polymers"]
+      }
     }
-  },
-  Inorganic:{
-    Periodic_Table:{
-      Modern_Periodic_Law:{},
-      Periodic_Trends:{Atomic_Radius:{},Ionization_Enthalpy:{},Electron_Affinity:{},Electronegativity:{}}
-    },
-    Chemical_Bonding:{
-      Ionic_Bond:{Lattice_Energy:{},Born_Haber_Cycle:{}},
-      Covalent_Bond:{Lewis_Structures:{},Formal_Charge:{}},
-      VSEPR_Theory:{},
-      Hybridization:{sp:{},sp2:{},sp3:{},dsp2:{},d2sp3:{}},
-      Molecular_Orbital_Theory:{Bond_Order:{},Magnetic_Properties:{}}
-    },
-    s_Block_Elements:{Alkali_Metals:{Properties:{},Anomalous_Behaviour_of_Lithium:{}},Alkaline_Earth_Metals:{Properties:{},Anomalous_Behaviour_of_Beryllium:{}}},
-    p_Block_Elements:{Group_13:{},Group_14:{},Group_15:{},Group_16:{},Group_17:{},Group_18:{}},
-    d_and_f_Block_Elements:{Transition_Elements:{General_Properties:{},Oxidation_States:{},Complex_Formation:{}},Lanthanides:{Lanthanide_Contraction:{}},Actinides:{}},
-    Coordination_Compounds:{Werner_Theory:{},Nomenclature:{},Isomerism:{Structural:{},Geometrical:{},Optical:{}},Bonding:{VBT:{},CFT:{},Spectrochemical_Series:{}}}
-  },
-  Organic:{
-    General_Organic_Chemistry:{
-      Electronic_Effects:{Inductive:{+I:{},-I:{}},Resonance:{},Hyperconjugation:{}},
-      Acidity_and_Basicity:{},
-      Reaction_Intermediates:{Carbocation:{Stability:{}},Carbanion:{Stability:{}},Free_Radical:{Stability:{}}},
-      Reaction_Mechanisms:{SN1:{},SN2:{},E1:{},E2:{}},
-      Isomerism:{Structural:{},Geometrical:{},Optical:{}}
-    },
-    Hydrocarbons:{
-      Alkanes:{Preparation:{},Reactions:{},Conformations:{}},
-      Alkenes:{Preparation:{},Reactions:{Markovnikov:{},Anti_Markovnikov:{},Ozonolysis:{}},Geometrical_Isomerism:{}},
-      Alkynes:{Preparation:{},Reactions:{}}
-    },
-    Haloalkanes_and_Haloarenes:{
-      Preparation:{},
-      Nucleophilic_Substitution:{SN1:{},SN2:{}},
-      Elimination_Reactions:{Saytzeff_Rule:{}},
-      Finkelstein_Reaction:{},Swarts_Reaction:{}
-    },
-    Alcohols_Phenols_and_Ethers:{
-      Alcohols:{Preparation:{},Reactions:{Oxidation:{},Dehydration:{}}},
-      Phenols:{Acidity:{},Reactions:{Kolbe_Reaction:{},Reimer_Tiemann:{} }},
-      Ethers:{Williamson_Synthesis:{},Cleavage_Reactions:{}}
-    },
-    Aldehydes_Ketones_and_Carboxylic_Acids:{
-      Aldehydes_and_Ketones:{Nucleophilic_Addition:{},Tests:{},Reactions:{Aldol:{},Cannizzaro:{}}},
-      Carboxylic_Acids:{Acidity:{},Reactions:{HVZ_Reaction:{},Decarboxylation:{}}}
-    },
-    Amines:{Classification:{},Preparation:{},Basicity:{},Diazonium_Salts:{Preparation:{},Reactions:{Sandmeyer:{},Gattermann:{}}}},
-    Biomolecules:{Carbohydrates:{},Proteins:{},Amino_Acids:{},Vitamins:{},Nucleic_Acids:{}},
-    Polymers:{Classification:{},Natural_Polymers:{},Synthetic_Polymers:{}},
-    Chemistry_in_Everyday_Life:{Drugs:{},Detergents:{},Soaps:{},Food_Additives:{}}
   }
-}
-;
+};
 
+/* ===================== ENGINE ===================== */
+let stack = [];
+let view, nav, breadcrumb, subjectBtns;
 
-/* ================= UI LOGIC ================= */
-let path = [];
-const subjectsDiv = document.getElementById('subjects');
-const grid = document.getElementById('grid');
-const pathbar = document.getElementById('pathbar');
-const editor = document.getElementById('editor');
-
-function getNode(){ let n = syllabus; for(const k of path){ n = n[k]; } return n; }
-function isLeaf(n){ return n && typeof n==='object' && Object.keys(n).length===0; }
-
-function renderSubjects(){
-  subjectsDiv.innerHTML='';
-  Object.keys(syllabus).forEach(s=>{
-    const b=document.createElement('button');
-    b.textContent=s;
-    if(path[0]===s) b.classList.add('active');
-    b.onclick=()=>{ path=[s]; render(); };
-    subjectsDiv.appendChild(b);
-  });
+function syncURL(){
+  const path = stack.join("/");
+  history.pushState({ stack:[...stack] }, "", path ? `#/${path}` : "#/");
 }
 
-function renderPath(){
-  pathbar.innerHTML='';
-  path.forEach((p,i)=>{
-    const sp=document.createElement('span');
-    sp.textContent=p;
-    sp.onclick=()=>{ path=path.slice(0,i+1); render(); };
-    pathbar.appendChild(sp);
-    if(i<path.length-1) pathbar.appendChild(document.createTextNode(' › '));
-  });
+function goSubject(sub){
+  stack = [sub];
+  syncURL();
+  render();
 }
 
-function renderGrid(){
-  grid.innerHTML=''; editor.innerHTML='';
-  const node = getNode();
-  if(isLeaf(node)){
-    if(OWNER){
-      const ta=document.createElement('textarea');
-      ta.placeholder='Owner-only editor';
-      editor.appendChild(ta);
-    }
-    return;
-  }
-  Object.keys(node).forEach(k=>{
-    const c=document.createElement('div');
-    c.className='card';
-    c.innerHTML=`<div class="card-title">${k}</div><div class="card-meta">Open</div>`;
-    c.onclick=()=>{ path.push(k); render(); };
-    grid.appendChild(c);
-  });
+function goBack(){
+  stack.pop();
+  syncURL();
+  render();
+}
+
+function jumpTo(i){
+  stack = stack.slice(0, i + 1);
+  syncURL();
+  render();
 }
 
 function render(){
-  renderSubjects();
-  if(path.length===0){
-    pathbar.textContent='Select a subject';
-    grid.innerHTML=''; editor.innerHTML='';
+  if(!view) return;
+
+  nav.style.display = stack.length ? "flex" : "none";
+
+  subjectBtns.forEach(b =>
+    b.classList.toggle("active", b.innerText === stack[0])
+  );
+
+  breadcrumb.innerHTML = "";
+  stack.forEach((s, i) => {
+    const c = document.createElement("div");
+    c.className = "crumb";
+    c.innerText = s;
+    c.onclick = () => jumpTo(i);
+    breadcrumb.appendChild(c);
+  });
+
+  view.innerHTML = "";
+  if(!stack.length){
+    view.innerHTML = "<h2>Select a subject to begin</h2>";
     return;
   }
-  renderPath();
-  renderGrid();
+
+  let data = syllabus;
+  stack.forEach(k => data = data?.[k]);
+
+  if(!data){
+    view.innerHTML = "<p>No data attached yet.</p>";
+    return;
+  }
+
+  if(typeof data === "string"){
+    renderLeaf(stack.at(-1), data);
+  } else if(Array.isArray(data)){
+    renderLeaf(stack.at(-1), data.join(", "));
+  } else {
+    Object.keys(data).forEach(k => {
+      const d = document.createElement("div");
+      d.className = "item";
+      d.innerText = k;
+      d.onclick = () => { stack.push(k); syncURL(); render(); };
+      view.appendChild(d);
+    });
+  }
 }
 
-render();
+function renderLeaf(title, content){
+  view.innerHTML = `
+    <div class="focus">
+      <h2 class="section-title">${title}</h2>
+      <div class="block"><h4>Concept</h4><ul><li>${content}</li></ul></div>
+      <div class="block"><h4>Formula</h4><ul><li>[Add formula]</li></ul></div>
+      <div class="block"><h4>Example Sums</h4><ul><li>Level 1</li><li>Level 2</li><li>Level 3</li></ul></div>
+      <div class="block"><h4>Common Mistakes</h4><ul><li>Wrong condition</li></ul></div>
+    </div>`;
+}
+
+// INIT AFTER DOM LOAD + HANDLE BROWSER BACK/FORWARD
+window.addEventListener("DOMContentLoaded", () => {
+  view = document.getElementById("view");
+  nav = document.getElementById("nav");
+  breadcrumb = document.getElementById("breadcrumb");
+  subjectBtns = document.querySelectorAll(".subject-btn");
+
+  if(location.hash.startsWith("#/")){
+    const parts = location.hash.replace("#/", "").split("/").filter(Boolean);
+    stack = parts;
+  }
+
+  render();
+});
+
+window.addEventListener("popstate", e => {
+  if(e.state?.stack){
+    stack = e.state.stack;
+  } else if(location.hash.startsWith("#/")){
+    stack = location.hash.replace("#/", "").split("/").filter(Boolean);
+  } else {
+    stack = [];
+  }
+  render();
+});
 </script>
+</head>
+<body>
+<header>
+  <h1 class="brand">For clear PCM</h1>
+  <p class="subtitle">A clean hierarchy-based JEE learning system. Structure first. Content next.</p>
+</header>
+<div class="subject-bar">
+  <div class="subject-btn" onclick="goSubject('Maths')">Maths</div>
+  <div class="subject-btn" onclick="goSubject('Physics')">Physics</div>
+  <div class="subject-btn" onclick="goSubject('Chemistry')">Chemistry</div>
+</div>
+<main>
+  <div class="nav" id="nav" style="display:none">
+    <div class="back" onclick="goBack()">← Back</div>
+    <div class="breadcrumb" id="breadcrumb"></div>
+  </div>
+  <div id="view"></div>
+</main>
+<footer>©2026 Terminal Joint · For Clear PCM · Structure over noise</footer>
 </body>
 </html>
