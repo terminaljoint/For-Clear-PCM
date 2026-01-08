@@ -82,10 +82,58 @@ const syllabus = {
   },
 
   Chemistry:{
-    Physical:{Mole_Concept:{Mole_Definition:{},Avogadro_Number:{},Stoichiometry:{Limiting_Reagent:{Concept:{},Numerical_Problems:{},Multi_Reaction_Cases:{}},Excess_Reagent:{},Percentage_Yield:{},Empirical_Formula:{},Molecular_Formula:{},Volumetric_Analysis:{Titration_Curves:{}}},Concentration_Terms:{Molarity:{Dilution_Problems:{}},Molality:{},Normality:{},Mole_Fraction:{},ppm:{}}}},
-    Inorganic:{Periodic_Table:{Modern_Periodic_Law:{},Periodic_Trends:{Atomic_Radius:{},Ionization_Enthalpy:{},Electron_Affinity:{},Electronegativity:{}}}},
-    Organic:{General_Organic_Chemistry:{Electronic_Effects:{Inductive:{I_Plus:{},I_Minus:{}},Resonance:{},Hyperconjugation:{}},Acidity_and_Basicity:{},Reaction_Intermediates:{Carbocation:{Stability:{}},Carbanion:{Stability:{}},Free_Radical:{Stability:{}}},Reaction_Mechanisms:{SN1:{},SN2:{},E1:{},E2:{}},Isomerism:{Structural:{},Geometrical:{},Optical:{}}}}
+    Physical:{
+      Mole_Concept:{
+        Mole_Definition:{},Avogadro_Number:{},Stoichiometry:{
+          Limiting_Reagent:{Concept:{},Numerical_Problems:{},Multi_Reaction_Cases:{}},
+          Excess_Reagent:{},Percentage_Yield:{},Empirical_Formula:{},Molecular_Formula:{},
+          Volumetric_Analysis:{Titration_Curves:{},Indicators:{},Redox_Titrations:{},Acid_Base_Titrations:{}}
+        },
+        Concentration_Terms:{Molarity:{Dilution_Problems:{}},Molality:{},Normality:{},Mole_Fraction:{},ppm:{}}
+      },
+      Thermodynamics:{
+        System_and_Surroundings:{},State_Functions:{},First_Law:{},Enthalpy:{},
+        Hess_Law:{},Bond_Enthalpy:{},Entropy:{},Gibbs_Free_Energy:{},Spontaneity:{},Numerical_Problems:{}
+      },
+      Chemical_Equilibrium:{
+        Law_of_Mass_Action:{},Equilibrium_Constant:{Kc:{},Kp:{}},Le_Chatelier_Principle:{},
+        Ionic_Equilibrium:{pH:{},pOH:{},Buffer_Solutions:{},Common_Ion_Effect:{},Solubility_Product:{}}
+      },
+      Chemical_Kinetics:{Rate_of_Reaction:{},Rate_Law:{},Order_and_Molecularity:{},
+        Integrated_Rate_Equations:{Zero_Order:{},First_Order:{}},Arrhenius_Equation:{},Activation_Energy:{}}
+    },
+    Inorganic:{
+      Periodic_Table:{Modern_Periodic_Law:{},Periodic_Trends:{Atomic_Radius:{},Ionization_Enthalpy:{},Electron_Affinity:{},Electronegativity:{}}},
+      Chemical_Bonding:{
+        Lewis_Structures:{},VSEPR_Theory:{},Hybridization:{},Molecular_Orbital_Theory:{},
+        Bond_Parameters:{Bond_Length:{},Bond_Angle:{},Bond_Energy:{}},Hydrogen_Bonding:{}
+      },
+      Coordination_Compounds:{
+        Werner_Theory:{},Nomenclature:{},Isomerism:{Structural:{},Geometrical:{},Optical:{}},
+        Valence_Bond_Theory:{},Crystal_Field_Theory:{},Applications:{}
+      }
+    },
+    Organic:{
+      General_Organic_Chemistry:{
+        Electronic_Effects:{Inductive:{I_Plus:{},I_Minus:{}},Resonance:{},Hyperconjugation:{}},
+        Acidity_and_Basicity:{},Reaction_Intermediates:{Carbocation:{Stability:{}},Carbanion:{Stability:{}},Free_Radical:{Stability:{}}},
+        Reaction_Mechanisms:{SN1:{},SN2:{},E1:{},E2:{}},Isomerism:{Structural:{},Geometrical:{},Optical:{}}
+      },
+      Hydrocarbons:{
+        Alkanes:{Preparation:{},Properties:{},Reactions:{}},
+        Alkenes:{Preparation:{},Properties:{},Reactions:{}},
+        Alkynes:{Preparation:{},Properties:{},Reactions:{}},
+        Aromatic_Hydrocarbons:{Benzene:{Structure:{},Properties:{},Electrophilic_Substitution:{}}}
+      },
+      Oxygen_Containing_Compounds:{
+        Alcohols:{},Phenols:{},Ethers:{},Aldehydes:{},Ketones:{},Carboxylic_Acids:{}
+      },
+      Biomolecules:{Carbohydrates:{},Proteins:{},Amino_Acids:{},Nucleic_Acids:{},Vitamins:{}},
+      Polymers:{Classification:{},Addition_Polymers:{},Condensation_Polymers:{},Applications:{}},
+      Chemistry_in_Everyday_Life:{Drugs:{},Cleansing_Agents:{},Food_Additives:{}}
+    }
   }
+}
 };
 
 function getCurrentData(){let ref=syllabus;for(const k of stack){if(ref&&typeof ref==="object"&&k in ref){ref=ref[k]}else return null}return ref}
