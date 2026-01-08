@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <title>For Clear PCM – Structured JEE Learning</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="For clear PCM is a structured JEE learning system focusing on clear hierarchy, exam logic, and mistake prevention for average students.">
-<meta name="robots" content="index, follow">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -22,34 +20,38 @@ main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
 .breadcrumb{display:flex;gap:6px;flex-wrap:wrap}
 .crumb{padding:6px 12px;border:1px solid #30363d;border-radius:8px;font-size:.85rem;cursor:pointer;color:#2f81f7}
 .crumb:last-child{background:#161b22;border-color:#2f81f7;color:#e6edf3}
-.section-title{font-size:1.4rem;margin-bottom:14px}
 .item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
 .item:hover{background:#161b22}
-.focus{max-width:760px;margin:0 auto}
-.block{margin-top:22px}
-.block h4{color:#2f81f7;margin-bottom:10px}
-.block ul{list-style:none}
-.block li{padding:8px 0;border-bottom:1px dashed #30363d;color:#9aa4af}
 footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center;cursor:pointer}
-
-/* secret panel */
 #ownerPanel{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:999}
 #ownerBox{background:#161b22;border:1px solid #30363d;padding:24px 32px;border-radius:12px;text-align:center}
-#ownerClose{margin-top:14px;color:#2f81f7;font-weight:700;user-select:none}
+#ownerClose{margin-top:14px;border:2px solid #2f81f7;border-radius:8px;display:inline-block}
+#ownerCloseText{padding:8px 16px;color:#2f81f7;font-weight:700;user-select:none;pointer-events:auto}
+#ownerCloseFrame{position:absolute;inset:-10px;cursor:grab}
 </style>
-
 <script defer>
-/* ===================== DATA ===================== */
-const syllabus={Maths:{"Sets & Relations":{"Sets":{"Representation":{"Roster Form":["Finite sets","Infinite sets"],"Set-Builder Form":["Condition based","Mathematical notation"]}},"Relations":{"Types":{"Reflexive":["(a,a) present"],"Symmetric":["(a,b)⇒(b,a)"]}}}},Physics:{},Chemistry:{}};
+/* DATA */
+const syllabus={
+  Maths:{
+    "Sets & Relations":{
+      Sets:{
+        Representation:{
+          "Roster Form":["Finite sets","Infinite sets"],
+          "Set Builder Form":["Condition based","Mathematical notation"]
+        }
+      }
+    }
+  },
+  Physics:{},
+  Chemistry:{}
+};
 
-/* ===================== ENGINE ===================== */
+/* ENGINE */
 let stack=[],view,nav,breadcrumb,subjectBtns;
-
 function syncURL(){const p=stack.join("/");history.pushState({stack:[...stack]},"",p?`#/${p}`:"#/");}
 function goSubject(s){stack=[s];syncURL();render();}
 function goBack(){stack.pop();syncURL();render();}
 function jumpTo(i){stack=stack.slice(0,i+1);syncURL();render();}
-
 function render(){
  if(!view) return;
  nav.style.display=stack.length?"flex":"none";
@@ -57,63 +59,80 @@ function render(){
  breadcrumb.innerHTML="";
  stack.forEach((s,i)=>{const c=document.createElement("div");c.className="crumb";c.innerText=s;c.onclick=()=>jumpTo(i);breadcrumb.appendChild(c);});
  view.innerHTML="";
- if(!stack.length){view.innerHTML="<h2>Select a subject to begin</h2>";return;}
+ if(!stack.length){view.innerHTML="<h2>Select a subject</h2>";return;}
  let data=syllabus;stack.forEach(k=>data=data?.[k]);
  if(Array.isArray(data)){renderLeaf(stack.at(-1),data.join(", "));return;}
  if(typeof data!=="object"){renderLeaf(stack.at(-1),data||"");return;}
  Object.keys(data).forEach(k=>{const d=document.createElement("div");d.className="item";d.innerText=k;d.onclick=()=>{stack.push(k);syncURL();render();};view.appendChild(d);});
 }
-
 function renderLeaf(t,c){
- const key=stack.join("/");
- const saved=localStorage.getItem("formula::"+key)||"";
  const unlocked=localStorage.getItem("OWNER_UNLOCK")==="YES";
- view.innerHTML=`<div class="focus"><h2 class="section-title">${t}</h2><div class="block"><h4>Concept</h4><ul><li>${c}</li></ul></div><div class="block"><h4>Formula (private)</h4>${unlocked?`<textarea id="fbox" style="width:100%;min-height:90px">${saved}</textarea>`:`<div style="opacity:.6">🔒 Locked</div>`}</div></div>`;
- if(unlocked){document.getElementById("fbox").oninput=e=>localStorage.setItem("formula::"+key,e.target.value);} }
+ view.innerHTML=`<h2>${t}</h2><div>${c}</div>${unlocked?'<textarea style="width:100%;height:120px"></textarea>':'<div>🔒 Locked</div>'}`;
+}
 
-/* ===================== OWNER UNLOCK FLOW ===================== */
-let holdTimer=null;
+/* OWNER FLOW (CLICK + DRAG DOWN TO UNLOCK) */
 function showOwnerPanel(){document.getElementById("ownerPanel").style.display="flex";}
 function hideOwnerPanel(){document.getElementById("ownerPanel").style.display="none";}
-function askPassword(){const p=prompt("Owner access");if(p==="FailMarks"){localStorage.setItem("OWNER_UNLOCK","YES");alert("Owner mode unlocked");render();}else alert("Wrong password");}
+function askPassword(){
+ const p=prompt("Owner access");
+ if(p==="FailMarks"){localStorage.setItem("OWNER_UNLOCK","YES");render();}
+}
 
 window.addEventListener("DOMContentLoaded",()=>{
- view=document.getElementById("view");nav=document.getElementById("nav");breadcrumb=document.getElementById("breadcrumb");subjectBtns=document.querySelectorAll(".subject-btn");subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
+ view=document.getElementById("view");
+ nav=document.getElementById("nav");
+ breadcrumb=document.getElementById("breadcrumb");
+ subjectBtns=document.querySelectorAll(".subject-btn");
+ subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
  document.getElementById("footerTrigger").onclick=showOwnerPanel;
- const close=document.getElementById("ownerClose");
+ const closeText=document.getElementById("ownerCloseText");
+  const closeFrame=document.getElementById("ownerCloseFrame");
 
- // NORMAL CLICK = JUST CLOSE PANEL
- close.addEventListener("click",()=>{
-   cancel();
-   hideOwnerPanel();
- });
+  // NORMAL CLICK ON TEXT = CLOSE
+  closeText.addEventListener("click",()=>{
+    hideOwnerPanel();
+  });
 
- // LONG PRESS = OWNER UNLOCK
- const start=()=>{
-   holdTimer=setTimeout(()=>{
-     hideOwnerPanel();
-     askPassword();
-   },4000);
- };
- const cancel=()=>{
-   if(holdTimer){clearTimeout(holdTimer);holdTimer=null;}
- };
- close.addEventListener("touchstart",start);
- close.addEventListener("touchend",cancel);
- close.addEventListener("touchmove",cancel);
- close.addEventListener("mousedown",start);
- close.addEventListener("mouseup",cancel);
- close.addEventListener("mouseleave",cancel);
- if(location.hash.startsWith("#/")) stack=location.hash.replace("#/","").split("/").filter(Boolean);
+  // DRAG FRAME TO UNLOCK
+  let startY=null;
+  const DRAG_THRESHOLD=60;
+
+  const onDown=e=>{
+    startY=e.touches?e.touches[0].clientY:e.clientY;
+  };
+  const onMove=e=>{
+    if(startY===null) return;
+    const y=e.touches?e.touches[0].clientY:e.clientY;
+    if(y-startY>DRAG_THRESHOLD){
+      startY=null;
+      hideOwnerPanel();
+      askPassword();
+    }
+  };
+  const onUp=()=>{startY=null;};
+
+  closeFrame.addEventListener("mousedown",onDown);
+  closeFrame.addEventListener("mousemove",onMove);
+  closeFrame.addEventListener("mouseup",onUp);
+
+  closeFrame.addEventListener("touchstart",onDown,{passive:true});
+  closeFrame.addEventListener("touchmove",onMove,{passive:true});
+  closeFrame.addEventListener("touchend",onUp,{passive:true});
  render();
 });
 </script>
 </head>
 <body>
-<header><h1 class="brand">For clear PCM</h1><p class="subtitle">A clean hierarchy-based JEE learning system</p></header>
+<header><h1 class="brand">For clear PCM</h1><p class="subtitle">Structured JEE learning</p></header>
 <div class="subject-bar"><div class="subject-btn" data-sub="Maths">Maths</div><div class="subject-btn" data-sub="Physics">Physics</div><div class="subject-btn" data-sub="Chemistry">Chemistry</div></div>
 <main><div class="nav" id="nav" style="display:none"><div class="back" onclick="goBack()">← Back</div><div class="breadcrumb" id="breadcrumb"></div></div><div id="view"></div></main>
 <footer id="footerTrigger">©2026 <span style="color:#2f81f7">Terminal Joint</span> · For Clear PCM</footer>
-<div id="ownerPanel"><div id="ownerBox"><div>Owner Panel</div><div id="ownerClose">CLOSE</div></div></div>
+<div id="ownerPanel"><div id="ownerBox" style="position:relative">
+  <div>Owner Panel</div>
+  <div id="ownerClose">
+    <div id="ownerCloseText">CLOSE</div>
+    <div id="ownerCloseFrame"></div>
+  </div>
+</div></div></div>
 </body>
 </html>
