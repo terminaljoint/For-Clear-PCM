@@ -16,39 +16,44 @@
   --accent:#2f81f7;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:14px}
+body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:13px}
 
-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.brand{font-size:1.4rem;font-weight:800;line-height:1}
-.tag{color:var(--muted);font-size:.75rem}
+header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:1.2rem;font-weight:800;line-height:1}
+.tag{color:var(--muted);font-size:.7rem}
 
-#editorBadge{background:#238636;color:#fff;padding:4px 10px;border-radius:999px;font-size:.65rem;font-weight:600;display:none}
+#editorBadge{background:#238636;color:#fff;padding:3px 8px;border-radius:999px;font-size:.6rem;font-weight:600;display:none}
 
-.subject-bar{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border)}
-.subject-btn{padding:6px 12px;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-weight:600;background:var(--panel);font-size:.8rem}
+.subject-bar{display:flex;gap:6px;padding:6px 10px;border-bottom:1px solid var(--border)}
+.subject-btn{padding:4px 10px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-weight:600;background:var(--panel);font-size:.75rem}
 .subject-btn.active{border-color:var(--accent);color:var(--accent)}
 
-main{display:grid;grid-template-columns:220px 1fr;flex:1;min-height:0}
+main{display:grid;grid-template-columns:200px 1fr;flex:1;min-height:0}
 
-.sidebar{border-right:1px solid var(--border);padding:12px;overflow:auto}
-.sidebar h3{font-size:.7rem;color:var(--muted);margin-bottom:6px;letter-spacing:.05em}
-.node{padding:6px 8px;border-radius:6px;cursor:pointer;margin-bottom:2px;font-size:.8rem}
+.sidebar{border-right:1px solid var(--border);padding:8px;overflow:auto}
+.sidebar h3{font-size:.65rem;color:var(--muted);margin-bottom:6px;letter-spacing:.05em}
+.node{padding:4px 6px;border-radius:6px;cursor:pointer;margin-bottom:1px;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .node:hover{background:var(--panel)}
 .node.active{background:var(--panel);border-left:2px solid var(--accent)}
+.node.depth-1{padding-left:10px}
+.node.depth-2{padding-left:18px}
+.node.depth-3{padding-left:26px}
+.node.depth-4{padding-left:34px}
+.node.depth-5{padding-left:42px}
 
-.content{padding:18px;overflow:auto}
-.content h1{font-size:1.2rem;margin-bottom:4px}
-.content .meta{color:var(--muted);font-size:.7rem;margin-bottom:12px}
+.content{padding:12px;overflow:auto}
+.content h1{font-size:1rem;margin-bottom:4px}
+.content .meta{color:var(--muted);font-size:.65rem;margin-bottom:8px}
 
-textarea,select,button{width:100%;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px;font-size:.8rem}
-textarea{min-height:200px;line-height:1.5}
+textarea,select,button{width:100%;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px;font-size:.75rem}
+textarea{min-height:160px;line-height:1.4}
 button.primary{background:var(--accent);border:none;font-weight:700}
 
-#loginBox{max-width:300px;margin:40px auto;padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--panel)}
-#loginBox h2{text-align:center;margin-bottom:8px;font-size:1rem}
-#loginBox p{text-align:center;color:var(--muted);font-size:.75rem;margin-bottom:14px}
+#loginBox{max-width:260px;margin:30px auto;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
+#loginBox h2{text-align:center;margin-bottom:6px;font-size:.9rem}
+#loginBox p{text-align:center;color:var(--muted);font-size:.7rem;margin-bottom:10px}
 
-footer{border-top:1px solid var(--border);padding:8px;text-align:center;font-size:.65rem;color:var(--muted)}
+footer{border-top:1px solid var(--border);padding:6px;text-align:center;font-size:.6rem;color:var(--muted)}
 </style>
 
 <script type="module">
@@ -66,10 +71,102 @@ const db=getFirestore(app);
 const OWNER_UIDS=["NbJq7HLBt0Pd7O55f4u82HTWOyu2","4MXKQ1JnnIUARfdYlIUbD0Q4erD2"];
 
 const syllabus={
-Maths:{Sets_and_Relations:{Sets:{Definition:{Meaning:{},Representation:{Roster:{},SetBuilder:{}}},Types:{Empty:{},Singleton:{},Finite:{},Infinite:{}},Subsets:{Proper:{},Improper:{},PowerSet:{Cardinality:{Formula:{}}}},Operations:{Union:{},Intersection:{},Difference:{},Complement:{}},Laws:{DeMorgan:{First:{},Second:{}}}},Relations:{OrderedPairs:{CartesianProduct:{}},Types:{Reflexive:{},Symmetric:{},Transitive:{},Equivalence:{Classes:{}}},Functions:{Domain:{},Codomain:{},Range:{},Types:{OneOne:{},Onto:{},Into:{},Bijective:{}}}}},Algebra:{Quadratic_Equations:{Standard_Form:{},Roots:{Nature:{Discriminant:{Positive:{},Zero:{},Negative:{}}}},Methods:{Factorisation:{},Completing_Square:{},Formula:{}},Graph:{Parabola:{Vertex:{},Axis:{},Intercepts:{}}}},Sequences_and_Series:{AP:{Terms:{},Sum:{},Properties:{}},GP:{Terms:{},Sum:{},Infinite_GP:{}},HP:{Relation_With_AP:{}}}},Coordinate_Geometry:{Straight_Lines:{Slope:{Definition:{},Formula:{}},Forms:{Point_Slope:{},Two_Point:{},Intercept:{},Normal:{}},Distance:{Between_Points:{},Point_to_Line:{}},Angle:{Between_Lines:{}}},Circles:{Equation:{Standard:{},General:{}},Tangent:{Length:{},Condition:{}},Chord:{Properties:{}}}},Calculus:{Limits:{Concept:{Approach:{}},Standard_Limits:{Trigonometric:{},Algebraic:{}},Techniques:{Rationalisation:{},LHopital:{}}},Differentiation:{Definition:{},Rules:{Product:{},Quotient:{},Chain:{}},Applications:{Slope:{},Maxima_Minima:{}}},Integration:{Indefinite:{Methods:{Substitution:{},Parts:{},Partial_Fractions:{}}},Definite:{Properties:{},Area_Under_Curve:{}}}}},Physics:{Kinematics:{One_D:{Quantities:{Displacement:{},Velocity:{},Acceleration:{}},Equations:{First:{},Second:{},Third:{}},Graphs:{x_t:{},v_t:{},a_t:{}}},Two_D:{Projectile:{Range:{},Time_of_Flight:{},Max_Height:{}},Relative_Motion:{}}},Laws_of_Motion:{Newton_Laws:{First:{},Second:{},Third:{}},Friction:{Static:{},Kinetic:{},Limiting:{}},Applications:{Lift:{},Pulley:{}}},Work_Energy_Power:{Work:{Variable_Force:{}},Energy:{Kinetic:{},Potential:{}},Theorems:{Work_Energy:{},Conservation:{}},Power:{}},Electrodynamics:{Electrostatics:{Charge:{Properties:{}},Coulomb_Law:{},Electric_Field:{},Electric_Potential:{}},Current_Electricity:{Ohm_Law:{},Circuits:{Series:{},Parallel:{}},Kirchhoff:{Rules:{}}}}},Chemistry:{Physical:{Mole_Concept:{Laws:{Conservation_of_Mass:{},Definite_Proportions:{}},Calculations:{Stoichiometry:{},Limiting_Reagent:{}},Concentration:{Molarity:{},Molality:{},Normality:{}}},Thermodynamics:{System:{},Surroundings:{},Laws:{First:{},Second:{}},Functions:{Enthalpy:{},Entropy:{},Gibbs_Free_Energy:{}}}},Organic:{GOC:{Bonding:{Sigma:{},Pi:{}},Effects:{Inductive:{},Resonance:{},Hyperconjugation:{}},Acidity_Basicity:{}},Hydrocarbons:{Alkanes:{Properties:{},Reactions:{}},Alkenes:{Mechanism:{},Reactions:{}},Alkynes:{Reactions:{}}}},Inorganic:{Periodic_Table:{Trends:{Atomic_Radius:{},Ionisation_Energy:{},Electronegativity:{}},Blocks:{s_Block:{},p_Block:{},d_Block:{},f_Block:{}}},Coordination_Compounds:{Nomenclature:{},Isomerism:{Structural:{},Geometrical:{},Optical:{}},Bonding:{VBT:{},CFT:{}}}}}};
+Maths:{
+  Sets_and_Relations:{
+    Sets:{Definition:{},Types:{},Subsets:{},Operations:{},Laws:{}},
+    Relations:{Types:{},Functions:{Domain:{},Range:{},Types:{}}}
+  },
+  Algebra:{
+    Quadratic_Equations:{},
+    Sequences_and_Series:{AP:{},GP:{},HP:{}},
+    Permutations_and_Combinations:{},
+    Binomial_Theorem:{},
+    Matrices_and_Determinants:{},
+    Complex_Numbers:{},
+    Probability:{}
+  },
+  Coordinate_Geometry:{
+    Straight_Lines:{},
+    Circles:{},
+    Parabola:{},
+    Ellipse:{},
+    Hyperbola:{}
+  },
+  Calculus:{
+    Limits:{},
+    Continuity_and_Differentiability:{},
+    Differentiation:{},
+    Applications_of_Derivatives:{},
+    Integration:{},
+    Differential_Equations:{},
+    Area_under_Curves:{}
+  },
+  Vectors_and_3D:{
+    Vectors:{},
+    Three_D_Geometry:{}
+  }
+},
+Physics:{
+  Kinematics:{},
+  Laws_of_Motion:{},
+  Work_Energy_Power:{},
+  Rotational_Mechanics:{},
+  Gravitation:{},
+  Properties_of_Matter:{},
+  Thermodynamics:{},
+  Oscillations_and_Waves:{},
+  Electrostatics:{},
+  Current_Electricity:{},
+  Magnetism_and_Matter:{},
+  Electromagnetic_Induction:{},
+  Alternating_Current:{},
+  Electromagnetic_Waves:{},
+  Optics:{Ray_Optics:{},Wave_Optics:{}},
+  Modern_Physics:{
+    Dual_Nature:{},
+    Atoms_and_Nuclei:{},
+    Semiconductor_Devices:{}
+  }
+},
+Chemistry:{
+  Physical:{
+    Mole_Concept:{},
+    Atomic_Structure:{},
+    Chemical_Bonding:{},
+    Thermodynamics:{},
+    Redox_Reactions:{},
+    Chemical_Kinetics:{},
+    Electrochemistry:{},
+    Solutions:{},
+    Surface_Chemistry:{}
+  },
+  Inorganic:{
+    Periodic_Table:{},
+    Hydrogen:{},
+    s_Block:{},
+    p_Block:{},
+    d_and_f_Block:{},
+    Coordination_Compounds:{},
+    Metallurgy:{}
+  },
+  Organic:{
+    GOC:{},
+    Hydrocarbons:{},
+    Haloalkanes_and_Haloarenes:{},
+    Alcohols_Phenols_Ethers:{},
+    Aldehydes_Ketones_Carboxylic_Acids:{},
+    Amines:{},
+    Biomolecules:{},
+    Polymers:{},
+    Chemistry_in_Everyday_Life:{}
+  }
+}
+};
 
 let OWNER=false;
-const isLeaf=node=>typeof node==='object'&&Object.keys(node).length===0;
+// Editable only at true terminal nodes AND sufficient depth
+const isTerminalNode = (node) => typeof node === 'object' && Object.keys(node).length === 0;
+const MIN_EDIT_DEPTH = 3;
 let currentSubject=null;
 let currentPath=[];
 
@@ -78,14 +175,29 @@ window.addEventListener('DOMContentLoaded',()=>{
   const content=document.getElementById('content');
   const badge=document.getElementById('editorBadge');
 
-  function renderSidebar(node,path=[]){
-    sidebar.innerHTML='<h3>SYLLABUS</h3>';
+  function pushHistory(){
+    history.pushState({subject:currentSubject,path:[...currentPath]},"",`#${currentSubject||''}/${currentPath.slice(1).join('/')}`);
+  }
+
+  window.addEventListener('popstate',e=>{
+    if(e.state){
+      currentSubject=e.state.subject;
+      currentPath=e.state.path||[];
+      render();
+    }
+  });
+
+  function renderSidebarRecursive(node,path=[],depth=0){
     Object.keys(node).forEach(k=>{
+      const fullPath=[...path,k];
       const d=document.createElement('div');
-      d.className='node'+(path.join('/')===currentPath.join('/')?' active':'');
+      d.className=`node depth-${depth}`+(fullPath.join('/')===currentPath.join('/')?' active':'');
       d.innerText=k;
-      d.onclick=()=>{currentPath=[...path,k];render();};
+      d.onclick=()=>{currentSubject=fullPath[0];currentPath=fullPath;pushHistory();render();};
       sidebar.appendChild(d);
+      if(typeof node[k]==='object'){
+        renderSidebarRecursive(node[k],fullPath,depth+1);
+      }
     });
   }
 
@@ -101,23 +213,26 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
 
   async function render(){
+    sidebar.innerHTML='<h3>SYLLABUS</h3>';
+
     if(!currentSubject){
-      sidebar.innerHTML='<h3>START</h3><div class="node">Select a subject</div>';
-      content.innerHTML='<h1>For Clear PCM</h1><p class="meta">A structured, owner-controlled JEE learning platform.</p>';
+      renderSidebarRecursive(syllabus,[],0);
+      content.innerHTML='<h1>For Clear PCM</h1><p class="meta">Select a subject or use browser back/forward safely.</p>';
       return;
     }
+
+    renderSidebarRecursive(syllabus,[],0);
 
     let node=syllabus[currentSubject];
     for(let i=1;i<currentPath.length;i++) node=node[currentPath[i]];
 
-    renderSidebar(node,currentPath);
-
-    if(!isLeaf(node)){
+    if(!isTerminalNode(node) || currentPath.length < MIN_EDIT_DEPTH){
       content.innerHTML='<h1>'+currentPath[currentPath.length-1]+'</h1><p class="meta">Navigate deeper</p>';
       return;
     }
 
-    const data=await loadNode(currentPath)||{content:'',status:'empty'};
+    // Only deepest nodes can load content
+const data = await loadNode(currentPath) || {content:'',status:'empty'};
     content.innerHTML=`<h1>${currentPath[currentPath.length-1]}</h1><div class='meta'>Status: ${data.status}</div>`;
 
     if(OWNER){
@@ -132,7 +247,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     }
   }
 
-  document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{currentSubject=b.dataset.sub;currentPath=[b.dataset.sub];render();});
+  document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{currentSubject=b.dataset.sub;currentPath=[b.dataset.sub];pushHistory();render();});
   document.getElementById('loginBtn').onclick=()=>signInWithPopup(auth,provider);
   document.getElementById('logoutBtn').onclick=()=>signOut(auth);
 
@@ -174,7 +289,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   <button id="loginBtn" class="primary">Sign in with Google</button>
 </div>
 
-<button id="logoutBtn" style="display:none;margin:20px">Logout</button>
+<button id="logoutBtn" style="display:none;margin:12px">Logout</button>
 
 <footer>©2026 Terminal Joint · For Clear PCM</footer>
 </body>
