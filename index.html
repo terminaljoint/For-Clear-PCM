@@ -10,129 +10,112 @@
 body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
 header{padding:22px 24px;border-bottom:1px solid #30363d}
 .brand{font-size:2rem;font-weight:700}
-.subtitle{color:#9aa4af;margin-top:6px;max-width:800px}
-.subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d;flex-wrap:wrap}
+.subtitle{color:#9aa4af;margin-top:6px}
+.subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
 .subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
-.nav{display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap}
-.back{color:#2f81f7;cursor:pointer;font-weight:700}
-.breadcrumb{display:flex;gap:6px;flex-wrap:wrap}
-.crumb{padding:6px 12px;border:1px solid #30363d;border-radius:8px;font-size:.85rem;cursor:pointer;color:#2f81f7}
-.crumb:last-child{background:#161b22;border-color:#2f81f7;color:#e6edf3}
+main{max-width:900px;margin:0 auto;padding:32px 24px;flex:1}
 .item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
-.item:hover{background:#161b22}
-footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center;cursor:pointer}
-#ownerPanel{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:999}
-#ownerBox{background:#161b22;border:1px solid #30363d;padding:24px 32px;border-radius:12px;text-align:center}
-#ownerClose{margin-top:14px;border:2px solid #2f81f7;border-radius:8px;display:inline-block}
-#ownerCloseText{padding:8px 16px;color:#2f81f7;font-weight:700;user-select:none;pointer-events:auto}
-#ownerCloseFrame{position:absolute;inset:-10px;cursor:grab}
+footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none;-webkit-user-select:none}
+#lockBadge{color:#f85149;font-weight:700;margin-top:12px}
+textarea{width:100%;height:140px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px}
 </style>
 <script defer>
-/* DATA */
-const syllabus={
-  Maths:{
-    "Sets & Relations":{
-      Sets:{
-        Representation:{
-          "Roster Form":["Finite sets","Infinite sets"],
-          "Set Builder Form":["Condition based","Mathematical notation"]
-        }
-      }
-    }
-  },
+/* ================= LOCK CORE (SIMPLE & WORKING) ================= */
+const OWNER_PASSWORD = "FailMarks";
+let OWNER_UNLOCKED = false;
+
+function checkLock(){
+  OWNER_UNLOCKED = localStorage.getItem("OWNER_UNLOCK") === "YES";
+}
+
+function lockOwner(){
+  OWNER_UNLOCKED = false;
+  localStorage.removeItem("OWNER_UNLOCK");
+  render();
+}
+
+function unlockOwner(){
+  const p = prompt("Owner password");
+  if(p === OWNER_PASSWORD){
+    OWNER_UNLOCKED = true;
+    localStorage.setItem("OWNER_UNLOCK","YES");
+    render();
+  } else if(p !== null){
+    alert("Wrong password");
+  }
+}
+
+/* ================= DATA ================= */
+const syllabus = {
+  Maths:{"Sets": ["Definition","Roster","Set Builder"]},
   Physics:{},
   Chemistry:{}
 };
 
-/* ENGINE */
-let stack=[],view,nav,breadcrumb,subjectBtns;
-function syncURL(){const p=stack.join("/");history.pushState({stack:[...stack]},"",p?`#/${p}`:"#/");}
-function goSubject(s){stack=[s];syncURL();render();}
-function goBack(){stack.pop();syncURL();render();}
-function jumpTo(i){stack=stack.slice(0,i+1);syncURL();render();}
+/* ================= ENGINE ================= */
+let stack=[],view,subjectBtns;
+
+function goSubject(s){stack=[s];render();}
+
 function render(){
- if(!view) return;
- nav.style.display=stack.length?"flex":"none";
- subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));
- breadcrumb.innerHTML="";
- stack.forEach((s,i)=>{const c=document.createElement("div");c.className="crumb";c.innerText=s;c.onclick=()=>jumpTo(i);breadcrumb.appendChild(c);});
- view.innerHTML="";
- if(!stack.length){view.innerHTML="<h2>Select a subject</h2>";return;}
- let data=syllabus;stack.forEach(k=>data=data?.[k]);
- if(Array.isArray(data)){renderLeaf(stack.at(-1),data.join(", "));return;}
- if(typeof data!=="object"){renderLeaf(stack.at(-1),data||"");return;}
- Object.keys(data).forEach(k=>{const d=document.createElement("div");d.className="item";d.innerText=k;d.onclick=()=>{stack.push(k);syncURL();render();};view.appendChild(d);});
-}
-function renderLeaf(t,c){
- const unlocked=localStorage.getItem("OWNER_UNLOCK")==="YES";
- view.innerHTML=`<h2>${t}</h2><div>${c}</div>${unlocked?'<textarea style="width:100%;height:120px"></textarea>':'<div>🔒 Locked</div>'}`;
+  checkLock();
+  subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));
+  view.innerHTML="";
+  if(!stack.length){view.innerHTML="<h2>Select a subject</h2>";return;}
+  const data = syllabus[stack[0]];
+  Object.keys(data).forEach(k=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerText=k;
+    d.onclick=()=>renderLeaf(k,data[k]);
+    view.appendChild(d);
+  });
 }
 
-/* OWNER FLOW (CLICK + DRAG DOWN TO UNLOCK) */
-function showOwnerPanel(){document.getElementById("ownerPanel").style.display="flex";}
-function hideOwnerPanel(){document.getElementById("ownerPanel").style.display="none";}
-function askPassword(){
- const p=prompt("Owner access");
- if(p==="FailMarks"){localStorage.setItem("OWNER_UNLOCK","YES");render();}
+function renderLeaf(title,content){
+  view.innerHTML = `<h2>${title}</h2>`;
+  if(OWNER_UNLOCKED){
+    view.innerHTML += `<textarea placeholder="Edit your content here..."></textarea><div style='margin-top:8px;color:#2f81f7;cursor:pointer' onclick='lockOwner()'>Lock editing</div>`;
+  } else {
+    view.innerHTML += `<div id='lockBadge'>🔒 Editing Locked</div>`;
+  }
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
- view=document.getElementById("view");
- nav=document.getElementById("nav");
- breadcrumb=document.getElementById("breadcrumb");
- subjectBtns=document.querySelectorAll(".subject-btn");
- subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
- document.getElementById("footerTrigger").onclick=showOwnerPanel;
- const closeText=document.getElementById("ownerCloseText");
-  const closeFrame=document.getElementById("ownerCloseFrame");
+  view=document.getElementById("view");
+  subjectBtns=document.querySelectorAll(".subject-btn");
+  subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
 
-  // NORMAL CLICK ON TEXT = CLOSE
-  closeText.addEventListener("click",()=>{
-    hideOwnerPanel();
+  // OWNER ENTRY: CONTROLLED DOUBLE CLICK FOOTER (NO TEXT SELECTION)
+  const footer = document.getElementById("footerTrigger");
+  let lastTap = 0;
+  footer.addEventListener("mousedown", e => e.preventDefault());
+  footer.addEventListener("click", () => {
+    const now = Date.now();
+    if(now - lastTap < 350){
+      unlockOwner();
+    }
+    lastTap = now;
   });
 
-  // DRAG FRAME TO UNLOCK
-  let startY=null;
-  const DRAG_THRESHOLD=60;
-
-  const onDown=e=>{
-    startY=e.touches?e.touches[0].clientY:e.clientY;
-  };
-  const onMove=e=>{
-    if(startY===null) return;
-    const y=e.touches?e.touches[0].clientY:e.clientY;
-    if(y-startY>DRAG_THRESHOLD){
-      startY=null;
-      hideOwnerPanel();
-      askPassword();
-    }
-  };
-  const onUp=()=>{startY=null;};
-
-  closeFrame.addEventListener("mousedown",onDown);
-  closeFrame.addEventListener("mousemove",onMove);
-  closeFrame.addEventListener("mouseup",onUp);
-
-  closeFrame.addEventListener("touchstart",onDown,{passive:true});
-  closeFrame.addEventListener("touchmove",onMove,{passive:true});
-  closeFrame.addEventListener("touchend",onUp,{passive:true});
- render();
+  render();
 });
 </script>
 </head>
 <body>
-<header><h1 class="brand">For clear PCM</h1><p class="subtitle">Structured JEE learning</p></header>
-<div class="subject-bar"><div class="subject-btn" data-sub="Maths">Maths</div><div class="subject-btn" data-sub="Physics">Physics</div><div class="subject-btn" data-sub="Chemistry">Chemistry</div></div>
-<main><div class="nav" id="nav" style="display:none"><div class="back" onclick="goBack()">← Back</div><div class="breadcrumb" id="breadcrumb"></div></div><div id="view"></div></main>
-<footer id="footerTrigger">©2026 <span style="color:#2f81f7">Terminal Joint</span> · For Clear PCM</footer>
-<div id="ownerPanel"><div id="ownerBox" style="position:relative">
-  <div>Owner Panel</div>
-  <div id="ownerClose">
-    <div id="ownerCloseText">CLOSE</div>
-    <div id="ownerCloseFrame"></div>
-  </div>
-</div></div></div>
+<header>
+  <h1 class="brand">For clear PCM</h1>
+  <p class="subtitle">Structured JEE learning</p>
+</header>
+<div class="subject-bar">
+  <div class="subject-btn" data-sub="Maths">Maths</div>
+  <div class="subject-btn" data-sub="Physics">Physics</div>
+  <div class="subject-btn" data-sub="Chemistry">Chemistry</div>
+</div>
+<main>
+  <div id="view"></div>
+</main>
+<footer id="footerTrigger">©2026 Terminal Joint · For Clear PCM (double-click)</footer>
 </body>
 </html>
