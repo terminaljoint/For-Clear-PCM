@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="For clear PCM is a structured JEE learning system focusing on clear hierarchy, exam logic, and mistake prevention for average students.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://terminaljoint.github.io/For-Clear-PCM/">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -31,257 +30,70 @@ main{max-width:1000px;margin:0 auto;padding:32px 24px;flex:1}
 .block h4{color:#2f81f7;margin-bottom:10px}
 .block ul{list-style:none}
 .block li{padding:8px 0;border-bottom:1px dashed #30363d;color:#9aa4af}
-footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
+footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center;cursor:pointer}
+
+/* secret panel */
+#ownerPanel{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:999}
+#ownerBox{background:#161b22;border:1px solid #30363d;padding:24px 32px;border-radius:12px;text-align:center}
+#ownerClose{margin-top:14px;color:#2f81f7;font-weight:700;user-select:none}
 </style>
 
 <script defer>
 /* ===================== DATA ===================== */
-const syllabus = {
-  Maths:{
-    "Sets & Relations":{
-      "Sets":{
-        "Representation":{
-          "Roster Form":{
-            "concept":["Finite sets","Infinite sets","Repeated elements not allowed"],
-            "formula":["n(A) = number of distinct elements in set A"],
-            "mistakes":["Repeating elements","Treating order as important"]
-          },
-          "Set-Builder Form":{
-            "concept":["Condition based","Mathematical notation"],
-            "formula":["A = { x | condition on x }"],
-            "mistakes":["Invalid condition","Undefined variable"]
-          },
-          "Description Form":["Verbal definition","Language based"]
-        },
-        "Types":{
-          "Basic Types":["Empty set","Singleton set"],
-          "Size Based":["Finite set","Infinite set"],
-          "Comparison Based":["Equal sets","Equivalent sets"]
-        },
-        "Subsets":{
-          "Concept":["Subset definition","Proper subset"],
-          "Power Set":["Definition","Number of elements 2^n"]
-        },
-        "Operations":{
-          "Union & Intersection":{
-            "concept":["Venn diagram logic","Overlapping regions"],
-            "formula":["n(A ∪ B) = n(A) + n(B) − n(A ∩ B)"],
-            "mistakes":["Forgetting intersection term","Wrong region counting"]
-          },
-          "Difference":["A−B","B−A"],
-          "Complement":["Universal set","Relative complement"]
-        },
-        "Laws":{
-          "De Morgan Laws":["(A∪B)'","(A∩B)'"],
-          "Cardinality":["n(A∪B)","Inclusion–exclusion principle"]
-        }
-      },
-      "Relations":{
-        "Cartesian Product":{
-          "Definition":["Ordered pairs","Order matters"],
-          "Properties":["Finite sets","Number of elements"]
-        },
-        "Domain–Range":{
-          "Domain":["First element set"],
-          "Codomain":["Possible outputs"],
-          "Range":["Actual outputs"]
-        },
-        "Types":{
-          "Reflexive":["(a,a) present"],
-          "Symmetric":["(a,b) ⇒ (b,a)"],
-          "Transitive":["(a,b),(b,c) ⇒ (a,c)"]
-        },
-        "Equivalence Relation":{
-          "Conditions":["Reflexive","Symmetric","Transitive"],
-          "Equivalence Classes":["Partition of set","Disjoint subsets"]
-        }
-      }
-    },
-
-    "Functions":{
-      "Basic Concepts":{
-        "Definition":["Mapping concept","Domain","Codomain","Range"],
-        "Graphical View":["Graph of function","Real valued functions"]
-      },
-      "Types of Functions":{
-        "Based on Mapping":["One-one","Many-one","Onto","Into","Bijective"],
-        "Based on Nature":["Even","Odd","Periodic","Monotonic"],
-        "Special Functions":["Modulus","Greatest integer","Fractional part","Signum"]
-      },
-      "Operations on Functions":{
-        "Algebraic Operations":["Addition","Subtraction","Multiplication","Division"],
-        "Composition":["f∘g","Domain restrictions","Non-commutativity"],
-        "Inverse Function":["Existence","Properties","Graph of inverse"]
-      }
-    }
-  },
-  Physics:{},
-  Chemistry:{}
-};
+const syllabus={Maths:{"Sets & Relations":{"Sets":{"Representation":{"Roster Form":["Finite sets","Infinite sets"],"Set-Builder Form":["Condition based","Mathematical notation"]}},"Relations":{"Types":{"Reflexive":["(a,a) present"],"Symmetric":["(a,b)⇒(b,a)"]}}}},Physics:{},Chemistry:{}};
 
 /* ===================== ENGINE ===================== */
-let stack = [];
-let view, nav, breadcrumb, subjectBtns;
+let stack=[],view,nav,breadcrumb,subjectBtns;
 
-function syncURL(){
-  const path = stack.join("/");
-  history.pushState({ stack:[...stack] }, "", path ? `#/${path}` : "#/");
-}
-
-function goSubject(sub){
-  stack = [sub];
-  syncURL();
-  render();
-}
-
-function goBack(){
-  if(stack.length>0) stack.pop();
-  syncURL();
-  render();
-}
-
-function jumpTo(i){
-  stack = stack.slice(0, i + 1);
-  syncURL();
-  render();
-}
+function syncURL(){const p=stack.join("/");history.pushState({stack:[...stack]},"",p?`#/${p}`:"#/");}
+function goSubject(s){stack=[s];syncURL();render();}
+function goBack(){stack.pop();syncURL();render();}
+function jumpTo(i){stack=stack.slice(0,i+1);syncURL();render();}
 
 function render(){
-  if(!view) return;
-
-  nav.style.display = stack.length ? "flex" : "none";
-
-  subjectBtns.forEach(b =>
-    b.classList.toggle("active", b.dataset.sub === stack[0])
-  );
-
-  breadcrumb.innerHTML = "";
-  stack.forEach((s, i) => {
-    const c = document.createElement("div");
-    c.className = "crumb";
-    c.innerText = s;
-    c.onclick = () => jumpTo(i);
-    breadcrumb.appendChild(c);
-  });
-
-  view.innerHTML = "";
-  if(!stack.length){
-    view.innerHTML = "<h2>Select a subject to begin</h2>";
-    return;
-  }
-
-  let data = syllabus;
-  for(const k of stack){
-    data = data?.[k];
-  }
-
-  if(!data){
-    view.innerHTML = "<p>No data attached yet.</p>";
-    return;
-  }
-
-  if(typeof data === "string"){
-    renderLeaf(stack.at(-1), data);
-  } else if(Array.isArray(data)){
-    renderLeaf(stack.at(-1), data.join(", "));
-  } else {
-    Object.keys(data).forEach(k => {
-      const d = document.createElement("div");
-      d.className = "item";
-      d.innerText = k;
-      d.onclick = () => { stack.push(k); syncURL(); render(); };
-      view.appendChild(d);
-    });
-  }
+ if(!view) return;
+ nav.style.display=stack.length?"flex":"none";
+ subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));
+ breadcrumb.innerHTML="";
+ stack.forEach((s,i)=>{const c=document.createElement("div");c.className="crumb";c.innerText=s;c.onclick=()=>jumpTo(i);breadcrumb.appendChild(c);});
+ view.innerHTML="";
+ if(!stack.length){view.innerHTML="<h2>Select a subject to begin</h2>";return;}
+ let data=syllabus;stack.forEach(k=>data=data?.[k]);
+ if(Array.isArray(data)){renderLeaf(stack.at(-1),data.join(", "));return;}
+ if(typeof data!=="object"){renderLeaf(stack.at(-1),data||"");return;}
+ Object.keys(data).forEach(k=>{const d=document.createElement("div");d.className="item";d.innerText=k;d.onclick=()=>{stack.push(k);syncURL();render();};view.appendChild(d);});
 }
 
-function renderLeaf(title, content){
-  const key = stack.join("/");
-  const savedFormula = localStorage.getItem("formula::"+key) || "";
-  const ownerUnlocked = localStorage.getItem("OWNER_UNLOCK") === "YES";
+function renderLeaf(t,c){
+ const key=stack.join("/");
+ const saved=localStorage.getItem("formula::"+key)||"";
+ const unlocked=localStorage.getItem("OWNER_UNLOCK")==="YES";
+ view.innerHTML=`<div class="focus"><h2 class="section-title">${t}</h2><div class="block"><h4>Concept</h4><ul><li>${c}</li></ul></div><div class="block"><h4>Formula (private)</h4>${unlocked?`<textarea id="fbox" style="width:100%;min-height:90px">${saved}</textarea>`:`<div style="opacity:.6">🔒 Locked</div>`}</div></div>`;
+ if(unlocked){document.getElementById("fbox").oninput=e=>localStorage.setItem("formula::"+key,e.target.value);} }
 
-  view.innerHTML = `
-    <div class="focus">
-      <h2 class="section-title">${title}</h2>
+/* ===================== OWNER UNLOCK FLOW ===================== */
+let holdTimer=null;
+function showOwnerPanel(){document.getElementById("ownerPanel").style.display="flex";}
+function hideOwnerPanel(){document.getElementById("ownerPanel").style.display="none";}
+function askPassword(){const p=prompt("Owner access");if(p==="FailMarks"){localStorage.setItem("OWNER_UNLOCK","YES");alert("Owner mode unlocked");render();}else alert("Wrong password");}
 
-      <div class="block">
-        <h4>Concept</h4>
-        <ul><li>${content}</li></ul>
-      </div>
-
-      <div class="block">
-        <h4>Formula (private)</h4>
-        ${ownerUnlocked
-          ? `<textarea id="formulaBox" style="width:100%;min-height:90px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px" placeholder="Write your personal formulas here...">${savedFormula}</textarea>`
-          : `<div style="color:#9aa4af;font-size:.9rem">🔒 Locked (owner-only)</div>`}
-      </div>
-
-      <div class="block">
-        <h4>Common Mistakes</h4>
-        <ul><li>Revise conditions carefully</li></ul>
-      </div>
-    </div>`;
-
-  if(ownerUnlocked){
-    const box = document.getElementById("formulaBox");
-    box.addEventListener("input",()=>{
-      localStorage.setItem("formula::"+key, box.value);
-    });
-  }
-}
-
-function unlockOwner(){
-  const pass = prompt("Owner access required");
-  if(pass === "FailMarks"){
-    localStorage.setItem("OWNER_UNLOCK","YES");
-    alert("Owner mode unlocked");
-    render();
-  } else {
-    alert("Access denied");
-  }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  view = document.getElementById("view");
-  nav = document.getElementById("nav");
-  breadcrumb = document.getElementById("breadcrumb");
-  subjectBtns = document.querySelectorAll(".subject-btn");
-
-  subjectBtns.forEach(btn=>{
-    btn.onclick = ()=>goSubject(btn.dataset.sub);
-  });
-
-  if(location.hash.startsWith("#/")){
-    stack = location.hash.replace("#/", "").split("/").filter(Boolean);
-  }
-  render();
-});
-
-window.addEventListener("popstate", e => {
-  if(e.state?.stack) stack = e.state.stack;
-  else if(location.hash.startsWith("#/")) stack = location.hash.replace("#/", "").split("/").filter(Boolean);
-  else stack = [];
-  render();
+window.addEventListener("DOMContentLoaded",()=>{
+ view=document.getElementById("view");nav=document.getElementById("nav");breadcrumb=document.getElementById("breadcrumb");subjectBtns=document.querySelectorAll(".subject-btn");subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
+ document.getElementById("footerTrigger").onclick=showOwnerPanel;
+ const close=document.getElementById("ownerClose");
+ const start=()=>{holdTimer=setTimeout(askPassword,4000);};
+ const cancel=()=>{clearTimeout(holdTimer);holdTimer=null;};
+ close.addEventListener("touchstart",start);close.addEventListener("touchend",cancel);close.addEventListener("mousedown",start);close.addEventListener("mouseup",cancel);close.addEventListener("mouseleave",cancel);
+ if(location.hash.startsWith("#/")) stack=location.hash.replace("#/","").split("/").filter(Boolean);
+ render();
 });
 </script>
 </head>
 <body>
-<header>
-  <h1 class="brand">For clear PCM</h1>
-  <p class="subtitle">A clean hierarchy-based JEE learning system. Structure first. Content next.</p>
-</header>
-<div class="subject-bar">
-  <div class="subject-btn" data-sub="Maths">Maths</div>
-  <div class="subject-btn" data-sub="Physics">Physics</div>
-  <div class="subject-btn" data-sub="Chemistry">Chemistry</div>
-</div>
-<main>
-  <div class="nav" id="nav" style="display:none">
-    <div class="back" onclick="goBack()">← Back</div>
-    <div class="breadcrumb" id="breadcrumb"></div>
-  </div>
-  <div id="view"></div>
-</main>
-<footer>©2026 Terminal Joint · For Clear PCM · Structure over noise</footer>
+<header><h1 class="brand">For clear PCM</h1><p class="subtitle">A clean hierarchy-based JEE learning system</p></header>
+<div class="subject-bar"><div class="subject-btn" data-sub="Maths">Maths</div><div class="subject-btn" data-sub="Physics">Physics</div><div class="subject-btn" data-sub="Chemistry">Chemistry</div></div>
+<main><div class="nav" id="nav" style="display:none"><div class="back" onclick="goBack()">← Back</div><div class="breadcrumb" id="breadcrumb"></div></div><div id="view"></div></main>
+<footer id="footerTrigger">©2026 <span style="color:#2f81f7">Terminal Joint</span> · For Clear PCM</footer>
+<div id="ownerPanel"><div id="ownerBox"><div>Owner Panel</div><div id="ownerClose">CLOSE</div></div></div>
 </body>
 </html>
