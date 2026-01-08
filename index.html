@@ -1,165 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For Clear PCM – Firebase Edition (Fixed)</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<title>For Clear PCM – Structured JEE Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
+:root{
+  --bg:#0d1117;
+  --panel:#161b22;
+  --border:#30363d;
+  --text:#e6edf3;
+  --muted:#9aa4af;
+  --accent:#2f81f7;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
-header{padding:22px 24px;border-bottom:1px solid #30363d}
-.brand{font-size:2rem;font-weight:700}
-.subtitle{color:#9aa4af;margin-top:6px}
-.subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
-.subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
-.subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-main{max-width:1100px;margin:0 auto;padding:32px 24px;flex:1}
-.item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
-.item:hover{border-color:#2f81f7}
-.back{margin-bottom:14px;color:#2f81f7;cursor:pointer}
-footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
-textarea,select,button{width:100%;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px;margin-top:8px}
-button{cursor:pointer;font-weight:700}
-#loginBox{border:1px solid #30363d;border-radius:10px;padding:16px;margin-bottom:20px}
-#lockBadge{color:#f85149;font-weight:700}
+body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+
+header{padding:24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:1.8rem;font-weight:800}
+.tag{color:var(--muted);font-size:.9rem}
+
+#editorBadge{background:#238636;color:#fff;padding:6px 12px;border-radius:999px;font-size:.8rem;font-weight:600;display:none}
+
+.subject-bar{display:flex;gap:10px;padding:14px 24px;border-bottom:1px solid var(--border)}
+.subject-btn{padding:10px 18px;border:1px solid var(--border);border-radius:12px;cursor:pointer;font-weight:600;background:var(--panel)}
+.subject-btn.active{border-color:var(--accent);color:var(--accent)}
+
+main{display:grid;grid-template-columns:260px 1fr;flex:1;min-height:0}
+
+.sidebar{border-right:1px solid var(--border);padding:20px;overflow:auto}
+.sidebar h3{font-size:.85rem;color:var(--muted);margin-bottom:10px}
+.node{padding:10px 12px;border-radius:8px;cursor:pointer;margin-bottom:4px}
+.node:hover{background:var(--panel)}
+.node.active{background:var(--panel);border-left:3px solid var(--accent)}
+
+.content{padding:28px;overflow:auto}
+.content h1{font-size:1.6rem;margin-bottom:8px}
+.content .meta{color:var(--muted);font-size:.85rem;margin-bottom:18px}
+
+textarea,select,button{width:100%;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.95rem}
+textarea{min-height:260px;line-height:1.6}
+button.primary{background:var(--accent);border:none;font-weight:700}
+
+#loginBox{max-width:360px;margin:60px auto;padding:28px;border:1px solid var(--border);border-radius:16px;background:var(--panel)}
+#loginBox h2{text-align:center;margin-bottom:12px}
+#loginBox p{text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:20px}
+
+footer{border-top:1px solid var(--border);padding:14px;text-align:center;font-size:.8rem;color:var(--muted)}
 </style>
 
 <script type="module">
-/* ===== FIREBASE IMPORTS ===== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-/* ===== FIREBASE CONFIG ===== */
-const firebaseConfig = {
-  apiKey: "AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",
-  authDomain: "forclearpcm.firebaseapp.com",
-  projectId: "forclearpcm",
-  storageBucket: "forclearpcm.firebasestorage.app",
-  messagingSenderId: "313585574692",
-  appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1"
+const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.firebasestorage.app",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const provider=new GoogleAuthProvider();
+const db=getFirestore(app);
+
+const OWNER_UIDS=["NbJq7HLBt0Pd7O55f4u82HTWOyu2","4MXKQ1JnnIUARfdYlIUbD0Q4erD2"];
+
+const syllabus={
+  Maths:{Sets:{Operations:{DeMorgan:{}}}},
+  Physics:{Kinematics:{OneD:{},TwoD:{}}},
+  Chemistry:{Physical:{MoleConcept:{}},Organic:{},Inorganic:{}}
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-const db = getFirestore(app);
+let OWNER=false;
+let currentSubject=null;
+let currentPath=[];
 
-/* ===== OWNER UID LOCK ===== */
-const OWNER_UIDS = [
-  "NbJq7HLBt0Pd7O55f4u82HTWOyu2",
-  "4MXKQ1JnnIUARfdYlIUbD0Q4erD2"
-];
+window.addEventListener('DOMContentLoaded',()=>{
+  const sidebar=document.getElementById('sidebar');
+  const content=document.getElementById('content');
+  const badge=document.getElementById('editorBadge');
 
-/* ===== SYLLABUS STRUCTURE ===== */
-const syllabus = {
-  Maths:{ Sets:{ Operations:{ DeMorgan:{} } } },
-  Physics:{ Kinematics:{ OneD:{}, TwoD:{} } },
-  Chemistry:{ Physical:{ MoleConcept:{} }, Organic:{}, Inorganic:{} }
-};
-
-let path = [];
-let OWNER = false;
-
-/* ===== DOM READY FIX ===== */
-window.addEventListener('DOMContentLoaded', () => {
-  const view = document.getElementById('view');
-  const loginBox = document.getElementById('loginBox');
-  const loginBtn = document.getElementById('loginBtn');
-  const logoutBtn = document.getElementById('logoutBtn');
-
-  const isLeaf = n => typeof n !== 'object';
-  const getNode = () => path.reduce((o,k)=>o[k], syllabus);
-
-  function setActive(){
-    document.querySelectorAll('.subject-btn').forEach(b=>
-      b.classList.toggle('active', path[0]===b.dataset.sub)
-    );
-  }
-
-  async function loadNode(p){
-    const ref = doc(db,'syllabus',p[0]);
-    const snap = await getDoc(ref);
-    if(!snap.exists()) return null;
-    return snap.data().nodes?.[p.join('/')] || null;
-  }
-
-  async function saveNode(p,content,status){
-    const ref = doc(db,'syllabus',p[0]);
-    await setDoc(ref,{ nodes:{ [p.join('/')]:{content,status} } },{merge:true});
-  }
-
-  async function render(){
-    view.innerHTML = '';
-    setActive();
-
-    if(path.length){
-      const b=document.createElement('div');
-      b.className='back';
-      b.innerText='← Back';
-      b.onclick=()=>{path.pop();render();};
-      view.appendChild(b);
-    }
-
-    if(!path.length){
-      view.innerHTML += `<h2>Welcome to For Clear PCM</h2><p class='subtitle'>Firebase-powered JEE knowledge system</p>`;
-      return;
-    }
-
-    const node = getNode();
-
-    if(isLeaf(node)){
-      const data = await loadNode(path) || {content:'',status:'empty'};
-      view.innerHTML += `<h2>${path[path.length-1]}</h2><div>Status: <b>${data.status}</b></div>`;
-
-      if(OWNER){
-        const sel=document.createElement('select');
-        ['empty','draft','done','revised'].forEach(s=>{
-          const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o);
-        });
-        view.appendChild(sel);
-
-        const ta=document.createElement('textarea');
-        ta.value=data.content;
-        view.appendChild(ta);
-
-        ta.oninput=()=>saveNode(path,ta.value,sel.value);
-        sel.onchange=()=>saveNode(path,ta.value,sel.value);
-      } else {
-        view.innerHTML += data.content ? `<pre>${data.content}</pre>` : `<div id='lockBadge'>No content yet</div>`;
-      }
-      return;
-    }
-
+  function renderSidebar(node,path=[]){
+    sidebar.innerHTML='<h3>SYLLABUS</h3>';
     Object.keys(node).forEach(k=>{
       const d=document.createElement('div');
-      d.className='item';
+      d.className='node'+(path.join('/')===currentPath.join('/')?' active':'');
       d.innerText=k;
-      d.onclick=()=>{path.push(k);render();};
-      view.appendChild(d);
+      d.onclick=()=>{currentPath=[...path,k];render();};
+      sidebar.appendChild(d);
     });
   }
 
-  /* ===== AUTH EVENTS ===== */
-  loginBtn.onclick = () => signInWithPopup(auth, provider).catch(err=>alert(err.message));
-  logoutBtn.onclick = () => signOut(auth);
+  async function loadNode(path){
+    const ref=doc(db,'syllabus',path[0]);
+    const snap=await getDoc(ref);
+    return snap.exists()?snap.data().nodes?.[path.join('/')]||null:null;
+  }
 
-  onAuthStateChanged(auth, user => {
-    OWNER = !!user && OWNER_UIDS.includes(user.uid);
-    loginBox.style.display = user ? 'none' : 'block';
-    logoutBtn.style.display = user ? 'block' : 'none';
+  async function saveNode(path,content,status){
+    const ref=doc(db,'syllabus',path[0]);
+    await setDoc(ref,{nodes:{[path.join('/')]:{content,status}}},{merge:true});
+  }
+
+  async function render(){
+    if(!currentSubject){
+      sidebar.innerHTML='<h3>START</h3><div class="node">Select a subject</div>';
+      content.innerHTML='<h1>For Clear PCM</h1><p class="meta">A structured, owner‑controlled JEE learning platform.</p>';
+      return;
+    }
+
+    let node=syllabus[currentSubject];
+    for(let i=1;i<currentPath.length;i++) node=node[currentPath[i]];
+
+    renderSidebar(node,currentPath);
+
+    if(typeof node==='object'){
+      content.innerHTML='<h1>'+currentPath[currentPath.length-1]+'</h1><p class="meta">Navigate deeper</p>';
+      return;
+    }
+
+    const data=await loadNode(currentPath)||{content:'',status:'empty'};
+    content.innerHTML=`<h1>${currentPath[currentPath.length-1]}</h1><div class='meta'>Status: ${data.status}</div>`;
+
+    if(OWNER){
+      const sel=document.createElement('select');
+      ['empty','draft','done','revised'].forEach(s=>{const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o);});
+      const ta=document.createElement('textarea');ta.value=data.content;
+      ta.oninput=()=>saveNode(currentPath,ta.value,sel.value);
+      sel.onchange=()=>saveNode(currentPath,ta.value,sel.value);
+      content.appendChild(sel);content.appendChild(ta);
+    } else {
+      content.innerHTML+= data.content?`<pre>${data.content}</pre>`:`<p class='meta'>No content yet</p>`;
+    }
+  }
+
+  document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{currentSubject=b.dataset.sub;currentPath=[b.dataset.sub];render();});
+
+  document.getElementById('loginBtn').onclick=()=>signInWithPopup(auth,provider);
+  document.getElementById('logoutBtn').onclick=()=>signOut(auth);
+
+  onAuthStateChanged(auth,user=>{
+    OWNER=!!user && OWNER_UIDS.includes(user.uid);
+    badge.style.display=OWNER?'inline-block':'none';
+    document.getElementById('loginBox').style.display=user?'none':'block';
+    document.getElementById('logoutBtn').style.display=user?'block':'none';
     render();
   });
-
-  document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{path=[b.dataset.sub];render();});
 
   render();
 });
 </script>
 </head>
 <body>
-<header><h1 class="brand">For Clear PCM</h1><p class="subtitle">Firebase Edition</p></header>
+<header>
+  <div>
+    <div class="brand">For Clear PCM</div>
+    <div class="tag">Structured JEE Learning · Firebase Powered</div>
+  </div>
+  <div id="editorBadge">EDITOR MODE</div>
+</header>
 
 <div class="subject-bar">
   <div class="subject-btn" data-sub="Maths">Maths</div>
@@ -168,13 +167,17 @@ window.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <main>
-  <div id="loginBox">
-    <h3>Owner Login</h3>
-    <button id="loginBtn">Login with Google</button>
-  </div>
-  <button id="logoutBtn" style="display:none">Logout</button>
-  <div id="view"></div>
+  <aside class="sidebar" id="sidebar"></aside>
+  <section class="content" id="content"></section>
 </main>
+
+<div id="loginBox">
+  <h2>Owner Access</h2>
+  <p>Only verified editors can modify content.</p>
+  <button id="loginBtn" class="primary">Sign in with Google</button>
+</div>
+
+<button id="logoutBtn" style="display:none;margin:20px">Logout</button>
 
 <footer>©2026 Terminal Joint · For Clear PCM</footer>
 </body>
