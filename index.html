@@ -7,54 +7,112 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
+:root{
+  --bg:#0d1117;--panel:#0f141b;--border:#30363d;--text:#e6edf3;--muted:#9aa4af;--accent:#2f81f7;--danger:#f85149;
+  --radius:14px;--pad:12px;--pad-lg:16px;--shadow:0 10px 30px rgba(0,0,0,.25);
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Comic Sans MS","Comic Neue",cursive;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
-header{padding:14px 16px;border-bottom:1px solid #30363d;display:flex;justify-content:space-between;align-items:center}
-.brand{font-size:1.6rem;font-weight:700}
-.subtitle{font-size:.8rem;color:#9aa4af}
-button{cursor:pointer}
-#loginBtn,#logoutBtn{border:1px solid #30363d;background:none;color:#9aa4af;padding:6px 12px;border-radius:10px}
-#ownerBadge{color:#2f81f7;font-weight:700;font-size:.75rem;display:none;margin-right:8px}
-.subject-bar{display:flex;gap:8px;padding:10px;border-bottom:1px solid #30363d;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.subject-bar::-webkit-scrollbar{display:none}
-.subject-btn{padding:8px 14px;border:1px solid #30363d;border-radius:14px;cursor:pointer;font-weight:700}
-.subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-main{flex:1;max-width:960px;margin:0 auto;padding:16px}
-.breadcrumb{font-size:.8rem;color:#9aa4af;margin-bottom:12px;white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+html,body{height:100%}
+body{font-family:"Comic Sans MS","Comic Neue",cursive;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+
+/* Header */
+header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(13,17,23,.98),rgba(13,17,23,.9));border-bottom:1px solid var(--border)}
+.header-inner{max-width:1100px;margin:0 auto;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;flex-direction:column}
+.brand .title{font-size:1.5rem;font-weight:700}
+.brand .subtitle{font-size:.8rem;color:var(--muted)}
+.auth{display:flex;align-items:center;gap:8px}
+.badge{display:none;font-size:.7rem;font-weight:700;color:var(--accent);border:1px solid rgba(47,129,247,.35);padding:3px 8px;border-radius:999px}
+.btn{cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);padding:6px 12px;border-radius:10px;transition:.15s}
+.btn:hover{border-color:var(--accent);color:var(--text)}
+
+/* Subject bar */
+.subject-bar{border-bottom:1px solid var(--border);background:var(--panel)}
+.subject-inner{max-width:1100px;margin:0 auto;padding:8px 14px;display:flex;gap:8px;overflow-x:auto}
+.subject-inner::-webkit-scrollbar{display:none}
+.subject-btn{white-space:nowrap;padding:8px 14px;border:1px solid var(--border);border-radius:999px;font-weight:700;color:var(--muted);transition:.15s}
+.subject-btn:hover{border-color:var(--accent);color:var(--text)}
+.subject-btn.active{border-color:var(--accent);color:var(--accent)}
+
+/* Main */
+main{flex:1}
+.main-inner{max-width:1100px;margin:0 auto;padding:14px}
+
+/* Breadcrumb */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow-x:auto;margin-bottom:10px}
 .breadcrumb::-webkit-scrollbar{display:none}
-.breadcrumb span{cursor:pointer}
-.item{padding:12px;border:1px solid #30363d;border-radius:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.controls button{margin-left:6px;border:1px solid #30363d;background:none;color:#9aa4af;border-radius:8px;padding:2px 6px;font-size:.75rem}
-textarea{width:100%;min-height:260px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:16px;padding:14px;font-size:1rem;line-height:1.6}
-.notice{padding:10px;border:1px dashed #f85149;color:#f85149;border-radius:10px;font-size:.8rem;margin-bottom:10px}
-footer{border-top:1px solid #30363d;padding:10px;font-size:.7rem;color:#9aa4af;text-align:center}
+.breadcrumb .crumb{cursor:pointer;padding:4px 6px;border-radius:6px}
+.breadcrumb .crumb:hover{background:rgba(47,129,247,.08);color:var(--text)}
+.breadcrumb .sep{opacity:.5}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.0));border:1px solid var(--border);border-radius:var(--radius);padding:var(--pad-lg);display:flex;align-items:center;justify-content:space-between;gap:10px;transition:.15s;box-shadow:var(--shadow)}
+.card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.card .name{font-weight:700}
+.controls{display:flex;gap:6px}
+.controls .mini{font-size:.7rem;padding:4px 7px;border-radius:8px}
+
+/* Tags */
+.tag{font-size:.65rem;border:1px solid var(--border);border-radius:999px;padding:2px 8px;color:var(--muted)}
+.tag.active{border-color:var(--accent);color:var(--accent)}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+
+/* Progress */
+.progress-wrap{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.progress{flex:1;height:6px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.progress > div{height:100%;background:var(--accent);width:0%}
+.progress-label{font-size:.7rem;color:var(--muted)}
+
+/* Editor */
+.editor{border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);padding:var(--pad-lg);box-shadow:var(--shadow)}
+.editor textarea{width:100%;min-height:260px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:1rem;line-height:1.6;resize:vertical}
+.editor .hint{font-size:.75rem;color:var(--muted);margin-top:6px}
+
+/* Notices */
+.notice{border:1px dashed var(--danger);color:var(--danger);border-radius:10px;padding:10px;font-size:.8rem;margin-bottom:10px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);background:var(--panel)}
+.footer-inner{max-width:1100px;margin:0 auto;padding:10px 14px;font-size:.7rem;color:var(--muted);text-align:center}
+
+/* Empty */
+.empty{border:1px dashed var(--border);border-radius:12px;padding:14px;color:var(--muted);text-align:center}
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <div class="brand">For Clear PCM</div>
-    <div class="subtitle">Structured JEE learning</div>
-  </div>
-  <div>
-    <span id="ownerBadge">OWNER</span>
-    <button id="loginBtn">Login</button>
-    <button id="logoutBtn" style="display:none">Logout</button>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="title">For Clear PCM</div>
+      <div class="subtitle">Structured JEE learning</div>
+    </div>
+    <div class="auth">
+      <span id="ownerBadge" class="badge">OWNER</span>
+      <button id="loginBtn" class="btn">Login</button>
+      <button id="logoutBtn" class="btn" style="display:none">Logout</button>
+    </div>
   </div>
 </header>
 
 <div class="subject-bar">
-  <div class="subject-btn" data-sub="Maths">Maths</div>
-  <div class="subject-btn" data-sub="Physics">Physics</div>
-  <div class="subject-btn" data-sub="Chemistry">Chemistry</div>
+  <div class="subject-inner">
+    <button class="subject-btn" data-sub="Maths">Maths</button>
+    <button class="subject-btn" data-sub="Physics">Physics</button>
+    <button class="subject-btn" data-sub="Chemistry">Chemistry</button>
+  </div>
 </div>
 
 <main>
-  <div class="breadcrumb" id="breadcrumb"></div>
-  <div id="view"></div>
+  <div class="main-inner">
+    <div id="breadcrumb" class="breadcrumb"></div>
+    <div id="view"></div>
+  </div>
 </main>
 
-<footer>©2026 Terminal Joint · For Clear PCM</footer>
+<footer>
+  <div class="footer-inner">©2026 Terminal Joint · For Clear PCM</div>
+</footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -83,11 +141,14 @@ let permissionError = false;
 
 const view = document.getElementById("view");
 const breadcrumb = document.getElementById("breadcrumb");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const ownerBadge = document.getElementById("ownerBadge");
 
 function isOwner(){ return user && user.uid === OWNER_UID; }
 function pathId(){ return stack.join("__"); }
 
-// HISTORY SYNC (mobile-safe)
+// History sync
 window.addEventListener("popstate", e => {
   if(e.state && Array.isArray(e.state.stack)){
     stack = e.state.stack;
@@ -103,11 +164,9 @@ async function loadTree(){
     const snap = await getDoc(ref);
     if(snap.exists()){
       tree = snap.data().tree || {};
-    }else{
+    } else {
       tree = { Maths:{}, Physics:{}, Chemistry:{} };
-      if(isOwner()){
-        await setDoc(ref,{tree});
-      }
+      if(isOwner()) await setDoc(ref,{tree});
     }
   }catch(e){
     console.error(e);
@@ -123,31 +182,46 @@ function getNode(){
 }
 
 function renderBreadcrumb(){
-  breadcrumb.innerHTML = stack.map((s,i)=>`<span data-i="${i}">${s}</span>`).join(" / ");
-  breadcrumb.querySelectorAll("span").forEach(sp => {
-    sp.onclick = () => {
-      stack = stack.slice(0, Number(sp.dataset.i) + 1);
-      render();
-    };
-  });
+  breadcrumb.innerHTML = "";
+  const home = document.createElement('span');
+  home.textContent = 'Home'; home.className = 'crumb';
+  home.onclick = () => { stack = []; render(); };
+  breadcrumb.appendChild(home);
+  for(let i=0;i<stack.length;i++){
+    const sep = document.createElement('span'); sep.textContent = '›'; sep.className = 'sep'; breadcrumb.appendChild(sep);
+    const sp = document.createElement('span'); sp.textContent = stack[i]; sp.className = 'crumb'; sp.dataset.i = i;
+    sp.onclick = () => { stack = stack.slice(0, Number(sp.dataset.i) + 1); render(); };
+    breadcrumb.appendChild(sp);
+  }
+}
+
+async function getMeta(){
+  try{
+    const snap = await getDoc(doc(db,"meta", pathId()));
+    if(snap.exists()) return snap.data();
+  }catch(e){ console.error(e); }
+  return { progress:0, tags:[] };
+}
+
+async function saveMeta(meta){
+  try{ await setDoc(doc(db,"meta", pathId()), meta, { merge:true }); }
+  catch(e){ console.error(e); }
 }
 
 async function render(pushHistory = true){
-  if(pushHistory){
-    history.pushState({ stack:[...stack] }, "");
-  }
+  if(pushHistory){ history.pushState({ stack:[...stack] }, ""); }
   view.innerHTML = "";
   renderBreadcrumb();
 
   if(permissionError){
-    const n = document.createElement("div");
-    n.className = "notice";
+    const n = document.createElement("div"); n.className = "notice";
     n.textContent = "Firestore permission error. Public read-only fallback mode.";
     view.appendChild(n);
   }
 
   const node = getNode();
 
+  // Leaf: content + progress + tags
   if(Object.keys(node).length === 0){
     let text = "";
     try{
@@ -155,63 +229,98 @@ async function render(pushHistory = true){
       if(snap.exists()) text = snap.data().text || "";
     }catch(e){ console.error(e); }
 
+    const meta = await getMeta();
+
+    const wrap = document.createElement('div'); wrap.className = 'editor';
+
+    // Progress UI
+    const pWrap = document.createElement('div'); pWrap.className = 'progress-wrap';
+    const pBar = document.createElement('div'); pBar.className = 'progress';
+    const pFill = document.createElement('div'); pFill.style.width = (meta.progress||0) + '%'; pBar.appendChild(pFill);
+    const pLabel = document.createElement('div'); pLabel.className = 'progress-label'; pLabel.textContent = `Progress: ${meta.progress||0}%`;
+    pWrap.appendChild(pBar); pWrap.appendChild(pLabel);
+    wrap.appendChild(pWrap);
+
+    // Tags UI
+    const tags = ['important','formula','example'];
+    const tagRow = document.createElement('div'); tagRow.className = 'tag-row';
+    tags.forEach(t=>{
+      const s = document.createElement('span'); s.className = 'tag'; s.textContent = t.toUpperCase();
+      if((meta.tags||[]).includes(t)) s.classList.add('active');
+      if(isOwner() && !permissionError){
+        s.onclick = async () => {
+          const cur = new Set(meta.tags||[]);
+          if(cur.has(t)) cur.delete(t); else cur.add(t);
+          meta.tags = Array.from(cur);
+          await saveMeta(meta);
+          render(false);
+        };
+      }
+      tagRow.appendChild(s);
+    });
+    wrap.appendChild(tagRow);
+
     if(isOwner() && !permissionError){
-      const ta = document.createElement("textarea");
-      ta.value = text;
+      const ta = document.createElement("textarea"); ta.value = text;
       ta.onchange = async () => {
-        try{
-          await setDoc(doc(db,"content",pathId()), { text: ta.value }, { merge:true });
-        }catch(e){ alert("Save failed: permission denied"); }
+        try{ await setDoc(doc(db,"content",pathId()), { text: ta.value }, { merge:true }); }
+        catch(e){ alert("Save failed: permission denied"); }
       };
-      view.appendChild(ta);
+      wrap.appendChild(ta);
+
+      // Progress input for owner
+      const range = document.createElement('input');
+      range.type = 'range'; range.min = 0; range.max = 100; range.value = meta.progress||0; range.style.width = '100%';
+      range.oninput = e => { pFill.style.width = e.target.value + '%'; pLabel.textContent = `Progress: ${e.target.value}%`; };
+      range.onchange = async e => { meta.progress = Number(e.target.value); await saveMeta(meta); };
+      wrap.appendChild(range);
+
+      const hint = document.createElement('div'); hint.className = 'hint';
+      hint.textContent = 'Owner mode: edit content, set progress, and toggle tags. All auto-saved.';
+      wrap.appendChild(hint);
     } else {
-      view.innerHTML += `<pre>${text}</pre>`;
+      if(text.trim().length === 0){
+        const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = 'No content here yet.';
+        wrap.appendChild(empty);
+      } else {
+        const pre = document.createElement('pre'); pre.textContent = text; pre.style.whiteSpace = 'pre-wrap';
+        wrap.appendChild(pre);
+      }
     }
+
+    view.appendChild(wrap);
     return;
   }
 
-  for(const key in node){
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerHTML = `<span>${key}</span>`;
+  // Non-leaf: show children
+  const grid = document.createElement('div'); grid.className = 'grid';
 
-    const c = document.createElement("div");
-    c.className = "controls";
+  for(const key in node){
+    const card = document.createElement("div"); card.className = "card";
+    const name = document.createElement('div'); name.className = 'name'; name.textContent = key;
+    const c = document.createElement("div"); c.className = "controls";
 
     if(isOwner() && !permissionError){
-      const add = document.createElement("button");
-      add.textContent = "+";
-      add.onclick = e => {
-        e.stopPropagation();
-        const n = prompt("New child name");
-        if(n){
-          node[key][n] = {};
-          saveTree().then(() => render());
-        }
-      };
+      const add = document.createElement("button"); add.className = 'btn mini'; add.textContent = "+"; add.title = 'Add child';
+      add.onclick = e => { e.stopPropagation(); const n = prompt("New child name"); if(n){ node[key][n] = {}; saveTree().then(() => render()); } };
       c.appendChild(add);
     }
 
-    d.appendChild(c);
-    d.onclick = () => {
-      stack.push(key);
-      render();
-    };
-    view.appendChild(d);
+    card.appendChild(name); card.appendChild(c);
+    card.onclick = () => { stack.push(key); render(); };
+    grid.appendChild(card);
   }
+
+  view.appendChild(grid);
 }
 
 async function saveTree(){
   if(!isOwner()) return;
-  try{
-    await setDoc(doc(db,"syllabus","root"), { tree });
-  }catch(e){
-    console.error(e);
-    permissionError = true;
-  }
+  try{ await setDoc(doc(db,"syllabus","root"), { tree }); }
+  catch(e){ console.error(e); permissionError = true; }
 }
 
-// AUTH
+// Auth
 loginBtn.onclick = () => signInWithPopup(auth, new GoogleAuthProvider());
 logoutBtn.onclick = () => signOut(auth);
 
@@ -225,9 +334,11 @@ onAuthStateChanged(auth, async u => {
   render(false);
 });
 
-// SUBJECT BUTTONS
-Array.from(document.querySelectorAll(".subject-btn")).forEach(b => {
+// Subject buttons
+Array.from(document.querySelectorAll('.subject-btn')).forEach(b => {
   b.onclick = () => {
+    Array.from(document.querySelectorAll('.subject-btn')).forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
     stack = [b.dataset.sub];
     render();
   };
