@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Clear PCM – Structured JEE Learning</title>
+<title>For Clear PCM – Ultra Deep Structured JEE Learning</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -14,111 +14,92 @@ header{padding:22px 24px;border-bottom:1px solid #30363d}
 .subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
 .subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-main{max-width:900px;margin:0 auto;padding:32px 24px;flex:1}
+main{max-width:1100px;margin:0 auto;padding:32px 24px;flex:1}
 .item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
-footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none;-webkit-user-select:none}
-#lockBadge{color:#f85149;font-weight:700;margin-top:12px}
-textarea{width:100%;height:140px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px}
+.item:hover{border-color:#2f81f7}
+.back{margin-bottom:14px;color:#2f81f7;cursor:pointer}
+footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center}
+textarea,input,select{width:100%;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px}
 </style>
 <script defer>
-/* ================= LOCK CORE (SIMPLE & WORKING) ================= */
-const OWNER_PASSWORD = "FailMarks";
-let OWNER_UNLOCKED = false;
+/* ===== OWNER LOCK ===== */
+const OWNER_PASSWORD="FailMarks";
+let OWNER_UNLOCKED=false;
+function checkLock(){OWNER_UNLOCKED=localStorage.getItem("OWNER_UNLOCK")==="YES";}
+function unlockOwner(){const p=prompt("Owner password");if(p===OWNER_PASSWORD){localStorage.setItem("OWNER_UNLOCK","YES");OWNER_UNLOCKED=true;render();}else if(p!==null){alert("Wrong password");}}
+function lockOwner(){localStorage.removeItem("OWNER_UNLOCK");OWNER_UNLOCKED=false;render();}
 
-function checkLock(){
-  OWNER_UNLOCKED = localStorage.getItem("OWNER_UNLOCK") === "YES";
-}
+/* ===== STATUS ===== */
+const STATUS=["empty","draft","done","revised"];
+const getStatus=p=>localStorage.getItem("STATUS_"+p.join("/"))||"empty";
+const setStatus=(p,s)=>localStorage.setItem("STATUS_"+p.join("/"),s);
 
-function lockOwner(){
-  OWNER_UNLOCKED = false;
-  localStorage.removeItem("OWNER_UNLOCK");
-  render();
-}
+/* ===== CONTENT STORAGE ===== */
+const getContent=p=>localStorage.getItem("CONTENT_"+p.join("/"))||null;
+const setContent=(p,v)=>localStorage.setItem("CONTENT_"+p.join("/"),v);
 
-function unlockOwner(){
-  const p = prompt("Owner password");
-  if(p === OWNER_PASSWORD){
-    OWNER_UNLOCKED = true;
-    localStorage.setItem("OWNER_UNLOCK","YES");
-    render();
-  } else if(p !== null){
-    alert("Wrong password");
-  }
-}
-
-/* ================= DATA ================= */
-const syllabus = {
-  Maths:{"Sets": ["Definition","Roster","Set Builder"]},
-  Physics:{},
-  Chemistry:{}
+/* ===== SYLLABUS STRUCTURE ===== */
+const syllabus={
+Maths:{Sets_and_Relations:{Sets:{Definition:{},Types:{},Operations:{},Laws:{}}}},
+Physics:{Kinematics:{OneD:{},TwoD:{}}},
+Chemistry:{Physical:{MoleConcept:{}},Organic:{},Inorganic:{}}
 };
 
-/* ================= ENGINE ================= */
-let stack=[],view,subjectBtns;
+let path=[];let view;
+const isLeaf=n=>typeof n!=="object";
+const getNode=()=>path.reduce((o,k)=>o[k],syllabus);
 
-function goSubject(s){stack=[s];render();}
+function setActive(){document.querySelectorAll(".subject-btn").forEach(b=>b.classList.toggle("active",path[0]===b.dataset.sub));}
 
 function render(){
   checkLock();
-  subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));
   view.innerHTML="";
-  if(!stack.length){view.innerHTML="<h2>Select a subject</h2>";return;}
-  const data = syllabus[stack[0]];
-  Object.keys(data).forEach(k=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerText=k;
-    d.onclick=()=>renderLeaf(k,data[k]);
-    view.appendChild(d);
-  });
-}
+  setActive();
 
-function renderLeaf(title,content){
-  view.innerHTML = `<h2>${title}</h2>`;
-  if(OWNER_UNLOCKED){
-    view.innerHTML += `<textarea placeholder="Edit your content here..."></textarea><div style='margin-top:8px;color:#2f81f7;cursor:pointer' onclick='lockOwner()'>Lock editing</div>`;
-  } else {
-    view.innerHTML += `<div id='lockBadge'>🔒 Editing Locked</div>`;
+  if(path.length){const b=document.createElement("div");b.className="back";b.innerText="← Back";b.onclick=()=>{path.pop();render();};view.appendChild(b);}  
+
+  if(!path.length){view.innerHTML+="<h2>Select subject</h2>";return;}
+
+  const node=getNode();
+
+  if(isLeaf(node)){
+    const status=getStatus(path);
+    const stored=getContent(path)??"";
+    view.innerHTML+=`<h2>${path[path.length-1]}</h2><div>Status: <b>${status}</b></div>`;
+
+    if(OWNER_UNLOCKED){
+      const sel=document.createElement("select");
+      STATUS.forEach(s=>{const o=document.createElement("option");o.value=o.text=s;if(s===status)o.selected=true;sel.appendChild(o);});
+      sel.onchange=()=>setStatus(path,sel.value);
+      view.appendChild(sel);
+
+      const ta=document.createElement("textarea");
+      ta.value=stored;
+      ta.oninput=()=>setContent(path,ta.value);
+      view.appendChild(ta);
+
+      const lock=document.createElement("div");lock.className="back";lock.innerText="🔒 Lock editing";lock.onclick=lockOwner;view.appendChild(lock);
+    }else{
+      view.innerHTML+=stored?`<pre>${stored}</pre>`:`<div style='color:#9aa4af'>No content yet</div>`;
+    }
+    return;
   }
+
+  Object.keys(node).forEach(k=>{const d=document.createElement("div");d.className="item";d.innerText=k;d.onclick=()=>{path.push(k);render();};view.appendChild(d);});
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
-  // STRICT DEFAULT LOCK: always start locked
-  localStorage.removeItem("OWNER_UNLOCK");
-  OWNER_UNLOCKED = false;
   view=document.getElementById("view");
-  subjectBtns=document.querySelectorAll(".subject-btn");
-  subjectBtns.forEach(b=>b.onclick=()=>goSubject(b.dataset.sub));
-
-  // OWNER ENTRY: CONTROLLED DOUBLE CLICK FOOTER (NO TEXT SELECTION)
-  const footer = document.getElementById("footerTrigger");
-  let lastTap = 0;
-  footer.addEventListener("mousedown", e => e.preventDefault());
-  footer.addEventListener("click", () => {
-    const now = Date.now();
-    if(now - lastTap < 350){
-      unlockOwner();
-    }
-    lastTap = now;
-  });
-
+  document.querySelectorAll(".subject-btn").forEach(b=>b.onclick=()=>{path=[b.dataset.sub];render();});
+  const footer=document.getElementById("footerTrigger");let last=0;footer.onclick=()=>{const n=Date.now();if(n-last<350)unlockOwner();last=n;};
   render();
 });
 </script>
 </head>
 <body>
-<header>
-  <h1 class="brand">For clear PCM</h1>
-  <p class="subtitle">Structured JEE learning</p>
-</header>
-<div class="subject-bar">
-  <div class="subject-btn" data-sub="Maths">Maths</div>
-  <div class="subject-btn" data-sub="Physics">Physics</div>
-  <div class="subject-btn" data-sub="Chemistry">Chemistry</div>
-</div>
-<main>
-  <div id="view"></div>
-</main>
-<footer id="footerTrigger">©2026 Terminal Joint · For Clear PCM (double-click)</footer>
+<header><h1 class="brand">For Clear PCM</h1><p class="subtitle">Ultra‑Deep JEE Knowledge Tree</p></header>
+<div class="subject-bar"><div class="subject-btn" data-sub="Maths">Maths</div><div class="subject-btn" data-sub="Physics">Physics</div><div class="subject-btn" data-sub="Chemistry">Chemistry</div></div>
+<main><div id="view"></div></main>
+<footer id="footerTrigger">©2026 Terminal Joint · For Clear PCM</footer>
 </body>
 </html>
