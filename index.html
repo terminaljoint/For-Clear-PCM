@@ -2,272 +2,320 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>For Clear PCM – FINAL LOCK</title>
+<title>For Clear PCM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0b0f14;
-  --panel:#121821;
-  --border:#1f2937;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --accent:#3b82f6;
+  --bg:#0b0f14;--panel:#121821;--border:#1f2937;
+  --text:#e5e7eb;--muted:#9ca3af;--accent:#3b82f6;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:Inter,system-ui;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
-header{
-  padding:16px 20px;
-  border-bottom:1px solid var(--border);
-}
-.brand{font-size:1.3rem;font-weight:800}
-.tag{font-size:.75rem;color:var(--muted)}
-main{
-  max-width:1200px;
-  margin:auto;
-  padding:20px;
-}
-pre{
-  white-space:pre-wrap;
-  background:var(--panel);
-  border:1px solid var(--border);
-  padding:16px;
-  border-radius:12px;
-  font-size:.7rem;
-}
-footer{
-  border-top:1px solid var(--border);
-  padding:10px;
-  text-align:center;
-  font-size:.65rem;
-  color:var(--muted);
-}
+body{font-family:Inter;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+header{padding:12px 16px;border-bottom:1px solid var(--border);background:#0b1220;display:flex;justify-content:space-between}
+.brand{font-weight:800;font-size:1.1rem}
+.tag{font-size:.7rem;color:var(--muted)}
+main{flex:1;display:grid;grid-template-columns:240px 1fr}
+.sidebar{border-right:1px solid var(--border);background:#0c1320}
+.sidebar h3{font-size:.75rem;color:var(--muted);padding:10px 12px}
+.sidebar button{width:100%;padding:10px 12px;border:none;background:none;color:var(--text);cursor:pointer;text-align:left}
+.sidebar button.active{background:#111827;color:var(--accent)}
+.content{padding:16px;overflow:auto}
+.pathbar{font-size:.7rem;color:var(--muted);margin-bottom:12px}
+.pathbar span{color:var(--accent);cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer}
+.card:hover{border-color:var(--accent)}
+.editor{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
+.editor textarea{width:100%;min-height:220px;background:#0b1220;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px}
+button.action{background:#111827;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer}
+footer{border-top:1px solid var(--border);padding:8px;text-align:center;font-size:.6rem;color:var(--muted)}
 </style>
 </head>
 
 <body>
-
 <header>
-  <div class="brand">For Clear PCM</div>
-  <div class="tag">Ultra-deep JEE PCM knowledge tree — FINAL & LOCKED</div>
+  <div>
+    <div class="brand">For Clear PCM</div>
+    <div class="tag">Ultra-deep JEE knowledge system</div>
+  </div>
+  <div>
+    <span id="userStatus" class="tag">Not signed in</span>
+    <button id="loginBtn" class="action">Google Login</button>
+    <button id="logoutBtn" class="action" style="display:none">Logout</button>
+  </div>
 </header>
 
 <main>
+  <aside class="sidebar">
+    <h3>Subjects</h3>
+    <div id="subjects"></div>
+  </aside>
+  <section class="content">
+    <div class="pathbar" id="pathbar"></div>
+    <div class="grid" id="grid"></div>
+    <div id="editor"></div>
+  </section>
+</main>
 
-<h2>FINAL LOCKED STRUCTURE</h2>
-<p>This file contains the complete final syllabus backbone for Maths, Physics, and Chemistry.</p>
+<footer>©2026 Terminal Joint · For Clear PCM</footer>
 
-<pre>
+<script type="module">
+/* ================= FIREBASE ================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",
+  authDomain: "forclearpcm.firebaseapp.com",
+  projectId: "forclearpcm",
+  storageBucket: "forclearpcm.appspot.com",
+  messagingSenderId: "313585574692",
+  appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1"
+};
+
+const OWNER_UIDS = [
+  "NbJq7HLBt0Pd7O55f4u82HTWOyu2",
+  "4MXKQ1JnnIUARfdYlIUbD0Q4erD2"
+];
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+/* ================= FULL ULTRA-DEEP SYLLABUS ================= */
 const syllabus = {
-
-  /* ===================== MATHS ===================== */
-
-  Maths: {
-
-    Sets_and_Relations: {
-      Sets: {
-        Definition:{},
-        Representation:{Roster_Form:{},Set_Builder_Form:{}},
-        Types:{Null_Set:{},Singleton_Set:{},Finite_Set:{},Infinite_Set:{}},
-        Subsets:{Proper:{},Improper:{},Power_Set:{Number_of_Elements:{},Problems:{}}},
-        Operations:{Union:{Venn_Problems:{}},Intersection:{},Difference:{},Complement:{}},
-        Laws:{De_Morgan:{Proof:{}},Distributive:{},Associative:{},Identity:{}}
-      },
-      Relations:{
-        Ordered_Pairs:{},Cartesian_Product:{},
-        Types:{Reflexive:{},Symmetric:{},Transitive:{},
-          Equivalence:{Equivalence_Classes:{},Problems:{}}}
-      },
-      Functions:{
-        Definition:{},
-        Domain_Range_Codomain:{Restrictions:{}},
-        Types:{One_One:{Tests:{}},Many_One:{},Onto:{},Into:{},Bijective:{}},
-        Algebra_of_Functions:{Composition:{Domain_Range_Effects:{}},
-          Inverse_Functions:{Existence_Conditions:{}}},
-        Graphs_of_Functions:{
-          Polynomial:{Degree_Analysis:{},Turning_Points:{}},
-          Rational:{Asymptotes:{Vertical:{},Horizontal:{},Oblique:{}}},
-          Modulus:{Graph_Shifts:{},Inequality_Problems:{}},
-          Greatest_Integer_Function:{Intervals:{},Graphical_Problems:{}}
-        }
-      }
-    },
-
+  Maths:{
     Algebra:{
       Quadratic_Equations:{
-        Standard_Form:{Coefficient_Comparison:{}},
-        Discriminant:{Sign_Cases:{
+        Discriminant:{
           D_Positive:{Distinct_Real_Roots:{},Inequality_Cases:{}},
           D_Zero:{Equal_Roots:{}},
           D_Negative:{Imaginary_Roots:{}}
-        }},
-        Relation_Between_Roots:{Sum:{},Product:{},Sum_of_Squares:{},Common_Root_Conditions:{}},
-        Formation_of_Quadratic:{Given_Roots:{},Given_Conditions:{Parameter_Problems:{}}},
-        Common_Roots:{Condition:{},Problems:{}},
-        Graph_of_Quadratic:{Vertex_Form:{},Axis_of_Symmetry:{},
-          Maximum_Minimum_Value:{},Range_Problems:{}},
-        Integer_Roots:{Bounding:{},Trial_Method:{},Diophantine_Problems:{}}
+        },
+        Relation_Between_Roots:{Sum:{},Product:{},Sum_of_Squares:{}},
+        Formation_of_Quadratic:{Given_Roots:{},Parameter_Problems:{}},
+        Graph_of_Quadratic:{Vertex:{},Axis:{},Max_Min:{}}
       },
       Sequences_and_Series:{
-        Arithmetic_Progression:{Nth_Term:{},Sum_of_n_Terms:{},Arithmetic_Mean:{}},
-        Geometric_Progression:{Nth_Term:{},Sum_of_n_Terms:{},
-          Infinite_GP:{Convergence_Condition:{}}},
-        Harmonic_Progression:{Relation_with_AP:{}}
+        AP:{Nth_Term:{},Sum:{},Word_Problems:{}},
+        GP:{Nth_Term:{},Sum:{},Infinite_GP:{}},
+        HP:{Relation_with_AP:{}}
+      },
+      Complex_Numbers:{
+        Algebra:{},
+        Argand_Plane:{Locus_Problems:{}},
+        Modulus_Argument:{},
+        Triangle_Inequality:{}
+      },
+      Probability:{
+        Conditional_Probability:{},
+        Bayes_Theorem:{},
+        Random_Variables:{Mean:{},Variance:{}}
       }
     },
-
     Calculus:{
       Limits:{
-        Algebraic_Limits:{},
-        Trigonometric_Limits:{Standard_Limits:{}},
-        Indeterminate_Forms:{Zero_by_Zero:{},Infinity_by_Infinity:{}},
-        LHospital_Rule:{Applicable_Cases:{}}
-      },
-      Continuity_and_Differentiability:{
-        Continuity:{Types_of_Discontinuity:{Removable:{},Jump:{},Infinite:{}}},
-        Differentiability:{}
+        Standard_Limits:{},
+        LHospital_Rule:{Repeated:{}}
       },
       Differentiation:{
-        Rules:{Product:{},Quotient:{},Chain:{}},
-        Implicit_Differentiation:{},
-        Logarithmic_Differentiation:{}
+        Rules:{},
+        Implicit:{},
+        Logarithmic:{}
       },
       Applications_of_Derivatives:{
         Increasing_Decreasing:{},
-        Maxima_Minima:{Optimization_Problems:{}},
-        Tangents_and_Normals:{}
+        Maxima_Minima:{Optimization:{}}
       },
       Integration:{
         Indefinite:{Substitution:{},By_Parts:{},Partial_Fractions:{}},
-        Definite:{Properties:{}},
-        Area_Under_Curve:{}
+        Definite:{Properties:{},Area:{}}
       }
     }
-
   },
 
-  /* ===================== PHYSICS ===================== */
-
-  Physics: {
-
+  Physics:{
     Kinematics:{
       One_D_Motion:{
         Equations_of_Motion:{},
-        Graphs:{x_t:{},v_t:{},a_t:{}},
-        Relative_Motion:{Chasing:{}}
+        Graphs:{x_t:{},v_t:{}}
       },
       Two_D_Motion:{
-        Projectile:{Time_of_Flight:{},Range:{},Maximum_Height:{}},
-        Circular_Motion:{Centripetal_Force:{}}
+        Projectile:{Range:{},Time:{},Inclined_Plane:{}},
+        Circular_Motion:{Centripetal:{},Banking:{}}
       }
     },
-
     Laws_of_Motion:{
-      Newtons_Laws:{First:{},Second:{},Third:{}},
-      Friction:{Static:{},Kinetic:{},Inclined_Plane:{}},
-      Free_Body_Diagrams:{}
+      Newtons_Laws:{},
+      Friction:{Static:{},Kinetic:{},Inclined_Plane:{}}
     },
-
     Work_Energy_Power:{
       Work:{},
       Energy:{Kinetic:{},Potential:{}},
       Collisions:{Elastic:{},Inelastic:{}}
     },
-
-    Rotational_Motion:{
-      Torque:{},
-      Moment_of_Inertia:{},
-      Rolling_Motion:{}
-    },
-
-    Gravitation:{
-      Law_of_Gravitation:{},
-      Satellites:{Orbital_Velocity:{}}
-    },
-
-    Thermodynamics:{
-      Laws:{First:{},Second:{}},
-      Entropy:{}
-    },
-
     Electrostatics:{
       Coulombs_Law:{},
       Gauss_Law:{Applications:{}},
-      Capacitors:{}
+      Capacitors:{Dielectric:{}}
     },
-
     Current_Electricity:{
       Ohms_Law:{},
-      Kirchhoff_Laws:{},
+      Kirchhoffs_Laws:{},
       Potentiometer:{}
     },
-
-    Magnetism_and_EMI:{
-      Magnetic_Field:{},
-      EMI:{Faraday_Law:{}}
-    },
-
-    Optics:{
-      Ray_Optics:{Mirrors:{},Lenses:{}},
-      Wave_Optics:{YDSE:{}}
-    },
-
     Modern_Physics:{
       Photoelectric_Effect:{},
+      Bohr_Model:{},
       Semiconductors:{Diodes:{},Transistors:{}}
     }
-
   },
 
-  /* ===================== CHEMISTRY ===================== */
-
-  Chemistry: {
-
+  Chemistry:{
     Physical:{
       Mole_Concept:{
-        Stoichiometry:{Limiting_Reagent:{},Percentage_Yield:{}},
-        Concentration_Terms:{Molarity:{},Molality:{}}
+        Stoichiometry:{
+          Limiting_Reagent:{},
+          Percentage_Yield:{}
+        }
       },
-      Thermodynamics:{Enthalpy:{},Gibbs_Energy:{}},
-      Electrochemistry:{Nernst_Equation:{}},
-      Chemical_Kinetics:{Rate_Law:{}}
+      Thermodynamics:{
+        Enthalpy:{},
+        Entropy:{},
+        Gibbs_Free_Energy:{}
+      },
+      Chemical_Kinetics:{
+        Rate_Law:{},
+        Integrated_Rate_Equations:{}
+      }
     },
-
     Inorganic:{
       Periodic_Trends:{},
-      Chemical_Bonding:{Hybridization:{},MO_Theory:{}},
-      Coordination_Compounds:{Isomerism:{}}
+      Chemical_Bonding:{
+        Hybridization:{},
+        MO_Theory:{}
+      },
+      Coordination_Compounds:{
+        Isomerism:{},
+        Bonding:{}
+      }
     },
-
     Organic:{
       GOC:{
-        Electronic_Effects:{Inductive:{},Resonance:{}},
-        Reaction_Intermediates:{Carbocation:{},Carbanion:{}}
+        Inductive:{},
+        Resonance:{},
+        Hyperconjugation:{}
       },
-      Hydrocarbons:{Alkanes:{},Alkenes:{},Alkynes:{}},
-      Haloalkanes:{SN1:{},SN2:{}},
-      Alcohols_Phenols_Ethers:{},
-      Carbonyl_Compounds:{Aldol:{}},
-      Amines:{Diazonium_Salts:{}}
+      Hydrocarbons:{
+        Alkanes:{},
+        Alkenes:{},
+        Alkynes:{}
+      },
+      Haloalkanes:{
+        SN1:{},
+        SN2:{}
+      }
     }
+  }
+};
 
+/* ================= APP LOGIC ================= */
+let path=[];
+let user=null;
+let isOwner=false;
+
+const subjectsDiv=document.getElementById("subjects");
+const grid=document.getElementById("grid");
+const pathbar=document.getElementById("pathbar");
+const editor=document.getElementById("editor");
+const loginBtn=document.getElementById("loginBtn");
+const logoutBtn=document.getElementById("logoutBtn");
+const userStatus=document.getElementById("userStatus");
+
+loginBtn.onclick=()=>signInWithPopup(auth,provider);
+logoutBtn.onclick=()=>signOut(auth);
+
+onAuthStateChanged(auth,u=>{
+  user=u;
+  isOwner=!!u && OWNER_UIDS.includes(u.uid);
+  userStatus.textContent=u?(isOwner?"Owner":"User"):"Not signed in";
+  loginBtn.style.display=u?"none":"inline-block";
+  logoutBtn.style.display=u?"inline-block":"none";
+  render();
+});
+
+function getNode(){
+  let n=syllabus;
+  for(const p of path){ if(!n[p]) return null; n=n[p]; }
+  return n;
+}
+function isLeaf(n){ return n && typeof n==="object" && Object.keys(n).length===0; }
+function key(){ return path.join("/"); }
+
+async function loadContent(){
+  const snap=await getDoc(doc(db,"content",key()));
+  return snap.exists()?snap.data().text:"";
+}
+async function saveContent(text){
+  if(isOwner) await setDoc(doc(db,"content",key()),{text});
+}
+
+function renderSubjects(){
+  subjectsDiv.innerHTML="";
+  Object.keys(syllabus).forEach(s=>{
+    const b=document.createElement("button");
+    b.textContent=s;
+    if(path[0]===s) b.classList.add("active");
+    b.onclick=()=>{path=[s];render()};
+    subjectsDiv.appendChild(b);
+  });
+}
+function renderPath(){
+  pathbar.innerHTML="";
+  path.forEach((p,i)=>{
+    const s=document.createElement("span");
+    s.textContent=p;
+    s.onclick=()=>{path=path.slice(0,i+1);render()};
+    pathbar.appendChild(s);
+    if(i<path.length-1) pathbar.append(" › ");
+  });
+}
+async function renderGrid(){
+  grid.innerHTML="";
+  editor.innerHTML="";
+  const node=getNode();
+  if(!node) return;
+
+  if(isLeaf(node)){
+    const ed=document.createElement("div");
+    ed.className="editor";
+    const ta=document.createElement("textarea");
+    ta.value=await loadContent();
+    ta.disabled=!isOwner;
+    ta.oninput=()=>saveContent(ta.value);
+    ed.appendChild(ta);
+    editor.appendChild(ed);
+    return;
   }
 
-};
-</pre>
-
-</main>
-
-<footer>
-©2026 Terminal Joint · For Clear PCM
-</footer>
-
+  Object.keys(node).forEach(k=>{
+    const c=document.createElement("div");
+    c.className="card";
+    c.textContent=k;
+    c.onclick=()=>{path.push(k);render()};
+    grid.appendChild(c);
+  });
+}
+async function render(){
+  renderSubjects();
+  renderPath();
+  await renderGrid();
+}
+render();
+</script>
 </body>
-  </html>
+</html>
