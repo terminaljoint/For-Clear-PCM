@@ -5,209 +5,449 @@
 <title>For Clear PCM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
 <style>
 :root{
   --bg:#0b0f14;--panel:#121821;--border:#1f2937;
-  --text:#e5e7eb;--muted:#9ca3af;--accent:#3b82f6;--green:#22c55e;
+  --text:#e5e7eb;--muted:#9ca3af;--accent:#3b82f6;--ok:#22c55e;--warn:#eab308;--bad:#ef4444;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
-
-header{
-  padding:14px 18px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.brand{font-weight:800}
-.mode{font-size:.7rem;color:var(--muted)}
-
-main{flex:1;max-width:1100px;margin:auto;padding:16px}
-
-.pathbar{
-  font-size:.75rem;
-  color:var(--muted);
-  margin-bottom:12px;
-}
-.pathbar span{color:var(--accent);cursor:pointer}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:12px;
-}
-
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px;
-  cursor:pointer;
-}
+body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);background:#0b1220;position:sticky;top:0;z-index:5}
+.brand{font-weight:800;font-size:1.1rem}
+.tag{font-size:.7rem;color:var(--muted)}
+.hud{display:flex;gap:10px;align-items:center;font-size:.65rem}
+.badge{padding:3px 8px;border-radius:999px;border:1px solid var(--border)}
+.badge.ok{color:var(--ok)}
+.badge.warn{color:var(--warn)}
+.badge.owner{color:var(--accent)}
+main{flex:1;display:grid;grid-template-columns:260px 1fr;min-height:0}
+.sidebar{border-right:1px solid var(--border);background:#0c1320;overflow:auto}
+.sidebar h3{font-size:.75rem;color:var(--muted);padding:10px 12px}
+.subjects button{width:100%;text-align:left;padding:10px 12px;border:none;background:none;color:var(--text);cursor:pointer;font-size:.8rem}
+.subjects button.active{background:#111827;color:var(--accent)}
+.content{overflow:auto;padding:16px}
+.pathbar{font-size:.7rem;color:var(--muted);margin-bottom:10px}
+.pathbar span{cursor:pointer;color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer}
 .card:hover{border-color:var(--accent)}
-.card b{font-size:.85rem}
-
-.viewer{
-  margin-top:20px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:16px;
-  white-space:pre-wrap;
-  line-height:1.6;
-}
-
-.editor{
-  margin-top:20px;
-  background:#020617;
-  border:2px solid var(--green);
-  border-radius:14px;
-  padding:16px;
-}
-.editor h3{font-size:.85rem;color:var(--green);margin-bottom:8px}
-.editor textarea{
-  width:100%;
-  min-height:260px;
-  background:#020617;
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px;
-  font-size:.8rem;
-}
-
-.top-actions button{
-  background:#111827;
-  border:1px solid var(--border);
-  color:var(--text);
-  padding:6px 10px;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-footer{
-  border-top:1px solid var(--border);
-  padding:8px;
-  text-align:center;
-  font-size:.6rem;
-  color:var(--muted);
-}
+.card.done{border-color:var(--ok)}
+.card .title{font-size:.8rem;font-weight:600}
+.card .meta{font-size:.65rem;color:var(--muted);margin-top:6px}
+.editor{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
+.editor textarea{width:100%;min-height:220px;background:#0b1220;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px;font-size:.75rem}
+.editor select{margin-bottom:8px;background:#0b1220;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px;font-size:.7rem}
+footer{border-top:1px solid var(--border);padding:8px;text-align:center;font-size:.6rem;color:var(--muted)}
 </style>
 </head>
-
 <body>
 <header>
   <div>
     <div class="brand">For Clear PCM</div>
-    <div class="mode" id="mode">VIEW MODE</div>
+    <div class="tag">Ultra-deep JEE knowledge system</div>
   </div>
-  <div class="top-actions">
-    <button id="loginBtn">Google Login</button>
-    <button id="logoutBtn" style="display:none">Logout</button>
+  <div class="hud">
+    <div id="overall" class="badge warn">Overall 0%</div>
+    <div id="ownerBadge" class="badge owner" style="display:none">EDITOR</div>
   </div>
 </header>
-
 <main>
-  <div class="pathbar" id="pathbar"></div>
-  <div class="grid" id="grid"></div>
-  <div id="content"></div>
+  <aside class="sidebar">
+    <h3>Subjects</h3>
+    <div class="subjects" id="subjects"></div>
+  </aside>
+  <section class="content">
+    <div class="pathbar" id="pathbar"></div>
+    <div id="grid" class="grid"></div>
+    <div id="editor"></div>
+  </section>
 </main>
-
 <footer>©2026 Terminal Joint · For Clear PCM</footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+<script>
+/* ================= CORE DATA (DEBUG SAFE) ================= */
+const syllabus = {
+  Maths:{
+  Sets_and_Relations:{
+    Sets:{Definition:{},Representation:{Roster_Form:{},Set_Builder_Form:{}},Types:{Null_Set:{},Singleton_Set:{},Finite_Set:{},Infinite_Set:{}},Subsets:{Proper:{},Improper:{},Power_Set:{Number_of_Elements:{},Problems:{}}},Operations:{Union:{Venn_Problems:{}},Intersection:{},Difference:{},Complement:{}},Laws:{De_Morgan:{Proof:{}},Distributive:{},Associative:{},Identity:{}}},
+    Relations:{Ordered_Pairs:{},Cartesian_Product:{},Types:{Reflexive:{},Symmetric:{},Transitive:{},Equivalence:{Equivalence_Classes:{},Problems:{}}}},
+    Functions:{Definition:{},Domain_Range_Codomain:{Restrictions:{}},Types:{One_One:{Tests:{}},Many_One:{},Onto:{},Into:{},Bijective:{}},Algebra_of_Functions:{Composition:{Domain_Range_Effects:{}},Inverse_Functions:{Existence_Conditions:{}}},Graphs_of_Functions:{Polynomial:{Degree_Analysis:{},Turning_Points:{}},Rational:{Asymptotes:{Vertical:{},Horizontal:{},Oblique:{}}},Modulus:{Graph_Shifts:{},Inequality_Problems:{}},Greatest_Integer_Function:{Intervals:{},Graphical_Problems:{}}}}
+  },
+  Algebra:{
+    Quadratic_Equations:{Standard_Form:{Coefficient_Comparison:{}},Discriminant:{Sign_Cases:{D_Positive:{Distinct_Real_Roots:{},Inequality_Cases:{}},D_Zero:{Equal_Roots:{}},D_Negative:{Imaginary_Roots:{}}}},Relation_Between_Roots:{Sum:{},Product:{},Sum_of_Squares:{},Common_Root_Conditions:{}},Formation_of_Quadratic:{Given_Roots:{},Given_Conditions:{Inequalities:{},Parameter_Problems:{}}},Common_Roots:{Condition:{},Problems:{}},Graph_of_Quadratic:{Vertex_Form:{},Axis_of_Symmetry:{},Maximum_Minimum_Value:{},Range_Problems:{}},Integer_Roots:{Bounding:{},Trial_Method:{},Diophantine_Problems:{}}},
+    Sequences_and_Series:{Arithmetic_Progression:{Nth_Term:{},Sum_of_n_Terms:{},Arithmetic_Mean:{},Word_Problems:{}},Geometric_Progression:{Nth_Term:{},Sum_of_n_Terms:{},Infinite_GP:{Convergence_Condition:{}},Geometric_Mean:{},Ratio_Problems:{}},Harmonic_Progression:{Relation_with_AP:{},Problems:{}}},
+    Permutations_and_Combinations:{Fundamental_Principle_of_Counting:{},Factorial_Notation:{},Permutations:{Linear:{},Circular:{},With_Repetition:{},Without_Repetition:{}},Combinations:{Basic_Formula:{},Properties:{},Selection_Problems:{},Distribution_Problems:{},Restricted_Cases:{}}},
+    Binomial_Theorem:{Expansion:{},General_Term:{},Middle_Term:{},Coefficient_Problems:{},Greatest_Term:{},Independent_Terms:{},Properties_of_Binomial_Coefficients:{}},
+    Complex_Numbers:{Algebra:{},Argand_Plane:{Geometrical_Locus:{Circle:{},Line:{}}},Modulus_and_Argument:{Properties:{},Principal_Argument:{}},Triangle_Inequality:{Applications:{}},Rotation_Interpretation:{},Quadratic_Equations_in_Complex_Plane:{}},
+    Matrices_and_Determinants:{Matrices:{Types:{},Operations:{},Transpose:{},Inverse:{By_Adjoint:{},Elementary_Transformations:{}}},Determinants:{Properties:{},Minors_and_Cofactors:{},Applications:{Area:{},System_of_Equations:{Cramer_Rule:{},Consistency_Conditions:{}}}}},
+    Probability:{Sample_Space_and_Events:{},Classical_Probability:{},Conditional_Probability:{},Bayes_Theorem:{},Independent_and_Dependent_Events:{},Total_Probability_Theorem:{},Random_Variables:{Mean:{},Variance:{},Standard_Deviation:{}}}
+  },
+  Coordinate_Geometry:{Straight_Lines:{Slope:{},Equation_of_Line:{Point_Slope:{},Two_Point:{},Intercept_Form:{},Normal_Form:{}},Angle_Between_Lines:{},Distance_of_Point_from_Line:{},Family_of_Lines:{Intersection_of_Lines:{}}},Circles:{Standard_Equation:{},General_Equation:{},Position_of_Point_and_Line:{},Tangent_and_Normal:{Condition_of_Tangency:{},Length_of_Tangent:{},Chord_of_Contact:{Polar_Concept:{}}},Director_Circle:{}},Conic_Sections:{Parabola:{Standard_Forms:{},Focus_Directrix:{},Latus_Rectum:{},Parametric_Form:{},Tangent_Normal_Parametric:{},Director_Circle:{}},Ellipse:{Standard_Forms:{},Eccentricity:{},Auxiliary_Circle:{},Director_Circle:{},Latus_Rectum:{}},Hyperbola:{Standard_Forms:{},Asymptotes:{},Rectangular_Hyperbola:{},Conjugate_Hyperbola:{}}}},
+  Calculus:{Limits:{Algebraic_Limits:{},Trigonometric_Limits:{Standard_Limits:{},Problems:{}},Indeterminate_Forms:{0_by_0:{},Infinity_by_Infinity:{}},LHospital_Rule:{Applicable_Cases:{},Repeated_Application:{}}},Continuity_and_Differentiability:{Continuity:{Types_of_Discontinuity:{Removable:{},Jump:{},Infinite:{}}},Differentiability:{},Piecewise_Functions:{Continuity_Check:{},Differentiability_Check:{}}},Differentiation:{Definition_of_Derivative:{Geometrical_Interpretation:{}},Derivatives_of_Standard_Functions:{},Rules:{Product:{},Quotient:{},Chain:{}},Implicit_Differentiation:{},Logarithmic_Differentiation:{},Higher_Order_Derivatives:{},Parametric_Differentiation:{}},Applications_of_Derivatives:{Increasing_Decreasing_Functions:{First_Derivative_Test:{}},Maxima_Minima:{Second_Derivative_Test:{},Optimization_Problems:{},Absolute_Extrema:{}},Tangents_and_Normals:{Equation_of_Tangent:{},Equation_of_Normal:{},Pair_of_Tangents:{},Length_of_Tangent:{}}},Integration:{Indefinite_Integration:{Methods:{Substitution:{},By_Parts:{},Partial_Fractions:{},Trigonometric_Integrals:{},Reduction_Formulae:{}}},Definite_Integration:{Properties:{},Evaluation:{},Symmetry_Properties:{},Change_of_Variable:{}},Area_Under_Curve:{Between_Curves:{},Using_Definite_Integrals:{},Polar_Curves:{}}},Differential_Equations:{Order_and_Degree:{},Formation_of_Differential_Equations:{},Solution_of_Differential_Equations:{Variable_Separable:{},Homogeneous:{},Linear_DE:{},Bernoulli_Equation:{}}}},
+  Vectors_and_3D:{Vectors:{Vector_Algebra:{Addition:{},Scalar_Multiplication:{}},Dot_Product:{Geometrical_Interpretation:{},Projection:{}},Cross_Product:{Area_of_Triangle:{},Direction:{}},Scalar_Triple_Product:{Volume_of_Parallelepiped:{}}},Three_D_Geometry:{Direction_Ratios_and_Cosines:{},Equation_of_Line:{},Equation_of_Plane:{},Angle_and_Distance:{Between_Lines:{},Between_Planes:{},Line_Plane_Angle:{},Point_to_Plane:{}},Shortest_Distance_Between_Lines:{}}}
+},
+Physics:{
+  Kinematics:{
+    Motion_in_One_Dimension:{
+      Position_Displacement:{},
+      Speed_and_Velocity:{Average:{},Instantaneous:{}},
+      Acceleration:{Uniform:{},Non_Uniform:{}},
+      Equations_of_Motion:{Derivation:{},Graphical_Method:{},Numerical_Applications:{}},
+      Graphs:{x_t_Graph:{Slope_Interpretation:{}},v_t_Graph:{Area_Interpretation:{}},a_t_Graph:{}},
+      Relative_Motion:{Chasing_Problems:{},Separation_Problems:{},Rain_Man_Problems:{}}
+    },
+    Motion_in_Two_Dimensions:{
+      Projectile_Motion:{
+        Basic_Equations:{},Trajectory_Equation:{},
+        Time_of_Flight:{},Maximum_Height:{},Range:{},
+        Projectile_on_Inclined_Plane:{Cases:{}},
+        Horizontal_Projection:{}
+      },
+      Circular_Motion:{
+        Angular_Velocity:{},Angular_Acceleration:{},
+        Centripetal_Acceleration:{},
+        Centrifugal_Pseudo_Force:{},
+        Banking_of_Roads:{},Vertical_Circular_Motion:{}
+      }
+    }
+  },
+  Laws_of_Motion:{
+    Newtons_Laws:{First_Law:{},Second_Law:{Variable_Mass:{},Rocket_Equation:{}},Third_Law:{}},
+    Inertial_and_Non_Inertial_Frames:{Pseudo_Forces:{}},
+    Free_Body_Diagrams:{Construction:{},Force_Analysis:{},Constraint_Forces:{}},
+    Friction:{
+      Static_Friction:{Limiting_Friction:{},Coefficient_of_Friction:{}},
+      Kinetic_Friction:{},
+      Friction_on_Inclined_Plane:{},
+      Rolling_Friction:{},
+      Friction_with_Pulleys:{}
+    },
+    Tension_in_Strings:{Single_String:{},Multiple_Strings:{},Pulley_Systems:{}}
+  },
+  Work_Energy_Power:{
+    Work:{Constant_Force:{},Variable_Force:{Graphical_Work:{}}},
+    Energy:{
+      Kinetic_Energy:{},
+      Potential_Energy:{Gravitational:{},Spring_Potential:{}},
+      Conservative_and_Non_Conservative_Forces:{}
+    },
+    Work_Energy_Theorem:{},
+    Power:{Average_Power:{},Instantaneous_Power:{}},
+    Collision:{
+      Types_of_Collisions:{Elastic:{},Inelastic:{}},
+      One_D_Collisions:{},
+      Two_D_Collisions:{Oblique_Collisions:{}}
+    }
+  },
+  Rotational_Motion:{
+    Rigid_Body:{},
+    Torque:{Moment_of_Force:{},Couple:{}},
+    Angular_Momentum:{Conservation:{}},
+    Moment_of_Inertia:{
+      Discrete_System:{},
+      Continuous_Body:{Rod:{},Ring:{},Disc:{},Sphere:{}},
+      Parallel_Axis_Theorem:{},
+      Perpendicular_Axis_Theorem:{}
+    },
+    Rotational_Kinetic_Energy:{},
+    Rolling_Motion:{Pure_Rolling:{},Rolling_with_Slipping:{},Energy_Analysis:{}}
+  },
+  Gravitation:{
+    Newtons_Law_of_Gravitation:{},
+    Gravitational_Field_and_Potential:{Field_Intensity:{},Potential_Energy:{}},
+    Variation_of_g:{With_Height:{},With_Depth:{},With_Latitude:{}},
+    Escape_Velocity:{},
+    Satellite_Motion:{Orbital_Velocity:{},Time_Period:{},Energy_of_Satellite:{}}
+  },
+  Thermodynamics_and_Kinetic_Theory:{
+    Thermal_Properties_of_Matter:{
+      Temperature_Scales:{},
+      Thermal_Expansion:{Linear:{},Areal:{},Volumetric:{}},
+      Calorimetry:{},
+      Change_of_State:{Latent_Heat:{}}
+    },
+    Laws_of_Thermodynamics:{
+      Zeroth_Law:{},
+      First_Law:{Work_Heat_Relation:{},PV_Diagrams:{}},
+      Second_Law:{Heat_Engines:{Efficiency:{}},Refrigerators:{COP:{}}}
+    },
+    Entropy:{Change_in_Entropy:{}},
+    Kinetic_Theory_of_Gases:{
+      Assumptions:{},
+      Pressure_Formula:{},
+      RMS_Speed:{},
+      Degrees_of_Freedom:{},
+      Mean_Free_Path:{},
+      Law_of_Equipartition_of_Energy:{}
+    }
+  },
+  Oscillations_and_Waves:{
+    Simple_Harmonic_Motion:{
+      Definition:{},Equation_of_SHM:{},
+      Time_Period:{Spring_Mass_System:{},Simple_Pendulum:{Length_Correction:{}}},
+      Energy_in_SHM:{},
+      Phase_Relations:{},
+      Damped_and_Forced_Oscillations:{Resonance:{}}
+    },
+    Waves:{
+      Wave_Equation:{},Speed_of_Wave:{},
+      Superposition_of_Waves:{Beats:{}},
+      Sound_Waves:{Doppler_Effect:{Source_Motion:{},Observer_Motion:{}}},
+      Standing_Waves:{Nodes_and_Antinodes:{},Resonance_Tube:{}}
+    }
+  },
+  Electrostatics:{
+    Electric_Charge_and_Field:{
+      Coulombs_Law:{},
+      Electric_Field_Intensity:{},
+      Electric_Flux:{},
+      Gauss_Law:{Applications:{Infinite_Line:{},Infinite_Plane:{},Spherical_Shell:{}}}
+    },
+    Electric_Potential_and_Capacitance:{
+      Electric_Potential:{},
+      Potential_Energy:{},
+      Capacitance:{Parallel_Plate_Capacitor:{With_Dielectric:{}},Spherical_Capacitor:{}},
+      Combination_of_Capacitors:{Series:{},Parallel:{}}
+    }
+  },
+  Current_Electricity:{
+    Electric_Current:{Drift_Velocity:{},Mobility:{}},
+    Ohms_Law:{Microscopic_Form:{}},
+    Electrical_Resistance:{Temperature_Dependence:{}},
+    Kirchhoffs_Laws:{Loop_Rule:{},Junction_Rule:{}},
+    Electrical_Energy_and_Power:{},
+    Wheatstone_Bridge:{},
+    Potentiometer:{Principle:{},Applications:{}}},
+  Magnetism_and_Electromagnetic_Induction:{
+    Magnetism:{
+      Magnetic_Field:{},
+      Biot_Savart_Law:{},
+      Ampere_Circuital_Law:{},
+      Magnetic_Force_on_Charge_and_Current:{},
+      Torque_on_Current_Loop:{},
+      Moving_Coil_Galvanometer:{Sensitivity:{}}
+    },
+    Magnetic_Properties_of_Matter:{Dia:{},Para:{},Ferro:{Hysteresis:{}}},
+    Electromagnetic_Induction:{
+      Faradays_Laws:{},
+      Lenz_Law:{},
+      Induced_EMF:{Motional_EMF:{}},
+      Self_and_Mutual_Inductance:{Energy_Stored:{}}
+    }
+  },
+  Alternating_Current:{
+    AC_Circuits:{AC_Through_R:{},AC_Through_L:{},AC_Through_C:{},LCR_Circuit:{Resonance:{},Quality_Factor:{}}},
+    Power_in_AC_Circuit:{Power_Factor:{}},
+    Transformers:{Efficiency:{},Energy_Losses:{}}
+  },
+  Optics:{
+    Ray_Optics:{
+      Reflection:{Mirror_Formula:{},Magnification:{},Ray_Diagrams:{}},
+      Refraction:{Snells_Law:{},Refractive_Index:{},Total_Internal_Reflection:{Critical_Angle:{}}},
+      Optical_Instruments:{Microscope:{Magnifying_Power:{}},Telescope:{Magnifying_Power:{}}}
+    },
+    Wave_Optics:{
+      Interference:{Youngs_Double_Slit_Experiment:{Fringe_Width:{}}},
+      Diffraction:{Single_Slit_Diffraction:{Angular_Width:{}}},
+      Polarization:{Brewsters_Law:{}}
+    }
+  },
+  Modern_Physics:{
+    Dual_Nature_of_Radiation_and_Matter:{Photoelectric_Effect:{Stopping_Potential:{},Graphical_Analysis:{}}},
+    Atoms:{Bohrs_Model_of_Hydrogen:{Energy_Levels:{},Spectral_Lines:{}}},
+    Nuclei:{Radioactivity:{Decay_Law:{},Half_Life:{},Mean_Life:{}},Nuclear_Fission_and_Fusion:{Energy_Calculations:{}}},
+    Semiconductor_Electronics:{
+      Energy_Bands:{},
+      Diodes:{PN_Junction:{Biasing:{}},Zener_Diode:{Voltage_Regulation:{}}},
+      Transistors:{Configurations:{CE:{},CB:{},CC:{}}},
+      Logic_Gates:{AND:{},OR:{},NOT:{}}
+    }
+  }
+},
+Chemistry:{
+  Physical:{
+    Mole_Concept:{
+      Mole_Definition:{},Avogadro_Number:{},
+      Stoichiometry:{
+        Limiting_Reagent:{Concept:{},Numerical_Problems:{},Multi_Reaction_Cases:{}},
+        Excess_Reagent:{},Percentage_Yield:{},
+        Empirical_Formula:{},Molecular_Formula:{},
+        Volumetric_Analysis:{Titration_Curves:{}}
+      },
+      Concentration_Terms:{Molarity:{Dilution_Problems:{}},Molality:{},Normality:{},Mole_Fraction:{},ppm:{}}
+    },
+    Atomic_Structure:{
+      Subatomic_Particles:{Discovery:{},Properties:{}},
+      Bohrs_Model:{Postulates:{},Radius_of_Orbit:{},Energy_of_Orbit:{},Limitations:{}},
+      Dual_Nature_of_Matter:{Photoelectric_Link:{}},
+      de_Broglie_Wavelength:{},
+      Heisenberg_Uncertainty_Principle:{},
+      Quantum_Numbers:{n:{},l:{},m:{},s:{}},
+      Electronic_Configuration:{Aufbau_Principle:{Exceptions:{}},Pauli_Exclusion:{},Hunds_Rule:{}}
+    },
+    Thermodynamics:{
+      System_and_Surroundings:{},State_Functions:{},
+      First_Law_of_Thermodynamics:{Internal_Energy_Change:{}},
+      Enthalpy_Changes:{Reaction:{},Formation:{},Combustion:{},Neutralization:{}},
+      Hess_Law:{Application_Problems:{}},
+      Bond_Enthalpy:{},Entropy:{Entropy_Change:{}},
+      Gibbs_Free_Energy:{Spontaneity:{},Equilibrium_Relation:{}}
+    },
+    Chemical_Kinetics:{
+      Rate_of_Reaction:{Average:{},Instantaneous:{}},
+      Rate_Law:{Order_of_Reaction:{},Molecularity:{}},
+      Integrated_Rate_Equations:{Zero_Order:{},First_Order:{},Pseudo_First_Order:{}},
+      Half_Life:{},
+      Arrhenius_Equation:{Activation_Energy:{},Temperature_Dependence:{}},
+      Collision_Theory:{},Catalysis_Effect:{}}
+    ,
+    Electrochemistry:{
+      Electrochemical_Cells:{Cell_Representation:{}},
+      Galvanic_Cell:{},
+      Cell_Potential:{Standard_Electrode_Potential:{}},
+      Nernst_Equation:{Numerical_Problems:{},Concentration_Cell:{}},
+      Conductance:{Specific_Conductance:{},Molar_Conductance:{Limiting_Molar_Conductance:{}}},
+      Electrolysis:{Faradays_Laws:{},Numerical_Problems:{}}
+    },
+    Solutions:{
+      Types_of_Solutions:{},Solubility:{Henry_Law:{}},
+      Colligative_Properties:{
+        Relative_Lowering_of_Vapour_Pressure:{},
+        Elevation_of_Boiling_Point:{},
+        Depression_of_Freezing_Point:{},
+        Osmotic_Pressure:{}
+      },
+      Abnormal_Molar_Mass:{Van_t_Hoff_Factor:{Association:{},Dissociation:{}}}
+    },
+    Surface_Chemistry:{
+      Adsorption:{Physisorption:{},Chemisorption:{},Isotherms:{Freundlich:{},Langmuir:{}}},
+      Catalysis:{Homogeneous:{},Heterogeneous:{}},
+      Colloids:{Types:{},Properties:{},Preparation:{},Applications:{}}
+    }
+  },
+  Inorganic:{
+    Periodic_Table:{
+      Modern_Periodic_Law:{},
+      Periodic_Trends:{Atomic_Radius:{},Ionization_Enthalpy:{},Electron_Affinity:{},Electronegativity:{}}
+    },
+    Chemical_Bonding:{
+      Ionic_Bond:{Lattice_Energy:{},Born_Haber_Cycle:{}},
+      Covalent_Bond:{Lewis_Structures:{},Formal_Charge:{}},
+      VSEPR_Theory:{},
+      Hybridization:{sp:{},sp2:{},sp3:{},dsp2:{},d2sp3:{}},
+      Molecular_Orbital_Theory:{Bond_Order:{},Magnetic_Properties:{}}
+    },
+    s_Block_Elements:{Alkali_Metals:{Properties:{},Anomalous_Behaviour_of_Lithium:{}},Alkaline_Earth_Metals:{Properties:{},Anomalous_Behaviour_of_Beryllium:{}}},
+    p_Block_Elements:{Group_13:{},Group_14:{},Group_15:{},Group_16:{},Group_17:{},Group_18:{}},
+    d_and_f_Block_Elements:{Transition_Elements:{General_Properties:{},Oxidation_States:{},Complex_Formation:{}},Lanthanides:{Lanthanide_Contraction:{}},Actinides:{}},
+    Coordination_Compounds:{Werner_Theory:{},Nomenclature:{},Isomerism:{Structural:{},Geometrical:{},Optical:{}},Bonding:{VBT:{},CFT:{},Spectrochemical_Series:{}}}
+  },
+  Organic:{
+    General_Organic_Chemistry:{
+      Electronic_Effects:{Inductive:{+I:{},-I:{}},Resonance:{},Hyperconjugation:{}},
+      Acidity_and_Basicity:{},
+      Reaction_Intermediates:{Carbocation:{Stability:{}},Carbanion:{Stability:{}},Free_Radical:{Stability:{}}},
+      Reaction_Mechanisms:{SN1:{},SN2:{},E1:{},E2:{}},
+      Isomerism:{Structural:{},Geometrical:{},Optical:{}}
+    },
+    Hydrocarbons:{
+      Alkanes:{Preparation:{},Reactions:{},Conformations:{}},
+      Alkenes:{Preparation:{},Reactions:{Markovnikov:{},Anti_Markovnikov:{},Ozonolysis:{}},Geometrical_Isomerism:{}},
+      Alkynes:{Preparation:{},Reactions:{}}
+    },
+    Haloalkanes_and_Haloarenes:{
+      Preparation:{},
+      Nucleophilic_Substitution:{SN1:{},SN2:{}},
+      Elimination_Reactions:{Saytzeff_Rule:{}},
+      Finkelstein_Reaction:{},Swarts_Reaction:{}
+    },
+    Alcohols_Phenols_and_Ethers:{
+      Alcohols:{Preparation:{},Reactions:{Oxidation:{},Dehydration:{}}},
+      Phenols:{Acidity:{},Reactions:{Kolbe_Reaction:{},Reimer_Tiemann:{} }},
+      Ethers:{Williamson_Synthesis:{},Cleavage_Reactions:{}}
+    },
+    Aldehydes_Ketones_and_Carboxylic_Acids:{
+      Aldehydes_and_Ketones:{Nucleophilic_Addition:{},Tests:{},Reactions:{Aldol:{},Cannizzaro:{}}},
+      Carboxylic_Acids:{Acidity:{},Reactions:{HVZ_Reaction:{},Decarboxylation:{}}}
+    },
+    Amines:{Classification:{},Preparation:{},Basicity:{},Diazonium_Salts:{Preparation:{},Reactions:{Sandmeyer:{},Gattermann:{}}}},
+    Biomolecules:{Carbohydrates:{},Proteins:{},Amino_Acids:{},Vitamins:{},Nucleic_Acids:{}},
+    Polymers:{Classification:{},Natural_Polymers:{},Synthetic_Polymers:{}},
+    Chemistry_in_Everyday_Life:{Drugs:{},Detergents:{},Soaps:{},Food_Additives:{}}
+  }
+}
+;
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",
-  authDomain: "forclearpcm.firebaseapp.com",
-  projectId: "forclearpcm",
-  storageBucket: "forclearpcm.appspot.com",
-  messagingSenderId: "313585574692",
-  appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1"
-};
+let path = [];
+let OWNER = false; // UI only, auth later
 
-const OWNER_UIDS=[
-  "NbJq7HLBt0Pd7O55f4u82HTWOyu2",
-  "4MXKQ1JnnIUARfdYlIUbD0Q4erD2"
-];
+const subjectsDiv = document.getElementById('subjects');
+const grid = document.getElementById('grid');
+const pathbar = document.getElementById('pathbar');
+const editor = document.getElementById('editor');
 
-const syllabus={ Maths:{Algebra:{Quadratic_Equations:{Discriminant:{D_Positive:{},D_Zero:{}}}}} };
-
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-const provider=new GoogleAuthProvider();
-
-let path=[],user=null,isOwner=false;
-
-const grid=document.getElementById("grid");
-const pathbar=document.getElementById("pathbar");
-const content=document.getElementById("content");
-const mode=document.getElementById("mode");
-
-document.getElementById("loginBtn").onclick=()=>signInWithPopup(auth,provider);
-document.getElementById("logoutBtn").onclick=()=>signOut(auth);
-
-onAuthStateChanged(auth,u=>{
-  user=u;
-  isOwner=!!u && OWNER_UIDS.includes(u.uid);
-  mode.textContent=isOwner?"OWNER EDIT MODE":"VIEW MODE";
-  document.getElementById("loginBtn").style.display=u?"none":"inline-block";
-  document.getElementById("logoutBtn").style.display=u?"inline-block":"none";
-  render();
-});
-
+/* ================= HELPERS ================= */
 function getNode(){
-  let n=syllabus;
-  for(const p of path){ n=n[p]; }
+  let n = syllabus;
+  for(const k of path){ if(!n[k]) return null; n = n[k]; }
   return n;
 }
-function isLeaf(n){ return Object.keys(n).length===0; }
-function key(){ return path.join("/"); }
+function isLeaf(node){ return typeof node === 'object' && Object.keys(node).length === 0; }
 
-async function load(){
-  const snap=await getDoc(doc(db,"content",key()));
-  return snap.exists()?snap.data().text:"";
-}
-async function save(text){
-  if(isOwner) await setDoc(doc(db,"content",key()),{text});
-}
-
-function render(){
-  grid.innerHTML=""; content.innerHTML=""; pathbar.innerHTML="";
-  path.forEach((p,i)=>{
-    const s=document.createElement("span");
-    s.textContent=p;
-    s.onclick=()=>{path=path.slice(0,i+1);render()};
-    pathbar.appendChild(s);
-    if(i<path.length-1) pathbar.append(" › ");
+/* ================= RENDER ================= */
+function renderSubjects(){
+  subjectsDiv.innerHTML='';
+  Object.keys(syllabus).forEach(s=>{
+    const b=document.createElement('button');
+    b.textContent=s;
+    if(path[0]===s) b.classList.add('active');
+    b.onclick=()=>{ path=[s]; render(); };
+    subjectsDiv.appendChild(b);
   });
+}
 
-  const node=getNode();
+function renderPath(){
+  pathbar.innerHTML='';
+  path.forEach((p,i)=>{
+    const sp=document.createElement('span');
+    sp.textContent=p;
+    sp.onclick=()=>{ path=path.slice(0,i+1); render(); };
+    pathbar.appendChild(sp);
+    if(i<path.length-1) pathbar.appendChild(document.createTextNode(' › '));
+  });
+}
+
+function renderGrid(){
+  grid.innerHTML='';
+  editor.innerHTML='';
+  const node = getNode();
+  if(!node) return;
+
   if(isLeaf(node)){
-    load().then(t=>{
-      if(isOwner){
-        content.innerHTML=`<div class="editor"><h3>Owner Editor</h3><textarea>${t}</textarea></div>`;
-        content.querySelector("textarea").oninput=e=>save(e.target.value);
-      }else{
-        content.innerHTML=`<div class="viewer">${t||"No content yet"}</div>`;
-      }
-    });
+    const ed=document.createElement('div');
+    ed.className='editor';
+    ed.innerHTML='<div class="meta">Terminal concept</div>';
+    if(OWNER){
+      const ta=document.createElement('textarea');
+      ed.appendChild(ta);
+    }
+    editor.appendChild(ed);
     return;
   }
 
   Object.keys(node).forEach(k=>{
-    const c=document.createElement("div");
-    c.className="card";
-    c.innerHTML=`<b>${k}</b>`;
-    c.onclick=()=>{path.push(k);render()};
+    const c=document.createElement('div');
+    c.className='card';
+    c.innerHTML=`<div class="title">${k}</div><div class="meta">Select</div>`;
+    c.onclick=()=>{ path.push(k); render(); };
     grid.appendChild(c);
   });
+}
+
+function render(){
+  renderSubjects();
+  renderPath();
+  renderGrid();
 }
 
 render();
