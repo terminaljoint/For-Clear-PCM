@@ -62,7 +62,6 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.firebasestorage.app",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
-
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const provider=new GoogleAuthProvider();
@@ -70,197 +69,138 @@ const db=getFirestore(app);
 
 const OWNER_UIDS=["NbJq7HLBt0Pd7O55f4u82HTWOyu2","4MXKQ1JnnIUARfdYlIUbD0Q4erD2"];
 
-const syllabus={
-Maths:{
-  Sets_and_Relations:{
-    Sets:{Definition:{},Types:{},Subsets:{},Operations:{},Laws:{}},
-    Relations:{Types:{},Functions:{Domain:{},Range:{},Types:{}}}
+const syllabus = {
+  Maths:{
+    Sets_and_Relations:{
+      Sets:{Definition:{Concept:{}},Representation:{Roster_Form:{},Set_Builder_Form:{}},Types:{Empty_Set:{},Singleton_Set:{},Finite_Set:{},Infinite_Set:{}},Subsets:{Proper_Subset:{},Improper_Subset:{},Power_Set:{Cardinality:{}},Operations:{Union:{},Intersection:{},Difference:{},Complement:{}},Laws:{De_Morgan_First:{},De_Morgan_Second:{}}},
+      Relations:{Ordered_Pairs:{},Cartesian_Product:{},Types:{Reflexive:{},Symmetric:{},Transitive:{},Equivalence:{Equivalence_Classes:{}}},Functions:{Domain:{},Codomain:{},Range:{},Types:{One_One:{},Onto:{},Into:{},Bijective:{}}}}
+    },
+    Algebra:{
+      Quadratic_Equations:{Standard_Form:{},Roots:{Nature_of_Roots:{},Discriminant:{}},Methods:{Factorisation:{},Completing_Square:{},Formula_Method:{}},Graphs:{Parabola:{Vertex:{},Axis:{},Intercepts:{}}}},
+      Sequences_and_Series:{Arithmetic_Progression:{Nth_Term:{},Sum:{}},Geometric_Progression:{Nth_Term:{},Sum:{},Infinite_GP:{}},Harmonic_Progression:{Relation_with_AP:{}}},
+      Permutations_and_Combinations:{Fundamental_Principle:{},Factorial:{},Arrangements:{},Combinations:{}},
+      Binomial_Theorem:{Expansion:{},General_Term:{},Middle_Term:{},Properties:{}},
+      Complex_Numbers:{Algebra_of_Complex:{},Argand_Plane:{},Modulus_Argument:{}},
+      Matrices_and_Determinants:{Matrices:{Types:{},Operations:{}},Determinants:{Properties:{},Applications:{}}},
+      Probability:{Classical_Probability:{},Conditional_Probability:{},Bayes_Theorem:{}}
+    },
+    Coordinate_Geometry:{
+      Straight_Lines:{Slope:{},Equation_of_Line:{Point_Slope:{},Two_Point:{},Intercept_Form:{},Normal_Form:{}},Angle_Between_Lines:{},Distance_Formula:{}},
+      Circles:{Equation:{Standard:{},General:{}},Tangent:{Length_of_Tangent:{},Condition_of_Tangent:{}},Chord:{Properties:{}}},
+      Parabola:{Standard_Equation:{},Focus_Directrix:{},Latus_Rectum:{}},
+      Ellipse:{Standard_Equation:{},Eccentricity:{},Director_Circle:{}},
+      Hyperbola:{Standard_Equation:{},Asymptotes:{},Rectangular_Hyperbola:{}}
+    },
+    Calculus:{
+      Limits:{Concept:{},Standard_Limits:{Trigonometric:{},Algebraic:{}},Continuity:{}},
+      Differentiation:{Definition:{},Rules:{Product:{},Quotient:{},Chain:{}},Derivatives_of_Functions:{}},
+      Applications_of_Derivatives:{Increasing_Decreasing:{},Maxima_Minima:{},Tangents_Normals:{}},
+      Integration:{Indefinite:{Methods:{Substitution:{},Integration_by_Parts:{},Partial_Fractions:{}}},Definite:{Properties:{},Area_Under_Curve:{}}},
+      Differential_Equations:{Order_Degree:{},Formation:{},Solution:{}}},
+    Vectors_and_3D:{Vectors:{Addition:{},Scalar_Product:{},Vector_Product:{}},Three_D_Geometry:{Direction_Cosines:{},Equation_of_Line:{},Equation_of_Plane:{}}}
   },
-  Algebra:{
-    Quadratic_Equations:{},
-    Sequences_and_Series:{AP:{},GP:{},HP:{}},
-    Permutations_and_Combinations:{},
-    Binomial_Theorem:{},
-    Matrices_and_Determinants:{},
-    Complex_Numbers:{},
-    Probability:{}
+  Physics:{
+    Kinematics:{One_D_Motion:{Displacement:{},Velocity:{},Acceleration:{},Equations_of_Motion:{}},Two_D_Motion:{Projectile_Motion:{Range:{},Time_of_Flight:{},Maximum_Height:{}}}},
+    Laws_of_Motion:{Newton_Laws:{First:{},Second:{},Third:{}},Friction:{Static:{},Kinetic:{}}},
+    Work_Energy_Power:{Work:{},Energy:{Kinetic:{},Potential:{}},Power:{}},
+    Rotational_Mechanics:{Torque:{},Angular_Momentum:{},Moment_of_Inertia:{}},
+    Gravitation:{Newton_Law:{},Satellite_Motion:{},Escape_Velocity:{}},
+    Oscillations_and_Waves:{SHM:{Time_Period:{}},Waves:{Wave_Equation:{},Sound_Waves:{}}},
+    Thermodynamics:{Thermal_Properties:{},Laws_of_Thermodynamics:{First:{},Second:{}},Heat_Engines:{}},
+    Electrostatics:{Electric_Charge:{},Coulomb_Law:{},Electric_Field:{},Electric_Potential:{}},
+    Current_Electricity:{Ohms_Law:{},Resistance:{},Kirchhoffs_Laws:{}},
+    Magnetism_and_Matter:{Magnetic_Field:{},Biot_Savart_Law:{},Ampere_Law:{}},
+    Electromagnetic_Induction:{Faradays_Laws:{},Lenz_Law:{},Self_Inductance:{}},
+    Alternating_Current:{AC_Circuits:{},Reactance:{},Power_Factor:{}},
+    Optics:{Ray_Optics:{Reflection:{},Refraction:{}},Wave_Optics:{Interference:{},Diffraction:{}}},
+    Modern_Physics:{Dual_Nature:{Photoelectric_Effect:{}},Atoms_and_Nuclei:{Radioactivity:{},Nuclear_Reactions:{}},Semiconductors:{Diode:{},Transistor:{}}}
   },
-  Coordinate_Geometry:{
-    Straight_Lines:{},
-    Circles:{},
-    Parabola:{},
-    Ellipse:{},
-    Hyperbola:{}
-  },
-  Calculus:{
-    Limits:{},
-    Continuity_and_Differentiability:{},
-    Differentiation:{},
-    Applications_of_Derivatives:{},
-    Integration:{},
-    Differential_Equations:{},
-    Area_under_Curves:{}
-  },
-  Vectors_and_3D:{
-    Vectors:{},
-    Three_D_Geometry:{}
+  Chemistry:{
+    Physical:{Mole_Concept:{Laws:{},Stoichiometry:{}},Atomic_Structure:{Bohrs_Model:{}},Thermodynamics:{},Chemical_Kinetics:{},Electrochemistry:{},Solutions:{},Surface_Chemistry:{}},
+    Inorganic:{Periodic_Table:{Trends:{}},Chemical_Bonding:{VSEPR:{},Hybridisation:{}},s_Block:{},p_Block:{},d_f_Block:{},Coordination_Compounds:{Nomenclature:{},Isomerism:{}}},
+    Organic:{GOC:{Inductive_Effect:{},Resonance:{},Hyperconjugation:{}},Hydrocarbons:{Alkanes:{},Alkenes:{},Alkynes:{}},Haloalkanes_and_Haloarenes:{},Alcohols_Phenols_Ethers:{},Aldehydes_Ketones_Carboxylic_Acids:{},Amines:{},Biomolecules:{},Polymers:{},Chemistry_in_Everyday_Life:{}}
   }
-},
-Physics:{
-  Kinematics:{},
-  Laws_of_Motion:{},
-  Work_Energy_Power:{},
-  Rotational_Mechanics:{},
-  Gravitation:{},
-  Properties_of_Matter:{},
-  Thermodynamics:{},
-  Oscillations_and_Waves:{},
-  Electrostatics:{},
-  Current_Electricity:{},
-  Magnetism_and_Matter:{},
-  Electromagnetic_Induction:{},
-  Alternating_Current:{},
-  Electromagnetic_Waves:{},
-  Optics:{Ray_Optics:{},Wave_Optics:{}},
-  Modern_Physics:{
-    Dual_Nature:{},
-    Atoms_and_Nuclei:{},
-    Semiconductor_Devices:{}
-  }
-},
-Chemistry:{
-  Physical:{
-    Mole_Concept:{},
-    Atomic_Structure:{},
-    Chemical_Bonding:{},
-    Thermodynamics:{},
-    Redox_Reactions:{},
-    Chemical_Kinetics:{},
-    Electrochemistry:{},
-    Solutions:{},
-    Surface_Chemistry:{}
-  },
-  Inorganic:{
-    Periodic_Table:{},
-    Hydrogen:{},
-    s_Block:{},
-    p_Block:{},
-    d_and_f_Block:{},
-    Coordination_Compounds:{},
-    Metallurgy:{}
-  },
-  Organic:{
-    GOC:{},
-    Hydrocarbons:{},
-    Haloalkanes_and_Haloarenes:{},
-    Alcohols_Phenols_Ethers:{},
-    Aldehydes_Ketones_Carboxylic_Acids:{},
-    Amines:{},
-    Biomolecules:{},
-    Polymers:{},
-    Chemistry_in_Everyday_Life:{}
-  }
-}
 };
 
 let OWNER=false;
-// Editable only at true terminal nodes AND sufficient depth
-const isTerminalNode = (node) => typeof node === 'object' && Object.keys(node).length === 0;
-const MIN_EDIT_DEPTH = 3;
-let currentSubject=null;
-let currentPath=[];
+let path=[];
 
-window.addEventListener('DOMContentLoaded',()=>{
-  const sidebar=document.getElementById('sidebar');
-  const content=document.getElementById('content');
-  const badge=document.getElementById('editorBadge');
+const content=document.getElementById('content');
 
-  function pushHistory(){
-    history.pushState({subject:currentSubject,path:[...currentPath]},"",`#${currentSubject||''}/${currentPath.slice(1).join('/')}`);
-  }
+async function loadNode(p){
+  const ref=doc(db,'syllabus',p[0]);
+  const snap=await getDoc(ref);
+  return snap.exists()?snap.data().nodes?.[p.join('/')]||null:null;
+}
 
-  window.addEventListener('popstate',e=>{
-    if(e.state){
-      currentSubject=e.state.subject;
-      currentPath=e.state.path||[];
-      render();
-    }
+async function saveNode(p,contentText,status){
+  const ref=doc(db,'syllabus',p[0]);
+  await setDoc(ref,{nodes:{[p.join('/')]:{content:contentText,status}}},{merge:true});
+}
+
+function renderSelector(){
+  content.innerHTML='';
+
+  // Breadcrumb (option 3)
+  const bc=document.getElementById('breadcrumb');
+  bc.innerHTML='';
+  path.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.className='subject-btn';
+    b.style.marginRight='4px';
+    b.innerText=p;
+    b.onclick=()=>{path=path.slice(0,i+1);renderSelector();};
+    bc.appendChild(b);
   });
 
-  function renderSidebarRecursive(node,path=[],depth=0){
+  let node=syllabus;
+  for(const k of path) node=node[k];
+
+  // Not terminal: buttons only
+  if(typeof node==='object' && Object.keys(node).length>0){
+    const title=document.createElement('h1');
+    title.innerText=path.length?path[path.length-1]:'Select Subject';
+    content.appendChild(title);
+
     Object.keys(node).forEach(k=>{
-      const fullPath=[...path,k];
-      const d=document.createElement('div');
-      d.className=`node depth-${depth}`+(fullPath.join('/')===currentPath.join('/')?' active':'');
-      d.innerText=k;
-      d.onclick=()=>{currentSubject=fullPath[0];currentPath=fullPath;pushHistory();render();};
-      sidebar.appendChild(d);
-      if(typeof node[k]==='object'){
-        renderSidebarRecursive(node[k],fullPath,depth+1);
-      }
+      const btn=document.createElement('button');
+      btn.className='subject-btn';
+      btn.innerText=k;
+      btn.onclick=()=>{path.push(k);renderSelector();};
+      content.appendChild(btn);
     });
+    return;
   }
 
-  async function loadNode(path){
-    const ref=doc(db,'syllabus',path[0]);
-    const snap=await getDoc(ref);
-    return snap.exists()?snap.data().nodes?.[path.join('/')]||null:null;
+  // Terminal node
+  renderEditor();
+}
+
+async function renderEditor(){
+  const data = await loadNode(path) || {content:'',status:'empty'};
+  content.innerHTML=`<h1>${path[path.length-1]}</h1><div class='meta'>Status: ${data.status}</div>`;
+
+  if(OWNER){
+    const sel=document.createElement('select');
+    ['empty','draft','done','revised'].forEach(s=>{const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o);});
+    const ta=document.createElement('textarea');ta.value=data.content;
+    ta.oninput=()=>saveNode(path,ta.value,sel.value);
+    sel.onchange=()=>saveNode(path,ta.value,sel.value);
+    content.appendChild(sel);content.appendChild(ta);
+  } else {
+    content.innerHTML+= data.content?`<pre>${data.content}</pre>`:`<p class='meta'>No content yet</p>`;
   }
+}
 
-  async function saveNode(path,content,status){
-    const ref=doc(db,'syllabus',path[0]);
-    await setDoc(ref,{nodes:{[path.join('/')]:{content,status}}},{merge:true});
-  }
-
-  async function render(){
-    sidebar.innerHTML='<h3>SYLLABUS</h3>';
-
-    if(!currentSubject){
-      renderSidebarRecursive(syllabus,[],0);
-      content.innerHTML='<h1>For Clear PCM</h1><p class="meta">Select a subject or use browser back/forward safely.</p>';
-      return;
-    }
-
-    renderSidebarRecursive(syllabus,[],0);
-
-    let node=syllabus[currentSubject];
-    for(let i=1;i<currentPath.length;i++) node=node[currentPath[i]];
-
-    if(!isTerminalNode(node) || currentPath.length < MIN_EDIT_DEPTH){
-      content.innerHTML='<h1>'+currentPath[currentPath.length-1]+'</h1><p class="meta">Navigate deeper</p>';
-      return;
-    }
-
-    // Only deepest nodes can load content
-const data = await loadNode(currentPath) || {content:'',status:'empty'};
-    content.innerHTML=`<h1>${currentPath[currentPath.length-1]}</h1><div class='meta'>Status: ${data.status}</div>`;
-
-    if(OWNER){
-      const sel=document.createElement('select');
-      ['empty','draft','done','revised'].forEach(s=>{const o=document.createElement('option');o.value=o.text=s;if(s===data.status)o.selected=true;sel.appendChild(o);});
-      const ta=document.createElement('textarea');ta.value=data.content;
-      ta.oninput=()=>saveNode(currentPath,ta.value,sel.value);
-      sel.onchange=()=>saveNode(currentPath,ta.value,sel.value);
-      content.appendChild(sel);content.appendChild(ta);
-    } else {
-      content.innerHTML+= data.content?`<pre>${data.content}</pre>`:`<p class='meta'>No content yet</p>`;
-    }
-  }
-
-  document.querySelectorAll('.subject-btn').forEach(b=>b.onclick=()=>{currentSubject=b.dataset.sub;currentPath=[b.dataset.sub];pushHistory();render();});
-  document.getElementById('loginBtn').onclick=()=>signInWithPopup(auth,provider);
-  document.getElementById('logoutBtn').onclick=()=>signOut(auth);
-
-  onAuthStateChanged(auth,user=>{
-    OWNER=!!user&&OWNER_UIDS.includes(user.uid);
-    badge.style.display=OWNER?'inline-block':'none';
-    document.getElementById('loginBox').style.display=user?'none':'block';
-    document.getElementById('logoutBtn').style.display=user?'block':'none';
-    render();
-  });
-
-  render();
+onAuthStateChanged(auth,user=>{
+  OWNER=!!user&&OWNER_UIDS.includes(user.uid);
+  document.getElementById('editorBadge').style.display=OWNER?'inline-block':'none';
+  document.getElementById('loginBox').style.display=user?'none':'block';
+  document.getElementById('logoutBtn').style.display=user?'block':'none';
+  renderSelector();
 });
+
+renderSelector();
 </script>
 </head>
 <body>
@@ -279,8 +219,9 @@ const data = await loadNode(currentPath) || {content:'',status:'empty'};
 </div>
 
 <main>
-  <aside class="sidebar" id="sidebar"></aside>
-  <section class="content" id="content"></section>
+  <section class="content" id="content">
+  <div id="breadcrumb" style="margin-bottom:6px"></div>
+</section>
 </main>
 
 <div id="loginBox">
