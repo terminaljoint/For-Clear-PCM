@@ -191,7 +191,7 @@ onAuthStateChanged(auth,async u=>{
   loginBtn.style.display = u?"none":"inline-block";
   logoutBtn.style.display = u?"inline-block":"none";
   ownerBadge.style.display = isOwner()?"inline":"none";
-  permissionError = false;
+  permissionError = false; 
   await loadTree();
   render();
 });
