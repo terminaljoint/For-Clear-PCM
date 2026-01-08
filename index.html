@@ -133,7 +133,6 @@ const syllabus = {
       Chemistry_in_Everyday_Life:{Drugs:{},Cleansing_Agents:{},Food_Additives:{}}
     }
   }
-}
 };
 function getCurrentData(){let ref=syllabus;for(const k of stack){if(ref&&typeof ref==="object"&&k in ref){ref=ref[k]}else return null}return ref}
 function isLeaf(obj){return obj&&typeof obj==="object"&&Object.keys(obj).length===0}
