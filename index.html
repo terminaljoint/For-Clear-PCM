@@ -7,23 +7,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+html,body{overscroll-behavior:none}
 body{font-family:"Comic Neue",system-ui;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;flex-direction:column}
-header{padding:22px 24px;border-bottom:1px solid #30363d}
-.brand{font-size:2rem;font-weight:700}
-.subtitle{color:#9aa4af;margin-top:6px}
-.subject-bar{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #30363d}
-.subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:10px;cursor:pointer;font-weight:700}
+header{padding:18px 22px;border-bottom:1px solid #30363d}
+.brand{font-size:1.9rem;font-weight:700}
+.subtitle{color:#9aa4af;margin-top:4px}
+.subject-bar{display:flex;gap:10px;padding:12px 22px;border-bottom:1px solid #30363d;overflow-x:auto}
+.subject-btn{padding:8px 16px;border:1px solid #30363d;border-radius:12px;cursor:pointer;font-weight:700;white-space:nowrap;transition:.15s}
 .subject-btn.active{border-color:#2f81f7;color:#2f81f7}
-main{max-width:900px;margin:0 auto;padding:32px 24px;flex:1}
-.item{padding:14px 16px;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;cursor:pointer}
-footer{border-top:1px solid #30363d;padding:16px 24px;font-size:.85rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none;-webkit-user-select:none}
+.subject-btn:active{transform:scale(.96)}
+main{max-width:920px;margin:0 auto;padding:24px 20px;flex:1;will-change:transform}
+.item{padding:14px 16px;border:1px solid #30363d;border-radius:14px;margin-bottom:12px;cursor:pointer;transition:.12s;background:#0d1117}
+.item:hover{border-color:#2f81f7}
+.item:active{transform:scale(.985)}
+.breadcrumb{color:#9aa4af;margin-bottom:12px;font-size:.85rem;overflow-x:auto;white-space:nowrap}
+.top-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.backBtn{cursor:pointer;color:#2f81f7;font-weight:700;font-size:.95rem}
+footer{border-top:1px solid #30363d;padding:14px 20px;font-size:.8rem;color:#9aa4af;text-align:center;cursor:pointer;user-select:none}
 #lockBadge{color:#f85149;font-weight:700;margin-top:12px}
-textarea{width:100%;height:160px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:10px}
+textarea{width:100%;height:170px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:12px;padding:12px;font-size:.95rem}
 .saveBtn{margin-top:10px;color:#2f81f7;cursor:pointer;font-weight:700}
+.error{color:#f85149;font-weight:700;margin-top:12px}
+.fade{animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 </style>
 
 <script type="module">
-/************ FIREBASE SETUP ************/
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -33,38 +42,22 @@ const firebaseConfig = {
   projectId: "forclearpcm",
   storageBucket: "forclearpcm.firebasestorage.app",
   messagingSenderId: "313585574692",
-  appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1",
-  measurementId: "G-PW32DTYBP8"
+  appId: "1:313585574692:web:d4e1262ce22c7cd0bb89b1"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/************ LOCK CORE ************/
 const OWNER_PASSWORD = "FailMarks";
 let OWNER_UNLOCKED = false;
-let currentDocPath = null;
+let stack = [];
+let view, subjectBtns;
 
-function checkLock(){
-  OWNER_UNLOCKED = localStorage.getItem("OWNER_UNLOCK") === "YES";
-}
-function lockOwner(){
-  OWNER_UNLOCKED = false;
-  localStorage.removeItem("OWNER_UNLOCK");
-  render();
-}
-function unlockOwner(){
-  const p = prompt("Owner password");
-  if(p === OWNER_PASSWORD){
-    OWNER_UNLOCKED = true;
-    localStorage.setItem("OWNER_UNLOCK","YES");
-    render();
-  } else if(p !== null){
-    alert("Wrong password");
-  }
-}
+function checkLock(){ OWNER_UNLOCKED = localStorage.getItem("OWNER_UNLOCK") === "YES"; }
+function lockOwner(){ OWNER_UNLOCKED=false; localStorage.removeItem("OWNER_UNLOCK"); render(false); }
+function unlockOwner(){ const p=prompt("Owner password"); if(p===OWNER_PASSWORD){ OWNER_UNLOCKED=true; localStorage.setItem("OWNER_UNLOCK","YES"); render(false); } }
 
-/************ DATA ************/
+/* ===== SYLLABUS UNCHANGED (PASTED AS-IS) ===== */
 const syllabus = {
   Maths:{
     Sets_and_Relations:{
@@ -110,109 +103,93 @@ const syllabus = {
 };
 
 
-/************ ENGINE ************/
-let stack = [];
-let view;
-let subjectBtns;
+function getCurrentData(){
+  let ref = syllabus;
+  for(const k of stack){
+    if(ref && typeof ref === "object" && k in ref){ ref = ref[k]; }
+    else return null;
+  }
+  return ref;
+}
+function isLeaf(obj){ return obj && typeof obj==="object" && Object.keys(obj).length===0; }
 
-function goSubject(s){
-  stack = [s];
-  render();
+function syncHistory(){
+  const path = stack.join("/") || "root";
+  history.pushState({stack:[...stack]},"",`#${path}`);
 }
 
-async function render(){
-  checkLock();
-  subjectBtns.forEach(b => b.classList.toggle("active", b.dataset.sub === stack[0]));
-  view.innerHTML = "";
+function restoreFromHistory(state){
+  if(state && Array.isArray(state.stack)){
+    stack = [...state.stack];
+    render(false);
+  }
+}
 
-  if(stack.length === 0){
-    view.innerHTML = "<h2>Select a subject</h2>";
+async function render(pushHistory=true){
+  checkLock();
+  if(pushHistory) syncHistory();
+
+  subjectBtns.forEach(b=>b.classList.toggle("active",b.dataset.sub===stack[0]));
+  view.innerHTML="";
+
+  if(stack.length===0){ view.innerHTML="<h2 class='fade'>Select a subject</h2>"; return; }
+
+  const data = getCurrentData();
+  if(!data){ view.innerHTML="<div class='error'>Invalid path</div>"; return; }
+
+  const top=document.createElement("div"); top.className="top-bar";
+  if(stack.length>1){
+    const back=document.createElement("div");
+    back.className="backBtn";
+    back.innerText="← Back";
+    back.onclick=()=>{ stack.pop(); render(); };
+    top.appendChild(back);
+  }
+  const bc=document.createElement("div"); bc.className="breadcrumb"; bc.innerText=stack.join(" → ");
+  top.appendChild(bc);
+  view.appendChild(top);
+
+  if(isLeaf(data)){
+    const path="content/"+stack.join("__");
+    let saved="";
+    try{ const snap=await getDoc(doc(db,path)); if(snap.exists()) saved=snap.data().text||""; }catch(e){ console.error(e); }
+
+    if(OWNER_UNLOCKED){
+      view.innerHTML+=`<textarea class='fade' id='editor'>${saved}</textarea>`+
+        `<div class='saveBtn' id='saveBtn'>Save</div>`+
+        `<div class='saveBtn' id='lockBtn'>Lock</div>`;
+      document.getElementById("saveBtn").onclick=async()=>{
+        await setDoc(doc(db,path),{text:document.getElementById("editor").value,updatedAt:Date.now()});
+        alert("Saved");
+      };
+      document.getElementById("lockBtn").onclick=lockOwner;
+    }else{
+      view.innerHTML+=`<div id='lockBadge'>🔒 Editing Locked</div>`;
+      if(saved) view.innerHTML+=`<pre class='fade' style='white-space:pre-wrap'>${saved}</pre>`;
+    }
     return;
   }
 
-  const data = syllabus[stack[0]];
-  Object.keys(data).forEach(k => {
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerText = k;
-    d.onclick = () => renderLeaf(k);
+  Object.keys(data).forEach(k=>{
+    const d=document.createElement("div");
+    d.className="item fade";
+    d.innerText=k;
+    d.onclick=()=>{ stack.push(k); render(); };
     view.appendChild(d);
   });
 }
 
-async function renderLeaf(title){
-  view.innerHTML = `<h2>${title}</h2>`;
-  currentDocPath = `content/${stack[0]}_${title}`;
+window.addEventListener("popstate",e=>restoreFromHistory(e.state));
 
-  let savedText = "";
-  try{
-    const snap = await getDoc(doc(db, currentDocPath));
-    if(snap.exists()) savedText = snap.data().text || "";
-  }catch(e){
-    console.error("Read failed", e);
-  }
+window.addEventListener("DOMContentLoaded",()=>{
+  view=document.getElementById("view");
+  subjectBtns=document.querySelectorAll(".subject-btn");
+  subjectBtns.forEach(b=>b.onclick=()=>{ stack=[b.dataset.sub]; render(); });
 
-  if(OWNER_UNLOCKED){
-    view.innerHTML += `
-      <textarea id="editor">${savedText}</textarea>
-      <div class="saveBtn" id="saveBtn">Save to Firestore</div>
-      <div class="saveBtn" id="lockBtn">Lock editing</div>
-    `;
+  const footer=document.getElementById("footerTrigger");
+  let last=0; footer.onclick=()=>{ const n=Date.now(); if(n-last<350) unlockOwner(); last=n; };
 
-    document.getElementById("saveBtn").onclick = async () => {
-      const btn = document.getElementById("saveBtn");
-      btn.innerText = "Saving...";
-      btn.style.pointerEvents = "none";
-      try{
-        const text = document.getElementById("editor").value;
-        await setDoc(doc(db, currentDocPath), { text, updatedAt: Date.now() });
-        btn.innerText = "Saved ✓";
-      }catch(err){
-        console.error(err);
-        alert("Save failed: Firestore permission denied");
-        btn.innerText = "Save to Firestore";
-      }
-      btn.style.pointerEvents = "auto";
-    };
-
-    document.getElementById("lockBtn").onclick = lockOwner;
-
-  } else {
-    view.innerHTML += `<div id="lockBadge">🔒 Editing Locked</div>`;
-    if(savedText){
-      view.innerHTML += `<pre style="margin-top:12px;white-space:pre-wrap">${savedText}</pre>`;
-    }
-  }
-}
-
-/************ INIT ************/
-window.addEventListener("DOMContentLoaded", () => {
-  // strict default lock on every load
-  localStorage.removeItem("OWNER_UNLOCK");
-  OWNER_UNLOCKED = false;
-
-  view = document.getElementById("view");
-  subjectBtns = document.querySelectorAll(".subject-btn");
-  subjectBtns.forEach(b => b.onclick = () => goSubject(b.dataset.sub));
-
-  const footer = document.getElementById("footerTrigger");
-  let lastTap = 0;
-
-  footer.addEventListener("mousedown", e => e.preventDefault());
-  footer.addEventListener("touchstart", e => e.preventDefault(), { passive:false });
-
-  const handleTap = () => {
-    const now = Date.now();
-    if(now - lastTap < 350){
-      unlockOwner();
-    }
-    lastTap = now;
-  };
-
-  footer.addEventListener("click", handleTap);
-  footer.addEventListener("touchend", handleTap);
-
-  render();
+  render(false);
 });
 </script>
 </head>
