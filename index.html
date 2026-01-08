@@ -230,7 +230,7 @@ async function render(pushHistory=true){
     const pl = document.createElement('div'); pl.className='progress-label'; pl.textContent = `Level ${meta.level||0}/5`;
     ed.appendChild(p); ed.appendChild(pl);
 
-    // ---- LEVEL BUTTONS (FIXED) ----
+    // ---- LEVEL BUTTONS ----
     const lv = document.createElement('div'); lv.className='levels';
     [0,1,2,3,4,5].forEach(l=>{
       const b = document.createElement('span');
