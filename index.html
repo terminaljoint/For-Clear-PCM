@@ -6,72 +6,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14;--panel:#121824;--border:#1f2a3a;--text:#e7ecf3;--muted:#8fa0b8;--accent:#4da3ff;--radius:16px}
+:root{
+  --bg:#0b0f14;--panel:#121824;--border:#1f2a3a;--text:#e7ecf3;--muted:#8fa0b8;--accent:#4da3ff;--accent2:#7bb7ff;--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--radius:18px
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
-body{font-family:"Comic Sans MS","Comic Neue",cursive;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+body{font-family:"Comic Sans MS","Comic Neue",cursive;background:radial-gradient(1200px 600px at 50% -10%, #0f172a, var(--bg));color:var(--text);display:flex;flex-direction:column}
 
-header{border-bottom:1px solid var(--border);background:#0b0f14}
+/* HEADER */
+header{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0b0f14,rgba(11,15,20,.85));backdrop-filter:blur(6px)}
 .header-inner{max-width:1200px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
-.brand h1{font-size:1.4rem;font-weight:700}
+.brand h1{font-size:1.45rem;font-weight:700;letter-spacing:.2px}
 .brand span{font-size:.75rem;color:var(--muted)}
-.auth{display:flex;gap:8px;align-items:center}
-.badge{display:none;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:999px}
-.btn{border:1px solid var(--border);background:transparent;color:var(--text);padding:6px 14px;border-radius:10px;cursor:pointer}
+.auth{display:flex;gap:10px;align-items:center}
+.badge{display:none;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);padding:3px 10px;border-radius:999px;background:rgba(77,163,255,.1)}
+.btn{border:1px solid var(--border);background:linear-gradient(180deg,#0c1320,#0b0f14);color:var(--text);padding:7px 16px;border-radius:12px;cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--accent)}
 .btn.primary{border-color:var(--accent);color:var(--accent)}
 
-.subject-bar{border-bottom:1px solid var(--border);background:var(--panel)}
+/* SUBJECT BAR */
+.subject-bar{border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--panel),rgba(18,24,36,.85));backdrop-filter:blur(6px)}
 .subject-inner{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;gap:10px;overflow-x:auto;align-items:center}
-.subject-btn{border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-weight:700;color:var(--muted);background:transparent;cursor:pointer}
-.subject-btn.active{border-color:var(--accent);color:var(--accent)}
+.subject-btn{border:1px solid var(--border);border-radius:999px;padding:9px 20px;font-weight:700;color:var(--muted);background:transparent;cursor:pointer;transition:.15s}
+.subject-btn:hover{border-color:var(--accent)}
+.subject-btn.active{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 2px rgba(77,163,255,.15)}
 
 main{flex:1}
-.main-inner{max-width:1200px;margin:0 auto;padding:16px 18px}
+.main-inner{max-width:1200px;margin:0 auto;padding:18px}
 
-.breadcrumb{display:flex;gap:6px;font-size:.8rem;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
-.breadcrumb span{cursor:pointer}
-.breadcrumb span:hover{color:var(--accent)}
+/* BREADCRUMB */
+.breadcrumb{display:flex;gap:8px;font-size:.8rem;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+.breadcrumb span{cursor:pointer;padding:2px 6px;border-radius:8px;transition:.12s}
+.breadcrumb span:hover{color:var(--accent);background:rgba(77,163,255,.08)}
 
-/* DASHBOARD + FILTERS */
-.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
-.select, .input{border:1px solid var(--border);background:#0b0f14;color:var(--text);padding:6px 10px;border-radius:10px;font-family:"Comic Sans MS","Comic Neue",cursive}
+/* TOOLBAR */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.select,.input{border:1px solid var(--border);background:#0b0f14;color:var(--text);padding:7px 12px;border-radius:12px;font-family:"Comic Sans MS","Comic Neue",cursive}
 
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
-.summary .box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+/* SUMMARY */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+.summary .box{background:linear-gradient(180deg,#0f172a,#0b0f14);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
 .summary .k{font-size:.7rem;color:var(--muted)}
-.summary .v{font-size:1.1rem;font-weight:700}
+.summary .v{font-size:1.2rem;font-weight:700}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;cursor:pointer;position:relative}
-.card .name{font-weight:700}
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:linear-gradient(180deg,#0f172a,#0b0f14);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px;cursor:pointer;position:relative;transition:.15s}
+.card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.card .name{font-weight:700;letter-spacing:.2px}
 
 /* PROGRESS */
-.progress{height:8px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
-.progress > div{height:100%;background:linear-gradient(90deg,var(--accent),#7bb7ff)}
+.progress{height:10px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.progress > div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
 .progress-label{font-size:.7rem;color:var(--muted)}
 
 /* OWNER CONTROLS */
-.owner-actions{position:absolute;top:8px;right:8px;display:flex;gap:6px}
-.icon-btn{border:1px solid var(--border);background:#0b0f14;color:var(--text);padding:2px 6px;border-radius:8px;cursor:pointer;font-size:.7rem}
+.owner-actions{position:absolute;top:10px;right:10px;display:flex;gap:8px;background:rgba(0,0,0,.55);padding:6px;border-radius:12px;backdrop-filter:blur(4px)}
+.icon-btn{border:1px solid var(--border);background:#0b0f14;color:var(--text);padding:3px 8px;border-radius:10px;cursor:pointer;font-size:.75rem;transition:.12s}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
 
 /* EDITOR */
-.editor{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:14px}
-.editor textarea{width:100%;min-height:140px;background:#0b0f14;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:.95rem;font-family:"Comic Sans MS","Comic Neue",cursive}
+.editor{background:linear-gradient(180deg,#0f172a,#0b0f14);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:16px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.editor textarea{width:100%;min-height:150px;background:#0b0f14;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:.95rem;font-family:"Comic Sans MS","Comic Neue",cursive}
 
-/* UNDERSTANDING SCALE (NOT STARS) */
-.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.scale-btn{border:2px solid var(--border);border-radius:12px;padding:10px;text-align:center;cursor:pointer;transition:.12s}
+/* UNDERSTANDING SCALE */
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.scale-btn{border:2px solid var(--border);border-radius:14px;padding:12px;text-align:center;cursor:pointer;transition:.12s;position:relative;overflow:hidden}
 .scale-btn .n{font-size:1.1rem;font-weight:700}
 .scale-btn .t{font-size:.65rem;color:var(--muted)}
 .scale-btn:hover{border-color:var(--accent)}
-.scale-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(77,163,255,.2)}
+.scale-btn.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.18)}
+.scale-btn.active::after{content:"";position:absolute;inset:auto 0 0 0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
 .scale-hint{font-size:.75rem;color:var(--muted)}
 
-.section{border:1px dashed var(--border);border-radius:10px;padding:10px}
-.section-title{font-size:.75rem;color:var(--muted);margin-bottom:6px;font-weight:700}
+/* SECTIONS */
+.section{border:1px dashed var(--border);border-radius:12px;padding:12px}
+.section-title{font-size:.75rem;color:var(--muted);margin-bottom:8px;font-weight:700}
 
-footer{border-top:1px solid var(--border);background:var(--panel)}
-.footer-inner{max-width:1200px;margin:0 auto;padding:10px 18px;font-size:.7rem;color:var(--muted);text-align:center}
+footer{border-top:1px solid var(--border);background:linear-gradient(180deg,var(--panel),rgba(18,24,36,.85))}
+.footer-inner{max-width:1200px;margin:0 auto;padding:12px 18px;font-size:.7rem;color:var(--muted);text-align:center}
 </style>
 </head>
 <body>
@@ -185,34 +198,22 @@ function pct(score){ return Math.round((Number(score)||0)/5*100); }
 async function walk(path,node){
   if(Object.keys(node).length===0){
     const s=await getScore(path);
-    return { sumPct:pct(s), leaves:1, low:(s||0) };
+    return { sumPct:pct(s), leaves:1 };
   }
-  let sum=0, leaves=0, low=0;
-  for(const k in node){ const c=await walk([...path,k], node[k]); sum+=c.sumPct; leaves+=c.leaves; low+=c.low; }
-  return { sumPct:sum, leaves, low };
+  let sum=0, leaves=0;
+  for(const k in node){ const c=await walk([...path,k], node[k]); sum+=c.sumPct; leaves+=c.leaves; }
+  return { sumPct:sum, leaves };
 }
 
 async function compute(path,node){ const r=await walk(path,node); return { mastery: r.leaves?Math.round(r.sumPct/r.leaves):0, leaves:r.leaves }; }
 
 // OWNER TREE EDIT
-async function saveTree(){
-  await setDoc(doc(db,'syllabus','root'),{ tree },{ merge:true });
-}
+async function saveTree(){ await setDoc(doc(db,'syllabus','root'),{ tree },{ merge:true }); }
 
-function addChild(key){
-  const name=prompt('New item name'); if(!name) return;
-  const node=getNode();
-  node[name]={};
-  saveTree().then(()=>render(false));
-}
+function addChild(){ const name=prompt('New item name'); if(!name) return; const node=getNode(); node[name]={}; saveTree().then(()=>render(false)); }
 
-function deleteNode(key){
-  if(!confirm('Delete this item and all its children?')) return;
-  let parent=tree;
-  for(let i=0;i<stack.length-1;i++) parent=parent[stack[i]];
-  delete parent[key];
-  saveTree().then(()=>render(false));
-}
+function deleteNode(key){ if(stack.length===1 && ['Maths','Physics','Chemistry'].includes(key)){ alert('Core subjects cannot be deleted.'); return; }
+  if(!confirm('Delete this item and all its children?')) return; let parent=tree; for(let i=0;i<stack.length-1;i++) parent=parent[stack[i]]; delete parent[key]; saveTree().then(()=>render(false)); }
 
 // UI
 function renderBreadcrumb(){
@@ -230,12 +231,8 @@ async function render(pushHistory=true){
   const prog=await compute(stack,node);
   summary.innerHTML=`<div class='box'><div class='k'>Mastery</div><div class='v'>${prog.mastery}%</div></div><div class='box'><div class='k'>Topics</div><div class='v'>${prog.leaves}</div></div>`;
 
-  // DASHBOARD
-  if(showDashboard){
-    dashNote.textContent='Dashboard: showing low-understanding topics';
-  } else dashNote.textContent='';
+  if(showDashboard){ dashNote.textContent='Dashboard: showing low-understanding topics'; } else dashNote.textContent='';
 
-  // LEAF
   if(Object.keys(node).length===0){
     const ed=document.createElement('div'); ed.className='editor';
     const score=await getScore(stack);
@@ -250,7 +247,7 @@ async function render(pushHistory=true){
     }
     ed.appendChild(scale);
 
-    const hint=document.createElement('div'); hint.className='scale-hint'; hint.textContent='Set your understanding level (1–5). This replaces stars with a study-focused scale.'; ed.appendChild(hint);
+    const hint=document.createElement('div'); hint.className='scale-hint'; hint.textContent='Set your understanding level (1–5). This drives all progress.'; ed.appendChild(hint);
 
     const cs=await getDoc(doc(db,'content',pathId())); let text=cs.exists()?cs.data().text:'';
     const ta=document.createElement('textarea'); ta.value=text; ta.placeholder='Main explanation / theory';
@@ -272,15 +269,11 @@ async function render(pushHistory=true){
     view.appendChild(ed); return;
   }
 
-  // NON-LEAF GRID
   const grid=document.createElement('div'); grid.className='grid';
   for(const k in node){
     const childPath=[...stack,k];
     const a=await compute(childPath,node[k]);
-
-    // FILTER
-    const f=filterBelow.value;
-    if(f){ const s=await getScore(childPath); if(Number(s)>=Number(f)) continue; }
+    const f=filterBelow.value; if(f){ const s=await getScore(childPath); if(Number(s)>=Number(f)) continue; }
 
     const c=document.createElement('div'); c.className='card';
     const n=document.createElement('div'); n.className='name'; n.textContent=k; c.appendChild(n);
@@ -289,7 +282,7 @@ async function render(pushHistory=true){
 
     if(isOwner()){
       const oa=document.createElement('div'); oa.className='owner-actions';
-      const add=document.createElement('button'); add.className='icon-btn'; add.textContent='+'; add.onclick=(e)=>{ e.stopPropagation(); stack.push(k); addChild(k); };
+      const add=document.createElement('button'); add.className='icon-btn'; add.textContent='+'; add.onclick=(e)=>{ e.stopPropagation(); addChild(); };
       const del=document.createElement('button'); del.className='icon-btn'; del.textContent='×'; del.onclick=(e)=>{ e.stopPropagation(); deleteNode(k); };
       oa.appendChild(add); oa.appendChild(del); c.appendChild(oa);
     }
