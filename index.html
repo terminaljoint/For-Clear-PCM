@@ -6,10 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14;--panel:#121824;--border:#1f2a3a;--text:#e7ecf3;--muted:#8fa0b8;--accent:#4da3ff;--radius:16px}
+:root{--bg:#0b0f14;--panel:#121824;--border:#1f2a3a;--text:#e7ecf3;--muted:#8fa0b8;--accent:#4da3ff;--accent-2:#7bb7ff;--danger:#ff5d5d;--radius:16px}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
 body{font-family:Inter,system-ui;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+
+/* HEADER */
 header{border-bottom:1px solid var(--border);background:#0b0f14}
 .header-inner{max-width:1200px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
 .brand h1{font-size:1.4rem;font-weight:800}
@@ -17,33 +19,60 @@ header{border-bottom:1px solid var(--border);background:#0b0f14}
 .auth{display:flex;gap:8px;align-items:center}
 .badge{display:none;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:999px}
 .btn{border:1px solid var(--border);background:transparent;color:var(--text);padding:6px 14px;border-radius:10px;cursor:pointer}
+.btn.primary{border-color:var(--accent);color:var(--accent)}
+
+/* SUBJECT BAR */
 .subject-bar{border-bottom:1px solid var(--border);background:var(--panel)}
 .subject-inner{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;gap:10px;overflow-x:auto}
 .subject-btn{border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-weight:600;color:var(--muted);background:transparent;cursor:pointer}
 .subject-btn.active{border-color:var(--accent);color:var(--accent)}
+
 main{flex:1}
 .main-inner{max-width:1200px;margin:0 auto;padding:16px 18px}
+
+/* BREADCRUMB */
 .breadcrumb{display:flex;gap:6px;font-size:.8rem;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
 .breadcrumb span{cursor:pointer}
+.breadcrumb span:hover{color:var(--accent)}
+
+/* SUMMARY */
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
 .summary .box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
 .summary .k{font-size:.7rem;color:var(--muted)}
 .summary .v{font-size:1.1rem;font-weight:700}
+
+/* GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;cursor:pointer}
 .card .name{font-weight:700}
-.progress{height:6px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
-.progress > div{height:100%;background:linear-gradient(90deg,var(--accent),#7bb7ff)}
+
+/* PROGRESS */
+.progress{height:8px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.progress > div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
 .progress-label{font-size:.7rem;color:var(--muted)}
+
+/* EDITOR */
 .editor{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:14px}
 .editor textarea{width:100%;min-height:160px;background:#0b0f14;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:.95rem}
-.levels{display:flex;gap:6px;flex-wrap:wrap}
-.level-btn{border:1px solid var(--border);border-radius:999px;padding:4px 12px;font-size:.75rem;color:var(--muted);cursor:pointer}
-.level-btn.active{border-color:var(--accent);color:var(--accent)}
+
+/* LEVEL PICKER (MADE VERY VISIBLE) */
+.level-picker{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:6px}
+.level-tile{border:2px solid var(--border);border-radius:12px;padding:10px;text-align:center;cursor:pointer;transition:.12s}
+.level-tile .n{font-size:1.2rem;font-weight:800}
+.level-tile .t{font-size:.65rem;color:var(--muted)}
+.level-tile:hover{border-color:var(--accent)}
+.level-tile.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(77,163,255,.2)}
+.level-hint{font-size:.75rem;color:var(--muted)}
+
+/* SECTIONS */
 .section{border:1px dashed var(--border);border-radius:10px;padding:10px}
 .section-title{font-size:.75rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+
 footer{border-top:1px solid var(--border);background:var(--panel)}
 .footer-inner{max-width:1200px;margin:0 auto;padding:10px 18px;font-size:.7rem;color:var(--muted);text-align:center}
+
+/* CALL-OUT */
+.callout{border:1px solid rgba(255,93,93,.35);color:var(--danger);background:rgba(255,93,93,.06);border-radius:12px;padding:10px;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -57,16 +86,19 @@ footer{border-top:1px solid var(--border);background:var(--panel)}
     </div>
   </div>
 </header>
+
 <div class="subject-bar"><div class="subject-inner">
   <button class="subject-btn" data-sub="Maths">Maths</button>
   <button class="subject-btn" data-sub="Physics">Physics</button>
   <button class="subject-btn" data-sub="Chemistry">Chemistry</button>
 </div></div>
+
 <main><div class="main-inner">
   <div id="breadcrumb" class="breadcrumb"></div>
   <div id="summary" class="summary"></div>
   <div id="view"></div>
 </div></main>
+
 <footer><div class="footer-inner">©2026 Terminal Joint · For Clear PCM</div></footer>
 
 <script type="module">
@@ -74,6 +106,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// ---------------- FIREBASE ----------------
 const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.appspot.com",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
 const OWNER_UID="XS23F6EEK4VjO3ahyx5LVakP1Bd2";
 
@@ -81,7 +114,11 @@ const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 const auth=getAuth(app);
 
-let user=null; let tree={}; let stack=[];
+// ---------------- STATE ----------------
+let user=null;
+let tree={};
+let stack=[];
+
 const view=document.getElementById('view');
 const breadcrumb=document.getElementById('breadcrumb');
 const summary=document.getElementById('summary');
@@ -89,98 +126,151 @@ const loginBtn=document.getElementById('loginBtn');
 const logoutBtn=document.getElementById('logoutBtn');
 const ownerBadge=document.getElementById('ownerBadge');
 
-const LEVELS=[0,1,2,3,4,5];
+const LEVELS=[1,2,3,4,5]; // force meaningful grading (no 0 button)
 
-function isOwner(){return user && user.uid===OWNER_UID}
-function pathId(path=stack){return path.length?path.join('__'):'root'}
+// ---------------- HELPERS ----------------
+function isOwner(){ return user && user.uid===OWNER_UID; }
+function pathId(path=stack){ return path.length?path.join('__'):'root'; }
 function metaRef(path){ if(!user) return null; return doc(db,'users',user.uid,'meta',pathId(path)); }
 
-window.addEventListener('popstate',e=>{ if(e.state&&Array.isArray(e.state.stack)){ stack=e.state.stack; render(false);} });
+window.addEventListener('popstate',e=>{
+  if(e.state && Array.isArray(e.state.stack)){
+    stack=e.state.stack;
+    render(false);
+  }
+});
 
-async function loadTree(){ const snap=await getDoc(doc(db,'syllabus','root')); tree=snap.exists()?snap.data().tree:{Maths:{},Physics:{},Chemistry:{}} }
-function getNode(){ let r=tree; for(const k of stack){ if(r&&k in r) r=r[k]; } return r||{} }
+// ---------------- DATA ----------------
+async function loadTree(){
+  const snap=await getDoc(doc(db,'syllabus','root'));
+  tree=snap.exists()?snap.data().tree:{Maths:{},Physics:{},Chemistry:{}};
+}
+
+function getNode(){
+  let r=tree;
+  for(const k of stack){ if(r && k in r) r=r[k]; }
+  return r||{};
+}
 
 async function getMeta(path){
-  try{ const r=metaRef(path); if(!r) return {level:0,sections:{}}; const s=await getDoc(r); if(s.exists()){
-    const d=s.data(); return { level:Number(d.level||0), sections:d.sections||{} };
-  }}catch(e){ console.error(e); }
-  return {level:0,sections:{}};
+  try{
+    const r=metaRef(path);
+    if(!r) return {level:null,sections:{}};
+    const s=await getDoc(r);
+    if(s.exists()){
+      const d=s.data();
+      return { level:(d.level===undefined?null:Number(d.level)), sections:d.sections||{} };
+    }
+  }catch(e){ console.error(e); }
+  return {level:null,sections:{}};
 }
 
 async function setLevel(path,level){
-  const r=metaRef(path); if(!r) return;
-  await setDoc(r,{ level:Number(level), sections:{} },{ merge:true });
+  const r=metaRef(path);
+  if(!r) return;
+  await setDoc(r,{ level:Number(level) },{ merge:true });
 }
 
 function pct(level){ return Math.round((Number(level)||0)/5*100); }
 
-// ---- CORE PROGRESS ENGINE (REBUILT) ----
-async function computeProgress(path,node){
-  // returns { pct, count, level0 }
+// ---------------- PROGRESS ENGINE (FIXED) ----------------
+// Walk returns total percent sum, number of leaves, and count of ungraded leaves
+async function walk(path,node){
   if(Object.keys(node).length===0){
     const m=await getMeta(path);
-    const l=Number(m.level||0);
-    return { pct:pct(l), count:1, level0: l===0?1:0 };
+    const l=(m.level===null?0:Number(m.level));
+    return { sumPct:pct(l), leaves:1, ungraded:(m.level===null?1:0) };
   }
-  let sum=0, cnt=0, l0=0;
+  let sum=0, leaves=0, ungraded=0;
   for(const k in node){
-    const c=await computeProgress([...path,k], node[k]);
-    sum+=c.pct; cnt+=c.count; l0+=c.level0;
+    const c=await walk([...path,k], node[k]);
+    sum+=c.sumPct;
+    leaves+=c.leaves;
+    ungraded+=c.ungraded;
   }
-  return { pct: cnt?Math.round(sum/cnt):0, count:cnt, level0:l0 };
+  return { sumPct:sum, leaves, ungraded };
 }
 
+async function compute(path,node){
+  const r=await walk(path,node);
+  const mastery = r.leaves?Math.round(r.sumPct/r.leaves):0; // depth
+  const coverage = r.leaves?Math.round(((r.leaves - r.ungraded)/r.leaves)*100):0; // breadth
+  const gap = 100-coverage;
+  return { mastery, coverage, gap, leaves:r.leaves, ungraded:r.ungraded };
+}
+
+// ---------------- UI ----------------
 function renderBreadcrumb(){
   breadcrumb.innerHTML='';
-  const h=document.createElement('span'); h.textContent='Home'; h.onclick=()=>{ stack=[]; history.pushState({stack:[...stack]},''); render(false); };
+  const h=document.createElement('span');
+  h.textContent='Home';
+  h.onclick=()=>{ stack=[]; history.pushState({stack:[...stack]},''); render(false); };
   breadcrumb.appendChild(h);
-  stack.forEach((s,i)=>{ const sp=document.createElement('span'); sp.textContent='› '+s; sp.onclick=()=>{ stack=stack.slice(0,i+1); history.pushState({stack:[...stack]},''); render(false); }; breadcrumb.appendChild(sp); });
+
+  stack.forEach((s,i)=>{
+    const sp=document.createElement('span');
+    sp.textContent='› '+s;
+    sp.onclick=()=>{
+      stack=stack.slice(0,i+1);
+      history.pushState({stack:[...stack]},'');
+      render(false);
+    };
+    breadcrumb.appendChild(sp);
+  });
 }
 
 async function render(pushHistory=true){
   if(pushHistory) history.pushState({stack:[...stack]},'');
   view.innerHTML='';
   renderBreadcrumb();
-  const node=getNode();
-  const agg=await computeProgress(stack,node);
-  // Percentage-based summary model
-  const totalPct = agg.pct; // overall mastery
-  const coveredPct = Math.round(((agg.count - agg.level0) / Math.max(agg.count,1)) * 100); // topics started
-  const gapPct = 100 - coveredPct; // not-started proportion
 
-  summary.innerHTML = `
-    <div class='box'>
-      <div class='k'>Overall Mastery</div>
-      <div class='v'>${totalPct}%</div>
-    </div>
-    <div class='box'>
-      <div class='k'>Coverage</div>
-      <div class='v'>${coveredPct}%</div>
-    </div>
-    <div class='box'>
-      <div class='k'>Knowledge Gap</div>
-      <div class='v'>${gapPct}%</div>
-    </div>
+  const node=getNode();
+  const prog=await compute(stack,node);
+
+  summary.innerHTML=`
+    <div class='box'><div class='k'>Overall Mastery</div><div class='v'>${prog.mastery}%</div></div>
+    <div class='box'><div class='k'>Coverage</div><div class='v'>${prog.coverage}%</div></div>
+    <div class='box'><div class='k'>Knowledge Gap</div><div class='v'>${prog.gap}%</div></div>
   `;
 
-  // ---- LEAF ----
+  // ---------- LEAF ----------
   if(Object.keys(node).length===0){
-    let text=''; const cs=await getDoc(doc(db,'content',pathId())); if(cs.exists()) text=cs.data().text||'';
+    let text='';
+    const cs=await getDoc(doc(db,'content',pathId()));
+    if(cs.exists()) text=cs.data().text||'';
+
     const meta=await getMeta(stack);
 
     const ed=document.createElement('div'); ed.className='editor';
-    const p=document.createElement('div'); p.className='progress'; const pf=document.createElement('div'); pf.style.width=pct(meta.level)+'%'; p.appendChild(pf);
-    const pl=document.createElement('div'); pl.className='progress-label'; pl.textContent=`Level ${meta.level}/5`;
+
+    if(meta.level===null){
+      const co=document.createElement('div');
+      co.className='callout';
+      co.textContent='Please grade your understanding below. Progress is calculated only after you select 1–5.';
+      ed.appendChild(co);
+    }
+
+    const p=document.createElement('div'); p.className='progress';
+    const pf=document.createElement('div'); pf.style.width=pct(meta.level||0)+'%'; p.appendChild(pf);
+    const pl=document.createElement('div'); pl.className='progress-label'; pl.textContent=`Level ${meta.level??'-'}/5`;
     ed.appendChild(p); ed.appendChild(pl);
 
-    const lv=document.createElement('div'); lv.className='levels';
-    LEVELS.forEach(l=>{
-      const b=document.createElement('span'); b.className='level-btn'; b.textContent=l;
-      if(meta.level===l) b.classList.add('active');
-      b.onclick=async()=>{ await setLevel(stack,l); render(false); };
-      lv.appendChild(b);
+    // VISIBLE LEVEL PICKER
+    const picker=document.createElement('div'); picker.className='level-picker';
+    const labels=['Very Weak','Weak','Okay','Strong','Mastered'];
+    LEVELS.forEach((l,idx)=>{
+      const tile=document.createElement('div'); tile.className='level-tile';
+      if(meta.level===l) tile.classList.add('active');
+      tile.innerHTML=`<div class='n'>${l}</div><div class='t'>${labels[idx]}</div>`;
+      tile.onclick=async()=>{
+        await setLevel(stack,l);
+        render(false);
+      };
+      picker.appendChild(tile);
     });
-    ed.appendChild(lv);
+    ed.appendChild(picker);
+
+    const hint=document.createElement('div'); hint.className='level-hint'; hint.textContent='Choose 1–5. This directly updates your progress.'; ed.appendChild(hint);
 
     const ta=document.createElement('textarea'); ta.value=text; ta.placeholder='Main explanation / theory';
     if(isOwner()) ta.onchange=async()=>{ await setDoc(doc(db,'content',pathId()),{text:ta.value},{merge:true}); };
@@ -196,31 +286,52 @@ async function render(pushHistory=true){
       else area.setAttribute('readonly',true);
       box.appendChild(area); ed.appendChild(box);
     }
-    view.appendChild(ed); return;
+
+    view.appendChild(ed);
+    return;
   }
 
-  // ---- NON-LEAF ----
+  // ---------- NON-LEAF ----------
   const grid=document.createElement('div'); grid.className='grid';
   for(const k in node){
     const childPath=[...stack,k];
-    const a=await computeProgress(childPath,node[k]);
+    const a=await compute(childPath,node[k]);
+
     const c=document.createElement('div'); c.className='card';
     const n=document.createElement('div'); n.className='name'; n.textContent=k; c.appendChild(n);
-    const pb=document.createElement('div'); pb.className='progress'; const pf=document.createElement('div'); pf.style.width=a.pct+'%'; pb.appendChild(pf); c.appendChild(pb);
-    const lab=document.createElement('div'); lab.className='progress-label'; lab.textContent=`${a.pct}% · ${a.count} · L0:${a.level0}`; c.appendChild(lab);
+
+    const pb=document.createElement('div'); pb.className='progress';
+    const pf=document.createElement('div'); pf.style.width=a.mastery+'%'; pb.appendChild(pf); c.appendChild(pb);
+
+    const lab=document.createElement('div'); lab.className='progress-label'; lab.textContent=`${a.mastery}% mastery · ${a.coverage}% covered`;
+    c.appendChild(lab);
+
     c.onclick=()=>{ stack.push(k); render(); };
     grid.appendChild(c);
   }
   view.appendChild(grid);
 }
 
+// ---------------- AUTH ----------------
 loginBtn.onclick=()=>signInWithPopup(auth,new GoogleAuthProvider());
 logoutBtn.onclick=()=>signOut(auth);
 
-onAuthStateChanged(auth,async u=>{ user=u; loginBtn.style.display=u?'none':'inline'; logoutBtn.style.display=u?'inline':'none'; ownerBadge.style.display=isOwner()?'inline':'none'; await loadTree(); render(false); });
+onAuthStateChanged(auth,async u=>{
+  user=u;
+  loginBtn.style.display=u?'none':'inline';
+  logoutBtn.style.display=u?'inline':'none';
+  ownerBadge.style.display=isOwner()?'inline':'none';
+  await loadTree();
+  render(false);
+});
 
 Array.from(document.querySelectorAll('.subject-btn')).forEach(b=>{
-  b.onclick=()=>{ document.querySelectorAll('.subject-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); stack=[b.dataset.sub]; render(); };
+  b.onclick=()=>{
+    document.querySelectorAll('.subject-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    stack=[b.dataset.sub];
+    render();
+  };
 });
 </script>
 </body>
