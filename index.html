@@ -18,9 +18,10 @@ header{border-bottom:1px solid var(--border);background:#0b0f14}
 .auth{display:flex;gap:8px;align-items:center}
 .badge{display:none;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:999px}
 .btn{border:1px solid var(--border);background:transparent;color:var(--text);padding:6px 14px;border-radius:10px;cursor:pointer}
+.btn.primary{border-color:var(--accent);color:var(--accent)}
 
 .subject-bar{border-bottom:1px solid var(--border);background:var(--panel)}
-.subject-inner{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;gap:10px;overflow-x:auto}
+.subject-inner{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;gap:10px;overflow-x:auto;align-items:center}
 .subject-btn{border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-weight:700;color:var(--muted);background:transparent;cursor:pointer}
 .subject-btn.active{border-color:var(--accent);color:var(--accent)}
 
@@ -31,27 +32,40 @@ main{flex:1}
 .breadcrumb span{cursor:pointer}
 .breadcrumb span:hover{color:var(--accent)}
 
+/* DASHBOARD + FILTERS */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.select, .input{border:1px solid var(--border);background:#0b0f14;color:var(--text);padding:6px 10px;border-radius:10px;font-family:"Comic Sans MS","Comic Neue",cursive}
+
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
 .summary .box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
 .summary .k{font-size:.7rem;color:var(--muted)}
 .summary .v{font-size:1.1rem;font-weight:700}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;cursor:pointer}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;cursor:pointer;position:relative}
 .card .name{font-weight:700}
 
+/* PROGRESS */
 .progress{height:8px;background:#0b0f14;border:1px solid var(--border);border-radius:999px;overflow:hidden}
 .progress > div{height:100%;background:linear-gradient(90deg,var(--accent),#7bb7ff)}
 .progress-label{font-size:.7rem;color:var(--muted)}
 
-.editor{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:14px}
-.editor textarea{width:100%;min-height:160px;background:#0b0f14;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:.95rem;font-family:"Comic Sans MS","Comic Neue",cursive}
+/* OWNER CONTROLS */
+.owner-actions{position:absolute;top:8px;right:8px;display:flex;gap:6px}
+.icon-btn{border:1px solid var(--border);background:#0b0f14;color:var(--text);padding:2px 6px;border-radius:8px;cursor:pointer;font-size:.7rem}
 
-/* STAR RATING */
-.rating{display:flex;gap:10px;font-size:1.8rem;cursor:pointer}
-.star{color:#555;transition:.15s}
-.star.active{color:#ffd166}
-.rating-hint{font-size:.75rem;color:var(--muted)}
+/* EDITOR */
+.editor{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:14px}
+.editor textarea{width:100%;min-height:140px;background:#0b0f14;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:.95rem;font-family:"Comic Sans MS","Comic Neue",cursive}
+
+/* UNDERSTANDING SCALE (NOT STARS) */
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.scale-btn{border:2px solid var(--border);border-radius:12px;padding:10px;text-align:center;cursor:pointer;transition:.12s}
+.scale-btn .n{font-size:1.1rem;font-weight:700}
+.scale-btn .t{font-size:.65rem;color:var(--muted)}
+.scale-btn:hover{border-color:var(--accent)}
+.scale-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(77,163,255,.2)}
+.scale-hint{font-size:.75rem;color:var(--muted)}
 
 .section{border:1px dashed var(--border);border-radius:10px;padding:10px}
 .section-title{font-size:.75rem;color:var(--muted);margin-bottom:6px;font-weight:700}
@@ -80,6 +94,20 @@ footer{border-top:1px solid var(--border);background:var(--panel)}
 
 <main><div class="main-inner">
   <div id="breadcrumb" class="breadcrumb"></div>
+
+  <!-- DASHBOARD + FILTERS -->
+  <div class="toolbar">
+    <select id="filterBelow" class="select">
+      <option value="">Filter: All</option>
+      <option value="1">Below 1</option>
+      <option value="2">Below 2</option>
+      <option value="3">Below 3</option>
+      <option value="4">Below 4</option>
+    </select>
+    <button id="dashboardBtn" class="btn">Dashboard</button>
+    <span id="dashNote" style="font-size:.75rem;color:var(--muted)"></span>
+  </div>
+
   <div id="summary" class="summary"></div>
   <div id="view"></div>
 </div></main>
@@ -88,9 +116,10 @@ footer{border-top:1px solid var(--border);background:var(--panel)}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// FIREBASE
 const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.appspot.com",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
 const OWNER_UID="XS23F6EEK4VjO3ahyx5LVakP1Bd2";
 
@@ -98,9 +127,11 @@ const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 const auth=getAuth(app);
 
+// STATE
 let user=null;
 let tree={};
 let stack=[];
+let showDashboard=false;
 
 const view=document.getElementById('view');
 const breadcrumb=document.getElementById('breadcrumb');
@@ -108,7 +139,11 @@ const summary=document.getElementById('summary');
 const loginBtn=document.getElementById('loginBtn');
 const logoutBtn=document.getElementById('logoutBtn');
 const ownerBadge=document.getElementById('ownerBadge');
+const filterBelow=document.getElementById('filterBelow');
+const dashboardBtn=document.getElementById('dashboardBtn');
+const dashNote=document.getElementById('dashNote');
 
+// HELPERS
 function isOwner(){return user && user.uid===OWNER_UID}
 function pathId(path=stack){return path.length?path.join('__'):'root'}
 function ratingRef(path){ if(!user) return null; return doc(db,'users',user.uid,'ratings',pathId(path)); }
@@ -120,6 +155,7 @@ window.addEventListener('popstate',e=>{
   }
 });
 
+// DATA
 async function loadTree(){
   const snap=await getDoc(doc(db,'syllabus','root'));
   tree=snap.exists()?snap.data().tree:{Maths:{},Physics:{},Chemistry:{}};
@@ -127,35 +163,58 @@ async function loadTree(){
 
 function getNode(){ let r=tree; for(const k of stack){ if(r && k in r) r=r[k]; } return r||{} }
 
-async function getRating(path){
+// USER UNDERSTANDING (1–5)
+async function getScore(path){
   try{
     const r=ratingRef(path);
     if(!r) return 0;
     const s=await getDoc(r);
-    if(s.exists()) return Number(s.data().stars||0);
+    if(s.exists()) return Number(s.data().score||0);
   }catch(e){console.error(e)}
   return 0;
 }
 
-async function setRating(path,stars){
+async function setScore(path,score){
   const r=ratingRef(path); if(!r) return;
-  await setDoc(r,{ stars:Number(stars) },{ merge:true });
+  await setDoc(r,{ score:Number(score) },{ merge:true });
 }
 
-function pct(stars){ return Math.round((Number(stars)||0)/5*100); }
+function pct(score){ return Math.round((Number(score)||0)/5*100); }
 
+// PROGRESS ENGINE
 async function walk(path,node){
   if(Object.keys(node).length===0){
-    const s=await getRating(path);
-    return { sumPct:pct(s), leaves:1 };
+    const s=await getScore(path);
+    return { sumPct:pct(s), leaves:1, low:(s||0) };
   }
-  let sum=0, leaves=0;
-  for(const k in node){ const c=await walk([...path,k], node[k]); sum+=c.sumPct; leaves+=c.leaves; }
-  return { sumPct:sum, leaves };
+  let sum=0, leaves=0, low=0;
+  for(const k in node){ const c=await walk([...path,k], node[k]); sum+=c.sumPct; leaves+=c.leaves; low+=c.low; }
+  return { sumPct:sum, leaves, low };
 }
 
-async function compute(path,node){ const r=await walk(path,node); return { mastery: r.leaves?Math.round(r.sumPct/r.leaves):0 }; }
+async function compute(path,node){ const r=await walk(path,node); return { mastery: r.leaves?Math.round(r.sumPct/r.leaves):0, leaves:r.leaves }; }
 
+// OWNER TREE EDIT
+async function saveTree(){
+  await setDoc(doc(db,'syllabus','root'),{ tree },{ merge:true });
+}
+
+function addChild(key){
+  const name=prompt('New item name'); if(!name) return;
+  const node=getNode();
+  node[name]={};
+  saveTree().then(()=>render(false));
+}
+
+function deleteNode(key){
+  if(!confirm('Delete this item and all its children?')) return;
+  let parent=tree;
+  for(let i=0;i<stack.length-1;i++) parent=parent[stack[i]];
+  delete parent[key];
+  saveTree().then(()=>render(false));
+}
+
+// UI
 function renderBreadcrumb(){
   breadcrumb.innerHTML='';
   const h=document.createElement('span'); h.textContent='Home'; h.onclick=()=>{ stack=[]; history.pushState({stack:[...stack]},''); render(false); }; breadcrumb.appendChild(h);
@@ -169,21 +228,29 @@ async function render(pushHistory=true){
 
   const node=getNode();
   const prog=await compute(stack,node);
-  summary.innerHTML=`<div class='box'><div class='k'>Mastery</div><div class='v'>${prog.mastery}%</div></div>`;
+  summary.innerHTML=`<div class='box'><div class='k'>Mastery</div><div class='v'>${prog.mastery}%</div></div><div class='box'><div class='k'>Topics</div><div class='v'>${prog.leaves}</div></div>`;
 
+  // DASHBOARD
+  if(showDashboard){
+    dashNote.textContent='Dashboard: showing low-understanding topics';
+  } else dashNote.textContent='';
+
+  // LEAF
   if(Object.keys(node).length===0){
     const ed=document.createElement('div'); ed.className='editor';
-    const rating=await getRating(stack);
+    const score=await getScore(stack);
 
-    const rwrap=document.createElement('div'); rwrap.className='rating';
+    const scale=document.createElement('div'); scale.className='scale';
+    const labels=['Very Weak','Weak','Okay','Strong','Mastered'];
     for(let i=1;i<=5;i++){
-      const s=document.createElement('span'); s.className='star'; s.textContent='★'; if(i<=rating) s.classList.add('active');
-      s.onclick=async()=>{ await setRating(stack,i); render(false); };
-      rwrap.appendChild(s);
+      const b=document.createElement('div'); b.className='scale-btn'; if(i===score) b.classList.add('active');
+      b.innerHTML=`<div class='n'>${i}</div><div class='t'>${labels[i-1]}</div>`;
+      b.onclick=async()=>{ await setScore(stack,i); render(false); };
+      scale.appendChild(b);
     }
-    ed.appendChild(rwrap);
+    ed.appendChild(scale);
 
-    const hint=document.createElement('div'); hint.className='rating-hint'; hint.textContent='Rate your understanding like a product (1–5 stars). This drives all progress.'; ed.appendChild(hint);
+    const hint=document.createElement('div'); hint.className='scale-hint'; hint.textContent='Set your understanding level (1–5). This replaces stars with a study-focused scale.'; ed.appendChild(hint);
 
     const cs=await getDoc(doc(db,'content',pathId())); let text=cs.exists()?cs.data().text:'';
     const ta=document.createElement('textarea'); ta.value=text; ta.placeholder='Main explanation / theory';
@@ -205,22 +272,40 @@ async function render(pushHistory=true){
     view.appendChild(ed); return;
   }
 
+  // NON-LEAF GRID
   const grid=document.createElement('div'); grid.className='grid';
   for(const k in node){
     const childPath=[...stack,k];
     const a=await compute(childPath,node[k]);
+
+    // FILTER
+    const f=filterBelow.value;
+    if(f){ const s=await getScore(childPath); if(Number(s)>=Number(f)) continue; }
+
     const c=document.createElement('div'); c.className='card';
     const n=document.createElement('div'); n.className='name'; n.textContent=k; c.appendChild(n);
     const pb=document.createElement('div'); pb.className='progress'; const pf=document.createElement('div'); pf.style.width=a.mastery+'%'; pb.appendChild(pf); c.appendChild(pb);
     const lab=document.createElement('div'); lab.className='progress-label'; lab.textContent=`${a.mastery}%`; c.appendChild(lab);
+
+    if(isOwner()){
+      const oa=document.createElement('div'); oa.className='owner-actions';
+      const add=document.createElement('button'); add.className='icon-btn'; add.textContent='+'; add.onclick=(e)=>{ e.stopPropagation(); stack.push(k); addChild(k); };
+      const del=document.createElement('button'); del.className='icon-btn'; del.textContent='×'; del.onclick=(e)=>{ e.stopPropagation(); deleteNode(k); };
+      oa.appendChild(add); oa.appendChild(del); c.appendChild(oa);
+    }
+
     c.onclick=()=>{ stack.push(k); render(); };
     grid.appendChild(c);
   }
   view.appendChild(grid);
 }
 
+// AUTH
 loginBtn.onclick=()=>signInWithPopup(auth,new GoogleAuthProvider());
 logoutBtn.onclick=()=>signOut(auth);
+
+dashboardBtn.onclick=()=>{ showDashboard=!showDashboard; render(false); };
+filterBelow.onchange=()=>render(false);
 
 onAuthStateChanged(auth,async u=>{
   user=u;
@@ -237,4 +322,3 @@ Array.from(document.querySelectorAll('.subject-btn')).forEach(b=>{
 </script>
 </body>
 </html>
-
