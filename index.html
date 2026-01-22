@@ -1,333 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>For Clear PCM – Terminal Joint</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Terminal Cities – Main Game</title>
 <style>
-:root{
-  --bg:#0a0e13;
-  --panel:#121a24;
-  --card:#0f1722;
-  --border:#1f2a3a;
-  --text:#e7ecf3;
-  --muted:#8fa0b8;
-  --accent:#4da3ff;
-  --accent2:#7bb7ff;
-  --radius:18px;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{
-  font-family:"Comic Sans MS","Comic Neue",cursive;
-  background:linear-gradient(180deg,#05080d,#0a0e13 35%,#05080d);
-  color:var(--text);
-  display:flex;
-  flex-direction:column;
-}
-
-/* HEADER */
-header{
-  position:sticky;top:0;z-index:50;
-  background:rgba(10,14,19,.9);
-  backdrop-filter:blur(6px);
-  border-bottom:1px solid var(--border);
-}
-.header-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
-.brand h1{font-size:1.5rem;font-weight:700}
-.brand span{font-size:.75rem;color:var(--muted)}
-.auth{display:flex;gap:10px;align-items:center}
-.badge{display:none;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);padding:3px 10px;border-radius:999px;background:rgba(77,163,255,.12)}
-.btn{
-  border:1px solid var(--border);
-  background:#0b111a;
-  color:var(--text);
-  padding:7px 16px;
-  border-radius:12px;
-  cursor:pointer;
-  transition:.15s
-}
-.btn:hover{border-color:var(--accent)}
-
-/* SUBJECT BAR */
-.subject-bar{border-bottom:1px solid var(--border);background:#0b111a}
-.subject-inner{max-width:1100px;margin:0 auto;padding:10px 18px;display:flex;gap:10px;overflow-x:auto}
-.subject-btn{
-  border:1px solid var(--border);
-  border-radius:999px;
-  padding:8px 18px;
-  font-weight:700;
-  color:var(--muted);
-  background:#0b111a;
-  cursor:pointer;
-}
-.subject-btn.active{
-  border-color:var(--accent);
-  color:var(--accent);
-  background:rgba(77,163,255,.08)
-}
-
-main{flex:1}
-.main-inner{max-width:1100px;margin:0 auto;padding:18px}
-
-/* BREADCRUMB */
-.breadcrumb{display:flex;gap:6px;font-size:.8rem;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
-.breadcrumb span{cursor:pointer;padding:2px 6px;border-radius:6px}
-.breadcrumb span:hover{color:var(--accent);background:rgba(77,163,255,.1)}
-
-/* SUMMARY */
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}
-.summary .box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
-.summary .k{font-size:.7rem;color:var(--muted)}
-.summary .v{font-size:1.2rem;font-weight:700}
-
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:16px;
-  display:flex;flex-direction:column;gap:10px;
-  cursor:pointer;position:relative;
-  transition:.15s
-}
-.card:hover{border-color:var(--accent);transform:translateY(-2px)}
-.card .name{font-weight:700}
-
-/* PROGRESS */
-.progress{height:8px;background:#05080d;border:1px solid var(--border);border-radius:999px;overflow:hidden}
-.progress>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
-.progress-label{font-size:.7rem;color:var(--muted)}
-
-/* OWNER CONTROLS */
-.owner-actions{
-  position:absolute;top:10px;right:10px;
-  display:flex;gap:6px;
-  background:#05080d;border:1px solid var(--border);
-  padding:4px;border-radius:10px
-}
-.icon-btn{border:1px solid var(--border);background:#0b111a;color:var(--text);padding:2px 8px;border-radius:8px;cursor:pointer;font-size:.75rem}
-.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
-
-/* EDITOR */
-.editor{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:16px}
-.editor textarea{
-  width:100%;min-height:140px;
-  background:#05080d;color:var(--text);
-  border:1px solid var(--border);
-  border-radius:12px;padding:12px;
-  font-size:.95rem;font-family:"Comic Sans MS","Comic Neue",cursive
-}
-
-/* UNDERSTANDING SCALE */
-.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.scale-btn{border:2px solid var(--border);border-radius:12px;padding:10px;text-align:center;cursor:pointer}
-.scale-btn.active{border-color:var(--accent);background:rgba(77,163,255,.08)}
-.scale-btn .n{font-weight:700}
-.scale-btn .t{font-size:.65rem;color:var(--muted)}
-
-/* SECTIONS */
-.section{border:1px dashed var(--border);border-radius:12px;padding:12px}
-.section-title{font-size:.75rem;color:var(--muted);margin-bottom:8px;font-weight:700}
-
-footer{border-top:1px solid var(--border);background:#0b111a}
-.footer-inner{max-width:1100px;margin:0 auto;padding:12px 18px;font-size:.7rem;color:var(--muted);text-align:center}
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f1115;
+        color: #eaeaea;
+    }
+    header {
+        background: #151922;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    #game {
+        display: flex;
+        padding: 10px;
+        gap: 10px;
+    }
+    .city {
+        flex: 1;
+        background: #1b2030;
+        padding: 10px;
+        border-radius: 6px;
+    }
+    .city h3 {
+        margin-top: 0;
+        text-align: center;
+    }
+    button {
+        background: #3a7afe;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        margin-top: 5px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    button:hover {
+        background: #2f64d8;
+    }
+    .stats {
+        margin-top: 8px;
+        font-size: 14px;
+    }
+    footer {
+        background: #151922;
+        padding: 8px;
+        text-align: center;
+        font-size: 14px;
+    }
 </style>
 </head>
 <body>
-<header>
-  <div class="header-inner">
-    <div class="brand"><h1>For Clear PCM</h1><span>Terminal Joint · Structured JEE Learning</span></div>
-    <div class="auth">
-      <span id="ownerBadge" class="badge">OWNER</span>
-      <button id="loginBtn" class="btn">Login</button>
-      <button id="logoutBtn" class="btn" style="display:none">Logout</button>
-    </div>
-  </div>
-</header>
 
-<div class="subject-bar"><div class="subject-inner">
-  <button class="subject-btn" data-sub="Maths">Maths</button>
-  <button class="subject-btn" data-sub="Physics">Physics</button>
-  <button class="subject-btn" data-sub="Chemistry">Chemistry</button>
-</div></div>
+<header>TERMINAL CITIES — MAIN GAME (Prototype)</header>
 
-<main><div class="main-inner">
-  <div id="breadcrumb" class="breadcrumb"></div>
-  <div id="summary" class="summary"></div>
-  <div id="view"></div>
-</div></main>
+<div id="game"></div>
 
-<footer><div class="footer-inner">©2026 Terminal Joint · For Clear PCM</div></footer>
+<footer>
+    Resources: <span id="res">100</span> |
+    Alignment: <span id="align">Gov-A</span>
+</footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<script>
+// =======================================================
+// CORE DATA
+// =======================================================
 
-const firebaseConfig={apiKey:"AIzaSyAPzgwYDQQqR4y8aRcu8BmXfhYoLPXDuVM",authDomain:"forclearpcm.firebaseapp.com",projectId:"forclearpcm",storageBucket:"forclearpcm.appspot.com",messagingSenderId:"313585574692",appId:"1:313585574692:web:d4e1262ce22c7cd0bb89b1"};
-const OWNER_UID="XS23F6EEK4VjO3ahyx5LVakP1Bd2";
+const factions = [
+    { name: "Gov-A", influence: 0 },
+    { name: "Gov-B", influence: 0 },
+    { name: "Gov-C", influence: 0 },
+    { name: "Red Gangs", influence: 0 },
+    { name: "Iron Gangs", influence: 0 }
+];
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-const auth=getAuth(app);
+const cities = [
+    "New City",
+    "Snow City",
+    "Fire City",
+    "Old City"
+].map(name => ({
+    name,
+    posts: 50,
+    control: {}
+}));
 
-let user=null;
-let tree={};
-let stack=[];
-
-const view=document.getElementById('view');
-const breadcrumb=document.getElementById('breadcrumb');
-const summary=document.getElementById('summary');
-const loginBtn=document.getElementById('loginBtn');
-const logoutBtn=document.getElementById('logoutBtn');
-const ownerBadge=document.getElementById('ownerBadge');
-
-function isOwner(){return user && user.uid===OWNER_UID}
-function pathId(path=stack){return path.length?path.join('__'):'root'}
-function ratingRef(path){ if(!user) return null; return doc(db,'users',user.uid,'ratings',pathId(path)); }
-
-window.addEventListener('popstate',e=>{
-  if(e.state && Array.isArray(e.state.stack)){
-    stack=e.state.stack;render(false);
-  }
+cities.forEach(city => {
+    factions.forEach(f => city.control[f.name] = 0);
+    city.control["Neutral"] = 50;
 });
 
-async function loadTree(){
-  const snap=await getDoc(doc(db,'syllabus','root'));
-  tree=snap.exists()?snap.data().tree:{Maths:{},Physics:{},Chemistry:{}};
-}
+let player = {
+    resources: 100,
+    alignment: factions[0]
+};
 
-function getNode(){ let r=tree; for(const k of stack){ if(r && k in r) r=r[k]; } return r||{} }
+// =======================================================
+// GAME LOGIC
+// =======================================================
 
-async function getScore(path){
-  try{
-    const r=ratingRef(path); if(!r) return 0;
-    const s=await getDoc(r); if(s.exists()) return Number(s.data().score||0);
-  }catch(e){console.error(e)}
-  return 0;
-}
+function attemptCapture(city) {
+    const attack = Math.floor(Math.random() * 6) + 1 + player.alignment.influence;
+    const defense = Math.floor(Math.random() * 5) + 1;
 
-async function setScore(path,score){
-  const r=ratingRef(path); if(!r) return;
-  await setDoc(r,{ score:Number(score) },{ merge:true });
-}
-
-function pct(score){ return Math.round((Number(score)||0)/5*100); }
-
-async function walk(path,node){
-  if(Object.keys(node).length===0){
-    const s=await getScore(path);
-    return { sumPct:pct(s), leaves:1 };
-  }
-  let sum=0, leaves=0;
-  for(const k in node){ const c=await walk([...path,k], node[k]); sum+=c.sumPct; leaves+=c.leaves; }
-  return { sumPct:sum, leaves };
-}
-
-async function compute(path,node){ const r=await walk(path,node); return { mastery: r.leaves?Math.round(r.sumPct/r.leaves):0, leaves:r.leaves }; }
-
-async function saveTree(){ await setDoc(doc(db,'syllabus','root'),{ tree },{ merge:true }); }
-
-function addChild(){ const name=prompt('New item name'); if(!name) return; const node=getNode(); node[name]={}; saveTree().then(()=>render(false)); }
-
-function deleteNode(key){
-  if(stack.length===1 && ['Maths','Physics','Chemistry'].includes(key)){
-    alert('Core subjects cannot be deleted.'); return;
-  }
-  if(!confirm('Delete this item and all its children?')) return;
-  let parent=tree; for(let i=0;i<stack.length-1;i++) parent=parent[stack[i]];
-  delete parent[key]; saveTree().then(()=>render(false));
-}
-
-function renderBreadcrumb(){
-  breadcrumb.innerHTML='';
-  const h=document.createElement('span'); h.textContent='Home'; h.onclick=()=>{ stack=[]; history.pushState({stack:[...stack]},''); render(false); }; breadcrumb.appendChild(h);
-  stack.forEach((s,i)=>{ const sp=document.createElement('span'); sp.textContent='› '+s; sp.onclick=()=>{ stack=stack.slice(0,i+1); history.pushState({stack:[...stack]},''); render(false); }; breadcrumb.appendChild(sp); });
-}
-
-async function render(pushHistory=true){
-  if(pushHistory) history.pushState({stack:[...stack]},'');
-  view.innerHTML='';
-  renderBreadcrumb();
-
-  const node=getNode();
-  const prog=await compute(stack,node);
-  summary.innerHTML=`<div class='box'><div class='k'>Mastery</div><div class='v'>${prog.mastery}%</div></div><div class='box'><div class='k'>Topics</div><div class='v'>${prog.leaves}</div></div>`;
-
-  if(Object.keys(node).length===0){
-    const ed=document.createElement('div'); ed.className='editor';
-    const score=await getScore(stack);
-
-    const scale=document.createElement('div'); scale.className='scale';
-    const labels=['Very Weak','Weak','Okay','Strong','Mastered'];
-    for(let i=1;i<=5;i++){
-      const b=document.createElement('div'); b.className='scale-btn'; if(i===score) b.classList.add('active');
-      b.innerHTML=`<div class='n'>${i}</div><div class='t'>${labels[i-1]}</div>`;
-      b.onclick=async()=>{ await setScore(stack,i); render(false); };
-      scale.appendChild(b);
+    if (attack > defense && city.control["Neutral"] > 0) {
+        city.control["Neutral"]--;
+        city.control[player.alignment.name]++;
+        player.resources += 10;
+        player.alignment.influence++;
     }
-    ed.appendChild(scale);
-
-    const cs=await getDoc(doc(db,'content',pathId())); let text=cs.exists()?cs.data().text:'';
-    const ta=document.createElement('textarea'); ta.value=text; ta.placeholder='Main explanation / theory';
-    if(isOwner()) ta.onchange=async()=>{ await setDoc(doc(db,'content',pathId()),{text:ta.value},{merge:true}); };
-    else ta.setAttribute('readonly',true);
-    ed.appendChild(ta);
-
-    const sections=['important','formula','example'];
-    for(const sec of sections){
-      const box=document.createElement('div'); box.className='section';
-      const t=document.createElement('div'); t.className='section-title'; t.textContent=sec.toUpperCase(); box.appendChild(t);
-      const area=document.createElement('textarea');
-      if(isOwner()){
-        const m=await getDoc(doc(db,'content',pathId())); const d=m.exists()?m.data():{}; area.value=d[sec]||'';
-        area.onchange=async()=>{ await updateDoc(doc(db,'content',pathId()),{ [sec]: area.value }); };
-      } else area.setAttribute('readonly',true);
-      box.appendChild(area); ed.appendChild(box);
-    }
-    view.appendChild(ed); return;
-  }
-
-  const grid=document.createElement('div'); grid.className='grid';
-  for(const k in node){
-    const childPath=[...stack,k];
-    const a=await compute(childPath,node[k]);
-
-    const c=document.createElement('div'); c.className='card';
-    const n=document.createElement('div'); n.className='name'; n.textContent=k; c.appendChild(n);
-    const pb=document.createElement('div'); pb.className='progress'; const pf=document.createElement('div'); pf.style.width=a.mastery+'%'; pb.appendChild(pf); c.appendChild(pb);
-    const lab=document.createElement('div'); lab.className='progress-label'; lab.textContent=`${a.mastery}%`; c.appendChild(lab);
-
-    if(isOwner()){
-      const oa=document.createElement('div'); oa.className='owner-actions';
-      const add=document.createElement('button'); add.className='icon-btn'; add.textContent='+'; add.onclick=(e)=>{ e.stopPropagation(); addChild(); };
-      const del=document.createElement('button'); del.className='icon-btn'; del.textContent='×'; del.onclick=(e)=>{ e.stopPropagation(); deleteNode(k); };
-      oa.appendChild(add); oa.appendChild(del); c.appendChild(oa);
-    }
-
-    c.onclick=()=>{ stack.push(k); render(); };
-    grid.appendChild(c);
-  }
-  view.appendChild(grid);
 }
 
-loginBtn.onclick=()=>signInWithPopup(auth,new GoogleAuthProvider());
-logoutBtn.onclick=()=>signOut(auth);
+function worldTick() {
+    cities.forEach(city => {
+        if (Math.random() < 0.4) {
+            const faction = factions[Math.floor(Math.random() * factions.length)];
+            if (city.control["Neutral"] > 0) {
+                city.control["Neutral"]--;
+                city.control[faction.name]++;
+                faction.influence++;
+            }
+        }
+    });
+    render();
+}
 
-onAuthStateChanged(auth,async u=>{
-  user=u;
-  loginBtn.style.display=u?'none':'inline';
-  logoutBtn.style.display=u?'inline':'none';
-  ownerBadge.style.display=isOwner()?'inline':'none';
-  await loadTree(); render(false);
-});
+// =======================================================
+// UI
+// =======================================================
 
-Array.from(document.querySelectorAll('.subject-btn')).forEach(b=>{
-  b.onclick=()=>{ document.querySelectorAll('.subject-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); stack=[b.dataset.sub]; render(); };
-});
+function render() {
+    document.getElementById("res").innerText = player.resources;
+    document.getElementById("align").innerText = player.alignment.name;
+
+    const game = document.getElementById("game");
+    game.innerHTML = "";
+
+    cities.forEach(city => {
+        const div = document.createElement("div");
+        div.className = "city";
+
+        div.innerHTML = `
+            <h3>${city.name}</h3>
+            <button>Capture Post</button>
+            <div class="stats">
+                ${Object.entries(city.control)
+                    .map(([k,v]) => `${k}: ${v}`)
+                    .join("<br>")}
+            </div>
+        `;
+
+        div.querySelector("button").onclick = () => {
+            attemptCapture(city);
+            render();
+        };
+
+        game.appendChild(div);
+    });
+}
+
+// =======================================================
+// START
+// =======================================================
+
+render();
+setInterval(worldTick, 3000);
 </script>
+
 </body>
 </html>
