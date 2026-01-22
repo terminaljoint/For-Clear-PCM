@@ -1,176 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Terminal Cities – Main Game</title>
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0f1115;
-        color: #eaeaea;
-    }
-    header {
-        background: #151922;
-        padding: 10px;
-        text-align: center;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-    #game {
-        display: flex;
-        padding: 10px;
-        gap: 10px;
-    }
-    .city {
-        flex: 1;
-        background: #1b2030;
-        padding: 10px;
-        border-radius: 6px;
-    }
-    .city h3 {
-        margin-top: 0;
-        text-align: center;
-    }
-    button {
-        background: #3a7afe;
-        color: white;
-        border: none;
-        padding: 6px 10px;
-        margin-top: 5px;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-    button:hover {
-        background: #2f64d8;
-    }
-    .stats {
-        margin-top: 8px;
-        font-size: 14px;
-    }
-    footer {
-        background: #151922;
-        padding: 8px;
-        text-align: center;
-        font-size: 14px;
-    }
+  body {
+    margin: 0;
+    background: black;
+    overflow: hidden;
+  }
+  canvas {
+    display: block;
+    background: #0e1117;
+  }
 </style>
 </head>
 <body>
 
-<header>TERMINAL CITIES — MAIN GAME (Prototype)</header>
-
-<div id="game"></div>
-
-<footer>
-    Resources: <span id="res">100</span> |
-    Alignment: <span id="align">Gov-A</span>
-</footer>
+<canvas id="game"></canvas>
 
 <script>
-// =======================================================
-// CORE DATA
-// =======================================================
+/* ===========================
+   BASIC SETUP
+=========================== */
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-const factions = [
-    { name: "Gov-A", influence: 0 },
-    { name: "Gov-B", influence: 0 },
-    { name: "Gov-C", influence: 0 },
-    { name: "Red Gangs", influence: 0 },
-    { name: "Iron Gangs", influence: 0 }
-];
+/* ===========================
+   GAME DATA
+=========================== */
+const CITY_NAMES = ["New City", "Snow City", "Fire City", "Old City"];
+let currentCityIndex = 0;
 
-const cities = [
-    "New City",
-    "Snow City",
-    "Fire City",
-    "Old City"
-].map(name => ({
-    name,
-    posts: 50,
-    control: {}
-}));
+const POSTS_PER_CITY = 50;
+const POST_RADIUS = 8;
 
-cities.forEach(city => {
-    factions.forEach(f => city.control[f.name] = 0);
-    city.control["Neutral"] = 50;
-});
-
-let player = {
-    resources: 100,
-    alignment: factions[0]
+const player = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  speed: 4,
+  radius: 10
 };
 
-// =======================================================
-// GAME LOGIC
-// =======================================================
+let keys = {};
 
-function attemptCapture(city) {
-    const attack = Math.floor(Math.random() * 6) + 1 + player.alignment.influence;
-    const defense = Math.floor(Math.random() * 5) + 1;
+/* ===========================
+   POSTS
+=========================== */
+function generatePosts() {
+  const posts = [];
+  for (let i = 0; i < POSTS_PER_CITY; i++) {
+    posts.push({
+      x: Math.random() * (canvas.width - 100) + 50,
+      y: Math.random() * (canvas.height - 100) + 50,
+      owner: "Neutral"
+    });
+  }
+  return posts;
+}
 
-    if (attack > defense && city.control["Neutral"] > 0) {
-        city.control["Neutral"]--;
-        city.control[player.alignment.name]++;
-        player.resources += 10;
-        player.alignment.influence++;
+let cities = CITY_NAMES.map(name => ({
+  name,
+  posts: generatePosts()
+}));
+
+/* ===========================
+   INPUT
+=========================== */
+window.addEventListener("keydown", e => keys[e.key] = true);
+window.addEventListener("keyup", e => keys[e.key] = false);
+
+/* ===========================
+   GAME LOGIC
+=========================== */
+function updatePlayer() {
+  if (keys["w"] || keys["ArrowUp"]) player.y -= player.speed;
+  if (keys["s"] || keys["ArrowDown"]) player.y += player.speed;
+  if (keys["a"] || keys["ArrowLeft"]) player.x -= player.speed;
+  if (keys["d"] || keys["ArrowRight"]) player.x += player.speed;
+
+  player.x = Math.max(0, Math.min(canvas.width, player.x));
+  player.y = Math.max(0, Math.min(canvas.height, player.y));
+}
+
+function checkPostCapture() {
+  const posts = cities[currentCityIndex].posts;
+  posts.forEach(post => {
+    const dx = player.x - post.x;
+    const dy = player.y - post.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+
+    if (dist < player.radius + POST_RADIUS && post.owner === "Neutral") {
+      post.owner = "Player";
     }
+  });
 }
 
-function worldTick() {
-    cities.forEach(city => {
-        if (Math.random() < 0.4) {
-            const faction = factions[Math.floor(Math.random() * factions.length)];
-            if (city.control["Neutral"] > 0) {
-                city.control["Neutral"]--;
-                city.control[faction.name]++;
-                faction.influence++;
-            }
-        }
-    });
-    render();
+/* ===========================
+   DRAW
+=========================== */
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // City name
+  ctx.fillStyle = "white";
+  ctx.font = "18px Arial";
+  ctx.fillText(
+    "City: " + cities[currentCityIndex].name + " (Press 1–4 to switch)",
+    20, 30
+  );
+
+  // Posts
+  cities[currentCityIndex].posts.forEach(post => {
+    ctx.beginPath();
+    ctx.arc(post.x, post.y, POST_RADIUS, 0, Math.PI * 2);
+    ctx.fillStyle = post.owner === "Neutral" ? "#666" : "#3aff3a";
+    ctx.fill();
+  });
+
+  // Player
+  ctx.beginPath();
+  ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+  ctx.fillStyle = "#00aaff";
+  ctx.fill();
 }
 
-// =======================================================
-// UI
-// =======================================================
+/* ===========================
+   CITY SWITCHING
+=========================== */
+window.addEventListener("keydown", e => {
+  if (e.key >= "1" && e.key <= "4") {
+    currentCityIndex = Number(e.key) - 1;
+    player.x = canvas.width / 2;
+    player.y = canvas.height / 2;
+  }
+});
 
-function render() {
-    document.getElementById("res").innerText = player.resources;
-    document.getElementById("align").innerText = player.alignment.name;
-
-    const game = document.getElementById("game");
-    game.innerHTML = "";
-
-    cities.forEach(city => {
-        const div = document.createElement("div");
-        div.className = "city";
-
-        div.innerHTML = `
-            <h3>${city.name}</h3>
-            <button>Capture Post</button>
-            <div class="stats">
-                ${Object.entries(city.control)
-                    .map(([k,v]) => `${k}: ${v}`)
-                    .join("<br>")}
-            </div>
-        `;
-
-        div.querySelector("button").onclick = () => {
-            attemptCapture(city);
-            render();
-        };
-
-        game.appendChild(div);
-    });
+/* ===========================
+   MAIN LOOP
+=========================== */
+function gameLoop() {
+  updatePlayer();
+  checkPostCapture();
+  draw();
+  requestAnimationFrame(gameLoop);
 }
 
-// =======================================================
-// START
-// =======================================================
-
-render();
-setInterval(worldTick, 3000);
+gameLoop();
 </script>
 
 </body>
